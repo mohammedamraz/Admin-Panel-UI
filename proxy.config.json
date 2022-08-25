@@ -1,0 +1,29 @@
+{
+    "/users/": {
+        "target": "http://0.0.0.0:35000/users",
+        "secure": false,
+        "changeOrigin": true,
+        "headers": {
+            "Connection": "keep-alive"
+        },
+        "logLevel": "debug"
+    },
+    "/sales/": {
+        "target": "http://0.0.0.0:36000/",
+        "secure": true,
+        "changeOrigin": true,
+        "headers": {
+            "Connection": "keep-alive"
+        },
+        "logLevel": "debug"
+    },
+    "/admin/": {
+        "target": "http://0.0.0.0:36000/",
+        "secure": true,
+        "changeOrigin": true,
+        "headers": {
+            "Connection": "keep-alive"
+        },
+        "logLevel": "debug"
+    }
+}
