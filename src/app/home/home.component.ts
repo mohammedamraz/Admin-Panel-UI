@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   list: number = 3;
   listdetails:any[]=[];
+  next:boolean=false;
 
 
   persons: PersonDetails[] = [];
@@ -44,11 +45,14 @@ export class HomeComponent implements OnInit {
 
   validationWizardForm!: FormGroup;
 
-  ngOnInit(): void {
+  tabDAta:any[]=[];
 
-    this.adminService.fetchOrganisationCount().pipe(map(doc =>{this.organisationCount=doc;return doc}))
-    this.adminService.fetchVitalsCount().pipe(map(doc =>{this.vitalsCount=doc;return doc}))
-    this.adminService.fetchlatestOrg().pipe(map(doc =>{console.log('aaaa',doc );return doc}))
+  ngOnInit(): void {
+    this.list=3;
+    this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
+    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
+    this.adminService.fetchLatestOrg().subscribe
+    ((doc:any) =>{ this.tabDAta=doc;console.log('aaaa',doc );return doc})
     
   this.persons = [
     {
@@ -73,73 +77,78 @@ export class HomeComponent implements OnInit {
 
       // initialize forms
       this.basicWizardForm = this.fb.group({
-        account: this.fb.group({
-          userName: [''],
-          password: ['123456'],
-          rePassword: ['123456']
-        }),
-        profile: this.fb.group({
-          firstName: ['Francis'],
-          lastName: ['Brinkman'],
-          email: ['cory1979@hotmail.com', Validators.email]
-        }),
-        acceptTerms: [false, Validators.requiredTrue]
+        organization_name:[''],
+        admin_name:[''],
+        organization_email:['',Validators.email],
+        organization_mobile:[''],
+        fedo_score:[''],
+        designation:[''],
+        url:[''],
+        pilot_duration:[''],
+        product_name:[''],
       });
+
+    
   
-      this.btnWizardForm = this.fb.group({
-        account: this.fb.group({
-          userName: ['hyper'],
-          password: ['123456'],
-          rePassword: ['123456']
-        }),
-        profile: this.fb.group({
-          firstName: ['Francis'],
-          lastName: ['Brinkman'],
-          email: ['cory1979@hotmail.com', Validators.email]
-        }),
-        acceptTerms: [false, Validators.requiredTrue]
-      });
+      // this.btnWizardForm = this.fb.group({
+      //   account: this.fb.group({
+      //     userName: ['hyper'],
+      //     password: ['123456'],
+      //     rePassword: ['123456']
+      //   }),
+      //   profile: this.fb.group({
+      //     firstName: ['Francis'],
+      //     lastName: ['Brinkman'],
+      //     email: ['cory1979@hotmail.com', Validators.email]
+      //   }),
+      //   acceptTerms: [false, Validators.requiredTrue]
+      // });
   
-      this.progressWizardForm = this.fb.group({
-        account: this.fb.group({
-          userName: ['hyper'],
-          password: ['123456'],
-          rePassword: ['123456']
-        }),
-        profile: this.fb.group({
-          firstName: ['Francis'],
-          lastName: ['Brinkman'],
-          email: ['cory1979@hotmail.com', Validators.email]
-        }),
-        acceptTerms: [false, Validators.requiredTrue]
-      });
+      // this.progressWizardForm = this.fb.group({
+      //   account: this.fb.group({
+      //     userName: ['hyper'],
+      //     password: ['123456'],
+      //     rePassword: ['123456']
+      //   }),
+      //   profile: this.fb.group({
+      //     firstName: ['Francis'],
+      //     lastName: ['Brinkman'],
+      //     email: ['cory1979@hotmail.com', Validators.email]
+      //   }),
+      //   acceptTerms: [false, Validators.requiredTrue]
+      // });
   
-      this.accountForm = this.fb.group({
-        userName: ['', Validators.required],
-        password: ['', Validators.required],
-        rePassword: ['', Validators.required]
-      })
+      // this.accountForm = this.fb.group({
+      //   userName: ['', Validators.required],
+      //   password: ['', Validators.required],
+      //   rePassword: ['', Validators.required]
+      // })
   
-      this.profileForm = this.fb.group({
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]]
-      })
+      // this.profileForm = this.fb.group({
+      //   firstName: ['', Validators.required],
+      //   lastName: ['', Validators.required],
+      //   email: ['', [Validators.required, Validators.email]]
+      // })
   
-      this.validationWizardForm = this.fb.group({
-        acceptTerms: [false, Validators.requiredTrue]
-      })
+      // this.validationWizardForm = this.fb.group({
+      //   acceptTerms: [false, Validators.requiredTrue]
+      // })
   }
 
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });
   }
 
+  checkingForm(){
+    console.log('the form values => ',this.basicWizardForm.value)
+  }
+
   demoFunction(event:any, product:string){
     console.log('asdf',event.target.checked);
+    this.next=true;
     if(event.target.checked){
       this.list++;
-      let details={name:product, index:this.list--}
+      let details={name:product, index:this.list-1}
       this.listdetails.push(details)
     }
     else{

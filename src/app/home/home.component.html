@@ -2,7 +2,7 @@
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('')" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -20,14 +20,14 @@
                                 <span class="d-none d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
-                                <div class="row" formGroupName="account">
+                                <div class="row" >
                                     <div class="col-12">
                                         <div class="row mb-3">
                                             <div class="col-md">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Organisation Name" formControlName="userName">
+                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -35,13 +35,13 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Org Admin Full Name" formControlName="userName">
+                                                    name="userName" placeholder="Org Admin Full Name" formControlName="admin_name">
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Designation" formControlName="userName">
+                                                    name="userName" placeholder="Designation" formControlName="designation">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -49,13 +49,13 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Email Address" formControlName="userName">
+                                                    name="userName" placeholder="Email Address" formControlName="organization_email">
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" formControlName="userName">
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile">
                                             </div>
                                         </div>
     
@@ -154,11 +154,33 @@
                             </a>
                             <ng-template ngbNavContent>
                                     <p>salkd{{season.name}}</p>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4 class="header-title">Define Org URL</h4>
+                                            <div class="row">
+                                            <div>www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="ABSLI" formControlName="organization_name">
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="header-title">Define Org URL</h4>
+                                                    <ngx-slider [value]="35" 
+                                                        [options]="{
+                                                            floor: 0,
+                                                            ceil: 100
+                                                        }"></ngx-slider>
+                                                </div> <!-- end card-body -->
+                                            </div> <!-- end card-->
+                                        </div>
+
+                                    </div>
                                 </ng-template>
                         </li>
                         </ng-template>
 
-                        <li [ngbNavItem]="list">
+                        <li ngbNavItem={{list}}>
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
                                 <span class="d-none d-sm-inline">Finish</span>
@@ -172,27 +194,28 @@
     
                                             <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation ABC. An invitaton email has already been sent to the Org Admin.
                                                  You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
-    
-    
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
-    
                             </ng-template>
                         </li>
                     </ul>
     
                     <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
-                    <ul class="list-inline mb-0 wizard">
-                        <li class="previous list-inline-item">
-                            <button class="btn btn-secondary" (click)="activeWizard1=activeWizard1-1"
+                    <ul class="list-inline mb-0 wizard" >
+                        <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard1=activeWizard1-1" *ngIf="activeWizard1 !== list"
                                 [disabled]="activeWizard1===1">Previous</button>
                         </li>
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == list">
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('')"
+                                >Close</button>
+                        </li>
                         <li class="next list-inline-item float-end">
-                            <button type="button" (click)="activeWizard1=activeWizard1+1" class="btn btn-secondary" [disabled]="activeWizard1==2 && list<=3"
-                                *ngIf="activeWizard1<list-1">Next</button>
-                            <button type="button" class="btn btn-secondary" 
-                                *ngIf="activeWizard1 == list">Submit</button>
+                            <button type="button" (click)="activeWizard1=activeWizard1+1" class="btn btn-secondary" 
+                                *ngIf=" activeWizard1<list-1">Next</button>
+                            <button type="button" class="btn btn-secondary" (click)="checkingForm()" (click)="activeWizard1=activeWizard1+1"
+                                *ngIf="activeWizard1!=2&&activeWizard1 == list-1">Submit</button>
                         </li>
                     </ul>
     
@@ -215,7 +238,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="['/orgList']" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -312,30 +335,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of persons">
-                            <th scope="row">{{person.id}}</th>
-                            <td>{{person.firstName}}</td>
+                        <tr *ngFor="let person of tabDAta;let indexOfelement=index;">
+                            <th scope="row">{{indexOfelement+1}}</th>
+                            <td>{{person.admin_name}}</td>
                             <td>
                                 <div class="row">
                                     <div class="col-xl-5 col-md-6">
                                         fedo(pilots)
-                                        <ngb-progressbar style="margin-top: 0;" type="warning" [value]="75" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
-                                    </div>
-                                    <div class="col-xl-5 col-md-6">
-                                        fedo(pilots)
-                                        <ngb-progressbar style="margin-top: 0;" type="warning" [value]="75" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                        <ngb-progressbar style="margin-top: 0;" type="warning" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                     </div>
                                 </div>
 
                             </td>
-                            <td>{{person.userName}}</td>
-                            <td>{{person.userName}}</td>
+                            <td>{{person.total_users}}</td>
+                            <td>{{person.total_tests}}</td>
                         </tr>
 
                      
                     </tbody>
                 </table>
-                <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
+                <!-- <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
                 *ngIf="true">
                 <div>
                     Showing  entries
@@ -345,7 +364,7 @@
                     <ng-template ngbPaginationPrevious>Prev</ng-template>
                     <ng-template ngbPaginationNext>Next</ng-template>
                 </ngb-pagination>
-            </div>
+            </div> -->
             </div>
         </div>
 

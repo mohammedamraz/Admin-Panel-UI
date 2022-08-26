@@ -5,10 +5,12 @@ import { CreateOrganizationComponent } from './create-organization/create-organi
 import { HomeComponent } from './home/home.component';
 import { LayoutContainerComponent } from './layout/layout-container/layout-container.component';
 import { PublicLayoutComponent } from './layout/public-layout/public-layout.component';
+import { OrganisationListComponent } from './organisation-list/organisation-list.component';
 import { ComingSoonComponent } from './pages/extra-pages/coming-soon/coming-soon.component';
 import { Error404Component } from './pages/extra-pages/error404/error404.component';
 import { Error500Component } from './pages/extra-pages/error500/error500.component';
 import { MaintenanceComponent } from './pages/extra-pages/maintenance/maintenance.component';
+import { PilotsListComponent } from './pilots-list/pilots-list.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 
 const routes: Routes = [
@@ -41,6 +43,14 @@ const routes: Routes = [
       {
         path:'vitals',
         component: VitalsDashboardComponent
+      },
+      {
+        path:'vitalsList',
+        component: PilotsListComponent
+      },
+      {
+        path:'orgList',
+        component: OrganisationListComponent
       }
     ]
   },

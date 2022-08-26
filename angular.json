@@ -89,6 +89,12 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "fedo-health-hsa-ui:build",
+            "proxyConfig": "proxy.config.json",
+            "host": "0.0.0.0",
+            "port": 5080
+          },
           "configurations": {
             "production": {
               "browserTarget": "adminto-angular:build:production"

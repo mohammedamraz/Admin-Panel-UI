@@ -19,13 +19,17 @@ export class VitalsDashboardComponent implements OnInit {
   persons: PersonDetails[] = [];
   vitalsCount:any=0;
   activePilotsCount:any=0;
+  vitalsDetails:any[]=[];
+  totalTests:any=0;
 
   constructor(private readonly adminService: AdminConsoleService,) { }
 
   ngOnInit(): void {
 
-    this.adminService.fetchVitalsCount().pipe(map(doc =>{this.vitalsCount=doc;return doc}))
-    this.adminService.fetchActiveVitalsCount().pipe(map(doc =>{this.activePilotsCount=doc;return doc}))
+    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
+    this.adminService.fetchActiveVitalsCount().subscribe((doc:any) =>{this.activePilotsCount=doc['Active_Vitals_pilot_count']})
+    this.adminService.fetchTotalTestVitals().subscribe((doc:any) =>{this.totalTests=doc['total_tests']})
+    this.adminService.fetchLatestVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
 
     
   this.persons = [

@@ -10,7 +10,7 @@ import { JoyrideModule } from 'ngx-joyride';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, ],
+  declarations: [AppComponent,   ],
   imports: [
     BrowserModule,
     HttpClientModule,

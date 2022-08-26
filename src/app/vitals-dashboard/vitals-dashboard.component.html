@@ -9,13 +9,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -28,6 +22,15 @@
     <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                    </div>
+                </div>
                 <div class="text-center">
                     <h2 class="fw-normal" style="color: #F08FC9;">{{activePilotsCount}}</h2>
                     <h5 style="color: #ADB5BD;">Active Pilots</h5>
@@ -42,19 +45,9 @@
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
-                    <div ngbDropdownMenu>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
-                    </div>
                 </div>
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #F2CA65;">24</h2>
+                    <h2 class="fw-normal" style="color: #F2CA65;">{{totalTests}}</h2>
                     <h5 style="color: #ADB5BD;">Total Tests</h5>
                 </div>
             </div>
@@ -67,16 +60,6 @@
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
-                    <div ngbDropdownMenu>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
-                    </div>
                 </div>
                 <div class="text-center">
                     <h2 class="fw-normal" style="color: #FF9632;">24</h2>
@@ -95,13 +78,10 @@
                 </a>
                 <div ngbDropdownMenu>
                     <!-- item-->
-                    <a href="javascript:void(0);" ngbDropdownItem>Action</a>
+                    <a href="javascript:void(0);" ngbDropdownItem>Create Pilot</a>
                     <!-- item-->
-                    <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
+                    <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>Pilots List</a>
+
                 </div>
             </div>            
             <h4 class="mt-0 header-title">Basic example</h4>
@@ -125,21 +105,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of persons">
-                            <th scope="row">{{person.id}}</th>
-                            <td>{{person.firstName}}</td>
+                        <tr *ngFor="let person of vitalsDetails;let indexOfelement=index;">
+                            <th scope="row">{{indexOfelement+1}}</th>
+                            <td>{{person.organization_name}}</td>
                             <td>
                                     <div class="">
                                         fedo(pilots)
-                                        <ngb-progressbar style="margin-top: 0;" type="warning" [value]="75" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                        <ngb-progressbar style="margin-top: 0;" type="warning" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                     </div>
 
                             </td>
-                            <td>{{person.userName}}</td>
-                            <td>{{person.userName}}</td>
-                            <td>{{person.userName}}</td>
-                            <td>{{person.userName}}</td>
-                            <td>{{person.userName}}</td>
+                            <td>{{person.start_date | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{person.end_date | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{person.total_users}}</td>
+                            <td>{{person.status}}</td>
+                            <td>{{person.total_tests}}</td>
                         </tr>
 
                      
