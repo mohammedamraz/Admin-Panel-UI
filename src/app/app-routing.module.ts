@@ -55,7 +55,7 @@ const routes: Routes = [
         component: OrganisationListComponent
       },
       {
-        path:'orgdetails',
+        path:'orgdetails/:orgId',
         component: OrganisationDetailsComponent
       },
       {

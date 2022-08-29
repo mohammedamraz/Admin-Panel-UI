@@ -33,8 +33,10 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}/org`) ;
   }
   createOrg(data:any){
-    console.log('asdf hi friends', data)
     return this.http.post(`${API_URL}org`,data) ;
+  }
+  fetchOrgById(id:number){
+    return this.http.get(`${API_URL}/${id}`);
   }
    
 

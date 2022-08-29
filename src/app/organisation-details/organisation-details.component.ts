@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -20,16 +21,29 @@ export class OrganisationDetailsComponent implements OnInit {
   listdetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
+  snapshotParam:any = "initial value";
+  subscribedParam:any = "initial value";
 
 
 
   constructor(
     private sanitizer: DomSanitizer, 
     private readonly adminService: AdminConsoleService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private readonly route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
+    this.adminService.fetchOrgById(this.snapshotParam).subscribe({
+      next:(res) =>{
+        console.log('the file', res);
+      },
+      error:(err)=>{
+        console.log('the error', err);
+      }
+    })
+
     this.adminService.fetchLatestOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc})
   }
@@ -119,6 +133,6 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
-  }
+  } 
 
 }

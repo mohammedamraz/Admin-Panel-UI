@@ -344,6 +344,7 @@
                             <th>Pilots</th>
                             <th>Total Users</th>
                             <th>Total Tests</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -361,6 +362,17 @@
                             </td>
                             <td>{{person.total_users}}</td>
                             <td>{{person.total_tests}}</td>
+                            <td>                <div class="float-end" ngbDropdown placement="bottom-end">
+                                <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div ngbDropdownMenu>
+                                    <!-- item-->
+                                    <a  [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
+                                    <a href="javascript:void(0);" ngbDropdownItem>Create Users</a>
+                                    <a href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                </div>
+                            </div></td>
                         </tr>
 
                      
