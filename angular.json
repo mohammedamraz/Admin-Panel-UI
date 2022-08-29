@@ -1,9 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "f2d16e44-f010-416b-8493-8b5650f8a5ac"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "adminto-angular": {
+    "fedo-admin-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -29,7 +32,7 @@
           "options": {
             "localize": false,
             "aot": true,
-            "outputPath": "dist/adminto-angular",
+            "outputPath": "dist/fedo-admin-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -49,8 +52,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1.8mb",
-                  "maximumError": "1.8mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -97,16 +100,16 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "adminto-angular:build:production"
+              "browserTarget": "fedo-admin-ui:build:production"
             },
             "development": {
-              "browserTarget": "adminto-angular:build:development"
+              "browserTarget": "fedo-admin-ui:build:development"
             },
             "es": {
-              "browserTarget": "adminto-angular:build:es"
+              "browserTarget": "fedo-admin-ui:build:es"
             },
             "en": {
-              "browserTarget": "adminto-angular:build:en"
+              "browserTarget": "fedo-admin-ui:build:en"
             }
           },
           "defaultConfiguration": "development"
@@ -114,7 +117,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "adminto-angular:build"
+            "browserTarget": "fedo-admin-ui:build"
           }
         },
         "test": {
@@ -138,5 +141,5 @@
       }
     }
   },
-  "defaultProject": "adminto-angular"
+  "defaultProject": "fedo-admin-ui"
 }
