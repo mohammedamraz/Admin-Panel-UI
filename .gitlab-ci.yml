@@ -31,7 +31,7 @@ cache:
 DEV-build:
   stage: build
   rules:
-    - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") && $CI_COMMIT_TITLE =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)-(build|alpha|beta|rc).([0-9-]+)?$/' 
+    # - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") && $CI_COMMIT_TITLE =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)-(build|alpha|beta|rc).([0-9-]+)?$/' 
   before_script:
     - !reference [.global, before_script]
   script:
@@ -45,7 +45,7 @@ DEV-build:
 DEV-deploy:
   stage: deploy
   rules:
-  - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") && ($CI_COMMIT_TITLE =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)-(build|alpha|beta|rc).([0-9-]+)?$/)'
+  # - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop") && ($CI_COMMIT_TITLE =~ /^([0-9]+)\.([0-9]+)\.([0-9]+)-(build|alpha|beta|rc).([0-9-]+)?$/)'
   before_script:
     - !reference [.global, before_script]
   script:
