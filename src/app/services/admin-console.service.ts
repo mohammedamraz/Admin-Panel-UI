@@ -36,12 +36,19 @@ export class AdminConsoleService {
     return this.http.post(`${API_URL}org`,data) ;
   }
   fetchOrgById(id:number){
-    return this.http.get(`${API_URL}/${id}`);
+    return this.http.get(`${API_URL}org/${id}`);
+  }
+  createUser(data:any){
+      data.mobile='+91'+data.mobile;
+    return this.http.post(`${API_URL}users`,data) ;
   }
    
 
   fetchLatestOrg(){
     return this.http.get(`${API_URL}org/latest`);
+  }
+  fetchAllUserOfOrg(id:string){
+    return this.http.get(`${API_URL}vitals_users/${id}/7162583468123`);
   }
 
   loginAdmin(formData: any) {
