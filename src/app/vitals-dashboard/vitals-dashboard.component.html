@@ -1,0 +1,142 @@
+<p>vitals-dashboard works!</p>
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{vitalsCount}}</h2>
+                    <h5 style="color: #ADB5BD;">Total Pilots</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #F08FC9;">{{activePilotsCount}}</h2>
+                    <h5 style="color: #ADB5BD;">Active Pilots</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #F2CA65;">{{totalTests}}</h2>
+                    <h5 style="color: #ADB5BD;">Total Tests</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #FF9632;">0</h2>
+                    <h5 style="color: #ADB5BD;">Won</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="card" style="background: #313844;">
+        <div class="card-body">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                    <i class="mdi mdi-dots-vertical"></i>
+                </a>
+                <div ngbDropdownMenu>
+                    <!-- item-->
+                    <a href="javascript:void(0);" ngbDropdownItem>Create Pilot</a>
+                    <!-- item-->
+                    <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>Pilots List</a>
+
+                </div>
+            </div>            
+            <h4 class="mt-0 header-title">Basic example</h4>
+            <!-- <p class="text-muted font-14 mb-3">
+                For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
+                to any <code>&lt;table&gt;</code>.
+            </p> -->
+
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Org Name</th>
+                            <th>Pilot For</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Users</th>
+                            <th>Status</th>
+                            <th>Tests</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let person of vitalsDetails;let indexOfelement=index;">
+                            <th scope="row">{{indexOfelement+1}}</th>
+                            <td>{{person.organization_name}}</td>
+                            <td>
+                            <div class="">
+                                fedo(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
+                                <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                            </div>
+
+                            </td>
+                            <td>{{person.start_date | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{person.end_date | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{person.total_users}}</td>
+                            <td>{{person.status}}</td>
+                            <td>{{person.total_tests}}</td>
+                        </tr>
+
+                     
+                    </tbody>
+                </table>
+                <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
+                *ngIf="true">
+                <div>
+                    Showing  entries
+                </div>
+                <ngb-pagination class="custom-pagination" [collectionSize]="32" (page)="0"
+                    [maxSize]="3" [rotate]="true" (pageSize)="3" >
+                    <ng-template ngbPaginationPrevious>Prev</ng-template>
+                    <ng-template ngbPaginationNext>Next</ng-template>
+                </ngb-pagination>
+            </div>
+            </div>
+        </div>
+
+    </div>

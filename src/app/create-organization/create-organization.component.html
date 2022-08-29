@@ -1,0 +1,195 @@
+<p>create-organization works!</p>
+<div class="card">
+    <div class="card-body">
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-close"></i>
+            </a>
+        </div>            
+        <h4 style="color: white;">Basic example</h4>
+
+        <form [formGroup]="basicWizardForm" #basicForm="ngForm">
+            <div id="basicwizard">
+
+                <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard1"
+                    class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                            <span class="d-none d-sm-inline">Org Details</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row" formGroupName="account">
+                                <div class="col-12">
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="Organisation Name" formControlName="userName">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="Org Admin Full Name" formControlName="userName">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="Designation" formControlName="userName">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="Email Address" formControlName="userName">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="Mobile Number" formControlName="userName">
+                                        </div>
+                                    </div>
+
+                                  
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                            <span class="d-none d-sm-inline">Products</span>
+                        </a>
+                        <ng-template ngbNavContent>
+
+                   
+                                <div style="display: grid;
+                                grid-auto-flow: column;
+                                grid-template-columns:min-content min-content;
+                                grid-gap: 1rem;margin-bottom: 2rem;">
+                                     
+                                            <div class="gal-detail thumb" style="    width: 142px;
+                                            height: 180px;
+                                            background: #3C424F;
+                                            border-radius: 8px;">
+                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                </a>
+                            
+                                                <div style="    text-align: -webkit-center;
+                                                display: grid;
+                                                justify-items: center;
+                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                    <div class="avatar-md">
+                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                            MD
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-muted mb-1">i know</p>
+                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="gal-detail thumb" style="    width: 142px;
+                                            height: 180px;
+                                            background: #3C424F;
+                                            border-radius: 8px;">
+                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                </a>
+                            
+                                                <div style="    text-align: -webkit-center;
+                                                display: grid;
+                                                justify-items: center;
+                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                    <div class="avatar-md">
+                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                            MD
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-muted mb-1">i know</p>
+                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="gal-detail thumb" style="    width: 142px;
+                                            height: 180px;
+                                            background: #3C424F;
+                                            border-radius: 8px;">
+                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                </a>
+                            
+                                                <div style="    text-align: -webkit-center;
+                                                display: grid;
+                                                justify-items: center;
+                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                    <div class="avatar-md">
+                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                            MD
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-muted mb-1">i know</p>
+                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                  
+
+                                </div>
+                            </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+                            <span class="d-none d-sm-inline">Finish</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="text-center">
+                                        <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                        <h3 class="mt-0" style="color: #fff;">Success !</h3>
+
+                                        <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation ABC. An invitaton email has already been sent to the Org Admin.
+                                             You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
+
+
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                        </ng-template>
+                    </li>
+                </ul>
+
+                <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                <ul class="list-inline mb-0 wizard">
+                    <li class="previous list-inline-item">
+                        <button class="btn btn-secondary" (click)="activeWizard1=activeWizard1-1"
+                            [disabled]="activeWizard1===1">Previous</button>
+                    </li>
+                    <li class="next list-inline-item float-end">
+                        <button type="button" (click)="activeWizard1=activeWizard1+1" class="btn btn-secondary"
+                            *ngIf="activeWizard1<3">Next</button>
+                        <button type="button" class="btn btn-secondary"
+                            *ngIf="activeWizard1===3">Submit</button>
+                    </li>
+                </ul>
+
+
+
+            </div> <!-- end #basicwizard-->
+        </form>
+
+    </div> <!-- end card-body -->
+</div> <!-- end card-->
