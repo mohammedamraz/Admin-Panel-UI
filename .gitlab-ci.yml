@@ -31,7 +31,7 @@ cache:
 DEV-build:
   stage: build
   rules:
-    - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop")'
+    - if: '($CI_PIPELINE_SOURCE == "merge_request_event")'
   before_script:
     - !reference [.global, before_script]
   script:
@@ -45,7 +45,7 @@ DEV-build:
 DEV-deploy:
   stage: deploy
   rules:
-  - if: '($CI_PIPELINE_SOURCE == "merge_request_event") && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop")'
+  - if: '($CI_PIPELINE_SOURCE == "merge_request_event")'
   before_script:
     - !reference [.global, before_script]
   script:
