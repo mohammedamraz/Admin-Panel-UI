@@ -2,12 +2,12 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbDatepickerModule, NgbDropdownModule, NgbModalModule, NgbNavModule, NgbPaginationModule, NgbProgressbarModule, NgbTimepickerModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDatepickerModule, NgbDropdownModule, NgbModalModule, NgbNavModule, NgbPaginationModule, NgbProgressbarModule, NgbTimepickerModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Select2Module } from 'ng-select2-component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill';
-import { CreateOrganizationComponent } from 'src/app/create-organization/create-organization.component';
 import { HomeComponent } from 'src/app/home/home.component';
+import { OrganisationDetailsComponent } from 'src/app/organisation-details/organisation-details.component';
 import { OrganisationListComponent } from 'src/app/organisation-list/organisation-list.component';
 import { PilotsListComponent } from 'src/app/pilots-list/pilots-list.component';
 import { AdvancedTableModule } from 'src/app/shared/advanced-table/advanced-table.module';
@@ -27,6 +27,7 @@ import { TablesRoutingModule } from './tables-routing.module';
     HomeComponent,
     PilotsListComponent,
     OrganisationListComponent,
+    OrganisationDetailsComponent
     
   ],
   imports: [
@@ -54,8 +55,7 @@ import { TablesRoutingModule } from './tables-routing.module';
     NgbModalModule,
     NgbDropdownModule,
     NgxSliderModule,
-
-
+    NgbAlertModule,
   ]
 })
 export class TablesModule { }

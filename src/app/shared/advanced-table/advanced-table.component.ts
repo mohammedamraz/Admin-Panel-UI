@@ -52,6 +52,7 @@ export class AdvancedTableComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    console.log('sdadf',this.tableData)
     for (let i = 0; i < this.tableData.length; i++) {
       this.isSelected[i] = false;
     }

@@ -3,7 +3,9 @@
 //
 
 .dropdown-menu {
-    box-shadow: $box-shadow;
+    // box-shadow: $box-shadow;
+    background: #313844;
+    border: 1px solid;
 
     animation-name: DropDownSlide;
 
@@ -14,11 +16,19 @@
 
     &.show {
         top: 100% !important;
+        
     }
 
     i {
         display: inline-block;
     }
+}
+
+
+.dropdown-item:hover{
+    background-color:#ADB5BD;
+    color: #fff;
+    transition: all .4s ease;
 }
 
 .dropdown-menu-end {

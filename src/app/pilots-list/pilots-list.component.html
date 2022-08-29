@@ -1,5 +1,3 @@
-<p>pilots-list works!</p>
-
 <div class="card" style="background: #313844;">
     <div class="card-body">
         <div class=" float-end" ngbDropdown placement="bottom-end">
@@ -43,8 +41,8 @@
                         <td>{{person.organization_name}}</td>
                         <td>
                                 <div class="">
-                                    fedo(pilots)
-                                    <ngb-progressbar style="margin-top: 0;" type="warning" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                    fedo(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
+                                    <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                 </div>
 
                         </td>

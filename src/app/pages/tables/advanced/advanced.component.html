@@ -8,7 +8,7 @@
                     table.
                 </p>
                 <!-- table start -->
-                <app-advanced-table [tableData]="records" [columns]="columns" [pagination]="true"
+                <app-advanced-table [tableData]="records" [columns]="columns" [pagination]="false"
                     [pageSizeOptions]="pageSizeOptions" [hasRowSelection]="true" [isSearchable]="true"
                     (search)="searchData($event)" [isSortable]="true" (sort)="onSort($event)">
                 </app-advanced-table>

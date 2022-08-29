@@ -22,10 +22,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             // authenticate - public
             if (request.url.endsWith('/api/login') && request.method === 'POST') {
                 const user = users.find(x => x.email === request.body.email && x.password === request.body.password);
-                if (!user) { return error('Email or password is incorrect'); }
+                if (false) { return error('Email or password is incorrect'); }
                 return ok({
                     ...user,
-                    name: user.firstName + ' ' + user.lastName,
+                    name: 'Nowak' + ' ' + 'Helme',
                     token: `fake-jwt-token`
                 });
             }

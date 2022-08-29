@@ -9,7 +9,7 @@
       {{ error }}
     </ngb-alert>
     <div class="mb-3">
-      <label for="emailaddress" class="form-label" i18n>Email address</label>
+      <label for="emailaddress" class="form-label" i18n>User Name</label>
       <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
         placeholder="Enter your email" formControlName="email"
         [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
@@ -17,7 +17,7 @@
       <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
 
         <div *ngIf="formValues['email'].errors?.['required']" i18n>
-          Please enter email
+          Please enter username
         </div>
         <div *ngIf="formValues['email'].errors?.['email']" i18n>
           Email must be a valid Email Address
