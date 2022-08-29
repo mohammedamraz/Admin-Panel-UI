@@ -8,11 +8,9 @@ import { LayoutModule } from './layout/layout.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { JoyrideModule } from 'ngx-joyride';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OrganisationDetailsComponent } from './organisation-details/organisation-details.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
 
 @NgModule({
-  declarations: [AppComponent, UserDetailsComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
