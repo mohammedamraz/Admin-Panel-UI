@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthOrgGuard } from './core/guards/auth-org.gaurd';
 import { AuthGuard } from './core/guards/auth.guard';
 import { CreateOrganizationComponent } from './create-organization/create-organization.component';
 import { HomeComponent } from './home/home.component';
 import { LayoutContainerComponent } from './layout/layout-container/layout-container.component';
 import { PublicLayoutComponent } from './layout/public-layout/public-layout.component';
+import { OrgLoginComponent } from './org-login/org-login.component';
 import { OrganisationDetailsComponent } from './organisation-details/organisation-details.component';
 import { OrganisationListComponent } from './organisation-list/organisation-list.component';
 import { ComingSoonComponent } from './pages/extra-pages/coming-soon/coming-soon.component';
@@ -16,10 +18,16 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 
 const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
+  },
+  { 
+    path: 'vitals',     
+    component: OrganisationDetailsComponent,
+    canActivate: [AuthOrgGuard],
   },
   {
     path: '',
@@ -43,7 +51,7 @@ const routes: Routes = [
         component: CreateOrganizationComponent
       },
       {
-        path:'vitals',
+        path:'vitals-dashboard',
         component: VitalsDashboardComponent
       },
       {
@@ -61,13 +69,15 @@ const routes: Routes = [
       {
         path:'userdetails',
         component: UserDetailsComponent
-      }
+      },
+
     ]
   },
   {
     path: '',
     component: PublicLayoutComponent,
     children: [
+
       { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
       {
         path: 'error-404',
@@ -85,10 +95,10 @@ const routes: Routes = [
         path: 'coming-soon',
         component: ComingSoonComponent
       },
-      { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) }
+      { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) },
+      
     ]
-  },
-
+  }
 ];
 
 @NgModule({

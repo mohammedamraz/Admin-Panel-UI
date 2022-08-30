@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,6 +15,8 @@ import { MenuItem } from '../models/menu.model';
 
 // data
 import { MENU_ITEMS } from '../config/menu-meta';
+import { AdminConsoleService } from 'src/app/services/admin-console.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -29,10 +31,13 @@ export class LeftSidebarComponent implements OnInit {
   activeMenuItems: string[] = [];
   loggedInUser: User | null = {};
   menuItems: MenuItem[] = [];
+  orglogin=false;
 
   constructor (
     router: Router,
     private authService: AuthenticationService,
+    private readonly adminService: AdminConsoleService,
+    private cdr: ChangeDetectorRef,
     private eventService: EventService) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
@@ -47,10 +52,21 @@ export class LeftSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.initMenu();
     this.loggedInUser = this.authService.currentUser();
-    console.log('asdf',this.loggedInUser)
+    this.adminService.httpLoading$.subscribe(doc=>console.log('doc',doc))
+    console.log('what happend',this.adminService.httpLoading$)
+    this.adminService.httpLoading$.subscribe(
+		 (httpInProgress:boolean) => {
+        this.orglogin=httpInProgress;
+        console.log('you got on',httpInProgress)
+				this.cdr.detectChanges();
+			}
+		);
+
   }
 
   ngOnChanges(): void {
+
+
     if (this.includeUserProfile) {
       changeBodyAttribute('data-sidebar-user', 'true');
     }
@@ -63,6 +79,7 @@ export class LeftSidebarComponent implements OnInit {
    * On view init - activating menuitems
    */
   ngAfterViewInit() {
+
     setTimeout(() => {
       this._activateMenu();
     });
