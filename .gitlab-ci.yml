@@ -68,6 +68,10 @@ DEV-deploy:
     - fi
     
     - if [[ $CI_COMMIT_TITLE =~ "rc" ]]; then
+    -     cd dist/fedo-admin-ui
+    # -     tar -czf $TAGGED_APP_VERSION.tar
+    -     tar -czf ../$TAGGED_APP_VERSION.tar * 
+    -     cd ..
     -     echo "deploying to production / demo"
     -     chmod 400 $SSH_PRIVATE_KEY_HSA_PROD
     -     ssh -i $SSH_PRIVATE_KEY_HSA_PROD -o StrictHostKeyChecking=no ubuntu@admin.fedo.ai "cd $DEPLOY_LOCATION_PROD;$AS_FEDO rm -rf *;$AS_FEDO tar -xzf $RELEASE_LOCATION_PROD/$TAGGED_APP_VERSION.tar;"
