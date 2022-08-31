@@ -16,13 +16,16 @@ export class OrganisationDetailsComponent implements OnInit {
   files: File[] = [];
   tabDAta:any[]=[];
   basicWizardForm!: FormGroup;
+  OrgForm!: FormGroup;
   activeWizard1: number = 1;
+  activeWizard2: number = 1;
   list: number = 3;
   listdetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
+  srcImage:any='./assets/images/Logo - Fedo.png';
 
   //details
   organization_name:any='';
@@ -46,6 +49,7 @@ export class OrganisationDetailsComponent implements OnInit {
   updated_date:any='';
   url:any='';
   daysLeft:any=0;
+  
 
   thirdParty=false;
   product='';
@@ -100,12 +104,34 @@ export class OrganisationDetailsComponent implements OnInit {
       }
     })
 
+
+
     this.adminService.fetchLatestOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc})
 
     this.adminService.fetchAllUserOfOrg(this.id).subscribe(
       (doc:any) => {this.tableData=doc;}
     )
+
+    this.OrgForm = this.fb.group({
+      organization_name:[this.organization_name],
+      admin_name:[this.admin_name],
+      organization_email:[this.organization_email,Validators.email],
+      organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      fedo_score:[this.fedo_score],
+      hsa:[false],
+      ruw:[false],
+      vitals:[false],
+      designation:[this.designation],
+      url:[this.url],
+      pilot_duration:[this.pilot_duration],
+      product_name:[''],
+    });
+  }
+
+  orgEdit(content: TemplateRef<NgbModal>){
+    this.modalService.open(content, { centered: true });
+
   }
 
   getSize(f: File) {
@@ -125,9 +151,13 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+    this.srcImage = './assets/images/Logo - Fedo.png';
+
   }
   onSelect(event: any) {
-    this.files.push(...event.addedFiles);
+
+    this.files =[...event.addedFiles];
+    this.srcImage = event.addedFiles
   }
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });

@@ -154,14 +154,14 @@
                                 <span class="d-none d-sm-inline">config {{season.name}}</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <p>salkd{{season.name}}</p>
-                                    <div class="row">
+                                    <div class="row" style="    display: grid;
+                                    grid-template-columns: 14rem 15rem;   grid-gap: 1rem;">
                                         <div class="col-lg-6">
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: min-content max-content;">
                                             <div style="place-self: center;padding-right: 0;">www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                            border: 1px solid #444C5B;
+                                            border: 1px solid #444C5B;    width: 50%;
                                             border-radius: 4px;"
                                                 name="userName" placeholder="ABSLI" formControlName="url">
                                             </div>
@@ -182,6 +182,56 @@
                                                 </div>
                                             </div>
                                         </div>
+                                   
+                                            <div class="card" style="background: #313844; padding:1rem">
+                                                <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/Logo - Fedo.png'">
+                                                    <div  style="align-self: center;">
+                                                        <div class="row align-items-center" style="    place-content: center;">
+                                                        <img [src]="srcImage" alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="dropzone-previews" id="file-previews">
+                                    
+                                                        <div id="uploadPreviewTemplate" *ngFor="let f of files">
+                                                            <div class="card mt-1 mb-0 shadow-none border">
+                                                                <div style="align-self: center;">
+                                                                    <div class="row align-items-center" style="    place-content: center;">
+                                                                            <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 90%;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
+                                                                                [src]="getPreviewUrl(f)">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div  style="display: grid; 
+                                                    grid-template-columns: min-content min-content;
+                                                    place-self: center;
+                                                 grid-gap: 1rem;">
+                                                 <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
+                                                        <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
+                                                        border-radius: 5px;overflow: hidden;"
+                                                        accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                        <ngx-dropzone-label>
+                                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                           
+                                                        </ngx-dropzone-label>
+                                                    </ngx-dropzone>
+                                                </div>
+                                    
+                                                    <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
+                                           
+                                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;"
+                                                            (click)="onRemove($event)">
+                                                            <i class="mdi mdi-delete" style="font-size: 34px;padding: 1rem;"></i>
+                                                        </a>
+                                    
+                                                    </div>
+                                    
+                                                    </div>
+                                            </div>
+                            
 
                                     </div>
                                 </ng-template>

@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
 import { AdminConsoleService } from '../services/admin-console.service';
@@ -27,12 +28,15 @@ export class HomeComponent implements OnInit {
   next:boolean=false;
   showLiveAlert=false;
   errorMessage='';
+  files: File[] = [];
+  srcImage:any='./assets/images/Logo - Fedo.png';
+
+
 
   persons: PersonDetails[] = [];
   constructor(
     private readonly adminService: AdminConsoleService,
-    
-
+    private sanitizer: DomSanitizer, 
     private fb: FormBuilder,
     private modalService: NgbModal) { }
   organisationCount:any=0;
@@ -94,51 +98,18 @@ export class HomeComponent implements OnInit {
         product_name:[''],
       });
 
-    
-  
-      // this.btnWizardForm = this.fb.group({
-      //   account: this.fb.group({
-      //     userName: ['hyper'],
-      //     password: ['123456'],
-      //     rePassword: ['123456']
-      //   }),
-      //   profile: this.fb.group({
-      //     firstName: ['Francis'],
-      //     lastName: ['Brinkman'],
-      //     email: ['cory1979@hotmail.com', Validators.email]
-      //   }),
-      //   acceptTerms: [false, Validators.requiredTrue]
-      // });
-  
-      // this.progressWizardForm = this.fb.group({
-      //   account: this.fb.group({
-      //     userName: ['hyper'],
-      //     password: ['123456'],
-      //     rePassword: ['123456']
-      //   }),
-      //   profile: this.fb.group({
-      //     firstName: ['Francis'],
-      //     lastName: ['Brinkman'],
-      //     email: ['cory1979@hotmail.com', Validators.email]
-      //   }),
-      //   acceptTerms: [false, Validators.requiredTrue]
-      // });
-  
-      // this.accountForm = this.fb.group({
-      //   userName: ['', Validators.required],
-      //   password: ['', Validators.required],
-      //   rePassword: ['', Validators.required]
-      // })
-  
-      // this.profileForm = this.fb.group({
-      //   firstName: ['', Validators.required],
-      //   lastName: ['', Validators.required],
-      //   email: ['', [Validators.required, Validators.email]]
-      // })
-  
-      // this.validationWizardForm = this.fb.group({
-      //   acceptTerms: [false, Validators.requiredTrue]
-      // })
+  }
+
+  onRemove(event: any) {
+    this.files.splice(this.files.indexOf(event), 1);
+    this.srcImage = './assets/images/Logo - Fedo.png';
+
+  }
+
+  onSelect(event: any) {
+
+    this.files =[...event.addedFiles];
+    this.srcImage = event.addedFiles
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -206,6 +177,10 @@ export class HomeComponent implements OnInit {
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
+  }
+
+  getPreviewUrl(f: File) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(encodeURI(URL.createObjectURL(f)));
   }
 
 }
