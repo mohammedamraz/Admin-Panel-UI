@@ -74,7 +74,7 @@ DEV-deploy:
     -     echo "deploying to production / demo"
     -     chmod 400 $SSH_PRIVATE_KEY_HSA_PROD
     -     scp -i $SSH_PRIVATE_KEY_HSA_PROD -o StrictHostKeyChecking=no $TAGGED_APP_VERSION.tar ubuntu@admin.fedo.ai:~
-    -     ssh -i $SSH_PRIVATE_KEY_HSA_PROD -o StrictHostKeyChecking=no ubuntu@admin.fedo.ai "cd $DEPLOY_LOCATION_PROD;$AS_FEDO_PROD tar -xzf $RELEASE_LOCATION_PROD/$TAGGED_APP_VERSION.tar;"
+    -     ssh -i $SSH_PRIVATE_KEY_HSA_PROD -o StrictHostKeyChecking=no ubuntu@admin.fedo.ai "$AS_FEDO_PROD cp $TAGGED_APP_VERSION.tar $RELEASE_LOCATION_PROD;cd $DEPLOY_LOCATION_PROD;$AS_FEDO_PROD rm -rf *;$AS_FEDO_PROD tar -xzf $RELEASE_LOCATION_PROD/$TAGGED_APP_VERSION.tar;"
     - fi
     - cd
     - rm -f $TAGGED_APP_VERSION.tar
