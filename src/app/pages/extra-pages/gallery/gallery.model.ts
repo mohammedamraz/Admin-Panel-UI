@@ -3,7 +3,7 @@ import { IAlbum } from "ngx-lightbox";
 
 export interface GalleryItem {
     id?: number;
-    image?: IAlbum;
+    image?: any;
     title?: string;
     category?: string[];
 }
