@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -16,13 +16,45 @@ export class OrganisationDetailsComponent implements OnInit {
   files: File[] = [];
   tabDAta:any[]=[];
   basicWizardForm!: FormGroup;
+  OrgForm!: FormGroup;
   activeWizard1: number = 1;
+  activeWizard2: number = 1;
   list: number = 3;
+  orglist:number =3;
   listdetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
+  srcImage:any='./assets/images/Logo - Fedo.png';
+
+  //details
+  organization_name:any='';
+  admin_name:any='';
+  application_id:any='';
+  attempts:any='';
+  created_date:any='';
+  designation:any='';
+  end_date:any='';
+  fedo_score:boolean= true;
+  id:any='';
+  is_deleted:boolean= false;
+  logo:any='';
+  organization_email:any='';
+  organization_mobile:any='';
+  pilot_duration:any='';
+  product_id:any='';
+  stage:any='';
+  start_date:any='';
+  status:any='';
+  updated_date:any='';
+  url:any='';
+  daysLeft:any=0;
+  
+
+  thirdParty=false;
+  product='';
+  tableData:any[]=[];
 
 
 
@@ -31,21 +63,76 @@ export class OrganisationDetailsComponent implements OnInit {
     private readonly adminService: AdminConsoleService,
     private modalService: NgbModal,
     private readonly route: ActivatedRoute,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
-      next:(res) =>{
+      next:(res:any) =>{
         console.log('the file', res);
-      },
+        this.organization_name= res[0].organization_name;
+        this.admin_name= res[0].admin_name;
+        this.application_id= res[0].application_id;
+        this.attempts= res[0].attempts;
+        this.created_date= res[0].created_date;
+        this.designation= res[0].designation;
+        this.end_date= res[0].end_date;
+        this.fedo_score= res[0].fedo_score;
+        this.id= res[0].id;
+        this.is_deleted= res[0].is_deleted;
+        this.logo= res[0].logo;
+        this.organization_email= res[0].organization_email;
+        this.organization_mobile= res[0].organization_mobile;
+        this.pilot_duration= res[0].pilot_duration;
+        this.product_id= res[0].product_id;
+        this.stage= res[0].stage;
+        this.start_date= res[0].start_date;
+        this.status= res[0].status;
+        this.updated_date= res[0].updated_date;
+        this.url= res[0].url.slice(27,);
+        const oneDay = 24 * 60 * 60 * 1000;
+        const firstDate = new Date();
+        const secondDate = new Date(this.end_date);
+        const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+        const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+        console.log('the days left', days_difference)
+        this.daysLeft = days_difference;
+        this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
+        },
       error:(err)=>{
         console.log('the error', err);
       }
     })
 
+
+
     this.adminService.fetchLatestOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc})
+
+    this.adminService.fetchAllUserOfOrg(this.id).subscribe(
+      (doc:any) => {this.tableData=doc;}
+    )
+
+    this.OrgForm = this.fb.group({
+      organization_name:[this.organization_name],
+      admin_name:[this.admin_name],
+      organization_email:[this.organization_email,Validators.email],
+      organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      fedo_score:[this.fedo_score],
+      hsa:[false],
+      ruw:[false],
+      vitals:[true],
+      designation:[this.designation],
+      url:[this.url],
+      pilot_duration:[this.pilot_duration],
+      product_name:[''],
+    });
+  }
+
+  orgEdit(content: TemplateRef<NgbModal>){
+    this.modalService.open(content, { centered: true });
+
   }
 
   getSize(f: File) {
@@ -65,9 +152,13 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+    this.srcImage = './assets/images/Logo - Fedo.png';
+
   }
   onSelect(event: any) {
-    this.files.push(...event.addedFiles);
+
+    this.files =[...event.addedFiles];
+    this.srcImage = event.addedFiles
   }
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });
@@ -75,18 +166,21 @@ export class OrganisationDetailsComponent implements OnInit {
   demoFunction(event:any, product:string){
     console.log('asdf',event.target.checked);
     if(product==='hsa'){
+      this.product = product;
       this.basicWizardForm.controls['ruw'].setValue(false);
       this.basicWizardForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='ruw'){
+      this.product = product;
       this.basicWizardForm.controls['hsa'].setValue(false);
       this.basicWizardForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='vitals'){
+      this.product = product;
       this.basicWizardForm.controls['hsa'].setValue(false);
       this.basicWizardForm.controls['ruw'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -106,17 +200,12 @@ export class OrganisationDetailsComponent implements OnInit {
 
   checkingForm(){
     console.log('the form values => ',this.basicWizardForm.value)
-    var data = new FormData();
-    data.append('admin_name', this.basicWizardForm.value.admin_name);
-    data.append('designation', this.basicWizardForm.value.designation);
-    data.append('organization_email', this.basicWizardForm.value.organization_email);
-    data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
-    data.append('organization_name',this.basicWizardForm.value.organization_name);
-    data.append('pilot_duration',this.basicWizardForm.value.pilot_duration);
-    data.append('product_name',this.listdetails[0].name);
-    data.append('url','https://www.fedo.ai/vitals/'+this.basicWizardForm.value.url);
-    data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
-    this.adminService.createOrg(data).subscribe({
+
+    this.basicWizardForm.removeControl('ruw');
+    this.basicWizardForm.removeControl('hsa');
+    this.basicWizardForm.removeControl('vitals');
+    this.basicWizardForm.controls['product_name'].setValue(this.product);
+    this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard1=this.activeWizard1+1;

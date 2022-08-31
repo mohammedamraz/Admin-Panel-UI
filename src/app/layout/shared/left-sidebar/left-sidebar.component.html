@@ -66,7 +66,7 @@
                     <ng-container *ngIf="!menu.isTitle">
 
                         <!-- menu item without any child -->
-                        <ng-container *ngIf="!hasSubmenu(menu)">
+                        <ng-container *ngIf="!hasSubmenu(menu)" >
                             <ng-container
                                 *ngTemplateOutlet="MenuItem;context:{menu: menu, linkClassName: 'side-nav-link-ref'}">
                             </ng-container>
@@ -97,8 +97,8 @@
 <!-- Reusable Templates -->
 <ng-template #MenuItemWithChildren let-menu="menu" let-linkClassName="linkClassName"
     let-subMenuClassNames="subMenuClassNames">
-    <li [ngClass]="{'menuitem-active': activeMenuItems.includes(menu.key)}">
-        <a href="javascript: void(0)" [class]="linkClassName" (click)="toggleMenuItem(menu,collapse)"
+    <li [ngClass]="{'menuitem-active': activeMenuItems.includes(menu.key)}" >
+        <a  href="javascript: void(0)"  [class]="linkClassName" (click)="toggleMenuItem(menu,collapse)"
             [attr.aria-expanded]="!menu.collapsed" [attr.data-menu-key]="menu.key">
             <i [class]="menu.icon" *ngIf="menu.icon"></i>
             <span class="badge bg-{{menu.badge.variant}} float-end" *ngIf="menu.badge">{{menu.badge.text}}</span>
@@ -134,7 +134,7 @@
 </ng-template>
 
 <ng-template #MenuItemLink let-menu="menu" let-className="className">
-    <a [routerLink]="menu.url" [class]="className" [ngClass]="{'active': activeMenuItems.includes(menu.key)}"
+    <a [ngStyle]="{'pointer-events': orglogin ? 'fill':'none'}" [routerLink]="menu.url" [class]="className" [ngClass]="{'active': activeMenuItems.includes(menu.key)}"
         [attr.data-menu-key]="menu.key">
         <i [class]="menu.icon" *ngIf="menu.icon"></i>
         <span class="badge bg-{{menu.badge.variant}}  rounded-pill float-end"

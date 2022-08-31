@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthOrgGuard } from '../core/guards/auth-org.gaurd';
+import { OrgLoginComponent } from '../org-login/org-login.component';
 import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
 import { LockScreenComponent } from './lock-screen/lock-screen.component';
 import { LoginComponent } from './login/login.component';
@@ -31,7 +33,14 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent
-  }
+  },
+  {
+    path:'orgLogin',
+  
+
+    component: OrgLoginComponent ,
+  },
+
 ];
 
 @NgModule({

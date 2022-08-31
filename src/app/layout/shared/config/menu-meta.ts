@@ -52,7 +52,7 @@ const MENU_ITEMS: MenuItem[] = [
             {
                 key: 'task-kanban',
                 label: 'Dashboard',
-                url: '/vitals',
+                url: '/vitals-dashboard',
                 parentKey: 'apps-tasks',
             },
             {
@@ -519,7 +519,7 @@ const MENU_ITEMS: MenuItem[] = [
     //         },
     //     ],
     // },
-];
+];  
 
 const HORIZONTAL_MENU_ITEMS: MenuItem[] = [
     {
