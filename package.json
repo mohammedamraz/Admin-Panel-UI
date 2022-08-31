@@ -1,6 +1,6 @@
 {
   "name": "fedo-admin-ui",
-  "version": "0.0.1-build.0",
+  "version": "0.0.1-rc.22",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
