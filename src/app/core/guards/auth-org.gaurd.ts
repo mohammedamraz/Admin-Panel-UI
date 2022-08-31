@@ -14,6 +14,7 @@ export class AuthOrgGuard implements CanActivate {
         ) { }
         
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        console.log('hi macha')
         const currentUser = this.authenticationService.currentUser();
 
         if (false) {

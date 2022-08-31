@@ -20,6 +20,7 @@ export class OrganisationDetailsComponent implements OnInit {
   activeWizard1: number = 1;
   activeWizard2: number = 1;
   list: number = 3;
+  orglist:number =3;
   listdetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
@@ -121,7 +122,7 @@ export class OrganisationDetailsComponent implements OnInit {
       fedo_score:[this.fedo_score],
       hsa:[false],
       ruw:[false],
-      vitals:[false],
+      vitals:[true],
       designation:[this.designation],
       url:[this.url],
       pilot_duration:[this.pilot_duration],

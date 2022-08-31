@@ -453,9 +453,7 @@
                 <i class="mdi mdi-dots-vertical"></i>
             </a>
             <div ngbDropdownMenu>
-                <!-- item-->
                 <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create Org</a>
-                <!-- item-->
             </div>
         </div>            
         <div class=" float-end" ngbDropdown placement="bottom-end">
@@ -505,13 +503,11 @@
                                 <div ngbDropdownMenu>
                                     <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <a href="javascript:void(0);" (click)="open(toggleModal2);userOrganisationName=person.organization_name" ngbDropdownItem>Create Users</a>
-                                    <a href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                    <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>
                             </div> 
                         </td>
                     </tr>
-
-                 
                 </tbody>
             </table>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"

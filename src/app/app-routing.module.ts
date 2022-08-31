@@ -6,7 +6,6 @@ import { CreateOrganizationComponent } from './create-organization/create-organi
 import { HomeComponent } from './home/home.component';
 import { LayoutContainerComponent } from './layout/layout-container/layout-container.component';
 import { PublicLayoutComponent } from './layout/public-layout/public-layout.component';
-import { OrgLoginComponent } from './org-login/org-login.component';
 import { OrganisationDetailsComponent } from './organisation-details/organisation-details.component';
 import { OrganisationListComponent } from './organisation-list/organisation-list.component';
 import { ComingSoonComponent } from './pages/extra-pages/coming-soon/coming-soon.component';
@@ -18,16 +17,15 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 
 const routes: Routes = [
-
+  { 
+    path: 'vital/:id',     
+    canActivate: [AuthOrgGuard],
+    component: OrganisationDetailsComponent
+  },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full'
-  },
-  { 
-    path: 'vitals',     
-    component: OrganisationDetailsComponent,
-    canActivate: [AuthOrgGuard],
   },
   {
     path: '',
@@ -67,7 +65,7 @@ const routes: Routes = [
         component: OrganisationDetailsComponent
       },
       {
-        path:'userdetails',
+        path:'userdetails/:orgId',
         component: UserDetailsComponent
       },
 
@@ -77,7 +75,6 @@ const routes: Routes = [
     path: '',
     component: PublicLayoutComponent,
     children: [
-
       { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
       {
         path: 'error-404',
@@ -96,7 +93,6 @@ const routes: Routes = [
         component: ComingSoonComponent
       },
       { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) },
-      
     ]
   }
 ];
