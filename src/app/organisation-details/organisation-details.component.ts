@@ -105,6 +105,7 @@ export class OrganisationDetailsComponent implements OnInit {
       }
     })
 
+    this.listdetails=[{name:'hsa', index:0}]
 
 
     this.adminService.fetchLatestOrg().subscribe
