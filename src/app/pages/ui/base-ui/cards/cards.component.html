@@ -66,7 +66,7 @@
 <div class="row">
     <div class="col-md-4">
         <!-- card with image -->
-        <ng-template [ngTemplateOutlet]="CardWithImage" [ngTemplateOutletContext]="{title:'Card title',image:'assets/images/gallery/5.jpg',text:'This is a wider card with supporting text below as a
+        <ng-template [ngTemplateOutlet]="CardWithImage" [ngTemplateOutletContext]="{title:'Card title',image:'./assets/images/gallery/5.jpg',text:'This is a wider card with supporting text below as a
                                             natural lead-in to additional content. This content is a little bit
                                             longer.',subtext:'Last updated 3 mins ago',position:'top',cardClass:''}">
         </ng-template>
@@ -74,7 +74,7 @@
     <div class="col-md-4">
         <!-- card with image -->
         <ng-template [ngTemplateOutlet]="CardWithImage"
-            [ngTemplateOutletContext]="{title:'Card title',image:'assets/images/gallery/7.jpg',text:'This is a wider card with supporting text below as a
+            [ngTemplateOutletContext]="{title:'Card title',image:'./assets/images/gallery/7.jpg',text:'This is a wider card with supporting text below as a
                                             natural lead-in to additional content. This content is a little bit
                                             longer.',subtext:'Last updated 3 mins ago',position:'bottom',cardClass:''}">
         </ng-template>
@@ -238,7 +238,7 @@
         <div class="row">
             <div class="col-md-4 col-12">
                 <ng-template [ngTemplateOutlet]="CardWithImage"
-                    [ngTemplateOutletContext]="{title:'Card title that wraps to a new line',image:'assets/images/gallery/2.jpg',text:'This is a longer card with supporting text below as a
+                    [ngTemplateOutletContext]="{title:'Card title that wraps to a new line',image:'./assets/images/gallery/2.jpg',text:'This is a longer card with supporting text below as a
                       natural lead-in to additional content. This content is a little bit longer.',subtext:'',position:'top'}">
                 </ng-template>
 
@@ -254,7 +254,7 @@
             </div>
             <div class="col-md-4 col-12">
                 <ng-template [ngTemplateOutlet]="CardWithImage" [ngTemplateOutletContext]="{title:'Card title',
-                    image:'assets/images/gallery/3.jpg',text:'This card has supporting text below as a natural lead-in to additional content',
+                    image:'./assets/images/gallery/3.jpg',text:'This card has supporting text below as a natural lead-in to additional content',
                     subtext:'Last updated 3 mins ago',position:'top'}">
                 </ng-template>
 
@@ -278,7 +278,7 @@
             </div>
             <div class="col-md-4 col-12">
                 <div class="card">
-                    <img class="card-img img-fluid" src="assets/images/gallery/4.jpg" alt="Card image cap">
+                    <img class="card-img img-fluid" src="./assets/images/gallery/4.jpg" alt="Card image cap">
                 </div>
                 <div class="card card-body text-end">
                     <blockquote class="card-bodyquote mb-0">
@@ -308,7 +308,7 @@
 <!-- reusable templates -->
 <ng-template #SimpleCard>
     <div class="card">
-        <img class="card-img-top img-fluid" src="assets/images/gallery/1.jpg" alt="Card image cap">
+        <img class="card-img-top img-fluid" src="./assets/images/gallery/1.jpg" alt="Card image cap">
         <div class="card-body">
             <h4 class="card-title">Card title</h4>
             <p class="card-text">Some quick example text to build on the card title and make
@@ -320,7 +320,7 @@
 
 <ng-template #CardWithLinks>
     <div class="card">
-        <img class="card-img-top img-fluid" src="assets/images/gallery/2.jpg" alt="Card image cap">
+        <img class="card-img-top img-fluid" src="./assets/images/gallery/2.jpg" alt="Card image cap">
         <div class="card-body">
             <h4 class="card-title">Card title</h4>
             <p class="card-text">Some quick example text to build on the card title and make
@@ -340,7 +340,7 @@
 
 <ng-template #CardWithoutTitle>
     <div class="card">
-        <img class="card-img-top img-fluid" src="assets/images/gallery/3.jpg" alt="Card image cap">
+        <img class="card-img-top img-fluid" src="./assets/images/gallery/3.jpg" alt="Card image cap">
         <div class="card-body">
             <p class="card-text">Some quick example text to build on the card title and make
                 up the bulk of the card's content.</p>
@@ -354,7 +354,7 @@
             <h4 class="card-title">Card title</h4>
             <h6 class="card-subtitle text-muted">Support card subtitle</h6>
         </div>
-        <img class="img-fluid" src="assets/images/gallery/4.jpg" alt="Card image cap">
+        <img class="img-fluid" src="./assets/images/gallery/4.jpg" alt="Card image cap">
         <div class="card-body">
             <p class="card-text">Some quick example text to build on the card title and make
                 up the bulk of the card's content.</p>
@@ -436,7 +436,7 @@
 
 <ng-template #CardWithImageOverlay>
     <div class="card card-inverse text-white">
-        <img class="card-img img-fluid" src="assets/images/gallery/6.jpg" alt="Card image">
+        <img class="card-img img-fluid" src="./assets/images/gallery/6.jpg" alt="Card image">
         <div class="card-img-overlay">
             <h4 class="card-title text-white">Card title</h4>
             <p class="card-text">This is a wider card with supporting text below as a

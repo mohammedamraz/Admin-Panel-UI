@@ -39,7 +39,7 @@ export class DraggableCardsComponent implements OnInit {
     this.movableCardGroup1 = [
       {
         id: 'card-1',
-        image: 'assets/images/gallery/1.jpg'
+        image: './assets/images/gallery/1.jpg'
       },
       {
         id: 'card-2',
@@ -56,7 +56,7 @@ export class DraggableCardsComponent implements OnInit {
       },
       {
         id: 'card-5',
-        image: 'assets/images/gallery/3.jpg'
+        image: './assets/images/gallery/3.jpg'
       },
       {
         id: 'card-6'

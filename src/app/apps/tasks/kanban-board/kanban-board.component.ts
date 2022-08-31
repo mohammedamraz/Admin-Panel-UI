@@ -88,7 +88,7 @@ export class KanbanBoardComponent implements OnInit {
     if (this.newTask.valid) {
       let task: TaskItem = {
         id: this.allTasks.length + 1,
-        avatar: 'assets/images/users/user-1.jpg',
+        avatar: './assets/images/users/user-1.jpg',
         username: this.formValues['assignTo'].value,
         title: this.formValues['name'].value,
         totalTasks: 1,

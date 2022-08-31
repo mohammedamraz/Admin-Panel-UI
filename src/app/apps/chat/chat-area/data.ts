@@ -5,7 +5,7 @@ import { USERS } from "../data";
 const defaultTo: ChatUser = {
     id: 9,
     name: 'Nowak Helme',
-    avatar: 'assets/images/users/user-1.jpg',
+    avatar: './assets/images/users/user-1.jpg',
 };
 
 // list of chat messages

@@ -5,7 +5,7 @@ const USERS: ChatUser[] = [
     {
         id: 1,
         name: 'Margaret Clayton',
-        avatar: 'assets/images/users/user-2.jpg',
+        avatar: './assets/images/users/user-2.jpg',
         lastMessage: 'I have finished it! See you so...',
         lastMessageOn: '05 min',
         status: 'online',
@@ -22,7 +22,7 @@ const USERS: ChatUser[] = [
     {
         id: 3,
         name: 'Mark Nieto',
-        avatar: 'assets/images/users/user-3.jpg',
+        avatar: './assets/images/users/user-3.jpg',
         lastMessage: 'This theme is awesome!',
         lastMessageOn: '32 min',
         lastMessageSeen: false,
@@ -31,7 +31,7 @@ const USERS: ChatUser[] = [
     {
         id: 4,
         name: 'Garret Sauer',
-        avatar: 'assets/images/users/user-4.jpg',
+        avatar: './assets/images/users/user-4.jpg',
         lastMessage: 'Nice to meet you',
         lastMessageOn: '01 hr',
         lastMessageSeen: false,
@@ -40,7 +40,7 @@ const USERS: ChatUser[] = [
     {
         id: 5,
         name: 'Michael James',
-        avatar: 'assets/images/users/user-5.jpg',
+        avatar: './assets/images/users/user-5.jpg',
         lastMessage: 'Good morning',
         lastMessageOn: '01 hr',
         status: 'offline',
@@ -58,7 +58,7 @@ const USERS: ChatUser[] = [
     {
         id: 7,
         name: 'Tracy Marsh',
-        avatar: 'assets/images/users/user-6.jpg',
+        avatar: './assets/images/users/user-6.jpg',
         lastMessage: 'Hey! there I am available',
         lastMessageOn: '04 hr',
         status: 'online',
@@ -66,7 +66,7 @@ const USERS: ChatUser[] = [
     {
         id: 8,
         name: 'Richard Lopez',
-        avatar: 'assets/images/users/user-7.jpg',
+        avatar: './assets/images/users/user-7.jpg',
         lastMessage: 'Nice to meet you',
         lastMessageOn: '05 hr',
         status: 'offline',

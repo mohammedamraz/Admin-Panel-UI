@@ -41,7 +41,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     }
                     const newUser: User = {
                         id: users.length + 1, username: firstName, email: request.body.email, password: request.body.password, firstName: firstName, lastName: lastName,
-                        avatar: 'assets/images/users/user-1.jpg', location: 'California, USA', title: 'Admin Head'
+                        avatar: './assets/images/users/user-1.jpg', location: 'California, USA', title: 'Admin Head'
                     }
                     temp = [...users];
                     temp.push(newUser);

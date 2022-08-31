@@ -43,17 +43,17 @@ export class CarouselComponent implements OnInit {
     this.caroselCaptionSlides = [
       {
         slideTitle: 'First slide label',
-        image: 'assets/images/small/img-1.jpg',
+        image: './assets/images/small/img-1.jpg',
         subTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
       },
       {
         slideTitle: 'Second slide label',
-        image: 'assets/images/small/img-3.jpg',
+        image: './assets/images/small/img-3.jpg',
         subTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
       },
       {
         slideTitle: 'Third slide label',
-        image: 'assets/images/small/img-2.jpg',
+        image: './assets/images/small/img-2.jpg',
         subTitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
       }
     ];
