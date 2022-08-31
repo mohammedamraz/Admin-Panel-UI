@@ -12,23 +12,23 @@ const PROJECTS: Project[] = [
         totalComments: 452,
         teamMembers: [
             {
-                image: 'assets/images/users/user-1.jpg',
+                image: './assets/images/users/user-1.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-2.jpg',
+                image: './assets/images/users/user-2.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-3.jpg',
+                image: './assets/images/users/user-3.jpg',
                 name: 'James Anderson',
             },
             {
-                image: 'assets/images/users/user-4.jpg',
+                image: './assets/images/users/user-4.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-5.jpg',
+                image: './assets/images/users/user-5.jpg',
                 name: 'Username',
             },
         ],
@@ -45,15 +45,15 @@ const PROJECTS: Project[] = [
         totalComments: 875,
         teamMembers: [
             {
-                image: 'assets/images/users/user-6.jpg',
+                image: './assets/images/users/user-6.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-7.jpg',
+                image: './assets/images/users/user-7.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-8.jpg',
+                image: './assets/images/users/user-8.jpg',
                 name: 'James Anderson',
             },
         ],
@@ -71,19 +71,19 @@ const PROJECTS: Project[] = [
         totalComments: 125,
         teamMembers: [
             {
-                image: 'assets/images/users/user-9.jpg',
+                image: './assets/images/users/user-9.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-10.jpg',
+                image: './assets/images/users/user-10.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-1.jpg',
+                image: './assets/images/users/user-1.jpg',
                 name: 'James Anderson',
             },
             {
-                image: 'assets/images/users/user-3.jpg',
+                image: './assets/images/users/user-3.jpg',
                 name: 'Mat Helme',
             },
         ],
@@ -101,15 +101,15 @@ const PROJECTS: Project[] = [
         totalComments: 875,
         teamMembers: [
             {
-                image: 'assets/images/users/user-5.jpg',
+                image: './assets/images/users/user-5.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-8.jpg',
+                image: './assets/images/users/user-8.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-9.jpg',
+                image: './assets/images/users/user-9.jpg',
                 name: 'James Anderson',
             },
         ],
@@ -126,19 +126,19 @@ const PROJECTS: Project[] = [
         totalComments: 125,
         teamMembers: [
             {
-                image: 'assets/images/users/user-3.jpg',
+                image: './assets/images/users/user-3.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-4.jpg',
+                image: './assets/images/users/user-4.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-5.jpg',
+                image: './assets/images/users/user-5.jpg',
                 name: 'James Anderson',
             },
             {
-                image: 'assets/images/users/user-1.jpg',
+                image: './images/users/user-1.jpg',
                 name: 'Mat Helme',
             },
         ],
@@ -156,15 +156,15 @@ const PROJECTS: Project[] = [
         totalComments: 452,
         teamMembers: [
             {
-                image: 'assets/images/users/user-6.jpg',
+                image: './assets/images/users/user-6.jpg',
                 name: 'Mat Helme',
             },
             {
-                image: 'assets/images/users/user-7.jpg',
+                image: './assets/images/users/user-7.jpg',
                 name: 'Michael Zenaty',
             },
             {
-                image: 'assets/images/users/user-8.jpg',
+                image: './assets/images/users/user-8.jpg',
                 name: 'James Anderson',
             },
         ],

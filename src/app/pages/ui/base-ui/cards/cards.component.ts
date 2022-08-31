@@ -39,21 +39,21 @@ export class CardsComponent implements OnInit {
     this.cardGroup = [
       {
         id: 1,
-        image: 'assets/images/gallery/8.jpg',
+        image: './assets/images/gallery/8.jpg',
         title: 'Card title',
         text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
         subtext: 'Last updated 3 mins ago'
       },
       {
         id: 2,
-        image: 'assets/images/gallery/9.jpg',
+        image: './assets/images/gallery/9.jpg',
         title: 'Card title',
         text: 'This card has supporting text below as a natural lead-in to additional content.',
         subtext: 'Last updated 3 mins ago'
       },
       {
         id: 3,
-        image: 'assets/images/gallery/10.jpg',
+        image: './assets/images/gallery/10.jpg',
         title: 'Card title',
         text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.',
         subtext: 'Last updated 3 mins ago'

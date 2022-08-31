@@ -1,6 +1,6 @@
 {
     "/admin/api": {
-        "target": "https://dev.services.fedo.health",
+        "target": "https://log.fedo.health",
         "secure": false,
         "changeOrigin": true,
         "headers": {

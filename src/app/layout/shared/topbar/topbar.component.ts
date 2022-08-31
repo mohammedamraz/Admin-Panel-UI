@@ -93,13 +93,13 @@ export class TopbarComponent implements OnInit {
       id: 1,
       name: 'Erwin Brown',
       position: 'UI Designer',
-      profile: 'assets/images/users/user-2.jpg'
+      profile: './assets/images/users/user-2.jpg'
     },
     {
       id: 2,
       name: 'Jacob Deo',
       position: 'Developer',
-      profile: 'assets/images/users/user-5.jpg'
+      profile: './assets/images/users/user-5.jpg'
     }]
 
   }

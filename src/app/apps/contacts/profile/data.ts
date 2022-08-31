@@ -10,20 +10,20 @@ export const POSTS: Post[] = [
             message: 'Story based around the idea of time lapse, animation to post soon!',
             media: `<div>
                     <a class='cursor-pointer'>
-                    <img src="assets/images/small/img-1.jpg" class="avatar-md rounded">
+                    <img src="./assets/images/small/img-1.jpg" class="avatar-md rounded">
                     </a>
                     <a class='cursor-pointer'>
-                    <img src="assets/images/small/img-2.jpg" class="avatar-md rounded">
+                    <img src="./assets/images/small/img-2.jpg" class="avatar-md rounded">
                     </a>
                     <a class='cursor-pointer'>
-                    <img src="assets/images/small/img-3.jpg" class="avatar-md rounded">
+                    <img src="./assets/images/small/img-3.jpg" class="avatar-md rounded">
                     </a>
                     </div>`
         },
         replies: [
             {
                 id: 2,
-                authorAvatar: 'assets/images/users/user-3.jpg',
+                authorAvatar: './assets/images/users/user-3.jpg',
                 authorName: 'John Smith',
                 postedOn: 'about 1 hour ago',
                 content: {
@@ -32,7 +32,7 @@ export const POSTS: Post[] = [
             },
             {
                 id: 3,
-                authorAvatar: 'assets/images/users/user-4.jpg',
+                authorAvatar: './assets/images/users/user-4.jpg',
                 authorName: 'Matt Cheuvront',
                 postedOn: 'about 2 hour ago',
                 content: {
@@ -41,7 +41,7 @@ export const POSTS: Post[] = [
                 replies: [
                     {
                         id: 4,
-                        authorAvatar: 'assets/images/users/user-5.jpg',
+                        authorAvatar: './assets/images/users/user-5.jpg',
                         authorName: 'Stephanie Walter',
                         postedOn: 'about 3 hour ago',
                         content: {
@@ -54,7 +54,7 @@ export const POSTS: Post[] = [
     },
     {
         id: 5,
-        authorAvatar: 'assets/images/users/user-6.jpg',
+        authorAvatar: './assets/images/users/user-6.jpg',
         authorName: 'John Smith',
         postedOn: 'about 4 hour ago',
         content: {
@@ -64,7 +64,7 @@ export const POSTS: Post[] = [
     },
     {
         id: 6,
-        authorAvatar: 'assets/images/users/user-7.jpg',
+        authorAvatar: './assets/images/users/user-7.jpg',
         authorName: 'Nicolai Larson',
         postedOn: 'about 10 hour ago',
         content: {

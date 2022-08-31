@@ -27,13 +27,13 @@ export const TIMELINEDATA: TimelineItem[] = [
                 <p>3 new photo Uploaded on facebook fan page</p>
                 <div class="album">
                 <a href="javascript:void(0)">
-                    <img alt="" src="assets/images/small/img-1.jpg" class="img-fluid">
+                    <img alt="" src="./assets/images/small/img-1.jpg" class="img-fluid">
                 </a>
                 <a href="javascript:void(0)">
-                    <img alt="" src="assets/images/small/img-2.jpg">
+                    <img alt="" src="./assets/images/small/img-2.jpg">
                 </a>
                 <a href="javascript:void(0)">
-                    <img alt="" src="assets/images/small/img-3.jpg">
+                    <img alt="" src="./assets/images/small/img-3.jpg">
                 </a>
                 </div>
                 <div class="clearfix"></div>

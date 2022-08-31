@@ -53,7 +53,7 @@ export class ChatAreaComponent implements OnInit {
     this.toUser = {
       id: 9,
       name: 'Nowak Helme',
-      avatar: 'assets/images/users/user-1.jpg',
+      avatar: './assets/images/users/user-1.jpg',
     }
   }
 
