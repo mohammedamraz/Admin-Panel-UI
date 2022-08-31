@@ -66,7 +66,6 @@ DEV-deploy:
     # -     echo "deploying to uat / demo"
     # -     ssh -i $SSH_PRIVATE_KEY_HSA -o StrictHostKeyChecking=no ubuntu@dev.services.fedo.health "cd $DEPLOY_LOCATION_UAT;$AS_FEDO rm -rf *;$AS_FEDO tar -xzf $RELEASE_LOCATION/$TAGGED_APP_VERSION.tar;"
     # - fi
-    
     - if [[ $CI_COMMIT_TITLE =~ "rc" ]]; then
     -     cd dist/fedo-admin-ui
     # -     tar -czf $TAGGED_APP_VERSION.tar
@@ -76,8 +75,8 @@ DEV-deploy:
     -     chmod 400 $SSH_PRIVATE_KEY_HSA_PROD
     -     ssh -i $SSH_PRIVATE_KEY_HSA_PROD -o StrictHostKeyChecking=no ubuntu@admin.fedo.ai "cd $DEPLOY_LOCATION_PROD;$AS_FEDO rm -rf *;$AS_FEDO tar -xzf $RELEASE_LOCATION_PROD/$TAGGED_APP_VERSION.tar;"
     - fi
-    - cd
-    - rm -f $TAGGED_APP_VERSION.tar
+    # - cd
+    # - rm -f $TAGGED_APP_VERSION.tar
   after_script:
     - !reference [.global, after_script]
   allow_failure: true
