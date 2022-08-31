@@ -1,15 +1,6 @@
 {
-    "/vitals/": {
-        "target": "https://dev.services.fedo.health/sales/api/v1",
-        "secure": false,
-        "changeOrigin": true,
-        "headers": {
-            "Connection": "keep-alive"
-        },
-        "logLevel": "debug"
-    },
-    "/admin/": {
-        "target": "https://dev.services.fedo.health/sales/api/v1",
+    "/admin/api": {
+        "target": "https://dev.services.fedo.health",
         "secure": false,
         "changeOrigin": true,
         "headers": {
