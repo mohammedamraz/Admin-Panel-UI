@@ -8,6 +8,8 @@ import { LayoutModule } from './layout/layout.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { JoyrideModule } from 'ngx-joyride';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { APP_BASE_HREF } from '@angular/common';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   FormsModule,
 ReactiveFormsModule,
 ],
-  providers: [],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/admin/' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
