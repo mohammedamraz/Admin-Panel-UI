@@ -6,7 +6,7 @@
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">Basic example</h4>
+            <h4 style="color: white;">Create Organisation</h4>
     
             <form [formGroup]="basicWizardForm" #basicForm="ngForm">
                 <div id="basicwizard">
@@ -156,7 +156,7 @@
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
                                     grid-template-columns: 14rem 15rem;   grid-gap: 1rem;">
-                                        <div class="col-lg-6">
+                                        <div >
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: min-content max-content;">
@@ -420,7 +420,7 @@
                                     <!-- item-->
                                     <a  [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <a href="javascript:void(0);" ngbDropdownItem>Create Users</a>
-                                    <a href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                    <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>
                             </div></td>
                         </tr>

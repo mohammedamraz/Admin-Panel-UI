@@ -42,7 +42,7 @@ import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
     UiModule,
     WidgetModule,
     ExtraPagesRoutingModule,
-    NgbAlert
+    // NgbAlert
   ]
 })
 export class ExtraPagesModule { }
