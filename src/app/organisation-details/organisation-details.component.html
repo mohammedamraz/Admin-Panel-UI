@@ -6,7 +6,7 @@
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">Basic example</h4>
+            <h4 style="color: white;">Create User</h4>
     
             <form [formGroup]="basicWizardForm" #basicForm="ngForm">
                 <div id="basicwizard">
@@ -27,7 +27,7 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B; 
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="User Full Name" formControlName="admin_name">
+                                                    name="userName" placeholder="User Full Name" formControlName="user_name">
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
@@ -41,32 +41,31 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Email Address" formControlName="organization_email">
+                                                    name="userName" placeholder="Email Address" formControlName="email">
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile">
+                                                    name="userName" placeholder="Mobile Number" formControlName="mobile">
                                             </div>
                                         </div>
                                         <div class="mt-3" style="display: grid;
                                         grid-template-columns: 1fr 2fr;">
                                             <div class="form-check">
-                                                <input type="radio" id="customRadio1" name="customRadio" class="form-check-input">
+                                                <input type="radio" id="customRadio1"[checked]="!thirdParty" name="customRadio" class="form-check-input" (click)="thirdParty=false">
                                                 <label class="form-check-label" for="customRadio1">Own Employee</label>
                                             </div>
                                             <div class="form-check">
-                                                <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
+                                                <input type="radio" id="customRadio2" [checked]="false" name="customRadio" class="form-check-input" (click)="thirdParty=true">
                                                 <label class="form-check-label" for="customRadio2">Employee of Third-Party Tie-up</label>
                                             </div>
                                         </div>
-                                        <div class="col-md-8" style=" padding-top: 1rem;
-                                        padding-bottom: 1rem;">
+                                        <div class="col-md-8" style=" padding-top: 1rem;padding-bottom: 1rem;" *ngIf="thirdParty">
                                             <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;
                                             border-radius: 4px;"
-                                                name="userName" placeholder="Mobile Number" formControlName="organization_mobile">
+                                                name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name">
                                         </div>
     
                                       
@@ -85,7 +84,7 @@
                                     grid-template-columns:min-content min-content;
                                     grid-gap: 1rem;margin-bottom: 2rem;">
                                          
-                                                <div class="gal-detail thumb" style="    width: 142px;
+                                                <div class="gal-detail thumb" style="width: 142px;
                                                 height: 180px;
                                                 background: #3C424F;
                                                 border-radius: 8px;">
@@ -194,9 +193,9 @@
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard1 == 3)">
                             <button type="button" (click)="activeWizard1=activeWizard1+1" class="btn btn-secondary" 
-                                *ngIf=" activeWizard1<3">Next</button>
+                                *ngIf=" activeWizard1==1">Next</button>
                             <button type="button" class="btn btn-secondary" (click)="checkingForm()"
-                                *ngIf="activeWizard1!=2&&activeWizard1 == 3">Submit</button>
+                                *ngIf="activeWizard1==2">Submit</button>
                         </li>
                     </ul>
     
@@ -208,104 +207,351 @@
         </div> <!-- end card-body -->
     </div> <!-- end card-->
 </ng-template>
-<div class="row">
-    <div class="col-xl-8 col-md-5">
+
+<ng-template #toggleModal2 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
+        <div class="card-body">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Organisation</h4>
+    
+            <form [formGroup]="OrgForm" #basicForm="ngForm">
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                                <span class="d-none d-sm-inline">Org Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <div class="col-md">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Org Admin Full Name" formControlName="admin_name">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Designation" formControlName="designation">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Email Address" formControlName="organization_email">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile">
+                                            </div>
+                                        </div>
+    
+                                      
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class="d-none d-sm-inline">Products</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div style="display: grid;
+                                    grid-auto-flow: column;
+                                    grid-template-columns:min-content min-content;
+                                    grid-gap: 1rem;margin-bottom: 2rem;">
+                                         
+                                                <div class="gal-detail thumb" style="    width: 142px;
+                                                height: 180px;
+                                                background: #3C424F;
+                                                border-radius: 8px;">
+                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                    </a>
+                                
+                                                    <div style="    text-align: -webkit-center;
+                                                    display: grid;
+                                                    justify-items: center;
+                                                    grid-gap: 1rem; margin-top: 0.5rem;">
+                                                        <div class="avatar-md">
+                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                                FH
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-muted mb-1">Fedo HSA</p>
+                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                            <input type="checkbox" formControlName="hsa" (change)="demoFunction($event,'hsa')" class="form-check-input" id="customSwitch1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gal-detail thumb" style="    width: 142px;
+                                                height: 180px;
+                                                background: #3C424F;
+                                                border-radius: 8px;">
+                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                    </a>
+                                
+                                                    <div style="    text-align: -webkit-center;
+                                                    display: grid;
+                                                    justify-items: center;
+                                                    grid-gap: 1rem; margin-top: 0.5rem;">
+                                                        <div class="avatar-md">
+                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                                FV
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-muted mb-1">Fedo Vitals</p>
+                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                            <input type="checkbox" formControlName="vitals" (change)="demoFunction($event,'vitals')" class="form-check-input" id="customSwitch1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gal-detail thumb" style="    width: 142px;
+                                                height: 180px;
+                                                background: #3C424F;
+                                                border-radius: 8px;">
+                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                    </a>
+                                
+                                                    <div style="    text-align: -webkit-center;
+                                                    display: grid;
+                                                    justify-items: center;
+                                                    grid-gap: 1rem; margin-top: 0.5rem;">
+                                                        <div class="avatar-md">
+                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                                FR
+                                                            </span>
+                                                        </div>
+                                                        <p class="text-muted mb-1">Fedo RUW</p>
+                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                            <input type="checkbox" formControlName="ruw"  (change)="demoFunction($event,'ruw')" class="form-check-input" id="customSwitch1">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                      
+    
+                                    </div>
+                                </ng-template>
+                        </li>
+
+                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                            <li [ngbNavItem]="season.index">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class="d-none d-sm-inline">config {{season.name}}</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <p>salkd{{season.name}}</p>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4 class="header-title" style="color: white;">Define Org URL</h4>
+                                            <div class="row" style="display: grid;
+                                            grid-template-columns: min-content max-content;">
+                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;
+                                            border-radius: 4px;"
+                                                name="userName" placeholder="ABSLI" formControlName="url">
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-body" style="padding-left: 0;">
+                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
+                                                    <ngx-slider [value]="35" formControlName="pilot_duration"
+                                                        [options]="{
+                                                            floor: 0,
+                                                            ceil: 100
+                                                        }"></ngx-slider>
+                                                </div> <!-- end card-body -->
+                                            </div> <!-- end card-->
+                                            <div>
+                                                <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox" (change)="demoFunction($event,'ruw')" class="form-check-input" formControlName="fedo_score" id="customSwitch1">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </ng-template>
+                        </li>
+                        </ng-template>
+
+                        <li [ngbNavItem]="list">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
+                                <span class="d-none d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation ABC. An invitaton email has already been sent to the Org Admin.
+                                                 You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showLiveAlert" (closed)="showLiveAlert = false">{{errorMessage}}</ngb-alert>
+                        </div>
+                        <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
+                                [disabled]="activeWizard2===1">Previous</button>
+                        </li>
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');basicWizardForm.reset();list=3"
+                                >Close</button>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
+                            <button type="button" (click)="activeWizard2=activeWizard2+1" class="btn btn-secondary" 
+                                *ngIf=" activeWizard2<list-1">Next</button>
+                            <button type="button" class="btn btn-secondary" (click)="checkingForm()"
+                                *ngIf="activeWizard2!=2&&activeWizard2 == list-1">Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
+
+<div class="row" style="grid-auto-flow: column;
+display: grid;
+grid-template-columns: 1.5fr 1fr;">
+    <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid;">
+                display: grid; grid-template-columns: 1fr 1fr;">
                     <div>
                         <h4 style="color: #98a6ad;">Organisation Name</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{organization_name}}</p>
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a href="javascript:void(0)" (click)="open(toggleModal2)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
                 </div>
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid;">
+                display: grid; grid-template-columns: 1fr 1fr;">
                     <div>
-                        <h4 style="color: #98a6ad;">Organisation Name</h4>
+                        <h4 style="color: #98a6ad;">Org Admin Full Name</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{admin_name}}</p>
                     </div>
                     <div>
-                        <h4 style="color: #98a6ad;">Organisation Name</h4>
+                        <h4 style="color: #98a6ad;">Designation</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{designation}}</p>
                     </div>
                 </div>
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid;">
+                display: grid;grid-template-columns: 1fr 1fr;">
                     <div>
-                        <h4 style="color: #98a6ad;">Organisation Name</h4>
+                        <h4 style="color: #98a6ad;">Mobile Number</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{organization_mobile}}</p>
                     </div>
                     <div>
-                        <h4 style="color: #98a6ad;">Organisation Name</h4>
+                        <h4 style="color: #98a6ad;">Email Address</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{organization_email}}</p>
                     </div>
                 </div>
 
         </div>
-
-        <!-- <div class="card-body">
-            <h4 class="header-title m-t-0">Dropzone File Upload</h4>
-            <p class="text-muted font-14">
-                DropzoneJS is an open source library that provides drag’n’drop file uploads with image previews.
-            </p>
-
-            <form #fileUpload="ngForm">
-
-                <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="height: auto !important;"
-                    accept="image/jpeg,image/jpg,image/png,image/gif">
-                    <ngx-dropzone-label>
-                        <i class="h1 text-muted dripicons-cloud-upload"></i>
-                        <h3>Drop files here or click to upload.</h3>
-                        <span class="text-muted font-13">(This is just a demo dropzone. Selected files are
-                            <strong>not</strong> actually uploaded.)</span>
-                    </ngx-dropzone-label>
-
-                </ngx-dropzone>
-
-                <div class="dropzone-previews mt-3" id="file-previews">
+    </div>
+    <div class="" >
+        <div class="card" style="background: #313844; padding:1rem">
+            <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/Logo - Fedo.png'">
+                <div  style="align-self: center;">
+                    <div class="row align-items-center" style="    place-content: center;">
+                    <img [src]="srcImage" alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                </div>
+                </div>
+                </div>
+                <div class="dropzone-previews" id="file-previews">
 
                     <div id="uploadPreviewTemplate" *ngFor="let f of files">
                         <div class="card mt-1 mb-0 shadow-none border">
-                            <div class="p-2">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <img class="avatar-sm rounded bg-light" [alt]="f.name"
+                            <div style="align-self: center;">
+                                <div class="row align-items-center" style="    place-content: center;">
+                                        <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 90%;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
                                             [src]="getPreviewUrl(f)">
-                                    </div>
-                                    <div class="col ps-0">
-                                        <a href="javascript:void(0);" class="text-muted fw-bold">{{f.name}}</a>
-                                        <p class="mb-0">{{getSize(f)}}</p>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted"
-                                            (click)="onRemove($event)">
-                                            <i class="dripicons-cross"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
 
-        </div> -->
+                <div  style="display: grid; 
+                grid-template-columns: min-content min-content;
+                place-self: center;
+             grid-gap: 1rem;">
+             <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
+                    border-radius: 5px;overflow: hidden;"
+                    accept="image/jpeg,image/jpg,image/png,image/gif">
+                    <ngx-dropzone-label>
+                        <i class="h1 text-muted dripicons-cloud-upload"></i>
+       
+                    </ngx-dropzone-label>
+                </ngx-dropzone>
+            </div>
+
+                <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
+       
+                        <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;"
+                        (click)="onRemove($event)">
+                        <i class="mdi mdi-delete" style="font-size: 34px;padding: 1rem;"></i>
+                    </a>
+
+                </div>
+
+                </div>
+        </div>
     </div>
 </div>
 
@@ -314,16 +560,15 @@ grid-template-columns: 1fr 1fr;">
     <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid; padding-bottom: 0; ">
+                display: grid; padding-bottom: 0;padding-left: 0.7rem; ">
                     <div >
-                        <!-- <h4 style="color: #98a6ad;">Organisation Name</h4> -->
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">Adithya birla</p>
+                        font-size: large;">{{organization_name}}</p>
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a (click)="open(toggleModal2)" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -334,7 +579,7 @@ grid-template-columns: 1fr 1fr;">
                         <h4 style="color: #98a6ad;">Organisation URL:</h4>
                         <p class="sub-header" style="
                         margin-bottom: 0;
-                        font-size: large;">https://www.fedo.ai/vitals/ <span style="color: #FFF;">ABSLI</span></p>
+                        font-size: large;">https://www.fedo.ai/vitals/ <span style="color: #FFF;">{{url}}</span></p>
                     </div>
                     <div>
                         <h4 style="color: #98a6ad;">Fedo Vitals</h4>
@@ -357,13 +602,13 @@ grid-template-columns: 1fr 1fr;">
                     <div class="col-xl-5 card-body" style="padding-left:0">
                         <p style="
                         margin-bottom: 0.5rem;
-                    ">Pilot Duration(45 of 60 days)</p>
-                        <ngb-progressbar style="margin-top: 0;" [type]="(true ) ? 'danger':'warning'" [value]="70" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                    ">Pilot Duration({{daysLeft}} of {{pilot_duration}} days)</p>
+                        <ngb-progressbar style="margin-top: 0;" [type]="(daysLeft>pilot_duration ) ? 'danger':'warning'" [value]="70" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                     </div>
                     <div>
                         <h4 class="header-title" style="color: white;">Fedo Score:</h4>
                         <div class="form-check form-switch" style=" display: grid;">
-                            <input type="checkbox" class="form-check-input" formControlName="fedo_score" id="customSwitch1">
+                            <input type="checkbox" class="form-check-input" [checked]="fedo_score" id="customSwitch1">
                         </div>
                     </div>
                 </div>   
@@ -381,7 +626,7 @@ grid-template-columns: 1fr 1fr;">
                     <!-- item-->
                     <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create Org</a>
                     <!-- item-->
-                    <a href="javascript:void(0);" [routerLink]="['/orgList']"  ngbDropdownItem>Org List</a>
+                    <a href="javascript:void(0);" [routerLink]="['/userdetails', id]"  ngbDropdownItem>User List</a>
 
                 </div>
             </div>            
@@ -390,27 +635,22 @@ grid-template-columns: 1fr 1fr;">
                     <i class="mdi mdi-plus"></i>
                 </a>
             </div>            
-            <h4 class="mt-0 header-title" style="color: white;">Create Organisation</h4>
-            <!-- <p class="text-muted font-14 mb-3">
-                For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
-                to any <code>&lt;table&gt;</code>.
-            </p> -->
-
+            <h4 class="mt-0 header-title" style="color: white;">Recent 5 Users</h4>
             <div class="table-responsive">
                 <table class="table mb-0">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Org Name</th>
-                            <th>Total Users</th>
+                            <th>Org User Name</th>
+                            <th>Mobie</th>
                             <th>Total Tests</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of tabDAta;let indexOfelement=index;">
+                        <tr *ngFor="let person of tableData;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
-                            <td>{{person.organization_name}}</td>
-                            <td>{{person.total_users}}</td>
+                            <td>{{person.user_name}}</td>
+                            <td>{{person.mobile}}</td>
                             <td>{{person.total_tests}}</td>
                         </tr>
 

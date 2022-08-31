@@ -18,6 +18,8 @@ import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { StarterComponent } from './starter/starter.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { OrgLoginComponent } from 'src/app/org-login/org-login.component';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -32,14 +34,15 @@ import { TimelineComponent } from './timeline/timeline.component';
     Error404Component,
     MaintenanceComponent,
     ComingSoonComponent,
-    Error500Component
+    Error500Component,
   ],
   imports: [
     CommonModule,
     LightboxModule,
     UiModule,
     WidgetModule,
-    ExtraPagesRoutingModule
+    ExtraPagesRoutingModule,
+    NgbAlert
   ]
 })
 export class ExtraPagesModule { }

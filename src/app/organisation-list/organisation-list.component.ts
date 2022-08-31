@@ -15,8 +15,10 @@ import { SortEvent } from '../shared/advanced-table/sortable.directive';
 })
 export class OrganisationListComponent implements OnInit {
   activeWizard1: number = 1;
+  userWizard1:number =1;
   showLiveAlert=false;
   list: number = 3;
+  userForm!: FormGroup;
   basicWizardForm!: FormGroup;
   errorMessage='';
   listdetails:any[]=[];
@@ -25,12 +27,9 @@ export class OrganisationListComponent implements OnInit {
   @Output() search = new EventEmitter<string>();
   records: Employee[] = [];
   columns: any[] = [];
-
-
-
-
-
-
+  thirdParty=false;
+  product='';
+  userOrganisationName='';
 
   constructor(
     private modalService: NgbModal,
@@ -46,7 +45,7 @@ export class OrganisationListComponent implements OnInit {
     ((doc:any) =>{ this.tabDAta=doc;return doc});
     this.columns = this.tabDAta
   
-    this.basicWizardForm = this.fb.group({
+    this.userForm = this.fb.group({
       organization_name:[''],
       admin_name:[''],
       organization_email:['',Validators.email],
@@ -60,6 +59,18 @@ export class OrganisationListComponent implements OnInit {
       pilot_duration:[''],
       product_name:[''],
     });
+    this.userForm = this.fb.group({
+      user_name: [''],
+      designation: [''],
+      email: ['', Validators.email],
+      mobile: [''],
+      organization_name: [''],
+      product_name: [''],
+      third_party_org_name: [''],
+      hsa: [''],
+      ruw: [''],
+      vitals: ['']
+    })
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -109,18 +120,13 @@ export class OrganisationListComponent implements OnInit {
   }
 
   checkingForm(){
-    console.log('the form values => ',this.basicWizardForm.value)
-    var data = new FormData();
-    data.append('admin_name', this.basicWizardForm.value.admin_name);
-    data.append('designation', this.basicWizardForm.value.designation);
-    data.append('organization_email', this.basicWizardForm.value.organization_email);
-    data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
-    data.append('organization_name',this.basicWizardForm.value.organization_name);
-    data.append('pilot_duration',this.basicWizardForm.value.pilot_duration);
-    data.append('product_name',this.listdetails[0].name);
-    data.append('url','https://www.fedo.ai/vitals/'+this.basicWizardForm.value.url);
-    data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
-    this.adminService.createOrg(data).subscribe({
+    console.log('the form values => ',this.userForm.value)
+
+    this.userForm.removeControl('ruw');
+    this.userForm.removeControl('hsa');
+    this.userForm.removeControl('vitals');
+    this.userForm.controls['product_name'].setValue(this.product);
+    this.adminService.createUser(this.userForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard1=this.activeWizard1+1;
@@ -137,25 +143,88 @@ export class OrganisationListComponent implements OnInit {
       },
       complete: () => { }
     });
-  }
+  } 
+
+  checkingUserForm(){
+    console.log('the form values => ',this.userForm.value)
+
+    this.userForm.removeControl('ruw');
+    this.userForm.removeControl('hsa');
+    this.userForm.removeControl('vitals');
+    this.userForm.value.third_party_org_name.length === '' ? this.userForm.removeControl('third_party_org_name'):null
+    this.userForm.controls['product_name'].setValue(this.product);
+    this.userForm.controls['organization_name'].setValue(this.userOrganisationName);
+    this.adminService.createUser(this.userForm.value).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+        this.userWizard1=this.userWizard1+1;
+        // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
+        // this.formGroupDirective?.resetForm();
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorMessage=err;
+        this.showLiveAlert=true;
+      //    { this.snackBar.open(err.error.message,'', {
+      //   duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'red'
+      // }); }
+      },
+      complete: () => { }
+    });
+  } 
 
   demoFunction(event:any, product:string){
     console.log('asdf',event.target.checked);
     if(product==='hsa'){
-      this.basicWizardForm.controls['ruw'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
+      this.userForm.controls['ruw'].setValue(false);
+      this.userForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='ruw'){
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
+      this.userForm.controls['hsa'].setValue(false);
+      this.userForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='vitals'){
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['ruw'].setValue(false);
+      this.userForm.controls['hsa'].setValue(false);
+      this.userForm.controls['ruw'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(event.target.checked){
+      this.list=4;
+      let details={name:product, index:this.list-1}
+      this.listdetails.push(details)
+    }
+    else{
+      this.list--;
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+  }
+
+  demoUserFunction(event:any, product:string){
+    console.log('asdf',event.target.checked);
+    if(product==='hsa'){
+      this.product = product;
+      this.userForm.controls['ruw'].setValue(false);
+      this.userForm.controls['vitals'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(product==='ruw'){
+      this.product = product;
+      this.userForm.controls['hsa'].setValue(false);
+      this.userForm.controls['vitals'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(product==='vitals'){
+      this.product = product;
+      this.userForm.controls['hsa'].setValue(false);
+      this.userForm.controls['ruw'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }

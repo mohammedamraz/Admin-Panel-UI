@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthOrgGuard } from './core/guards/auth-org.gaurd';
 import { AuthGuard } from './core/guards/auth.guard';
 import { CreateOrganizationComponent } from './create-organization/create-organization.component';
 import { HomeComponent } from './home/home.component';
@@ -16,9 +17,14 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 
 const routes: Routes = [
+  { 
+    path: 'vital/:id',     
+    canActivate: [AuthOrgGuard],
+    component: OrganisationDetailsComponent
+  },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -43,7 +49,7 @@ const routes: Routes = [
         component: CreateOrganizationComponent
       },
       {
-        path:'vitals',
+        path:'vitals-dashboard',
         component: VitalsDashboardComponent
       },
       {
@@ -59,9 +65,10 @@ const routes: Routes = [
         component: OrganisationDetailsComponent
       },
       {
-        path:'userdetails',
+        path:'userdetails/:orgId',
         component: UserDetailsComponent
-      }
+      },
+
     ]
   },
   {
@@ -85,10 +92,9 @@ const routes: Routes = [
         path: 'coming-soon',
         component: ComingSoonComponent
       },
-      { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) }
+      { path: 'landing', loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule) },
     ]
-  },
-
+  }
 ];
 
 @NgModule({
