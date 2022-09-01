@@ -20,7 +20,7 @@ const NOTIFICATIONS: NotificationItem[] = [
         id: 3,
         text: 'Karen Robinson',
         subText: 'Wow ! this admin looks good and awesome design',
-        avatar: 'assets/images/users/user-4.jpg',
+        avatar: './assets/images/users/user-4.jpg',
     },
     {
         id: 4,
