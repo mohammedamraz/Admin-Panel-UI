@@ -15,13 +15,15 @@ export class OrganisationDetailsComponent implements OnInit {
 
   files: File[] = [];
   tabDAta:any[]=[];
-  basicWizardForm!: FormGroup;
   OrgForm!: FormGroup;
+  basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
-  list: number = 3;
+  list: number = 4;
+  listorg:number =3;
   orglist:number =3;
   listdetails:any[]=[];
+  listOrgDetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
   snapshotParam:any = "initial value";
@@ -98,7 +100,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
+        this.OrgForm.controls['organization_name'].setValue(this.organization_name);
         },
       error:(err)=>{
         console.log('the error', err);
@@ -129,6 +131,21 @@ export class OrganisationDetailsComponent implements OnInit {
       pilot_duration:[this.pilot_duration],
       product_name:[''],
     });
+
+    this.basicWizardForm = this.fb.group({
+      user_name: [''],
+      designation: [''],
+      email: [''],
+      mobile: [''],
+      organization_name: [this.organization_name],
+      product_name: [''],
+      third_party_org_name: [''],
+      hsa:[''],
+      vitals:[''],
+      ruw:['']
+
+    });
+
   }
 
   orgEdit(content: TemplateRef<NgbModal>){
@@ -168,22 +185,22 @@ export class OrganisationDetailsComponent implements OnInit {
     console.log('asdf',event.target.checked);
     if(product==='hsa'){
       this.product = product;
-      this.basicWizardForm.controls['ruw'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
+      this.OrgForm.controls['ruw'].setValue(false);
+      this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='ruw'){
       this.product = product;
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
+      this.OrgForm.controls['hsa'].setValue(false);
+      this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='vitals'){
       this.product = product;
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['ruw'].setValue(false);
+      this.OrgForm.controls['hsa'].setValue(false);
+      this.OrgForm.controls['ruw'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
@@ -199,13 +216,49 @@ export class OrganisationDetailsComponent implements OnInit {
     }
   }
 
+  demoPrgFunction(event:any, product:string){
+    console.log('asdf',event.target.checked);
+    if(product==='hsa'){
+      this.product = product;
+      this.OrgForm.controls['ruw'].setValue(false);
+      this.OrgForm.controls['vitals'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(product==='ruw'){
+      this.product = product;
+      this.OrgForm.controls['hsa'].setValue(false);
+      this.OrgForm.controls['vitals'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(product==='vitals'){
+      this.product = product;
+      this.OrgForm.controls['hsa'].setValue(false);
+      this.OrgForm.controls['ruw'].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+    if(event.target.checked){
+      this.listorg=4;
+      let details={name:product, index:this.list-1}
+      this.listdetails.push(details)
+    }
+    else{
+      this.listorg--;
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails.splice(selected,1);
+    }
+  }
+
   checkingForm(){
-    console.log('the form values => ',this.basicWizardForm.value)
+    console.log('the form values => ',this.OrgForm.value)
 
     this.basicWizardForm.removeControl('ruw');
     this.basicWizardForm.removeControl('hsa');
     this.basicWizardForm.removeControl('vitals');
     this.basicWizardForm.controls['product_name'].setValue(this.product);
+    this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
