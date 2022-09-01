@@ -30,6 +30,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/admin/",
             "localize": false,
             "aot": true,
             "outputPath": "dist/fedo-admin-ui",
