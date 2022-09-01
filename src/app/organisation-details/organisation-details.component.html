@@ -357,14 +357,13 @@
                                 </ng-template>
                         </li>
 
-                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                        <ng-template ngFor let-season [ngForOf]="listOrgDetails" let-i=index>                        
                             <li [ngbNavItem]="season.index">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">config {{season.name}}</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <p>salkd{{season.name}}</p>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
@@ -430,7 +429,7 @@
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
-                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');basicWizardForm.reset();list=3"
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">

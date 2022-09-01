@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   errorMessage='';
   files: File[] = [];
   srcImage:any='./assets/images/Logo - Fedo.png';
+  image:any=[];
 
 
 
@@ -107,9 +108,13 @@ export class HomeComponent implements OnInit {
   }
 
   onSelect(event: any) {
-
+    console.log('don');
+    
     this.files =[...event.addedFiles];
-    this.srcImage = event.addedFiles
+    this.srcImage = event.addedFiles;
+    this.image= event.addedFiles[0];
+    console.log('the file ', event.addedFiles[0])
+
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -127,6 +132,8 @@ export class HomeComponent implements OnInit {
     data.append('pilot_duration',this.basicWizardForm.value.pilot_duration);
     data.append('product_name',this.listdetails[0].name);
     data.append('url','https://www.fedo.ai/vitals/'+this.basicWizardForm.value.url);
+    console.log('this image => ,',this.image)
+    this.image==''? null:data.append('file', this.image, this.image.name)
     data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
     this.adminService.createOrg(data).subscribe({
       next: (res) => {

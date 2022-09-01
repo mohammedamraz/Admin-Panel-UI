@@ -1,5 +1,5 @@
 {
-    "/admin/api": {
+    "/sales/api": {
         "target": "https://log.fedo.health",
         "secure": false,
         "changeOrigin": true,
