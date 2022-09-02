@@ -50,7 +50,7 @@
                                                     name="userName" placeholder="Mobile Number" formControlName="mobile">
                                             </div>
                                         </div>
-                                        <div class="mt-3" style="display: grid;
+                                        <!-- <div class="mt-3" style="display: grid;
                                         grid-template-columns: 1fr 2fr;">
                                             <div class="form-check">
                                                 <input type="radio" id="customRadio1"[checked]="!thirdParty" name="customRadio" class="form-check-input" (click)="thirdParty=false">
@@ -60,7 +60,7 @@
                                                 <input type="radio" id="customRadio2" [checked]="false" name="customRadio" class="form-check-input" (click)="thirdParty=true">
                                                 <label class="form-check-label" for="customRadio2">Employee of Third-Party Tie-up</label>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-8" style=" padding-top: 1rem;padding-bottom: 1rem;" *ngIf="thirdParty">
                                             <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;
@@ -102,7 +102,7 @@
                                                         </div>
                                                         <p class="text-muted mb-1">Fedo HSA</p>
                                                         <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="hsa" (change)="demoFunction($event,'hsa')" class="form-check-input" id="customSwitch1">
+                                                            <input type="checkbox"  formControlName="hsa" (change)="demoFunction($event,'hsa')" class="form-check-input" id="customSwitch1">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,9 +150,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                      
-    
-                                    </div>
+                                      </div>
                                 </ng-template>
                         </li>
 
@@ -259,13 +257,13 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Email Address" formControlName="organization_email">
+                                                    name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile">
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile" [readonly]="true">
                                             </div>
                                         </div>
     
@@ -303,7 +301,7 @@
                                                         </div>
                                                         <p class="text-muted mb-1">Fedo HSA</p>
                                                         <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="hsa" (change)="demoFunction($event,'hsa')" class="form-check-input" id="customSwitch1">
+                                                            <input type="checkbox" formControlName="hsa" (change)="demoFunction($event,'hsa')" class="form-check-input" id="customSwitch1" [readonly]="orglogin">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -325,7 +323,7 @@
                                                         </div>
                                                         <p class="text-muted mb-1">Fedo Vitals</p>
                                                         <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="vitals" (change)="demoFunction($event,'vitals')" class="form-check-input" id="customSwitch1">
+                                                            <input type="checkbox" formControlName="vitals" (change)="demoFunction($event,'vitals')" class="form-check-input" id="customSwitch1" [readonly]="orglogin">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -347,7 +345,7 @@
                                                         </div>
                                                         <p class="text-muted mb-1">Fedo RUW</p>
                                                         <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="ruw"  (change)="demoFunction($event,'ruw')" class="form-check-input" id="customSwitch1">
+                                                            <input type="checkbox" formControlName="ruw"  (change)="demoFunction($event,'ruw')" class="form-check-input" id="customSwitch1" [readonly]="orglogin">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,8 +355,8 @@
                                 </ng-template>
                         </li>
 
-                        <ng-template ngFor let-season [ngForOf]="listOrgDetails" let-i=index>                        
-                            <li [ngbNavItem]="season.index">
+                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                            <li [ngbNavItem]="3">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">config {{season.name}}</span>
@@ -372,12 +370,12 @@
                                             <div style="place-self: center;padding-right: 0;">www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;
                                             border-radius: 4px;"
-                                                name="userName" placeholder="ABSLI" formControlName="url">
+                                                name="userName" placeholder="ABSLI" formControlName="url" [readonly]="orglogin">
                                             </div>
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
-                                                    <ngx-slider [value]="35" formControlName="pilot_duration"
+                                                    <ngx-slider [value]="35" formControlName="pilot_duration" 
                                                         [options]="{
                                                             floor: 0,
                                                             ceil: 100
@@ -387,7 +385,7 @@
                                             <div>
                                                 <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="demoFunction($event,'ruw')" class="form-check-input" formControlName="fedo_score" id="customSwitch1">
+                                                    <input type="checkbox" (change)="demoFunction($event,'ruw')" class="form-check-input" formControlName="fedo_score" [readonly]="orglogin" id="customSwitch1">
                                                 </div>
                                             </div>
                                         </div>
@@ -422,7 +420,7 @@
                     <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
                     <ul class="list-inline mb-0 wizard" >
                         <div id="liveAlertPlaceholder">
-                            <ngb-alert type="warning" *ngIf="showLiveAlert" (closed)="showLiveAlert = false">{{errorMessage}}</ngb-alert>
+                            <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
                         </div>
                         <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
                             <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
@@ -434,9 +432,9 @@
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
                             <button type="button" (click)="activeWizard2=activeWizard2+1" class="btn btn-secondary" 
-                                *ngIf=" activeWizard2<list-1">Next</button>
-                            <button type="button" class="btn btn-secondary" (click)="checkingForm()"
-                                *ngIf="activeWizard2!=2&&activeWizard2 == list-1">Submit</button>
+                                *ngIf="activeWizard2<list-1">Next</button>
+                            <button type="button" class="btn btn-secondary" (click)="checkingOrgForm()"
+                                *ngIf="activeWizard2 == list-1">Submit</button>
                         </li>
                     </ul>
     
@@ -451,7 +449,7 @@
 
 <div class="row" style="grid-auto-flow: column;
 display: grid;
-grid-template-columns: 1.5fr 1fr;">
+grid-template-columns: 8fr 4fr">
     <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
@@ -464,7 +462,7 @@ grid-template-columns: 1.5fr 1fr;">
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a href="javascript:void(0)" (click)="open(toggleModal2)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a href="javascript:void(0)" (click)="open(toggleModal2);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -503,27 +501,15 @@ grid-template-columns: 1.5fr 1fr;">
         </div>
     </div>
     <div class="" >
-        <div class="card" style="background: #313844; padding:1rem">
-            <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/Logo - Fedo.png'">
+        <div class="card" style="background: #313844; padding:1rem;display: grid;grid-template-rows: 1fr 1fr;">
+            <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'" >
                 <div  style="align-self: center;">
                     <div class="row align-items-center" style="    place-content: center;">
-                    <img [src]="srcImage" alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                    <img [src]="srcImage" alt="update an image" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
                 </div>
                 </div>
                 </div>
-                <div class="dropzone-previews" id="file-previews">
 
-                    <div id="uploadPreviewTemplate" *ngFor="let f of files">
-                        <div class="card mt-1 mb-0 shadow-none border">
-                            <div style="align-self: center;">
-                                <div class="row align-items-center" style="    place-content: center;">
-                                        <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 90%;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
-                                            [src]="getPreviewUrl(f)">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div  style="display: grid; 
                 grid-template-columns: min-content min-content;
@@ -559,15 +545,15 @@ grid-template-columns: 1fr 1fr;">
     <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid; padding-bottom: 0;padding-left: 0.7rem; ">
+                display: grid; padding-bottom: 0;padding-left: 0.7rem; " *ngIf="!orglogin">
                     <div >
-                        <p class="sub-header" style=" color: #fff;
+                        <h4 class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">{{organization_name}}</p>
+                        font-size: large;">Settings</h4>
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a (click)="open(toggleModal2)" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a (click)="open(toggleModal2);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>

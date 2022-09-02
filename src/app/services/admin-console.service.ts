@@ -13,7 +13,7 @@ export class AdminConsoleService {
 
   constructor(private readonly http: HttpClient) { }
 
-	public httpLoading$ = new BehaviorSubject<boolean>(true);
+	public httpLoading$ = new BehaviorSubject<boolean>(false);
 
 
 
@@ -46,6 +46,11 @@ export class AdminConsoleService {
       data.mobile='+91'+data.mobile;
     return this.http.post(`${API_URL}users`,data) ;
   }
+
+  patchOrg(id:number,data:any){
+    return this.http.patch(`${API_URL}org/${id}`,data);
+
+  }
    
 
   fetchLatestOrg(){
@@ -73,6 +78,16 @@ export class AdminConsoleService {
 
   orgAdmin(data:any){
     return this.http.post(`${API_URL}login/user`,data);
+  }
+  
+  forgetPassword(data:any){
+    
+    return this.http.post(`${API_URL}login/user`,data);
+  }
+
+  fetchOrgData(data:any){
+    
+    return this.http.get(`${API_URL}org/${data.organization_name}/${data.organization_email}/${data.organization_mobile}`,{observe:'response'})
   }
 
 

@@ -1,7 +1,7 @@
 <app-default-layout>
 
     <div class="text-center mb-4">
-        <h4 class="text-uppercase mt-0" i18n>Register</h4>
+        <h4 class="text-uppercase mt-0" style="color: #fff ;" i18n>Register</h4>
     </div>
 
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
@@ -12,7 +12,9 @@
         <div class="mb-3">
             <label for="fullname" class="form-label" i18n>Full Name</label>
             <input class="form-control" type="text" id="fullname" i18n-placeholder placeholder="Enter your name"
-                formControlName="name" required
+                formControlName="name" required style="    background: #383E4A;
+                border: 1px solid #444C5B;
+                border-radius: 4px;"
                 [ngClass]="{'is-invalid':formSubmitted && formValues['name'].invalid}" />
             <div *ngIf="formSubmitted && formValues['name'].invalid" class="invalid-feedback">
 
@@ -25,7 +27,9 @@
         <div class="mb-3">
             <label for="emailaddress" class="form-label" i18n>Email address</label>
             <input class="form-control" type="email" id="emailaddress" i18n-placeholder placeholder="Enter your email"
-                formControlName="email" required
+                formControlName="email" required style="    background: #383E4A;
+                border: 1px solid #444C5B;
+                border-radius: 4px;"
                 [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
             <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
 
@@ -41,7 +45,9 @@
         <div class="mb-3">
             <label for="password" class="form-label" i18n>Password</label>
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
-                formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}"
+                formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
+                border: 1px solid #444C5B;
+                border-radius: 4px;"
                 required />
             <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
@@ -51,13 +57,13 @@
 
             </div>
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="checkbox-signup">
                 <label class="form-check-label" for="checkbox-signup" i18n>I accept <a href="javascript: void(0);"
                         class="text-dark">Terms and Conditions</a></label>
             </div>
-        </div>
+        </div> -->
         <div class="mb-3 text-center d-grid">
             <button class="btn btn-primary" type="submit" i18n> Sign Up </button>
         </div>

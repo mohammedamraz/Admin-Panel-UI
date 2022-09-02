@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   showLiveAlert=false;
   errorMessage='';
   files: File[] = [];
-  srcImage:any='./assets/images/Logo - Fedo.png';
+  srcImage:any='./assets/images/fedo-logo-white.png';
   image:any=[];
 
 
@@ -139,16 +139,12 @@ export class HomeComponent implements OnInit {
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard1=this.activeWizard1+1;
-        // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
-        // this.formGroupDirective?.resetForm();
       },
       error: (err) => {
         console.log('the failure=>',err);
         this.errorMessage=err;
         this.showLiveAlert=true;
-      //    { this.snackBar.open(err.error.message,'', {
-      //   duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'red'
-      // }); }
+
       },
       complete: () => { }
     });
@@ -188,6 +184,38 @@ export class HomeComponent implements OnInit {
 
   getPreviewUrl(f: File) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(encodeURI(URL.createObjectURL(f)));
+  }
+
+  fetchData(){
+    this.showLiveAlert=false;
+
+    if(this.activeWizard1 == 1){
+        let data ={
+            organization_name: this.basicWizardForm.value.organization_name,
+            organization_email: this.basicWizardForm.value.organization_email,
+            organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+
+        };
+    this.adminService.fetchOrgData(data).subscribe({
+        next: (data:any)=>{
+
+        },
+        error:(data:any)=>{
+            console.log('the error =>',data);
+            if(data !=='organization exist with organization name, email id and mobile no.'){
+                this.activeWizard1 = this.activeWizard1+1;
+            }
+            else{
+                this.errorMessage=data;
+                this.showLiveAlert=true;
+            }
+        }
+    })
+
+    }
+    else{
+        this.activeWizard1 = this.activeWizard1+1;
+    }
   }
 
 }

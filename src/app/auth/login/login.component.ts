@@ -67,9 +67,6 @@ export class LoginComponent implements OnInit {
           console.log('asdf',error)
           this.error = 'username or password is incorrect';
           this.loading = false;
-          sessionStorage.setItem('currentUser', JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-          ) );
            this.router.navigate(['/home']);
         }});
 

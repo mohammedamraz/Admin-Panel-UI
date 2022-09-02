@@ -19,16 +19,17 @@ export class OrganisationDetailsComponent implements OnInit {
   basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
-  list: number = 4;
+  list: number = 3;
   listorg:number =3;
   orglist:number =3;
   listdetails:any[]=[];
-  listOrgDetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
+  showOrgLiveAlert=false;
+  errorOrgMessage = '';
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
-  srcImage:any='./assets/images/Logo - Fedo.png';
+  srcImage:any='./assets/images/fedo-logo-white.png';
 
   //details
   organization_name:any='';
@@ -52,10 +53,11 @@ export class OrganisationDetailsComponent implements OnInit {
   updated_date:any='';
   url:any='';
   daysLeft:any=0;
+  orglogin:boolean=false;
   
 
   thirdParty=false;
-  product='';
+  product='vitals';
   tableData:any[]=[];
 
 
@@ -69,6 +71,15 @@ export class OrganisationDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+
+    let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
+    console.log('hi bro',data )
+    if(!data.orglogin){
+      this.orglogin=data.orglogin;
+      this.list=4;
+      this.listdetails=[{name:'vital', index:0}];
+    }
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
@@ -100,14 +111,23 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.OrgForm.controls['organization_name'].setValue(this.organization_name);
+        this.adminService.fetchAllUserOfOrg(this.id).subscribe(
+          (doc:any) => {this.tableData=doc;}
+        )
         },
       error:(err)=>{
         console.log('the error', err);
       }
     })
 
-    this.listdetails=[{name:'hsa', index:0}]
+
+    // this.adminService.httpLoading$.subscribe(
+    //   (httpInProgress:boolean) => {
+    //      this.orglogin=httpInProgress;
+    //      console.log('you got on',httpInProgress)
+    //      this.cdr.detectChanges();
+    //    }
+    //  );
 
 
     this.adminService.fetchLatestOrg().subscribe
@@ -129,7 +149,7 @@ export class OrganisationDetailsComponent implements OnInit {
       designation:[this.designation],
       url:[this.url],
       pilot_duration:[this.pilot_duration],
-      product_name:[''],
+      product_name:['vitals'],
     });
 
     this.basicWizardForm = this.fb.group({
@@ -140,13 +160,28 @@ export class OrganisationDetailsComponent implements OnInit {
       organization_name: [this.organization_name],
       product_name: [''],
       third_party_org_name: [''],
-      hsa:[''],
-      vitals:[''],
-      ruw:['']
+      hsa:[false],
+      vitals:[true],
+      ruw:[false]
 
     });
 
   }
+
+  prepopulateOrgFormforEdit(){
+    this.OrgForm.controls['organization_name'].setValue(this.organization_name);
+    this.OrgForm.controls['admin_name'].setValue(this.admin_name);
+    this.OrgForm.controls['organization_email'].setValue(this.organization_email);
+    this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile);
+    this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
+    this.OrgForm.controls['hsa'].setValue(false);
+    this.OrgForm.controls['ruw'].setValue(false);
+    this.OrgForm.controls['vitals'].setValue(true);
+    this.OrgForm.controls['designation'].setValue(this.designation);
+    this.OrgForm.controls['url'].setValue(this.url);
+    this.OrgForm.controls['pilot_duration'].setValue(this.pilot_duration);
+    this.OrgForm.controls['product_id'].setValue(1);
+ }
 
   orgEdit(content: TemplateRef<NgbModal>){
     this.modalService.open(content, { centered: true });
@@ -277,5 +312,24 @@ export class OrganisationDetailsComponent implements OnInit {
       complete: () => { }
     });
   } 
+
+  checkingOrgForm(){
+    this.OrgForm.removeControl('ruw');
+    this.OrgForm.removeControl('hsa');
+    this.OrgForm.removeControl('vitals');
+    this.OrgForm.controls['product_name'].setValue(this.product);
+    this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+        this.activeWizard2=this.activeWizard2+1;
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorOrgMessage=err;
+        this.showOrgLiveAlert=true;
+      },
+      complete: () => { }
+    });
+  }
 
 }
