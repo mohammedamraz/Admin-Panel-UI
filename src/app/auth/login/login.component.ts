@@ -65,9 +65,7 @@ export class LoginComponent implements OnInit {
         },
         error: (error: string) => {
           console.log('asdf',error)
-          this.error = 'username or password is incorrect';
-          this.loading = false;
-           this.router.navigate(['/home']);
+
         }});
 
 

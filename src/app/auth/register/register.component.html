@@ -10,21 +10,21 @@
             {{ error }}
         </ngb-alert>
         <div class="mb-3">
-            <label for="fullname" class="form-label" i18n>Full Name</label>
-            <input class="form-control" type="text" id="fullname" i18n-placeholder placeholder="Enter your name"
+            <!-- <label for="fullname" class="form-label" i18n>Full Name</label> -->
+            <!-- <input class="form-control" type="text" id="fullname" i18n-placeholder placeholder="Enter your name"
                 formControlName="name" required style="    background: #383E4A;
                 border: 1px solid #444C5B;
                 border-radius: 4px;"
-                [ngClass]="{'is-invalid':formSubmitted && formValues['name'].invalid}" />
-            <div *ngIf="formSubmitted && formValues['name'].invalid" class="invalid-feedback">
+                [ngClass]="{'is-invalid':formSubmitted && formValues['name'].invalid}" /> -->
+            <!-- <div *ngIf="formSubmitted && formValues['name'].invalid" class="invalid-feedback">
 
                 <div *ngIf="formValues['name'].errors?.['required']" i18n>
                     Name is required.
                 </div>
 
-            </div>
+            </div> -->
         </div>
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="signUp === false">
             <label for="emailaddress" class="form-label" i18n>Email address</label>
             <input class="form-control" type="email" id="emailaddress" i18n-placeholder placeholder="Enter your email"
                 formControlName="email" required style="    background: #383E4A;
@@ -42,7 +42,7 @@
 
             </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="signUp === false">
             <label for="password" class="form-label" i18n>Password</label>
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
                 formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
@@ -54,6 +54,36 @@
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
                     Password is required.
                 </div>
+
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="signUp === false">
+            <label for="password" class="form-label" i18n>Confirm Password</label>
+            <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
+                formControlName="confirmPassword" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
+                border: 1px solid #444C5B;
+                border-radius: 4px;"
+                required />
+            <div *ngIf="formSubmitted && formValues['confirmPassword'].invalid " class="invalid-feedback">
+
+                <div *ngIf="formValues['confirmPassword'].errors?.['required']" i18n>
+                    Password is required.
+                </div>
+
+            </div>
+        </div>
+        <div class="mb-3" *ngIf="signUp === true">
+            <label for="password" class="form-label" i18n>Confirmation Code</label>
+            <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your Confirmation Code"
+                formControlName="ConfirmationCode" [ngClass]="{'is-invalid':formSubmitted && formValues['ConfirmationCode'].invalid}" style="background: #383E4A;
+                border: 1px solid #444C5B;
+                border-radius: 4px;"
+                required />
+            <div *ngIf="formSubmitted && formValues['ConfirmationCode'].invalid " class="invalid-feedback">
+<!-- 
+                <div *ngIf="formValues['ConfirmationCode'].errors?.['required']" i18n>
+                    Password is required.
+                </div> -->
 
             </div>
         </div>

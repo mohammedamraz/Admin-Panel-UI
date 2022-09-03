@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
 
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
-    this.srcImage = './assets/images/Logo - Fedo.png';
+    this.srcImage = './assets/images/fedo-logo-white.png';
 
   }
 

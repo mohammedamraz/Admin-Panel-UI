@@ -205,13 +205,14 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
-    this.srcImage = './assets/images/Logo - Fedo.png';
+    this.srcImage = './assets/images/fedo-logo-white.png';
 
   }
   onSelect(event: any) {
 
     this.files =[...event.addedFiles];
-    this.srcImage = event.addedFiles
+    console.log('the iage',event.addedFiles)
+    this.srcImage = this.getPreviewUrl(event.addedFiles[0])
   }
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });

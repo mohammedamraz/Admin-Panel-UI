@@ -500,9 +500,9 @@ grid-template-columns: 8fr 4fr">
 
         </div>
     </div>
-    <div class="" >
-        <div class="card" style="background: #313844; padding:1rem;display: grid;grid-template-rows: 1fr 1fr;">
-            <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'" >
+    <div class="" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'" >
+        <div  class="card" style="background: #313844; padding:1rem;display: grid;grid-template-rows: 1fr 1fr;">
+            <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'" >
                 <div  style="align-self: center;">
                     <div class="row align-items-center" style="    place-content: center;">
                     <img [src]="srcImage" alt="update an image" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
@@ -537,6 +537,23 @@ grid-template-columns: 8fr 4fr">
 
                 </div>
         </div>
+
+
+    </div>
+
+    <div style=" padding: 1rem;
+        align-self: center;    margin-bottom: 1.5rem;
+        background: #313844;" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
+        <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="height: auto !important;    padding-top: 6rem;
+        padding-bottom: 4rem;    background: #313844;"
+        accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone-label>
+            <i class="h1 text-muted dripicons-cloud-upload"></i>
+            <h3 style="font-size: initial; color: #AEB5BD;">Drop files here or click to upload.</h3>
+        </ngx-dropzone-label>
+
+    </ngx-dropzone>
+
     </div>
 </div>
 

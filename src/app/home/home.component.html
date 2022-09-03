@@ -183,7 +183,7 @@
                                             </div>
                                         </div>
                                    
-                                            <div class="card" style="background: #313844; padding:1rem">
+                                            <div class="card" style="background: #313844; padding:1rem" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'">
                                                 <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
                                                     <div  style="align-self: center;">
                                                         <div class="row align-items-center" style="    place-content: center;">
@@ -230,6 +230,18 @@
                                                     </div>
                                     
                                                     </div>
+                                            </div>
+
+                                            <div *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
+                                                <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="height: auto !important;    background: #313844;"
+                                                accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                <ngx-dropzone-label>
+                                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    <h3 style="font-size: initial; color: #AEB5BD;">Drop files here or click to upload.</h3>
+                                                </ngx-dropzone-label>
+                        
+                                            </ngx-dropzone>
+
                                             </div>
                             
 

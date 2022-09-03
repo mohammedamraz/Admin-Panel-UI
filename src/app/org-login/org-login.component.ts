@@ -60,18 +60,11 @@ export class OrgLoginComponent implements OnInit {
           {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
         ) );
         this.adminConsoleService.httpLoading$.next(true);
-         this.router.navigate(['/orgdetails',7]);
+        this.router.navigate(['/orgdetails',data.user_data.id]);
         },
         error: (error: string) => {
-          sessionStorage.setItem('currentUser', JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
-          ) );
-          this.adminConsoleService.httpLoading$.next(true);
-          this.router.navigate(['/orgdetails',7]);
-
           console.log('asdf',error)
-          this.error = 'username or password is incorrect';
-          this.loading = false;
+
         }});
 
 

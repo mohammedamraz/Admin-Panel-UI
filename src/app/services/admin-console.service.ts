@@ -84,11 +84,29 @@ export class AdminConsoleService {
     
     return this.http.post(`${API_URL}login/user`,data);
   }
-
+  
   fetchOrgData(data:any){
     
-    return this.http.get(`${API_URL}org/${data.organization_name}/${data.organization_email}/${data.organization_mobile}`,{observe:'response'})
+    return this.http.get(`${API_URL}org/${data.organization_name}/${data.organization_email}/${data.organization_mobile}`)
   }
+  
+  signup(data:any){
+
+    return this.http.post(`${API_URL}signup/user`,data);
+  }
+
+  ConfirmSignup(data:any){
+
+    return this.http.post(`${API_URL}confirm/signup`,data);
+  }
+
+  forgotPassword(data:any){
+
+    return this.http.post(`${API_URL}password`,data);
+  }
+
+
+
 
 
 
