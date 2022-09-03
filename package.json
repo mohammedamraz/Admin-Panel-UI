@@ -68,7 +68,6 @@
     "@angular-devkit/build-angular": "~13.2.0",
     "@angular/cli": "~13.2.0",
     "@angular/compiler-cli": "~13.2.0",
-    "@angular/localize": "13.2.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "@types/node-forge": "^1.0.4",
