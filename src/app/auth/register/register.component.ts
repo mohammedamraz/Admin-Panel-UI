@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/core/service/auth.service';
 
 // types
 import { User } from 'src/app/core/models/auth.models';
+import { AdminConsoleService } from 'src/app/services/admin-console.service';
 
 @Component({
   selector: 'app-auth-register',
@@ -17,19 +18,24 @@ import { User } from 'src/app/core/models/auth.models';
 export class RegisterComponent implements OnInit {
 
   signUpForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
+    confirmPassword: ['', [Validators.required]],
+    ConfirmationCode: ['']
   });;
   formSubmitted: boolean = false;
   showPassword: boolean = false;
   loading: boolean = false;
   error: string = '';
+  signUp:boolean = false;
 
   constructor (
     private fb: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private readonly adminService: AdminConsoleService,
+    private cdr: ChangeDetectorRef,
+
   ) { }
 
   ngOnInit(): void {
@@ -48,21 +54,80 @@ export class RegisterComponent implements OnInit {
    */
   onSubmit(): void {
     this.formSubmitted = true;
+    this.error='';
 
-    if (this.signUpForm.valid) {
-      this.loading = true;
-      this.authenticationService.signup(this.formValues['name'].value, this.formValues['email'].value, this.formValues['password'].value)
-        .pipe(first())
-        .subscribe(
-          (data: User) => {
-            // navigates to confirm mail screen
-            this.router.navigate(['/auth/confirm-mail']);
+    console.log('the ', this.signUpForm.value)
+
+    if(this.signUp == false){
+      if(this.signUpForm.value.password === this.signUpForm.value.confirmPassword ){
+        this.adminService.signup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email})
+        .subscribe({
+          next: (data: any) => {
+            console.log('there is a ssuucesesdf',data);
+            this.signUp = true;
+            
           },
-          (error: string) => {
+          error: (error: string) => {
             this.error = error;
-            this.loading = false;
-          });
+            this.cdr.detectChanges();
+  
+           }});
+      }
+      else{
+        this.error = 'Invalid password'
+      }
     }
+    else{
+      console.log('the vilayutu', this.signUpForm.value.ConfirmationCode)
+      this.adminService.ConfirmSignup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email,ConfirmationCode: this.signUpForm.value.ConfirmationCode })
+      .subscribe({
+        next: (data: any) => {
+          console.log('there is a ssuucesesdf',data);
+          sessionStorage.setItem('currentUser', JSON.stringify(
+            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
+          ) );
+          this.adminService.loginAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
+          .pipe(first())
+          .subscribe({
+           next: (data: any) => {
+             console.log('there is a ssuucesesdf',data)
+             sessionStorage.setItem('currentUser', JSON.stringify(
+              {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
+            ) );
+            this.router.navigate(['/orgdetails',data.user_data.id]);
+            },
+            error: (error: string) => {
+              console.log('asdf',error)
+              this.error = 'username or password is incorrect';
+              this.loading = false;
+                this.router.navigate(['/orgdetails',data.user_data.id]);
+                this.error = '';
+
+            }});
+
+         },
+         error: (error: string) => {
+           console.log('asdf',error)
+           this.error = 'invalidcode';
+
+
+         }});
+    }
+
+    // if (this.signUpForm.valid) {
+    //   this.loading = true;
+      // this.authenticationService.signup(this.formValues['name'].value, this.formValues['email'].value, this.formValues['password'].value)
+      //   .pipe(first())
+      //   .subscribe(
+      //     (data: User) => {
+      //       // navigates to confirm mail screen
+      //       this.router.navigate(['/auth/confirm-mail']);
+      //     },
+      //     (error: string) => {
+      //       this.error = error;
+      //       this.loading = false;
+      //     });
+    // }
   }
 
 
