@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
     email: ['1316695882', [Validators.required,]],
-    password: ['Gowda@967', Validators.required]
+    password: ['Gowda@967', Validators.required],
+    rememberMe:[true]
   });
   formSubmitted: boolean = false;
   error: string = '';
@@ -58,9 +59,16 @@ export class LoginComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
          console.log('there is a ssuucesesdf',data)
-         sessionStorage.setItem('currentUser', JSON.stringify(
-          {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-        ) );
+        if(this.formValues['rememberMe'].value){
+          localStorage.setItem("currentUser", JSON.stringify(
+            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
+          ))
+        }
+        else{
+          sessionStorage.setItem('currentUser', JSON.stringify(
+            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
+          ) );
+        }
          this.router.navigate(['/home']);
         },
         error: (error: string) => {

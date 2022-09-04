@@ -104,6 +104,10 @@ export class AdminConsoleService {
 
     return this.http.post(`${API_URL}password`,data);
   }
+  confirmPassword(data:any){
+
+    return this.http.post(`${API_URL}password/otp`,data);
+  }
 
 
 

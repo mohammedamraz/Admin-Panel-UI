@@ -63,10 +63,8 @@ export class RecoverPasswordComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
         this.orgLogin = true;
-        if (this.resetPassswordForm.valid) {
           this.successMessage = "We have sent you an email containing a link to reset your password";
           this.titleString =''
-        }
         //  this.router.navigate(['/home']);
         },
         error: (error: string) => {
@@ -81,7 +79,7 @@ export class RecoverPasswordComponent implements OnInit {
     }
     else{
       if(this.resetFormValues['password'].value === this.resetFormValues['confirmPassword'].value){
-        this.adminService.forgotPassword({username: this.resetForm.value.email,password:this.resetForm.value.password,ConfirmationCode: this.resetForm.value.ConfirmationCode})
+        this.adminService.confirmPassword({username: this.resetForm.value.email,password:this.resetForm.value.password,ConfirmationCode: this.resetForm.value.ConfirmationCode})
       .pipe(first())
       .subscribe({
        next: (data: any) => {
