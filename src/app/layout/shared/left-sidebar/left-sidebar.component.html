@@ -134,7 +134,7 @@
 </ng-template>
 
 <ng-template #MenuItemLink let-menu="menu" let-className="className">
-    <a [ngStyle]="{'pointer-events': orglogin ? 'fill':'none'}" [routerLink]="menu.url" [class]="className" [ngClass]="{'active': activeMenuItems.includes(menu.key)}"
+    <a [ngStyle]="{'pointer-events': orglogin ? 'none':'fill'}" [routerLink]="menu.url" [class]="className" [ngClass]="{'active': activeMenuItems.includes(menu.key)}"
         [attr.data-menu-key]="menu.key">
         <i [class]="menu.icon" *ngIf="menu.icon"></i>
         <span class="badge bg-{{menu.badge.variant}}  rounded-pill float-end"
