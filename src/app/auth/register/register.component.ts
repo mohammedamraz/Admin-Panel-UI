@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit {
           error: (error: string) => {
             this.error = error;
             this.cdr.detectChanges();
-  
+            this.signUp = true;
            }});
       }
       else{
@@ -101,38 +101,24 @@ export class RegisterComponent implements OnInit {
             },
             error: (error: string) => {
               console.log('asdf',error)
-              // this.error = 'User Registration is successfull, please use Vitals app to Sign In';
-
+              
               this.error = 'username or password is incorrect';
               this.loading = false;
-                this.router.navigate(['/orgdetails',data.user_data.id]);
-                this.error = '';
-
+              this.router.navigate(['/orgdetails',data.user_data.id]);
+              this.error = 'User Registration is successfull, please use Vitals app to Sign In';
+              // this.error = '';
+              
             }});
-
-         },
-         error: (error: string) => {
-           console.log('asdf',error)
-           this.error = 'invalidcode';
+            
+          },
+          error: (error: string) => {
+            console.log('asdf',error)
+            this.error = 'invalidcode';
 
 
          }});
     }
 
-    // if (this.signUpForm.valid) {
-    //   this.loading = true;
-      // this.authenticationService.signup(this.formValues['name'].value, this.formValues['email'].value, this.formValues['password'].value)
-      //   .pipe(first())
-      //   .subscribe(
-      //     (data: User) => {
-      //       // navigates to confirm mail screen
-      //       this.router.navigate(['/auth/confirm-mail']);
-      //     },
-      //     (error: string) => {
-      //       this.error = error;
-      //       this.loading = false;
-      //     });
-    // }
   }
 
 
