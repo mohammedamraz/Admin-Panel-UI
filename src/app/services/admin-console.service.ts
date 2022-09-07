@@ -63,18 +63,18 @@ export class AdminConsoleService {
   loginAdmin(formData: any) {
 
     console.debug('UsersConsoleService/loginAdmin()')
-    const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-    let base64Encrypted =  publicKey.encrypt(JSON.stringify(formData),'RSA-OAEP');
-    return this.http.post(`${API_ADMIN_URL}login`,{passcode:(Forge.util.encode64(base64Encrypted))})
-    .pipe(
-      catchError(err =>{throw new Error("")}),
-      map((doc:any)=>{
-        if(formData.checkBox==true){
-          localStorage.setItem("jwtToken",doc.jwtToken)
-        }
-        else sessionStorage.setItem("jwtToken",doc.jwtToken)
-        return doc
-      }))
+    // const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
+    // let base64Encrypted =  publicKey.encrypt(JSON.stringify(formData),'RSA-OAEP');
+    return this.http.post(`${API_URL}login/org`,formData)
+    // .pipe(
+    //   catchError(err =>{throw new Error("")}),
+    //   map((doc:any)=>{
+    //     if(formData.checkBox==true){
+    //       localStorage.setItem("jwtToken",doc.jwtToken)
+    //     }
+    //     else sessionStorage.setItem("jwtToken",doc.jwtToken)
+    //     return doc
+    //   }))
   }
 
   orgAdmin(data:any){

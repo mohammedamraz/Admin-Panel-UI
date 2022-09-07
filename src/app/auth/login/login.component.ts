@@ -18,7 +18,7 @@ import { AdminConsoleService } from 'src/app/services/admin-console.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    email: ['1316695882', [Validators.required,]],
+    email: ['vomahol122@esmoud.com', [Validators.required,]],
     password: ['Gowda@967', Validators.required],
     rememberMe:[true]
   });
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      this.loading = true;
+      // this.loading = true;
 
 // check if this is the url we are saving for the org login
 // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
         },
         error: (error: string) => {
           console.log('asdf',error)
-
+          this.error = 'invalid username or password';
         }});
 
 

@@ -160,7 +160,7 @@
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: min-content max-content;">
-                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/vital/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;    width: 50%;
                                             border-radius: 4px;"
                                                 name="userName" placeholder="ABSLI" formControlName="url">
@@ -414,8 +414,8 @@
                             <th scope="row">{{indexOfelement+1}}</th>
                             <td>{{person.organization_name}}</td>
                             <td>
-                                <div class="row">
-                                    <div class="col-xl-5 col-md-6">
+                                <div class="">
+                                    <div class=" ">
                                         fedo(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
                                         <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                     </div>
