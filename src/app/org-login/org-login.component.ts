@@ -57,16 +57,13 @@ export class OrgLoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
        next: (data: any) => {
-         console.log('there is a ssuucesesdf',data)
+         console.log('there is a ssuucesesdf',data);
+         data['orglogin']=true;
         if(this.formValues['rememberMe'].value){
-          localStorage.setItem("currentUser", JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
-          ))
+          localStorage.setItem("currentUser", JSON.stringify(data))
         }
         else{
-          sessionStorage.setItem('currentUser', JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
-          ) );
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         this.adminConsoleService.httpLoading$.next(true);
         this.router.navigate(['/orgdetails',data.user_data.id]);

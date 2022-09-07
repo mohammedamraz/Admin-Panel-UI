@@ -63,14 +63,11 @@ export class LoginComponent implements OnInit {
        next: (data: any) => {
          console.log('there is a ssuucesesdf',data)
         if(this.formValues['rememberMe'].value){
-          localStorage.setItem("currentUser", JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-          ))
+          localStorage.setItem("currentUser", JSON.stringify(data))
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         else{
-          sessionStorage.setItem('currentUser', JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-          ) );
+          sessionStorage.setItem('currentUser', JSON.stringify(data));
         }
          this.router.navigate(['/home']);
         },
@@ -80,19 +77,6 @@ export class LoginComponent implements OnInit {
         }});
 
 
-
-      // this.authenticationService.login(this.formValues['email'].value, this.formValues['password'].value)
-      //   .pipe(first())
-      //   .subscribe(
-      //     (data: User) => {
-
-
-      //       this.router.navigate(['/home']);
-      //     },
-      //     (error: string) => {
-      //       this.error = error;
-      //       this.loading = false;
-      //     });
     }
   }
 
