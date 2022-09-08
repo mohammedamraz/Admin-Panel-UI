@@ -333,4 +333,33 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   }
 
+
+  // the functions below are written to change or upload an image and also to delete the image
+
+  uploadImageForOrganization(id:any,file:any){
+
+  this.adminService.updateImageLogoInOrgDb(id,file).subscribe({
+    next: (res) => {
+      
+    },
+    error: (err) => {
+      
+    },
+    complete: () => { }
+  });
+}
+
+deleteImageForOrganization(id:any){
+
+  this.adminService.deleteImageLogoFromOrgDb(id).subscribe({
+    next: (res) => {
+      
+    },
+    error: (err) => {
+      
+    },
+    complete: () => { }
+  });
+}
+
 }
