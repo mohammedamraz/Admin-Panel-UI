@@ -1,11 +1,12 @@
 {
     "/sales/api/": {
-        "target": "https://log.fedo.health/",
+        "target": "https://fedo.ai/",
         "secure": false,
         "changeOrigin": true,
         "headers": {
             "Connection": "keep-alive"
         },
+
         "logLevel": "debug"
     }
 }
