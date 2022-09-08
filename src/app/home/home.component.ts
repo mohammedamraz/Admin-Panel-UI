@@ -124,17 +124,17 @@ export class HomeComponent implements OnInit {
   checkingForm(){
     console.log('the form values => ',this.basicWizardForm.value)
     var data = new FormData();
+    data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('admin_name', this.basicWizardForm.value.admin_name);
-    data.append('designation', this.basicWizardForm.value.designation);
     data.append('organization_email', this.basicWizardForm.value.organization_email);
     data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
-    data.append('organization_name',this.basicWizardForm.value.organization_name);
+    data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
+    data.append('designation', this.basicWizardForm.value.designation);
     data.append('pilot_duration',this.basicWizardForm.value.pilot_duration);
-    data.append('product_name',this.listdetails[0].name);
-    data.append('url','https://www.fedo.ai/vitals/'+this.basicWizardForm.value.url);
+    data.append('product_id','1');
+    data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
-    data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
     this.adminService.createOrg(data).subscribe({
       next: (res) => {
         console.log('the success=>',res);
@@ -198,17 +198,14 @@ export class HomeComponent implements OnInit {
         };
     this.adminService.fetchOrgData(data).subscribe({
         next: (data:any)=>{
-
+          this.activeWizard1 = this.activeWizard1+1;
         },
         error:(data:any)=>{
             console.log('the error =>',data);
-            if(data !=='organization exist with organization name, email id and mobile no.'){
-                this.activeWizard1 = this.activeWizard1+1;
-            }
-            else{
+     
                 this.errorMessage=data;
                 this.showLiveAlert=true;
-            }
+            
         }
     })
 

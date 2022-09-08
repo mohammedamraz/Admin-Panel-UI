@@ -18,7 +18,7 @@ import { AdminConsoleService } from 'src/app/services/admin-console.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    email: ['1316695882', [Validators.required,]],
+    email: ['vomahol122@esmoud.com', [Validators.required,]],
     password: ['Gowda@967', Validators.required],
     rememberMe:[true]
   });
@@ -52,7 +52,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      this.loading = true;
+      // this.loading = true;
+
+// check if this is the url we are saving for the org login
+// this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
 
       this.adminService.loginAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
       .pipe(first())
@@ -60,36 +63,20 @@ export class LoginComponent implements OnInit {
        next: (data: any) => {
          console.log('there is a ssuucesesdf',data)
         if(this.formValues['rememberMe'].value){
-          localStorage.setItem("currentUser", JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-          ))
+          localStorage.setItem("currentUser", JSON.stringify(data))
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         else{
-          sessionStorage.setItem('currentUser', JSON.stringify(
-            {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-          ) );
+          sessionStorage.setItem('currentUser', JSON.stringify(data));
         }
          this.router.navigate(['/home']);
         },
         error: (error: string) => {
           console.log('asdf',error)
-
+          this.error = 'invalid username or password';
         }});
 
 
-
-      // this.authenticationService.login(this.formValues['email'].value, this.formValues['password'].value)
-      //   .pipe(first())
-      //   .subscribe(
-      //     (data: User) => {
-
-
-      //       this.router.navigate(['/home']);
-      //     },
-      //     (error: string) => {
-      //       this.error = error;
-      //       this.loading = false;
-      //     });
     }
   }
 

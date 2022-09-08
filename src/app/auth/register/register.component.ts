@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit {
           error: (error: string) => {
             this.error = error;
             this.cdr.detectChanges();
-  
+            this.signUp = true;
            }});
       }
       else{
@@ -86,48 +86,50 @@ export class RegisterComponent implements OnInit {
           sessionStorage.setItem('currentUser', JSON.stringify(
             {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token",orglogin:true}
           ) );
-          this.adminService.loginAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
-          .pipe(first())
-          .subscribe({
-           next: (data: any) => {
-             console.log('there is a ssuucesesdf',data)
-             sessionStorage.setItem('currentUser', JSON.stringify(
-              {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-            ) );
-            this.router.navigate(['/orgdetails',data.user_data.id]);
+// this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
+// have to give a route in place of error  when error is happening it should not route it should give registration succeful
+
+
+this.adminService.loginAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
+.pipe(first())
+.subscribe({
+  next: (data: any) => {
+    console.log('there is a ssuucesesdf',data)
+    sessionStorage.setItem('currentUser', JSON.stringify(
+      {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
+      ) );
+      this.adminService.updateRegister(data.user_data.id).subscribe({
+            next:(data:any) =>{
+                console.log('there is a status updated',data);
+            
+              },
+              error:(error: string) => {
+                console.log('error =>',error)
+                
+              }
+            })
+            this.router.navigate(['/orgdetails', data.user_data.id]);
             },
             error: (error: string) => {
               console.log('asdf',error)
+              
               this.error = 'username or password is incorrect';
               this.loading = false;
-                this.router.navigate(['/orgdetails',data.user_data.id]);
-                this.error = '';
-
+              this.router.navigate(['/orgdetails',data.user_data.id]);
+              this.error = 'User Registration is successfull, please use Vitals app to Sign In';
+              // this.error = '';
+              
             }});
-
-         },
-         error: (error: string) => {
-           console.log('asdf',error)
-           this.error = 'invalidcode';
+            
+          },
+          error: (error: string) => {
+            console.log('asdf',error)
+            this.error = 'invalidcode';
 
 
          }});
     }
 
-    // if (this.signUpForm.valid) {
-    //   this.loading = true;
-      // this.authenticationService.signup(this.formValues['name'].value, this.formValues['email'].value, this.formValues['password'].value)
-      //   .pipe(first())
-      //   .subscribe(
-      //     (data: User) => {
-      //       // navigates to confirm mail screen
-      //       this.router.navigate(['/auth/confirm-mail']);
-      //     },
-      //     (error: string) => {
-      //       this.error = error;
-      //       this.loading = false;
-      //     });
-    // }
   }
 
 

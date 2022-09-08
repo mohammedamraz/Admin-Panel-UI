@@ -21,6 +21,9 @@ function getAllUsers(): User[] {
 function loggedInUser(): User | null {
     let user: User | null = {};
     user = JSON.parse(sessionStorage.getItem('currentUser')!);
+    if(user == null){
+        user = JSON.parse(localStorage.getItem('currentUser')!);
+    }
     return user;
 }
 
