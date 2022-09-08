@@ -27,10 +27,8 @@ export class AuthOrgGuard implements CanActivate {
 
         //need to implement decription
         let snapshotParam:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).org_id;
-        console.log('snapshot', snapshotParam)
         this.adminConsoleService.fetchOrgById(snapshotParam).subscribe({
             next: (res:any) => {
-                console.log('doc', res)
               if(res[0].is_register) {
                   this.router.navigate(['./auth/orgLogin'], );
             }

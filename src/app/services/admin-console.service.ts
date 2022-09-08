@@ -203,7 +203,11 @@ export class AdminConsoleService {
 
     return this.http.post(`${API_URL}password/otp`,data);
   }
-
+  
+  updateRegister(id:any){
+    
+    return this.http.patch(`${API_URL}org/register/status/${id}`,{});
+  }
 
 
 
