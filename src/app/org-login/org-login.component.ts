@@ -61,6 +61,7 @@ export class OrgLoginComponent implements OnInit {
          data['orglogin']=true;
         if(this.formValues['rememberMe'].value){
           localStorage.setItem("currentUser", JSON.stringify(data))
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         else{
           sessionStorage.setItem('currentUser', JSON.stringify(data) );

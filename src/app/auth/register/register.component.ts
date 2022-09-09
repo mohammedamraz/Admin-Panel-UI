@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
 // have to give a route in place of error  when error is happening it should not route it should give registration succeful
 
 
-this.adminService.loginAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
+this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
 .pipe(first())
 .subscribe({
   next: (data: any) => {
