@@ -111,7 +111,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.adminService.fetchAllUserOfOrg(this.id).subscribe(
+        this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;}
         )
         },
@@ -133,7 +133,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.fetchLatestOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc})
 
-    this.adminService.fetchAllUserOfOrg(this.id).subscribe(
+    this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
       (doc:any) => {this.tableData=doc;}
     )
 

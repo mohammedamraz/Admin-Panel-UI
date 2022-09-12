@@ -98,7 +98,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
     sessionStorage.setItem('currentUser', JSON.stringify(
       {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
       ) );
-      this.adminService.updateRegister(data.user_data.id).subscribe({
+      this.adminService.updateRegister(data.user_data[0].id).subscribe({
             next:(data:any) =>{
                 console.log('there is a status updated',data);
             
@@ -108,14 +108,14 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
                 
               }
             })
-            this.router.navigate(['/orgdetails', data.user_data.id]);
+            this.router.navigate(['/orgdetails', data.user_data[0].id]);
             },
             error: (error: string) => {
               console.log('asdf',error)
               
               this.error = 'username or password is incorrect';
               this.loading = false;
-              this.router.navigate(['/orgdetails',data.user_data.id]);
+              this.router.navigate(['/orgdetails',data.user_data[0].id]);
               this.error = 'User Registration is successfull, please use Vitals app to Sign In';
               // this.error = '';
               
