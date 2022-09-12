@@ -67,7 +67,7 @@ export class OrgLoginComponent implements OnInit {
           sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         this.adminConsoleService.httpLoading$.next(true);
-        this.router.navigate(['/orgdetails',data.user_data.id]);
+        this.router.navigate(['orgdetails',data.user_data[0].id]);
         },
         error: (error: string) => {
           console.log('asdf',error)
