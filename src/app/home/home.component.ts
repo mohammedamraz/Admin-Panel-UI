@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   activeWizard3: number = 1;
   activeWizard4: number = 1;
 
-  list: number = 3;
+  list: number = 4;
   listdetails:any[]=[];
   next:boolean=false;
   showLiveAlert=false;
@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
   tabDAta:any[]=[];
 
   ngOnInit(): void {
-    this.list=3;
+    this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe
@@ -152,31 +152,35 @@ export class HomeComponent implements OnInit {
 
   demoFunction(event:any, product:string){
     console.log('asdf',event.target.checked);
-    if(product==='hsa'){
-      this.basicWizardForm.controls['ruw'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='ruw'){
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='vitals'){
-      this.basicWizardForm.controls['hsa'].setValue(false);
-      this.basicWizardForm.controls['ruw'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
+    // if(product==='hsa'){  
+    //   this.basicWizardForm.controls['ruw'].setValue(false);
+    //   this.basicWizardForm.controls['vitals'].setValue(false);
+    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
+    //   this.listdetails.splice(selected,1);
+    // }
+    // if(product==='ruw'){
+    //   this.basicWizardForm.controls['hsa'].setValue(false);
+    //   this.basicWizardForm.controls['vitals'].setValue(false);
+    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
+    //   this.listdetails.splice(selected,1);
+    // }
+    // if(product==='vitals'){
+    //   this.basicWizardForm.controls['hsa'].setValue(false);
+    //   this.basicWizardForm.controls['ruw'].setValue(false);
+    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
+    //   this.listdetails.splice(selected,1);
+    // }
+    
     if(event.target.checked){
-      this.list=4;
-      let details={name:product, index:this.list-1}
+      this.list++;
+      this.basicWizardForm.controls[product].setValue(true);
+      let details={name:product, index:this.list-1};
+      console.log('dnn',details)
       this.listdetails.push(details)
     }
     else{
       this.list--;
+      this.basicWizardForm.controls[product].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }

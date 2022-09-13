@@ -67,6 +67,106 @@
                         <li [ngbNavItem]="2">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class="d-none d-sm-inline">config </span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div class="row" style="    display: grid;
+                                    grid-template-columns: 16rem 13rem;   grid-gap: 1rem; padding-bottom: 1rem;">
+                                        <div >
+                                            <h4 class="header-title" style="color: white;">Define Org URL</h4>
+                                            <div class="row" style="display: grid;
+                                            grid-template-columns: min-content max-content;">
+                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/vital/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            border: 1px solid #444C5B;    width: 50%;
+                                            border-radius: 4px;"    
+                                                name="userName" placeholder="ABSLI" formControlName="url">
+                                            </div>
+                                            <!-- <div class="card">
+                                                <div class="card-body" style="padding-left: 0;">
+                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
+                                                    <ngx-slider [value]="35" formControlName="pilot_duration"
+                                                        [options]="{
+                                                            floor: 0,
+                                                            ceil: 100
+                                                        }"></ngx-slider>
+                                                </div> 
+                                            </div>  -->
+                                            <!-- <div>
+                                                <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox" (change)="demoFunction($event,'ruw')" class="form-check-input" formControlName="fedo_score" id="customSwitch1">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                   
+                                            <div class="card" style="background: #313844; padding:1rem" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'">
+                                                <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
+                                                    <div  style="align-self: center;">
+                                                        <div class="row align-items-center" style="    place-content: center;">
+                                                        <img [src]="srcImage" alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="dropzone-previews" id="file-previews">
+                                    
+                                                        <div id="uploadPreviewTemplate" *ngFor="let f of files">
+                                                            <div class="card mt-1 mb-0 shadow-none border">
+                                                                <div style="align-self: center;">
+                                                                    <div class="row align-items-center" style="    place-content: center;">
+                                                                            <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 90%;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
+                                                                                [src]="getPreviewUrl(f)">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div  style="display: grid; 
+                                                    grid-template-columns: min-content min-content;
+                                                    place-self: center;
+                                                 grid-gap: 1rem;">
+                                                 <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
+                                                        <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
+                                                        border-radius: 5px;overflow: hidden;"
+                                                        accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                        <ngx-dropzone-label>
+                                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                           
+                                                        </ngx-dropzone-label>
+                                                    </ngx-dropzone>
+                                                </div>
+                                    
+                                                    <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
+                                           
+                                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;"
+                                                            (click)="onRemove($event)">
+                                                            <i class="mdi mdi-delete" style="font-size: 34px;padding: 1rem;"></i>
+                                                        </a>
+                                    
+                                                    </div>
+                                    
+                                                    </div>
+                                            </div>
+
+                                            <div *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
+                                                <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="height: auto !important;    background: #313844;"
+                                                accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                <ngx-dropzone-label>
+                                                    <i class="h1 text-muted dripicons-cloud-upload"></i>
+                                                    <h3 style="font-size: initial; color: #AEB5BD;">Drop files here or click to upload.</h3>
+                                                </ngx-dropzone-label>
+                        
+                                            </ngx-dropzone>
+
+                                            </div>
+                            
+
+                                    </div>
+                                </ng-template>
+                        </li>
+                        <li [ngbNavItem]="3">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Products</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -155,16 +255,16 @@
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
-                                    grid-template-columns: 14rem 15rem;   grid-gap: 1rem;">
-                                        <div >
-                                            <h4 class="header-title" style="color: white;">Define Org URL</h4>
+                                    grid-template-columns: 16rem 13rem;   grid-gap: 1rem;">
+                                        <div  style="padding-bottom:1rem ;">
+                                            <!-- <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: min-content max-content;">
                                             <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/vital/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;    width: 50%;
-                                            border-radius: 4px;"
+                                            border-radius: 4px;"    
                                                 name="userName" placeholder="ABSLI" formControlName="url">
-                                            </div>
+                                            </div> -->
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
@@ -183,7 +283,7 @@
                                             </div>
                                         </div>
                                    
-                                            <div class="card" style="background: #313844; padding:1rem" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'">
+                                            <!-- <div class="card" style="background: #313844; padding:1rem" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'">
                                                 <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
                                                     <div  style="align-self: center;">
                                                         <div class="row align-items-center" style="    place-content: center;">
@@ -230,8 +330,8 @@
                                                     </div>
                                     
                                                     </div>
-                                            </div>
-
+                                            </div> -->
+<!-- 
                                             <div *ngIf="srcImage=='./assets/images/fedo-logo-white.png'">
                                                 <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="height: auto !important;    background: #313844;"
                                                 accept="image/jpeg,image/jpg,image/png,image/gif">
@@ -242,7 +342,7 @@
                         
                                             </ngx-dropzone>
 
-                                            </div>
+                                            </div> -->
                             
 
                                     </div>
@@ -282,14 +382,14 @@
                                 [disabled]="activeWizard1===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard1 == list">
-                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');basicWizardForm.reset();list=3;listdetails=[];"
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');basicWizardForm.reset();list=4;listdetails=[];"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard1 == list)">
                             <button type="button" (click)="fetchData()" class="btn btn-secondary" 
-                                *ngIf=" activeWizard1<list-1">Next</button>
+                                *ngIf="activeWizard1<list-1">Next</button>
                             <button type="button" class="btn btn-secondary" (click)="checkingForm()"
-                                *ngIf="activeWizard1!=2&&activeWizard1 == list-1">Submit</button>
+                                *ngIf="activeWizard1!=3&&activeWizard1 == list-1">Submit</button>
                         </li>
                     </ul>
     
