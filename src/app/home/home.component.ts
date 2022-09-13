@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
   profileForm!: FormGroup;
 
   validationWizardForm!: FormGroup;
+  validationGroup1!: FormGroup
 
   tabDAta:any[]=[];
 
@@ -61,33 +62,49 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc})
+
+
+    this.validationGroup1 = this.fb.group({
+      organization_name: ['', Validators.required],
+      admin_name:['',Validators.required],
+      designation:['',Validators.required],
+      organization_email:['',Validators.required,],
+      organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      url:['',[Validators.required]]
+      // lastName: ['Otto', Validators.required],
+      // userName: ['', Validators.required],
+      // city: ['', Validators.required],
+      // state: ['', Validators.required],
+      // zip: ['', Validators.required],
+      // acceptTerms: [false, Validators.requiredTrue]
+    });
     
-  this.persons = [
-    {
-      id: 1,
-      firstName: 'Mark',
-      lastName: 'Otto',
-      userName: '@mdo'
-    },
-    {
-      id: 2,
-      firstName: 'Jacob',
-      lastName: 'Thornton',
-      userName: '@fat'
-    },
-    {
-      id: 3,
-      firstName: 'Larry',
-      lastName: 'the Bird',
-      userName: '@twitter'
-    }
-  ];
+  // this.persons = [
+  //   {
+  //     id: 1,
+  //     firstName: 'Mark',
+  //     lastName: 'Otto',
+  //     userName: '@mdo'
+  //   },
+  //   {
+  //     id: 2,
+  //     firstName: 'Jacob',
+  //     lastName: 'Thornton',
+  //     userName: '@fat'
+  //   },
+  //   {
+  //     id: 3,
+  //     firstName: 'Larry',
+  //     lastName: 'the Bird',
+  //     userName: '@twitter'
+  //   }
+  // ];
 
       // initialize forms
       this.basicWizardForm = this.fb.group({
-        organization_name:[''],
-        admin_name:[''],
-        organization_email:['',Validators.email],
+        organization_name:['',Validators.required],
+        admin_name:['',Validators.required],
+        organization_email:['',Validators.email,],
         organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
         fedo_score:[false],
         hsa:[false],
@@ -218,5 +235,6 @@ export class HomeComponent implements OnInit {
         this.activeWizard1 = this.activeWizard1+1;
     }
   }
+   get form1() { return this.validationGroup1.controls; }
 
 }
