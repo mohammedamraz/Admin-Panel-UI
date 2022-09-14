@@ -52,54 +52,84 @@ export class HomeComponent implements OnInit {
   profileForm!: FormGroup;
 
   validationWizardForm!: FormGroup;
+  validationGroup1!: FormGroup
 
   tabDAta:any[]=[];
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
 
   ngOnInit(): void {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc;return doc})
+    ((doc:any) =>{ this.tabDAta=doc;return doc}),
     
-  this.persons = [
-    {
-      id: 1,
-      firstName: 'Mark',
-      lastName: 'Otto',
-      userName: '@mdo'
-    },
-    {
-      id: 2,
-      firstName: 'Jacob',
-      lastName: 'Thornton',
-      userName: '@fat'
-    },
-    {
-      id: 3,
-      firstName: 'Larry',
-      lastName: 'the Bird',
-      userName: '@twitter'
-    }
-  ];
+
+
+    this.validationGroup1 = this.fb.group({
+      organization_name: ['', Validators.required],
+      admin_name:['',Validators.required],
+      designation:['',Validators.required],
+      organization_email:['',Validators.required,Validators.email],
+      organization_mobile:['',[Validators.required]],
+      url:['',[Validators.required]]
+      // lastName: ['Otto', Validators.required],
+      // userName: ['', Validators.required],
+      // city: ['', Validators.required],
+      // state: ['', Validators.required],
+      // zip: ['', Validators.required],
+      // acceptTerms: [false, Validators.requiredTrue]
+    });
+    
+
+    
+    
+  // this.persons = [
+  //   {
+  //     id: 1,
+  //     firstName: 'Mark',
+  //     lastName: 'Otto',
+  //     userName: '@mdo'
+  //   },
+  //   {
+  //     id: 2,
+  //     firstName: 'Jacob',
+  //     lastName: 'Thornton',
+  //     userName: '@fat'
+  //   },
+  //   {
+  //     id: 3,
+  //     firstName: 'Larry',
+  //     lastName: 'the Bird',
+  //     userName: '@twitter'
+  //   }
+  // ];
 
       // initialize forms
       this.basicWizardForm = this.fb.group({
-        organization_name:[''],
-        admin_name:[''],
-        organization_email:['',Validators.email],
-        organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+        organization_name:['',Validators.required],
+        admin_name:['',Validators.required],
+        organization_email:['',Validators.required,Validators.email,],
+        organization_mobile:['',[Validators.required]],
         fedo_score:[false],
         hsa:[false],
         ruw:[false],
         vitals:[false],
         designation:[''],
-        url:[''],
+        // url:[''],
         pilot_duration:[''],
         product_name:[''],
+        url:['',[Validators.required]]
       });
 
   }
+  get validator() {
+    return true;
+  }
+  //   get officialEmail() {
+  //     return this.validationGroup1.get('organization_email');
+  // }
+
 
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
@@ -200,6 +230,8 @@ export class HomeComponent implements OnInit {
             organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
 
         };
+        console.log("hgxfshdgdata",data);
+        
     this.adminService.fetchOrgData(data).subscribe({
         next: (data:any)=>{
           this.activeWizard1 = this.activeWizard1+1;
@@ -218,5 +250,6 @@ export class HomeComponent implements OnInit {
         this.activeWizard1 = this.activeWizard1+1;
     }
   }
+   get form1() { return this.basicWizardForm.controls; }
 
 }
