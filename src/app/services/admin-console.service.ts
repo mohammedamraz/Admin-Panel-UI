@@ -61,55 +61,23 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}org/latest`);
   }
   fetchAllUserOfOrg(id:string){
-    return this.http.get(`${API_URL}vitals_users/${id}/7162583468123`);
+    return this.http.get(`${API_URL}vitals_users/${id}/1`);
   }
 
   fetchLatestUserOfOrg(id:string){
-    return this.http.get(`${API_URL}vitals_users/latest/${id}/7162583468123`);
+    return this.http.get(`${API_URL}vitals_users/latest/${id}/1`);
   }
 
   loginAdmin(formData: any) {
 
     console.debug('UsersConsoleService/loginAdmin()')
-    // const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-    // let base64Encrypted =  publicKey.encrypt(JSON.stringify(formData),'RSA-OAEP');
     return this.http.post(`${API_URL}login/org`,formData)
-    // .pipe(
-    //   catchError(err =>{throw new Error("")}),
-    //   map((doc:any)=>{
-    //     if(formData.checkBox==true){
-    //       localStorage.setItem("jwtToken",doc.jwtToken)
-    //     }
-    //     else sessionStorage.setItem("jwtToken",doc.jwtToken)
-    //     return doc
-    //   }))
   }
 
   orgAdmin(data:any){
     return this.http.post(`${API_URL}login/user`,data);
   }
 
-  //this is for the org login this is also should be used for the signuo confirm where login is using for the dashboard
-  // orgUserAdmin(data:any){
-  //   console.debug('UsersConsoleService/orgUserAdmin()')
-  //   const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-  //   let base64Encrypted =  publicKey.encrypt(JSON.stringify(data),'RSA-OAEP');
-  //   return this.http.post(`${API_URL}login/org`,{passcode:(Forge.util.encode64(base64Encrypted))})
-  //   .pipe(
-  //     catchError(err =>{throw new Error("")}),
-  //     map((doc:any)=>{
-  //       if(data.checkBox==true){
-  //         localStorage.setItem("jwtToken",doc.jwtToken)
-  //       }
-  //       else sessionStorage.setItem("jwtToken",doc.jwtToken)
-  //       return doc
-  //     }))
-  // }
-  
-  // forgetPassword(data:any){
-    
-  //   return this.http.post(`${API_URL}login/user`,data);
-  // }
   
   fetchOrgData(data:any){
     

@@ -74,7 +74,6 @@ export class OrganisationDetailsComponent implements OnInit {
 
 
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-    console.log('hi bro',data )
     if(!data.orglogin){
       this.orglogin=data.orglogin;
       this.list=4;
@@ -121,13 +120,7 @@ export class OrganisationDetailsComponent implements OnInit {
     })
 
 
-    // this.adminService.httpLoading$.subscribe(
-    //   (httpInProgress:boolean) => {
-    //      this.orglogin=httpInProgress;
-    //      console.log('you got on',httpInProgress)
-    //      this.cdr.detectChanges();
-    //    }
-    //  );
+
 
 
     this.adminService.fetchLatestOrg().subscribe
@@ -218,7 +211,6 @@ export class OrganisationDetailsComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
   demoFunction(event:any, product:string){
-    console.log('asdf',event.target.checked);
     if(product==='hsa'){
       this.product = product;
       this.OrgForm.controls['ruw'].setValue(false);
@@ -253,7 +245,6 @@ export class OrganisationDetailsComponent implements OnInit {
   }
 
   demoPrgFunction(event:any, product:string){
-    console.log('asdf',event.target.checked);
     if(product==='hsa'){
       this.product = product;
       this.OrgForm.controls['ruw'].setValue(false);
@@ -288,8 +279,6 @@ export class OrganisationDetailsComponent implements OnInit {
   }
 
   checkingForm(){
-    console.log('the form values => ',this.OrgForm.value)
-
     this.basicWizardForm.removeControl('ruw');
     this.basicWizardForm.removeControl('hsa');
     this.basicWizardForm.removeControl('vitals');

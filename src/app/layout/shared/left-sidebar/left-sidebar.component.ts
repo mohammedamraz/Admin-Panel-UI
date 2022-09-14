@@ -52,8 +52,6 @@ export class LeftSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.initMenu();
     this.loggedInUser = this.authService.currentUser();
-    this.adminService.httpLoading$.subscribe(doc=>console.log('doc',doc))
-    console.log('what happend',this.adminService.httpLoading$)
     this.adminService.httpLoading$.subscribe(
 		 (httpInProgress:boolean) => {
         this.orglogin=httpInProgress;
@@ -62,8 +60,6 @@ export class LeftSidebarComponent implements OnInit {
           this.orglogin=true;
 
         }
-
-        console.log('you got on',httpInProgress)
 				this.cdr.detectChanges();
 			}
 		);

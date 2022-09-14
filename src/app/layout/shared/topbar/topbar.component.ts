@@ -17,6 +17,12 @@ import { SearchResultItem, SearchUserItem } from '../models/search.model';
 import { NOTIFICATIONS, PROFILEOPTIONS } from './data';
 import { PageTitle } from '../models/page-title.model';
 
+type BreadcrumbItem = {
+  label?: string;
+  path?: string;
+  active?: boolean;
+}
+
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -31,6 +37,8 @@ export class TopbarComponent implements OnInit {
   pageTitle: string = '';
   loggedInUser: User | null = null;
   topnavCollapsed: boolean = false;
+  breadcrumbData: any[] = [];
+
 
   @Input() layoutType: string = 'vertical';
   @Input() containerClass?: string = '';
@@ -52,6 +60,20 @@ export class TopbarComponent implements OnInit {
     this._fetchNotifications();
     this._fetchProfileOptions();
     this.loggedInUser = this.authService.currentUser();
+    this.breadcrumbData = [
+      // [
+      //   { label: 'Home', path: '/asd', active: true }
+      // ],
+      // [
+      //   { label: 'Home', path: 'orglogin',active: true },
+      //   { label: 'Library', path: 'orglogin', active: true }
+      // ],
+      // [
+        { label: 'Home', path: 'home' },
+        { label: 'Organisations List', path: 'orgdetails/13' },
+        { label: 'Data', path: '.', active: true }
+      // ]
+    ]
   }
 
   /**
