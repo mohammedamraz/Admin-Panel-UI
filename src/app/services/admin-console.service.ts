@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable, ReplaySubject } from 'rxjs';
-import { API_ADMIN_URL, API_URL } from '../constants';
-import { PUBLIC_KEY } from '../constants/keys';
-import * as Forge from 'node-forge';
-
-
+import { BehaviorSubject, } from 'rxjs';
+import { API_URL } from '../constants';
+import { NavigationEnd, NavigationError, NavigationStart, Event } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +11,7 @@ export class AdminConsoleService {
   constructor(private readonly http: HttpClient) { }
 
 	public httpLoading$ = new BehaviorSubject<boolean>(false);
-
-
+	public breadCrumbs = new BehaviorSubject<any[]>([]);
 
   fetchOrganisationCount(){
     return this.http.get(`${API_URL}org/count`);
@@ -103,77 +99,24 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}org/logo/${id}`,file)
   }
 
-
-  // signup(data:any){
-  //   console.debug('UsersConsoleService/signup()')
-  //   const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-  //   let base64Encrypted =  publicKey.encrypt(JSON.stringify(data),'RSA-OAEP');
-
-  //   return this.http.post(`${API_URL}signup/user`,{passcode:(Forge.util.encode64(base64Encrypted))})
-  //   .pipe(
-  //     catchError(err =>{throw new Error("")}),
-  //     map((doc:any)=>{
-        
-  //       return doc
-  //     }))
-  // }
-
   signup(data:any){
 
     return this.http.post(`${API_URL}signup/user`,data);
   }
 
-  // ConfirmSignup(data:any){
-  //   console.debug('UsersConsoleService/ConfirmSignup()')
-  //   const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-  //   let base64Encrypted =  publicKey.encrypt(JSON.stringify(data),'RSA-OAEP');
-
-  //   return this.http.post(`${API_URL}confirm/signup`,{passcode:(Forge.util.encode64(base64Encrypted))})
-  //   .pipe(
-  //     catchError(err =>{throw new Error("")}),
-  //     map((doc:any)=>{
-        
-  //       return doc
-  //     }))
-  // }
 
   ConfirmSignup(data:any){
 
     return this.http.post(`${API_URL}confirm/signup`,data);
   }
 
-  // forgotPassword(data:any){
-  //   console.debug('UsersConsoleService/forgotPassword()')
-  //   const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-  //   let base64Encrypted =  publicKey.encrypt(JSON.stringify(data),'RSA-OAEP');
-
-  //   return this.http.post(`${API_URL}password`,{passcode:(Forge.util.encode64(base64Encrypted))})
-  //   .pipe(
-  //     catchError(err =>{throw new Error("")}),
-  //     map((doc:any)=>{
-        
-  //       return doc
-  //     }))
-  // }
-
+  
   forgotPassword(data:any){
 
     return this.http.post(`${API_URL}password`,data);
   }
 
-  // confirmPassword(data:any){
-  //   console.debug('UsersConsoleService/confirmPassword()')
-  //   const publicKey = Forge.pki.publicKeyFromPem(PUBLIC_KEY);
-  //   let base64Encrypted =  publicKey.encrypt(JSON.stringify(data),'RSA-OAEP');
 
-  //   return this.http.post(`${API_URL}password/otp`,{passcode:(Forge.util.encode64(base64Encrypted))})
-  //   .pipe(
-  //     catchError(err =>{throw new Error("")}),
-  //     map((doc:any)=>{
-        
-  //       return doc
-  //     }))
-  // }
 
   confirmPassword(data:any){
 
@@ -183,6 +126,66 @@ export class AdminConsoleService {
   updateRegister(id:any){
     
     return this.http.patch(`${API_URL}org/register/status/${id}`,{});
+  }
+
+  // updateBreadCrumbs(event: Event){
+
+   
+
+  //   if (event instanceof NavigationStart) {
+  //     // Show loading indicator
+  //     console.log('Route change detected');
+  // }
+
+  // if (event instanceof NavigationEnd) {
+  //     // Hide loading indicator
+  //       console.log('update breadcrubms',event);
+
+        
+  // }
+
+  // if (event instanceof NavigationError) {
+  //     // Hide loading indicator
+
+  //     // Present error to user
+  //     console.log(event.error);
+  // }
+  // }
+
+  breadcrumbs(event:any){
+    if(event.url == '/home'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home',active: true},
+      ])
+    }
+    if(event.url == '/orgList'){
+      this.breadCrumbs.next([
+          { label: 'Home', path: 'home' },
+          { label: 'Organisations List', path: 'orgList', active: true },
+      ])
+    }
+    if(event.url.startsWith('/orgdetails')){
+      this.breadCrumbs.next([
+          { label: 'Home', path: 'home' },
+          { label: 'Organisations List', path: 'orgList' },
+          { label: event.url.slice(12,), path: `/orgdetails/${event.url.slice(12,)}`, active: true },
+      ])
+    }
+    if(event.url.startsWith('/userdetails')){
+      this.breadCrumbs.next([
+          { label: 'Home', path: 'home' },
+          { label: 'Organisations List', path: 'orgList' },
+          { label: event.url.slice(13,), path: `/orgdetails/${event.url.slice(13,)}`},
+          { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
+      ])
+    }
+
+    if(event.url == '/vitals-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
+    ])
+    }
+
   }
 
 
