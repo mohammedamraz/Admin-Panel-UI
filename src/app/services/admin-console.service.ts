@@ -152,7 +152,9 @@ export class AdminConsoleService {
   // }
   // }
 
+
   breadcrumbs(event:any){
+    console.log('don oooyou=>',event)
     if(event.url == '/home'){
       this.breadCrumbs.next([
         { label: 'Home', path: 'home',active: true},

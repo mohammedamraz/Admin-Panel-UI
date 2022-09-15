@@ -56,9 +56,8 @@ export class LeftSidebarComponent implements OnInit {
 		 (httpInProgress:boolean) => {
         this.orglogin=httpInProgress;
         let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-        if(data.orglogin==true){
+        if(data[0].hasOwnProperty('orglogin')){
           this.orglogin=true;
-
         }
 				this.cdr.detectChanges();
 			}

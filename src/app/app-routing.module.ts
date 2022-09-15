@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthOrgGuard } from './core/guards/auth-org.gaurd';
 import { AuthGuard } from './core/guards/auth.guard';
+import { OrgGuard } from './core/guards/org.gaurd';
 import { CreateOrganizationComponent } from './create-organization/create-organization.component';
 import { HomeComponent } from './home/home.component';
 import { LayoutContainerComponent } from './layout/layout-container/layout-container.component';
@@ -24,13 +25,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'orgLogin',
     pathMatch: 'full'
   },
   {
     path: '',
     component: LayoutContainerComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -42,40 +42,70 @@ const routes: Routes = [
       },
       {
         path:'home',
+        canActivate: [AuthGuard],
         component: HomeComponent
       },
       {
         path:'create',
+        canActivate: [AuthGuard],
         component: CreateOrganizationComponent
       },
       {
         path:'vitals-dashboard',
+        canActivate: [AuthGuard],
         component: VitalsDashboardComponent
       },
       {
         path:'vitalsList',
+        canActivate: [AuthGuard],
         component: PilotsListComponent
       },
       {
         path:'orgList',
+        canActivate: [AuthGuard],
         component: OrganisationListComponent
       },
       {
         path:'orgdetails/:orgId',
+        canActivate: [AuthGuard],
         component: OrganisationDetailsComponent
       },
       {
         path:'userdetails/:orgId',
+        canActivate: [AuthGuard],
         component: UserDetailsComponent
       },
-
+      {
+        path:':orgId/dashboard',
+        canActivate: [OrgGuard],
+        component: OrganisationDetailsComponent
+      },
+      {
+        path: ':orgId/userdetails',
+        canActivate: [OrgGuard],
+        component: UserDetailsComponent
+      },
+      
+      
     ]
   },
+
+  {
+    path:':orgId/dashboard',
+    canActivate: [OrgGuard],
+    component: OrganisationDetailsComponent
+  },
+  {
+    path: ':orgId/userdetails',
+    canActivate: [OrgGuard],
+    component: UserDetailsComponent
+  },
+  
   {
     path: '',
     component: PublicLayoutComponent,
     children: [
-      { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+      { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
       {
         path: 'error-404',
         component: Error404Component
@@ -101,4 +131,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class  AppRoutingModule { }

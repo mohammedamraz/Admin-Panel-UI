@@ -54,6 +54,7 @@ export class OrganisationDetailsComponent implements OnInit {
   url:any='';
   daysLeft:any=0;
   orglogin:boolean=false;
+  userlogin:boolean=true;
   
 
   thirdParty=false;
@@ -74,15 +75,22 @@ export class OrganisationDetailsComponent implements OnInit {
 
 
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-    if(!data.orglogin){
-      this.orglogin=data.orglogin;
-      this.list=4;
-      this.listdetails=[{name:'vital', index:0}];
+    if(data.hasOwnProperty('orglogin')){
+      if(data.orglogin){
+        this.orglogin=true;
+      }
+      else{
+        this.orglogin=true;
+        this.userlogin=false;
+      }
     }
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
         console.log('the file', res);
+        this.listdetails = res[0].product;
+        this.list=this.list + res[0].product.length;
+
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
@@ -102,7 +110,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.start_date= res[0].start_date;
         this.status= res[0].status;
         this.updated_date= res[0].updated_date;
-        this.url= res[0].url.slice(27,);
+        this.url= res[0].url.slice(32,);
         const oneDay = 24 * 60 * 60 * 1000;
         const firstDate = new Date();
         const secondDate = new Date(this.end_date);
@@ -110,6 +118,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
+        this.srcImage=res[0].logo;
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;}
         )

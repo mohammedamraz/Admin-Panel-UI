@@ -5,7 +5,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { AuthenticationService } from '../service/auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class OrgGuard implements CanActivate {
     constructor (
         private router: Router,
         private authenticationService: AuthenticationService
@@ -15,8 +15,6 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.currentUser();
-
-
         
         if (currentUser) {
             return true;
@@ -24,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
 
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['error-404']);
+        this.router.navigate(['orgLogin']);
         return false;
     }
 }
