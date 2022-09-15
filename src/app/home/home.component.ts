@@ -33,42 +33,34 @@ export class HomeComponent implements OnInit {
   files: File[] = [];
   srcImage:any='./assets/images/fedo-logo-white.png';
   image:any=[];
-
-
-  org_name: string="fedo"
-  // public show:boolean = false;
-
-
-
+  org_name: string="fedo";
   persons: PersonDetails[] = [];
-  constructor(
-    private readonly adminService: AdminConsoleService,
-    private sanitizer: DomSanitizer, 
-    private fb: FormBuilder,
-    private modalService: NgbModal) { }
   organisationCount:any=0;
   vitalsCount:any=0;
   basicWizardForm!: FormGroup;
   progressWizardForm !: FormGroup;
   btnWizardForm !: FormGroup;
-  
-  
   accountForm!: FormGroup;
-
   profileForm!: FormGroup;
-
   validationWizardForm!: FormGroup;
   validationGroup1!: FormGroup
-
   tabDAta:any[]=[];
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
+  products:any[]=[];
+  selectedProducts:any[]=[];
+
+  constructor(
+    private readonly adminService: AdminConsoleService,
+    private sanitizer: DomSanitizer, 
+    private fb: FormBuilder,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
-    this.adminService.fetchLatestOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc;return doc}),
+    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
     
 
 
@@ -79,39 +71,8 @@ export class HomeComponent implements OnInit {
       organization_email:['',Validators.required,Validators.email],
       organization_mobile:['',[Validators.required]],
       url:['',[Validators.required]]
-      // lastName: ['Otto', Validators.required],
-      // userName: ['', Validators.required],
-      // city: ['', Validators.required],
-      // state: ['', Validators.required],
-      // zip: ['', Validators.required],
-      // acceptTerms: [false, Validators.requiredTrue]
     });
-    
-
-    
-    
-  // this.persons = [
-  //   {
-  //     id: 1,
-  //     firstName: 'Mark',
-  //     lastName: 'Otto',
-  //     userName: '@mdo'
-  //   },
-  //   {
-  //     id: 2,
-  //     firstName: 'Jacob',
-  //     lastName: 'Thornton',
-  //     userName: '@fat'
-  //   },
-  //   {
-  //     id: 3,
-  //     firstName: 'Larry',
-  //     lastName: 'the Bird',
-  //     userName: '@twitter'
-  //   }
-  // ];
-
-      // initialize forms
+    // initialize forms
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
         admin_name:['',Validators.required],
@@ -122,7 +83,6 @@ export class HomeComponent implements OnInit {
         ruw:[false],
         vitals:[false],
         designation:[''],
-        // url:[''],
         pilot_duration:[''],
         product_name:[''],
         url:['',[Validators.required]]
@@ -158,16 +118,18 @@ export class HomeComponent implements OnInit {
   }
 
   checkingForm(){
-    console.log('the form values => ',this.basicWizardForm.value)
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
+    data.append('designation', this.basicWizardForm.value.designation);
     data.append('admin_name', this.basicWizardForm.value.admin_name);
     data.append('organization_email', this.basicWizardForm.value.organization_email);
     data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
-    data.append('fedo_score', this.basicWizardForm.value.fedo_score.toString());
-    data.append('designation', this.basicWizardForm.value.designation);
-    data.append('pilot_duration',this.basicWizardForm.value.pilot_duration);
-    data.append('product_id','1');
+    data.append('fedo_score', this.listdetails.map(value=>value.fedo_score).toString());
+    data.append('pilot_duration',this.listdetails.map(value=>value.pilot_duration).toString());
+    data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
+    data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
+    data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
+    data.append('web_url',this.listdetails.map(value=>value.web_fedoscore).toString());
     data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
@@ -186,48 +148,33 @@ export class HomeComponent implements OnInit {
       complete: () => { }
     });
   }
-  toggle(){
-     this.next = !this.next;
-    console.log("manaf",this.next);
 
-  }
 
-  demoFunction(event:any, product:string){
+  demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
-    // this.next = !this.next;
-    // console.log("manaf",this.next);
-    
-    
-    // if(product==='hsa'){  
-    //   this.basicWizardForm.controls['ruw'].setValue(false);
-    //   this.basicWizardForm.controls['vitals'].setValue(false);
-    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
-    //   this.listdetails.splice(selected,1);
-    // }
-    // if(product==='ruw'){
-    //   this.basicWizardForm.controls['hsa'].setValue(false);
-    //   this.basicWizardForm.controls['vitals'].setValue(false);
-    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
-    //   this.listdetails.splice(selected,1);
-    // }
-    // if(product==='vitals'){
-    //   this.basicWizardForm.controls['hsa'].setValue(false);
-    //   this.basicWizardForm.controls['ruw'].setValue(false);
-    //   const selected =this.listdetails.findIndex(obj=>obj.name===product);
-    //   this.listdetails.splice(selected,1);
-    // }
+    console.log('donned',product)
     
     if(event.target.checked){
       this.list++;
-      this.basicWizardForm.controls[product].setValue(true);
-      let details={name:product, index:this.list-1};
-      console.log('dnn',details)
-      this.listdetails.push(details)
+      // this.basicWizardForm.controls[product].setValue(true);
+      this.selectedProducts.push(product.id)
+      let details={
+        prod_id:product.id,
+        name:product.product_name, 
+        index:this.list-1, 
+        pilot_duration:0,
+        fedo_score:false,
+        web_fedoscore:false,
+        productaccess_mobile: false,
+        web_url:''
+      };
+      this.listdetails.push(details);
     }
     else{
       this.list--;
-      this.basicWizardForm.controls[product].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      // this.basicWizardForm.controls[product].setValue(false);
+      const selected =this.listdetails.findIndex(obj=>obj.name===product.product_name);
+      this.selectedProducts.slice(product.id,1);
       this.listdetails.splice(selected,1);
     }
   }

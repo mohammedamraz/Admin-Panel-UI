@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
 // check if this is the url we are saving for the org login
 // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
 
-      this.adminService.loginAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
+      this.adminService.orgAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
       .pipe(first())
       .subscribe({
        next: (data: any) => {

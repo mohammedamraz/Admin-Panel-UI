@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, } from 'rxjs';
-import { API_URL } from '../constants';
+import { ADMIN_URL, API_URL } from '../constants';
 import { NavigationEnd, NavigationError, NavigationStart, Event } from '@angular/router';
 @Injectable({
   providedIn: 'root'
@@ -128,29 +128,7 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}org/register/status/${id}`,{});
   }
 
-  // updateBreadCrumbs(event: Event){
 
-   
-
-  //   if (event instanceof NavigationStart) {
-  //     // Show loading indicator
-  //     console.log('Route change detected');
-  // }
-
-  // if (event instanceof NavigationEnd) {
-  //     // Hide loading indicator
-  //       console.log('update breadcrubms',event);
-
-        
-  // }
-
-  // if (event instanceof NavigationError) {
-  //     // Hide loading indicator
-
-  //     // Present error to user
-  //     console.log(event.error);
-  // }
-  // }
 
 
   breadcrumbs(event:any){
@@ -190,6 +168,10 @@ export class AdminConsoleService {
 
   }
 
+  fetchProducts(){
+
+    return this.http.get(`${ADMIN_URL}product`);
+  }
 
 
 
