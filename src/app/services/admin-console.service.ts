@@ -54,7 +54,7 @@ export class AdminConsoleService {
    
 
   fetchLatestOrg(){
-    return this.http.get(`${API_URL}org/latest`);
+    return this.http.get(`${API_URL}org?type=latest`);
   }
   fetchAllUserOfOrg(id:string){
     return this.http.get(`${API_URL}vitals_users/${id}/1`);
