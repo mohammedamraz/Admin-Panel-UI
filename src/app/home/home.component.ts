@@ -10,7 +10,9 @@ interface PersonDetails {
   firstName: string;
   lastName: string;
   userName: string;
-}
+};
+
+
 
 @Component({
   selector: 'app-home',
@@ -31,6 +33,10 @@ export class HomeComponent implements OnInit {
   files: File[] = [];
   srcImage:any='./assets/images/fedo-logo-white.png';
   image:any=[];
+
+
+  org_name: string="fedo"
+  // public show:boolean = false;
 
 
 
@@ -168,6 +174,7 @@ export class HomeComponent implements OnInit {
     this.adminService.createOrg(data).subscribe({
       next: (res) => {
         console.log('the success=>',res);
+
         this.activeWizard1=this.activeWizard1+1;
       },
       error: (err) => {
@@ -179,9 +186,18 @@ export class HomeComponent implements OnInit {
       complete: () => { }
     });
   }
+  toggle(){
+     this.next = !this.next;
+    console.log("manaf",this.next);
+
+  }
 
   demoFunction(event:any, product:string){
     console.log('asdf',event.target.checked);
+    // this.next = !this.next;
+    // console.log("manaf",this.next);
+    
+    
     // if(product==='hsa'){  
     //   this.basicWizardForm.controls['ruw'].setValue(false);
     //   this.basicWizardForm.controls['vitals'].setValue(false);
@@ -234,6 +250,9 @@ export class HomeComponent implements OnInit {
         
     this.adminService.fetchOrgData(data).subscribe({
         next: (data:any)=>{
+          
+          
+          
           this.activeWizard1 = this.activeWizard1+1;
         },
         error:(data:any)=>{
