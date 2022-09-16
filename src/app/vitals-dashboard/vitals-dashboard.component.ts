@@ -47,11 +47,11 @@ export class VitalsDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
-    this.adminService.fetchActiveVitalsCount().subscribe((doc:any) =>{this.activePilotsCount=doc['Active_Vitals_pilot_count']})
-    this.adminService.fetchTotalTestVitals().subscribe((doc:any) =>{this.totalTests=doc['total_tests']})
-    this.adminService.fetchLatestVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
-
+    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{console.log('don',doc);this.vitalsCount=doc.total_vitals_pilot_count});
+    this.adminService.fetchActiveVitalsCount().subscribe((doc:any) =>{console.log('don',doc);this.activePilotsCount=doc.total_vitals_pilot_count});
+    this.adminService.fetchTotalTestVitals().subscribe((doc:any) =>{console.log('don',doc);this.totalTests=doc.total_tests});
+    this.adminService.fetchLatestVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc});
+    
     
     this.basicWizardForm = this.fb.group({
       organization_name:[''],

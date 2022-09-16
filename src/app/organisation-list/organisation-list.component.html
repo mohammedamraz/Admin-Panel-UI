@@ -485,11 +485,17 @@
                         <th scope="row">{{indexOfelement+1}}</th>
                         <td>{{person.organization_name}}</td>
                         <td>
-                            <div class="row">
-                                <div class=" col-md-6">
-                                    fedo(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
-                                    <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
-                                </div>
+                            <div style="    display: grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                            grid-gap: 1rem;">
+                                <ng-template ngFor let-season [ngForOf]="person.product" let-i=index>      
+                                    <div class="">
+                                        <div class=" ">
+                                            fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="season.progress < 99" style="color: green;">'Active'</span>)
+                                            <ngb-progressbar style="margin-top: 0;" [type]="(season.progress > 99 ) ? 'danger':'warning'" [value]="season.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                        </div>
+                                    </div>
+                                </ng-template>
                             </div>
 
                         </td>

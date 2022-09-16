@@ -18,16 +18,16 @@ export class AdminConsoleService {
   }
 
   fetchVitalsCount(){
-    return this.http.get(`${API_URL}vitals_count`) ;
+    return this.http.get(`${API_URL}count?product=vitals`) ;
   }
   fetchActiveVitalsCount(){
-    return this.http.get(`${API_URL}active_vitals_count`) ;
+    return this.http.get(`${API_URL}count?product=vitals&status=active`) ;
   }
   fetchLatestVitals(){
-    return this.http.get(`${API_URL}latest`) ;
+    return this.http.get(`${API_URL}2?type=latest`) ;
   }
   fetchTotalTestVitals(){
-    return this.http.get(`${API_URL}/tests`) ;
+    return this.http.get(`${API_URL}tests/2`) ;
   }
   fetchAllOrg(){
     return this.http.get(`${API_URL}/org`) ;
@@ -61,7 +61,7 @@ export class AdminConsoleService {
   }
 
   fetchLatestUserOfOrg(id:string){
-    return this.http.get(`${API_URL}vitals_users/latest/${id}/1`);
+    return this.http.get(`${API_URL}users/${id}?type=latest`);
   }
 
   loginAdmin(formData: any) {
@@ -138,7 +138,7 @@ export class AdminConsoleService {
 
 
   breadcrumbs(event:any){
-    console.log('don oooyou=>',event)
+    
     if(event.url == '/home'){
       this.breadCrumbs.next([
         { label: 'Home', path: 'home',active: true},
