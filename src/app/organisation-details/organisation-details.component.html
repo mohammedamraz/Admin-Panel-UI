@@ -511,7 +511,7 @@ grid-template-columns: 8fr 4fr">
                 </div>
 
 
-                <div  style="display: grid; 
+                <div *ngIf="userlogin"  style="display: grid; 
                 grid-template-columns: min-content min-content;
                 place-self: center;
              grid-gap: 1rem;">
@@ -619,7 +619,7 @@ grid-template-columns: 1fr 1fr;">
         </div>
     </div>
 
-    <div class="card" style="background: #313844;">
+    <div class="card" style="background: #313844;" *ngIf="userlogin">
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>

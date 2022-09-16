@@ -127,6 +127,12 @@ export class AdminConsoleService {
     
     return this.http.patch(`${API_URL}org/register/status/${id}`,{});
   }
+  
+  updateUserRegister(id:any){
+    
+    return this.http.patch(`${API_URL}user/register/status/${id}`,{});
+
+  }
 
 
 

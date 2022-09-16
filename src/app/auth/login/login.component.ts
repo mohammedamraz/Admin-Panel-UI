@@ -62,15 +62,21 @@ export class LoginComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
          console.log('there is a ssuucesesdf',data)
-        if(this.formValues['rememberMe'].value){
+         if(data.org_data[0].type === 'admin'){
+          if(this.formValues['rememberMe'].value){
           localStorage.setItem("currentUser", JSON.stringify(data))
           sessionStorage.setItem('currentUser', JSON.stringify(data) );
+           }
+          else{
+          sessionStorage.setItem('currentUser', JSON.stringify(data));
+          }
+         this.router.navigate(['/home']);
         }
         else{
-          sessionStorage.setItem('currentUser', JSON.stringify(data));
+          this.error = 'Invalid email or password';
+
         }
-         this.router.navigate(['/home']);
-        },
+      },
         error: (error: string) => {
           console.log('asdf',error)
           this.error = error;

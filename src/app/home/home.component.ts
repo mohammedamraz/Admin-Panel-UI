@@ -133,6 +133,7 @@ export class HomeComponent implements OnInit {
     data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
+    console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
       next: (res) => {
         console.log('the success=>',res);
