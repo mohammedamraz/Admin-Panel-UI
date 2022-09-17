@@ -179,6 +179,14 @@ export class AdminConsoleService {
     return this.http.get(`${ADMIN_URL}product`);
   }
 
+  fetchTpa(org_id:any){
+
+    return this.http.get(`${ADMIN_URL}/tpa/list/${org_id}`);
+  }
+  addTpa(data:any){
+
+    return this.http.post(`${ADMIN_URL}/tpa`,data);
+  }
 
 
 
