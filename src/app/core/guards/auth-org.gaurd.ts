@@ -29,14 +29,13 @@ export class AuthOrgGuard implements CanActivate {
         let snapshotParam:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).org_id;
         let snapshotParamUsersList:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).user_id;
 
-
         this.adminConsoleService.fetchOrgById(snapshotParam).subscribe({
             next: (res:any) => {
               if(res[0].is_register) {
-                  this.router.navigate(['./auth/orgLogin'], );
+                  this.router.navigate(['./orgLogin'], );
             }
             else{
-                this.router.navigate(['./auth/register']);
+                this.router.navigate(['./register']);
                 }
             },
             error: (err) => {
@@ -46,19 +45,19 @@ export class AuthOrgGuard implements CanActivate {
           });
           this.adminConsoleService.fetchUserById(snapshotParamUsersList).subscribe({
             next: (res:any) => {
-            //   if(res[0].is_register) {
-            //       this.router.navigate(['./auth/orgLogin'], );
-            // }
-            // else{
-                this.router.navigate(['./auth/register']);
-                // }
+              if(res[0].is_register) {
+                  this.router.navigate(['./orgLogin'], );
+            }
+            else{
+                this.router.navigate(['./register']);
+                }
             },
             error: (err) => {
               console.log('the failure=>',err);
             },
             complete: () => { }
           });
-          this.router.navigate(['./auth/orgLogin'], );
+          this.router.navigate(['./orgLogin'], );
 
 
         return false;

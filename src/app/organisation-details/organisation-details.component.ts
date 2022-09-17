@@ -117,7 +117,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.srcImage=res[0].logo;
+        this.srcImage=res[0].logo === '' ? "./assets/images/fedo-logo-white.png": res[0].logo ;
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;}
         )
@@ -135,7 +135,7 @@ export class OrganisationDetailsComponent implements OnInit {
     // ((doc:any) =>{ this.tabDAta=doc;return doc})
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-      (doc:any) => {console.log('dodod',doc);this.tableData=doc;}
+      (doc:any) => {this.tableData=doc;}
     )
 
     this.OrgForm = this.fb.group({
@@ -206,14 +206,35 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
-    this.srcImage = './assets/images/fedo-logo-white.png';
+    this.adminService.deleteImageLogoFromOrgDb(this.id).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+        this.srcImage = './assets/images/fedo-logo-white.png';
 
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+      },
+      complete: () => { }
+    });
   }
   onSelect(event: any) {
 
     this.files =[...event.addedFiles];
-    console.log('the iage',event.addedFiles)
-    this.srcImage = this.getPreviewUrl(event.addedFiles[0])
+    console.log('the iage',event.addedFiles);
+    this.srcImage = this.getPreviewUrl(event.addedFiles[0]);
+
+    var data = new FormData();
+    data.append('file', event.addedFiles[0], event.addedFiles[0].name)
+    this.adminService.updateImageLogoInOrgDb(this.id,data).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+      },
+      complete: () => { }
+    });
   }
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });

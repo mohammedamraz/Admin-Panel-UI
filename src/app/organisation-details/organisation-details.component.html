@@ -711,13 +711,13 @@ grid-template-columns: 1fr 1fr;">
                         grid-gap: 1rem;
                         padding-top: 1rem;
                         grid-template-columns: min-content;">
-                            <a *ngIf="season.url.mobile_url !== null" (click)="season.url.mobile_url" class='cursor-pointer' style="cursor: pointer;" >
+                            <a *ngIf="season.url.mobile_url !== null" [href]="season.url.mobile_url" class='cursor-pointer' style="cursor: pointer;" >
                                 <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
                             </a>
-                            <a *ngIf="season.url.mobile_url !== null" (click)="season.url.mobile_url" class='cursor-pointer' style="opacity: 0.4;" >
+                            <a *ngIf="season.url.mobile_url !== null" [href]="season.url.mobile_url" class='cursor-pointer' style="opacity: 0.4;" >
                                 <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
                             </a>
-                            <a *ngIf="season.url.web_url !== null" (click)="season.url.web_url" class='cursor-pointer' >
+                            <a *ngIf="season.url.web_url !== null" [href]="season.url.web_url" class='cursor-pointer' >
                                 <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
                             </a>
                         </div>
@@ -730,7 +730,7 @@ grid-template-columns: 1fr 1fr;">
                         <div>
                             <h4 class="header-title" style="color: white;">Fedo Score:</h4>
                             <div class="form-check form-switch" style=" display: grid;">
-                                <input type="checkbox" class="form-check-input" [checked]="season.fedoscore" id="customSwitch1">
+                                <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="season.fedoscore" id="customSwitch1">
                             </div>
                         </div>
                     </div>  
@@ -743,7 +743,7 @@ grid-template-columns: 1fr 1fr;">
         </div>
     </div>
 
-    <div class="card" style="background: #313844;" >
+    <div class="card" style="background: #313844;"  *ngIf="userlogin" >
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>

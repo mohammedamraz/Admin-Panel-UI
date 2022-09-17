@@ -29,7 +29,7 @@ export class LeftSidebarComponent implements OnInit {
 
   leftSidebarClass = 'sidebar-enable';
   activeMenuItems: string[] = [];
-  loggedInUser: User | null = {};
+  loggedInUser: any={}
   menuItems: MenuItem[] = [];
   orglogin=false;
 
@@ -51,19 +51,31 @@ export class LeftSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMenu();
-    this.loggedInUser = this.authService.currentUser();
-    this.adminService.httpLoading$.subscribe(
-		 (httpInProgress:boolean) => {
-        this.orglogin=httpInProgress;
-        let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-        if(data[0].hasOwnProperty('orglogin')){
-          this.orglogin=true;
-        }
-				this.cdr.detectChanges();
-			}
-		);
+    this.loggedInUser = <any>this.authService.currentUser();
+    if(this.loggedInUser.hasOwnProperty('user_data') ){
+      this.orglogin=true;
+    }
+    else if( this.loggedInUser.hasOwnProperty('org_data')){
+      if(this.loggedInUser.org_data[0].type === 'admin')
+       this.orglogin = false;
+      else this.orglogin = true;
+    }
 
-  }
+
+    }
+
+    // this.adminService.httpLoading$.subscribe(
+		//  (httpInProgress:boolean) => {
+    //     this.orglogin=httpInProgress;
+    //     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
+    //     if(data[0].hasOwnProperty('orglogin')){
+    //       this.orglogin=true;
+    //     }
+		// 		this.cdr.detectChanges();
+		// 	}
+		// );
+
+  
 
   ngOnChanges(): void {
 

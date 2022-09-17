@@ -36,9 +36,10 @@ export class TopbarComponent implements OnInit {
   searchResults: SearchResultItem[] = [];
   searchUsers: SearchUserItem[] = [];
   pageTitle: string = '';
-  loggedInUser: User | null = null;
+  loggedInUser: any = null;
   topnavCollapsed: boolean = false;
   breadcrumbData: any[] = [];
+  username:string='';
 
 
   @Input() layoutType: string = 'vertical';
@@ -61,6 +62,15 @@ export class TopbarComponent implements OnInit {
     this._fetchSearchData();
     this._fetchNotifications();
     this._fetchProfileOptions();
+    this.loggedInUser = <any>this.authService.currentUser();
+    if(this.loggedInUser.hasOwnProperty('org_data') ){
+      console.log('dune',this.loggedInUser.org_data[0].organization_name);
+      this.username = this.loggedInUser.org_data[0].organization_name;
+    }
+    else{
+      this.username=this.loggedInUser.user_data[0].user_name
+    }
+    this.username=this.loggedInUser
     this.loggedInUser = this.authService.currentUser();
     this.adminService.breadCrumbs.subscribe(
       (data:any[]) => {

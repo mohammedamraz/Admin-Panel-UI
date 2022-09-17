@@ -24,56 +24,73 @@
                                     <div class="col-12">
                                         <div class="row mb-3">
                                             <div class="col-md">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['organization_name'].valid , 'is-invalid': basicForm.submitted && form1['organization_name'].invalid }">
+                                                <div class="form-floating ">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;    height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['organization_name'].valid , 'is-invalid': basicForm.submitted && form1['organization_name'].invalid }">
+    
+                                                        <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
+                                                            Looks good!
+                                                        </div>
+                                 -->
+                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Organisation Name</label
+                               >
+                                                        <div *ngIf="basicForm.submitted && form1['organization_name'].invalid && form1['organization_name'].invalid " class="invalid-feedback">
+                                                            Please enter Organisation Name.
+                                                        </div>
 
-                                                    <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
-                                                        Looks good!
-                                                    </div>
-                             -->
-                                                    <div *ngIf="basicForm.submitted && form1['organization_name'].invalid && form1['organization_name'].invalid " class="invalid-feedback">
-                                                        Please enter Organisation Name.
-                                                    </div>
+                                                </div>
+
                             
 
 
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row ">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['admin_name'].valid , 'is-invalid': basicForm.submitted && form1['admin_name'].invalid }">
-                                                    <div *ngIf="basicForm.submitted && form1['admin_name'].invalid" class="invalid-feedback">
-                                                        Please enter Admin Name.
-                                                    </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;
+                                                    border-radius: 4px;    height: 3rem;"
+                                                        name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['admin_name'].valid , 'is-invalid': basicForm.submitted && form1['admin_name'].invalid }">
+                                                        <div *ngIf="basicForm.submitted && form1['admin_name'].invalid" class="invalid-feedback">
+                                                            Please enter Admin Name.
+                                                        </div>
+                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Org Admin Full Name</label
+                                                      >
+                                                </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
                                                         Looks good!
                                                     </div> -->
 
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{'is-valid':basicForm.submitted&&form1['designation'].valid , 'is-invalid':basicForm.submitted&&form1['designation'].invalid}">
-                                                    <div *ngIf="basicForm.submitted && form1['designation'].invalid" class="invalid-feedback">
-                                                        Please enter Designation.
-                                                    </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B; height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{'is-valid':basicForm.submitted&&form1['designation'].valid , 'is-invalid':basicForm.submitted&&form1['designation'].invalid}">
+                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                        <div *ngIf="basicForm.submitted && form1['designation'].invalid" class="invalid-feedback">
+                                                            Please enter Designation.
+                                                        </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row " >
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Email Address" required formControlName="organization_email" [pattern]="emailPattern" [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_email'].valid , 'is-invalid':basicForm.submitted&&form1['organization_email'].invalid}">
-                                                    <div *ngIf="basicForm.submitted && form1['organization_email'].invalid" class="invalid-feedback">
-                                                         Enter Valid Email ID
-                                                    </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Email Address" required formControlName="organization_email"  [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_email'].valid , 'is-invalid':basicForm.submitted&&form1['organization_email'].invalid}">
+                                                        <div *ngIf="basicForm.submitted && form1['organization_email'].invalid" class="invalid-feedback">
+                                                             Enter Valid Email ID
+                                                        </div>
+                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+
+                                                </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_email'].errors">
                                                         Official Email not valid.
                                                     </div> -->
@@ -82,13 +99,16 @@
 
                                             </div>
                                             <div class="col-md-6">
-                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_mobile'].valid , 'is-invalid':basicForm.submitted&&form1['organization_mobile'].invalid}">
-                                                    <div *ngIf="basicForm.submitted && form1['organization_mobile'].invalid" class="invalid-feedback">
-                                                        Please enter Mobile Number .
-                                                    </div>
+                                                <div class="form-floating mb-3">
+                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B; height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_mobile'].valid , 'is-invalid':basicForm.submitted&&form1['organization_mobile'].invalid}">
+                                                        <div *ngIf="basicForm.submitted && form1['organization_mobile'].invalid" class="invalid-feedback">
+                                                            Please enter Mobile Number .
+                                                        </div>
+                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                </div>
                                                    
 
                                             </div>
@@ -252,7 +272,7 @@
                                             <div>
                                                 <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="demoFunction($event,'ruw')" class="form-check-input" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
                                         </div>
@@ -260,7 +280,7 @@
                                             <div>
                                                 <h4 class="header-title" style="color: white;">Enable Vitals Web App</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.productaccess_mobile" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.productaccess_web" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
                                             <div *ngIf="next">
@@ -431,7 +451,7 @@
                 </div>
             </div>            
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" (click)="open(toggleModal1)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <a href="javascript:void(0)" (click)="open(toggleModal1);clearform();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-plus"></i>
                 </a>
             </div>            

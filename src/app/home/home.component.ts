@@ -129,15 +129,16 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>value.web_fedoscore).toString());
+    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+    data.append('type','orgAdmin');
     data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         console.log('the success=>',res);
-
+        this.org_name = res[0].organization_name;
         this.activeWizard1=this.activeWizard1+1;
       },
       error: (err) => {
@@ -156,9 +157,8 @@ export class HomeComponent implements OnInit {
     console.log('donned',product)
     
     if(event.target.checked){
-      this.list++;
       // this.basicWizardForm.controls[product].setValue(true);
-      this.selectedProducts.push(product.id)
+      this.list++;
       let details={
         prod_id:product.id,
         name:product.product_name, 
@@ -166,7 +166,7 @@ export class HomeComponent implements OnInit {
         pilot_duration:0,
         fedo_score:false,
         web_fedoscore:false,
-        productaccess_mobile: false,
+        productaccess_web: false,
         web_url:''
       };
       this.listdetails.push(details);
@@ -218,5 +218,14 @@ export class HomeComponent implements OnInit {
     }
   }
    get form1() { return this.basicWizardForm.controls; }
+
+   clearform(){
+    this.srcImage='./assets/images/fedo-logo-white.png';
+    this.basicWizardForm.reset();
+    this.listdetails=[];
+    this.list=4;
+    this.activeWizard1 =1;
+
+   }
 
 }
