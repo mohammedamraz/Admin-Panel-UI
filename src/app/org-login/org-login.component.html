@@ -42,12 +42,12 @@
                 <div class="mb-3">
       <div class="form-floating ">
 
-                  <label for="floatingInput" class="form-label" i18n>User Name</label>
                   <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
                     placeholder="Enter your email" formControlName="email" style="    background: #383E4A;
                     border: 1px solid #444C5B;height: 3rem;
                     border-radius: 4px;"
                     [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
+                    <label for="floatingInput" class="form-label" i18n>User Name</label>
             
                   <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
             
@@ -65,12 +65,13 @@
                 <div class="mb-3">
       <div class="form-floating ">
 
-                  <label for="floatingInput" class="form-label" i18n>Password</label>
                   <input class="form-control" type="password" required i18n-placeholder id="password"
                     placeholder="Enter your password" formControlName="password" style="    background: #383E4A;
                     border: 1px solid #444C5B;height: 3rem;
                     border-radius: 4px;"
                     [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" />
+                  <label for="floatingInput" class="form-label" i18n>Password</label>
+
                   <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
             
                     <div *ngIf="formValues['password'].errors?.['required']" i18n>

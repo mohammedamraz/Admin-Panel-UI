@@ -33,6 +33,8 @@
                 border: 1px solid #444C5B;height: 3rem;
                 border-radius: 4px;"
                 [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
+            <label for="floatingInput" class="form-label" i18n>Email address</label>
+
             <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
 
                 <div *ngIf="formValues['email'].errors?.['required']" i18n>
@@ -48,12 +50,13 @@
         <div class="mb-3" *ngIf="signUp === false">
       <div class="form-floating ">
 
-            <label for="floatingInput" class="form-label" i18n>Password</label>
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
                 formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
                 border: 1px solid #444C5B;height: 3rem;
                 border-radius: 4px;"
                 required />
+            <label for="floatingInput" class="form-label" i18n>Password</label>
+
             <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
