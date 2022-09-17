@@ -46,7 +46,7 @@ export class OrganisationDetailsComponent implements OnInit {
   organization_email:any='';
   organization_mobile:any='';
   pilot_duration:any='';
-  product_id:any='';
+  product:any[]=[];
   stage:any='';
   start_date:any='';
   status:any='';
@@ -54,10 +54,10 @@ export class OrganisationDetailsComponent implements OnInit {
   url:any='';
   daysLeft:any=0;
   orglogin:boolean=false;
+  userlogin:boolean=true;
   
 
   thirdParty=false;
-  product='vitals';
   tableData:any[]=[];
 
 
@@ -74,22 +74,28 @@ export class OrganisationDetailsComponent implements OnInit {
 
 
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-    console.log('hi bro',data )
-    if(!data.orglogin){
-      this.orglogin=data.orglogin;
-      this.list=4;
-      this.listdetails=[{name:'vital', index:0}];
+    if(data.hasOwnProperty('orglogin')){
+      if(data.orglogin){
+        this.orglogin=true;
+      }
+      else{
+        this.orglogin=true;
+        this.userlogin=false;
+      }
     }
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
         console.log('the file', res);
+        this.designation= res[0].designation;
+        this.listdetails = res[0].product;
+        this.list=this.list + res[0].product.length;
+
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;
         this.created_date= res[0].created_date;
-        this.designation= res[0].designation;
         this.end_date= res[0].end_date;
         this.fedo_score= res[0].fedo_score;
         this.id= res[0].id;
@@ -98,12 +104,12 @@ export class OrganisationDetailsComponent implements OnInit {
         this.organization_email= res[0].organization_email;
         this.organization_mobile= res[0].organization_mobile;
         this.pilot_duration= res[0].pilot_duration;
-        this.product_id= res[0].product_id;
+        this.product= res[0].product;
         this.stage= res[0].stage;
         this.start_date= res[0].start_date;
         this.status= res[0].status;
         this.updated_date= res[0].updated_date;
-        this.url= res[0].url.slice(27,);
+        this.url= res[0].url.slice(32,);
         const oneDay = 24 * 60 * 60 * 1000;
         const firstDate = new Date();
         const secondDate = new Date(this.end_date);
@@ -111,7 +117,8 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.adminService.fetchAllUserOfOrg(this.id).subscribe(
+        this.srcImage=res[0].logo;
+        this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;}
         )
         },
@@ -121,20 +128,14 @@ export class OrganisationDetailsComponent implements OnInit {
     })
 
 
-    // this.adminService.httpLoading$.subscribe(
-    //   (httpInProgress:boolean) => {
-    //      this.orglogin=httpInProgress;
-    //      console.log('you got on',httpInProgress)
-    //      this.cdr.detectChanges();
-    //    }
-    //  );
 
 
-    this.adminService.fetchLatestOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc;return doc})
 
-    this.adminService.fetchAllUserOfOrg(this.id).subscribe(
-      (doc:any) => {this.tableData=doc;}
+    // this.adminService.fetchLatestOrg().subscribe
+    // ((doc:any) =>{ this.tabDAta=doc;return doc})
+
+    this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
+      (doc:any) => {console.log('dodod',doc);this.tableData=doc;}
     )
 
     this.OrgForm = this.fb.group({
@@ -142,14 +143,9 @@ export class OrganisationDetailsComponent implements OnInit {
       admin_name:[this.admin_name],
       organization_email:[this.organization_email,Validators.email],
       organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
-      fedo_score:[this.fedo_score],
-      hsa:[false],
-      ruw:[false],
-      vitals:[true],
       designation:[this.designation],
+      fedo_score:[this.fedo_score],
       url:[this.url],
-      pilot_duration:[this.pilot_duration],
-      product_name:['vitals'],
     });
 
     this.basicWizardForm = this.fb.group({
@@ -168,19 +164,24 @@ export class OrganisationDetailsComponent implements OnInit {
 
   }
 
+  daysLefts(date:any){
+    const firstDate = new Date();
+    const secondDate = new Date(date);
+    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+    return days_difference;
+  }
+  
+
   prepopulateOrgFormforEdit(){
     this.OrgForm.controls['organization_name'].setValue(this.organization_name);
     this.OrgForm.controls['admin_name'].setValue(this.admin_name);
     this.OrgForm.controls['organization_email'].setValue(this.organization_email);
     this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile);
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
-    this.OrgForm.controls['hsa'].setValue(false);
-    this.OrgForm.controls['ruw'].setValue(false);
-    this.OrgForm.controls['vitals'].setValue(true);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
-    this.OrgForm.controls['pilot_duration'].setValue(this.pilot_duration);
-    this.OrgForm.controls['product_id'].setValue(1);
+
  }
 
   orgEdit(content: TemplateRef<NgbModal>){
@@ -218,23 +219,19 @@ export class OrganisationDetailsComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
   demoFunction(event:any, product:string){
-    console.log('asdf',event.target.checked);
     if(product==='hsa'){
-      this.product = product;
       this.OrgForm.controls['ruw'].setValue(false);
       this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='ruw'){
-      this.product = product;
       this.OrgForm.controls['hsa'].setValue(false);
       this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='vitals'){
-      this.product = product;
       this.OrgForm.controls['hsa'].setValue(false);
       this.OrgForm.controls['ruw'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -253,23 +250,19 @@ export class OrganisationDetailsComponent implements OnInit {
   }
 
   demoPrgFunction(event:any, product:string){
-    console.log('asdf',event.target.checked);
     if(product==='hsa'){
-      this.product = product;
       this.OrgForm.controls['ruw'].setValue(false);
       this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='ruw'){
-      this.product = product;
       this.OrgForm.controls['hsa'].setValue(false);
       this.OrgForm.controls['vitals'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
       this.listdetails.splice(selected,1);
     }
     if(product==='vitals'){
-      this.product = product;
       this.OrgForm.controls['hsa'].setValue(false);
       this.OrgForm.controls['ruw'].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -288,13 +281,12 @@ export class OrganisationDetailsComponent implements OnInit {
   }
 
   checkingForm(){
-    console.log('the form values => ',this.OrgForm.value)
-
     this.basicWizardForm.removeControl('ruw');
     this.basicWizardForm.removeControl('hsa');
     this.basicWizardForm.removeControl('vitals');
-    this.basicWizardForm.controls['product_name'].setValue(this.product);
+    // this.basicWizardForm.controls['product_name'].setValue(this.product);
     this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
+    console.log('the patch detaisl',this.basicWizardForm)
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
@@ -315,10 +307,7 @@ export class OrganisationDetailsComponent implements OnInit {
   } 
 
   checkingOrgForm(){
-    this.OrgForm.removeControl('ruw');
-    this.OrgForm.removeControl('hsa');
-    this.OrgForm.removeControl('vitals');
-    this.OrgForm.controls['product_name'].setValue(this.product);
+
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
@@ -361,5 +350,7 @@ deleteImageForOrganization(id:any){
     complete: () => { }
   });
 }
+
+
 
 }

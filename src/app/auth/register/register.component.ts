@@ -70,7 +70,6 @@ export class RegisterComponent implements OnInit {
           error: (error: string) => {
             this.error = error;
             this.cdr.detectChanges();
-            this.signUp = true;
            }});
       }
       else{
@@ -90,34 +89,49 @@ export class RegisterComponent implements OnInit {
 // have to give a route in place of error  when error is happening it should not route it should give registration succeful
 
 
-this.adminService.loginAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
+this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
 .pipe(first())
 .subscribe({
   next: (data: any) => {
     console.log('there is a ssuucesesdf',data)
-    sessionStorage.setItem('currentUser', JSON.stringify(
-      {id:1,username:"test",email:"adminto@coderthemes.com",password:"test",firstName:"Nowak",lastName:"Helme",avatar:"./assets/images/users/user-1.jpg",location:"California, USA",title:"Admin Head",name:"Nowak Helme",token:"fake-jwt-token"}
-      ) );
-      this.adminService.updateRegister(data.user_data[0].id).subscribe({
-            next:(data:any) =>{
-                console.log('there is a status updated',data);
+    if(data.hasOwnProperty('user_data')){
+      data['orglogin']=false;
+      this.adminService.updateUserRegister(data.user_data[0].id).subscribe({
+        next:(data:any) =>{
+            console.log('there is a status updated',data);
+        
+          },
+          error:(error: string) => {
+            console.log('error =>',error)
             
-              },
-              error:(error: string) => {
-                console.log('error =>',error)
-                
-              }
-            })
-            this.router.navigate(['/orgdetails', data.user_data[0].id]);
-            },
+          }
+        })
+    }
+    else{
+      data['orglogin']=true;
+      this.adminService.updateRegister(data.org_data[0].id).subscribe({
+        next:(data:any) =>{
+            console.log('there is a status updated',data);
+        
+          },
+          error:(error: string) => {
+            console.log('error =>',error)
+            
+          }
+        })
+    }
+    sessionStorage.setItem('currentUser', JSON.stringify(data));
+
+
+    this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].id : data.org_data[0].id }/dashboard`]);
+  },
             error: (error: string) => {
               console.log('asdf',error)
               
               this.error = 'username or password is incorrect';
               this.loading = false;
-              this.router.navigate(['/orgdetails',data.user_data[0].id]);
-              this.error = 'User Registration is successfull, please use Vitals app to Sign In';
-              // this.error = '';
+
+
               
             }});
             
@@ -125,8 +139,6 @@ this.adminService.loginAdmin({username: this.signUpForm.value.email, password:th
           error: (error: string) => {
             console.log('asdf',error)
             this.error = 'invalidcode';
-
-
          }});
     }
 

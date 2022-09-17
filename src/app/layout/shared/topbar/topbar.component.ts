@@ -16,6 +16,13 @@ import { SearchResultItem, SearchUserItem } from '../models/search.model';
 // data
 import { NOTIFICATIONS, PROFILEOPTIONS } from './data';
 import { PageTitle } from '../models/page-title.model';
+import { AdminConsoleService } from 'src/app/services/admin-console.service';
+
+type BreadcrumbItem = {
+  label?: string;
+  path?: string;
+  active?: boolean;
+}
 
 @Component({
   selector: 'app-topbar',
@@ -31,6 +38,8 @@ export class TopbarComponent implements OnInit {
   pageTitle: string = '';
   loggedInUser: User | null = null;
   topnavCollapsed: boolean = false;
+  breadcrumbData: any[] = [];
+
 
   @Input() layoutType: string = 'vertical';
   @Input() containerClass?: string = '';
@@ -40,6 +49,7 @@ export class TopbarComponent implements OnInit {
 
   constructor (
     private authService: AuthenticationService,
+    private adminService: AdminConsoleService,
     private eventService: EventService
   ) {
     this.eventService.on(EventType.CHANGE_PAGE_TITLE).subscribe(({ payload }) => {
@@ -52,6 +62,17 @@ export class TopbarComponent implements OnInit {
     this._fetchNotifications();
     this._fetchProfileOptions();
     this.loggedInUser = this.authService.currentUser();
+    this.adminService.breadCrumbs.subscribe(
+      (data:any[]) => {
+        this.breadcrumbData = data
+      }
+    )
+
+    // this.breadcrumbData = [
+    //     { label: 'Home', path: 'home' },
+    //     { label: 'Organisations List', path: 'orgdetails/13' },
+    //     { label: 'Data', path: '.', active: true }
+    // ]
   }
 
   /**

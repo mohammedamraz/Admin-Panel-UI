@@ -263,7 +263,7 @@
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
                                                 border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile" [readonly]="true">
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
                                             </div>
                                         </div>
     
@@ -356,10 +356,10 @@
                         </li>
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
-                            <li [ngbNavItem]="3">
+                            <li [ngbNavItem]="3+i">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">config {{season.name}}</span>
+                                <span class="d-none d-sm-inline">config {{season.url.product_name}}</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row">
@@ -367,7 +367,7 @@
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: min-content max-content;">
-                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/vital/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                             border: 1px solid #444C5B;
                                             border-radius: 4px;"
                                                 name="userName" placeholder="ABSLI" formControlName="url" [readonly]="orglogin">
@@ -396,7 +396,7 @@
                         </ng-template>
 
                         <li [ngbNavItem]="list">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class="d-none d-sm-inline">Finish</span>
                             </a>
@@ -446,6 +446,119 @@
         </div> <!-- end card-body -->
     </div> <!-- end card-->
 </ng-template>
+<ng-template #toggleModal3 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
+        <div class="card-body">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Organisation</h4>
+    
+            <form [formGroup]="OrgForm" #basicForm="ngForm">
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                                <span class="d-none d-sm-inline">Org Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <div class="col-md">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Org Admin Full Name" formControlName="admin_name">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Designation" formControlName="designation">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                border: 1px solid #444C5B;
+                                                border-radius: 4px;"
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
+                                            </div>
+                                        </div>
+    
+                                      
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
+                                <span class="d-none d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto">You have successfully updated your details.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                        
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" *ngIf="activeWizard2 == 1" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
+                        </div>
+                        <li class="previous list-inline-item" >
+                            <button class="btn btn-secondary" (click)="modal.dismiss('')" 
+                                >Cancel</button>
+                        </li>
+
+                        <li class="next list-inline-item float-end" >
+
+                            <button type="button" class="btn btn-secondary" (click)="checkingOrgForm()"
+                                >Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
 
 <div class="row" style="grid-auto-flow: column;
 display: grid;
@@ -461,8 +574,8 @@ grid-template-columns: 8fr 4fr">
                         font-size: large;">{{organization_name}}</p>
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
-                    align-self: center;">
-                        <a href="javascript:void(0)" (click)="open(toggleModal2);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                    align-self: center;" *ngIf="userlogin">
+                        <a href="javascript:void(0)" (click)="open(toggleModal3);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -511,7 +624,7 @@ grid-template-columns: 8fr 4fr">
                 </div>
 
 
-                <div  style="display: grid; 
+                <div *ngIf="userlogin"  style="display: grid; 
                 grid-template-columns: min-content min-content;
                 place-self: center;
              grid-gap: 1rem;">
@@ -582,58 +695,69 @@ grid-template-columns: 1fr 1fr;">
                         <h4 style="color: #98a6ad;">Organisation URL:</h4>
                         <p class="sub-header" style="
                         margin-bottom: 0;
-                        font-size: large;">https://www.fedo.ai/vitals/ <span style="color: #FFF;">{{url}}</span></p>
+                        font-size: large;">https://www.fedo.ai/admin/vital/ <span style="color: #FFF;">{{url}}</span></p>
                     </div>
-                    <div>
-                        <h4 style="color: #98a6ad;">Fedo Vitals</h4>
-                        <p class="sub-header" style="margin-bottom: 0;font-size: large;">Apps</p>
-                    </div>
-                    <div style="
-                    display: grid;
-                    grid-auto-flow: column;
-                    grid-gap: 1rem;
-                    padding-top: 1rem;
-                    grid-template-columns: min-content;
-                ">
-                        <a class='cursor-pointer'>
-                            <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
-                        </a>
-                        <a class='cursor-pointer' >
-                            <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
-                        </a>
-                    </div>
-                    <div class="col-xl-5 card-body" style="padding-left:0">
-                        <p style="
-                        margin-bottom: 0.5rem;
-                    ">Pilot Duration({{daysLeft}} of {{pilot_duration}} days)</p>
-                        <ngb-progressbar style="margin-top: 0;" [type]="(daysLeft>pilot_duration ) ? 'danger':'warning'" [value]="70" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
-                    </div>
-                    <div>
-                        <h4 class="header-title" style="color: white;">Fedo Score:</h4>
-                        <div class="form-check form-switch" style=" display: grid;">
-                            <input type="checkbox" class="form-check-input" [checked]="fedo_score" id="customSwitch1">
+                    <ng-template ngFor let-season [ngForOf]="product" let-i=index> 
+                        <div style="border-bottom-width: 1px;
+                        padding-bottom: 1rem;margin-bottom: 1rem;
+                        border-bottom-style: solid;">
+                        <div>
+                            <h4 style="color: #98a6ad;"> Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}}</h4>
+                            <p class="sub-header" style="margin-bottom: 0;font-size: large;">Apps</p>
                         </div>
-                    </div>
-                </div>   
+                        <div style="
+                        display: grid;
+                        grid-auto-flow: column;
+                        grid-gap: 1rem;
+                        padding-top: 1rem;
+                        grid-template-columns: min-content;">
+                            <a *ngIf="season.url.mobile_url !== null" (click)="season.url.mobile_url" class='cursor-pointer' style="cursor: pointer;" >
+                                <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
+                            </a>
+                            <a *ngIf="season.url.mobile_url !== null" (click)="season.url.mobile_url" class='cursor-pointer' style="opacity: 0.4;" >
+                                <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
+                            </a>
+                            <a *ngIf="season.url.web_url !== null" (click)="season.url.web_url" class='cursor-pointer' >
+                                <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                            </a>
+                        </div>
+                        <div class="col-xl-5 card-body" style="padding-left:0">
+                            <p style="
+                            margin-bottom: 0.5rem;
+                        ">Pilot Duration({{daysLefts(season.end_date)}} of {{season.pilot_duration}} days)</p>
+                            <ngb-progressbar style="margin-top: 0;" [type]="(daysLefts(season.end_date)>season.pilot_duration ) ? 'danger':'warning'" [value]="70" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                        </div>
+                        <div>
+                            <h4 class="header-title" style="color: white;">Fedo Score:</h4>
+                            <div class="form-check form-switch" style=" display: grid;">
+                                <input type="checkbox" class="form-check-input" [checked]="season.fedoscore" id="customSwitch1">
+                            </div>
+                        </div>
+                    </div>  
+
+
+
+                    </ng-template>
+                       </div>   
             </div>
         </div>
     </div>
 
-    <div class="card" style="background: #313844;">
+    <div class="card" style="background: #313844;" >
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-dots-vertical"></i>
                 </a>
-                <div ngbDropdownMenu>
+                <div ngbDropdownMenu *ngIf="userlogin">
                     <!-- item-->
                     <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create Org</a>
                     <!-- item-->
-                    <a href="javascript:void(0);" [routerLink]="['/userdetails', id]"  ngbDropdownItem>User List</a>
+                    <a href="javascript:void(0);" [routerLink]="orglogin ? id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
                 </div>
             </div>            
-            <div class=" float-end" ngbDropdown placement="bottom-end">
+            <div class=" float-end" ngbDropdown placement="bottom-end"  *ngIf="userlogin">
                 <a href="javascript:void(0)" (click)="open(toggleModal1)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-plus"></i>
                 </a>

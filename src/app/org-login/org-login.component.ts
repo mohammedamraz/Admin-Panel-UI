@@ -48,6 +48,8 @@ export class OrgLoginComponent implements OnInit {
   * On submit form
   */
   onSubmit(): void {
+    this.router.navigate([`${1}/dashboard`]);
+
     this.error='';
     this.formSubmitted = true;
     if (this.loginForm.valid) {
@@ -58,15 +60,21 @@ export class OrgLoginComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
          console.log('there is a ssuucesesdf',data);
-         data['orglogin']=true;
+        if(data.hasOwnProperty('user_data')){
+          data['orglogin']=false;
+        }
+        else{
+          data['orglogin']=true;
+        }
         if(this.formValues['rememberMe'].value){
           localStorage.setItem("currentUser", JSON.stringify(data))
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         else{
           sessionStorage.setItem('currentUser', JSON.stringify(data) );
         }
         this.adminConsoleService.httpLoading$.next(true);
-        this.router.navigate(['/orgdetails',data.user_data[0].id]);
+        this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].id : data.org_data[0].id }/dashboard`]);
         },
         error: (error: string) => {
           console.log('asdf',error)
