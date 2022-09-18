@@ -84,7 +84,7 @@ export class RecoverPasswordComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
         this.orgLogin = true;
-        this.router.navigate(['./auth/orgLogin'], );
+        this.router.navigate(['/orgLogin'], );
 
         },
         error: (error: string) => {

@@ -6,7 +6,7 @@
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">Users</h4>
+            <h4 style="color: white;">Create Users</h4>
     
             <form [formGroup]="userForm" #basicForm="ngForm">
                 <div id="basicwizard">
@@ -210,7 +210,7 @@
             <a href="javascript:void(0)"   class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                 <i class="mdi mdi-dots-vertical"></i>
             </a>
-            <div ngbDropdownMenu>
+            <div ngbDropdownMenu *ngIf="false">
                 <a href="javascript:void(0);" (click)="open(toggleModal1)"  ngbDropdownItem>Create User</a>
             </div>
         </div>            

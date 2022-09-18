@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, } from 'rxjs';
 import { ADMIN_URL, API_URL } from '../constants';
 import { NavigationEnd, NavigationError, NavigationStart, Event } from '@angular/router';
+import { AuthenticationService } from '../core/service/auth.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AdminConsoleService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private readonly http: HttpClient,    
+    private authService: AuthenticationService,
+    ) { }
 
 	public httpLoading$ = new BehaviorSubject<boolean>(false);
 	public breadCrumbs = new BehaviorSubject<any[]>([]);
@@ -26,6 +30,11 @@ export class AdminConsoleService {
   fetchLatestVitals(){
     return this.http.get(`${API_URL}2?type=latest`) ;
   }
+  
+  fetchVitals(){
+    return this.http.get(`${API_URL}2`) ;
+  }
+
   fetchTotalTestVitals(){
     return this.http.get(`${API_URL}tests/2`) ;
   }
@@ -52,12 +61,15 @@ export class AdminConsoleService {
 
   }
    
+  fetchUserListById(id:number){
+    return this.http.get(`${API_URL}users/data/list/${id}`);
+  }
 
   fetchLatestOrg(){
     return this.http.get(`${API_URL}org?type=latest`);
   }
   fetchAllUserOfOrg(id:string){
-    return this.http.get(`${API_URL}vitals_users/${id}/1`);
+    return this.http.get(`${API_URL}users/${id}`);
   }
 
   fetchLatestUserOfOrg(id:string){
@@ -138,6 +150,16 @@ export class AdminConsoleService {
 
 
   breadcrumbs(event:any){
+
+    const loggedInUser = <any>this.authService.currentUser();
+    const name = loggedInUser.org_data[0].organization_name;
+
+
+    if(event.url == '/vitals-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
+    ])
+    }
     
     if(event.url == '/home'){
       this.breadCrumbs.next([
@@ -154,23 +176,18 @@ export class AdminConsoleService {
       this.breadCrumbs.next([
           { label: 'Home', path: 'home' },
           { label: 'Organisations List', path: 'orgList' },
-          { label: event.url.slice(12,), path: `/orgdetails/${event.url.slice(12,)}`, active: true },
+          { label: name, path: `/orgdetails/${event.url.slice(12,)}`, active: true },
       ])
     }
     if(event.url.startsWith('/userdetails')){
       this.breadCrumbs.next([
           { label: 'Home', path: 'home' },
           { label: 'Organisations List', path: 'orgList' },
-          { label: event.url.slice(13,), path: `/orgdetails/${event.url.slice(13,)}`},
+          { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
           { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
       ])
     }
 
-    if(event.url == '/vitals-dashboard'){
-      this.breadCrumbs.next([
-        { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
-    ])
-    }
 
   }
 
@@ -179,6 +196,14 @@ export class AdminConsoleService {
     return this.http.get(`${ADMIN_URL}product`);
   }
 
+  fetchTpa(org_id:any){
+
+    return this.http.get(`${ADMIN_URL}/tpa/list/${org_id}`);
+  }
+  addTpa(data:any){
+
+    return this.http.post(`${ADMIN_URL}/tpa`,data);
+  }
 
 
 

@@ -9,12 +9,14 @@
       {{ error }}
     </ngb-alert>
     <div class="mb-3">
-      <label for="emailaddress" class="form-label" i18n>Email address</label>
+      <div class="form-floating ">
       <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
         placeholder="Enter your email" formControlName="email"
         [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" style="    background: #383E4A;
-        border: 1px solid #444C5B;
+        border: 1px solid #444C5B; height: 3rem;
         border-radius: 4px;" />
+      <label for="floatingInput" class="form-label" i18n>Email address</label>
+
 
       <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
 
@@ -24,17 +26,21 @@
         <div *ngIf="formValues['email'].errors?.['email']" i18n>
           Email must be a valid Email Address
         </div>
+      </div>
 
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="password" class="form-label" i18n>Password</label>
+      <div class="form-floating ">
+
       <input class="form-control" type="password" required i18n-placeholder id="password"
         placeholder="Enter your password" formControlName="password" style="    background: #383E4A;
-        border: 1px solid #444C5B;
-        border-radius: 4px;"
+        border: 1px solid #444C5B;height: 3rem;
+        border-radius: 4px;" 
         [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" />
+      <label for="floatingInput" class="form-label" i18n>Password</label>
+
       <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
         <div *ngIf="formValues['password'].errors?.['required']" i18n>
@@ -42,6 +48,7 @@
         </div>
 
       </div>
+    </div>
     </div>
 
     <div class="mb-3">
