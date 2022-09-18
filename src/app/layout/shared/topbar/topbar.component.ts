@@ -66,23 +66,20 @@ export class TopbarComponent implements OnInit {
     if(this.loggedInUser.hasOwnProperty('org_data') ){
       console.log('dune',this.loggedInUser.org_data[0].organization_name);
       this.username = this.loggedInUser.org_data[0].organization_name;
+      if(this.loggedInUser.org_data[0].type == 'admin'){
+        this.adminService.breadCrumbs.subscribe(
+          (data:any[]) => {
+            this.breadcrumbData = data
+          }
+        )
+      }
     }
     else{
       this.username=this.loggedInUser.user_data[0].user_name
     }
-    this.username=this.loggedInUser
     this.loggedInUser = this.authService.currentUser();
-    this.adminService.breadCrumbs.subscribe(
-      (data:any[]) => {
-        this.breadcrumbData = data
-      }
-    )
 
-    // this.breadcrumbData = [
-    //     { label: 'Home', path: 'home' },
-    //     { label: 'Organisations List', path: 'orgdetails/13' },
-    //     { label: 'Data', path: '.', active: true }
-    // ]
+
   }
 
   /**
