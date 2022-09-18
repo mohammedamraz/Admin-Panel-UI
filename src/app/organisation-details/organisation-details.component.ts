@@ -54,10 +54,19 @@ export class OrganisationDetailsComponent implements OnInit {
   url:any='';
   daysLeft:any=0;
   orglogin:boolean=false;
+  user_name: string="fedo";
+  userForm!: FormGroup;
   userlogin:boolean=true;
+  thirdParty: boolean = false;
+  notThirdParty: boolean =true;
+  showButton: boolean = true;
+  selectedUserProducts:any[]=[];
+  userProduct:any[]=[];
+  codeList: any[] = [];
+
   
 
-  thirdParty=false;
+  // thirdParty=false;
   tableData:any[]=[];
 
 
@@ -86,6 +95,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
+        this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
         this.listdetails = res[0].product;
@@ -117,7 +127,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.srcImage=res[0].logo === '' ? "./assets/images/fedo-logo-white.png": res[0].logo ;
+        this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;}
         )
@@ -161,6 +171,26 @@ export class OrganisationDetailsComponent implements OnInit {
       ruw:[false]
 
     });
+    this.userForm =this.fb.group({
+      user_name: [''],
+      designation: [''],
+      email: [''],
+      mobile: [''],
+      org_id: [''],
+      product_id: [''],
+      third_party_org_name: [''],
+
+    });
+    this.adminService.fetchTpa(1).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+   
+        ; return doc;
+    })
 
   }
 
@@ -309,8 +339,10 @@ export class OrganisationDetailsComponent implements OnInit {
     this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
     console.log('the patch detaisl',this.basicWizardForm)
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
-      next: (res) => {
-        console.log('the success=>',res);
+      next: (res:any) => {
+        console.log('the success=>',res.user_name);
+        this.user_name=res.user_name
+
         this.activeWizard1=this.activeWizard1+1;
         // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
         // this.formGroupDirective?.resetForm();
@@ -326,6 +358,67 @@ export class OrganisationDetailsComponent implements OnInit {
       complete: () => { }
     });
   } 
+  change() {
+    this.thirdParty = !this.thirdParty;
+    this.notThirdParty = !this.thirdParty;
+
+
+  }
+
+  
+  inputTpa() {
+    this.userForm.get('third_party_org_name')?.value
+    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
+    console.log("code", this.codeList);
+    console.log("code",);
+    if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
+      this.showButton = false;
+      console.log("hello", this.showButton);
+    }
+
+    else {
+      this.showButton = true;
+    }
+
+  }
+  addTpa() {
+    let input = this.userForm.get('third_party_org_name')?.value
+    let org_id = '1'
+    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
+      // console.log("jhfgdjgj", typeof (input));
+
+      // console.log("", doc);
+      ; return doc;
+    })
+  }
+
+  setValue(doc: any){
+    this.userForm.reset();
+    this.userForm.controls['org_id'].setValue(doc.id);
+    console.log('hey manaf =>',doc);
+
+    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    console.log('see manaf', this.userProduct)
+  }
+
+  checkingUserForm(){
+    this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
+    this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
+    this.adminService.createUser(this.userForm.value).subscribe({
+      next: (res) => {
+        console.log('the success=>', res);
+        this.activeWizard2 = this.activeWizard2 + 1;
+      },
+      error: (err) => {
+        console.log('the failure=>', err);
+        this.errorMessage = err;
+        this.showLiveAlert = true;
+
+      },
+      complete: () => { }
+    });
+  }
+
 
   checkingOrgForm(){
 
@@ -371,6 +464,24 @@ deleteImageForOrganization(id:any){
     complete: () => { }
   });
 }
+
+updateUserProd(event:any, product:any){
+  if(event.target.checked){
+    this.selectedUserProducts.push(product);
+  }
+  else{
+    const selected =this.selectedUserProducts.findIndex(obj=>obj.product_id===product.product_id);
+    this.selectedUserProducts.splice(selected,1);
+  }
+
+}
+clearform(){
+    this.srcImage='./assets/images/fedo-logo-white.png';
+    this.basicWizardForm.reset();
+    this.listdetails=[];
+    this.list=4;
+    this.activeWizard1 =1;
+   }
 
 
 

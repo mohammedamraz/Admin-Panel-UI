@@ -29,27 +29,30 @@ export class AuthOrgGuard implements CanActivate {
         let snapshotParam:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).org_id;
         let snapshotParamUsersList:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).user_id;
 
+        if(snapshotParam){
+        
         this.adminConsoleService.fetchOrgById(snapshotParam).subscribe({
             next: (res:any) => {
-              if(res[0].is_register) {
-                  this.router.navigate(['./orgLogin'], );
+              if(res[0].is_register==true) {
+                  this.router.navigate(['/orgLogin'], );
             }
             else{
-                this.router.navigate(['./register']);
+                this.router.navigate(['/register']);
                 }
             },
             error: (err) => {
-              console.log('the failure=>',err);
+              console.log('the failure org=>',err);
             },
             complete: () => { }
-          });
-          this.adminConsoleService.fetchUserById(snapshotParamUsersList).subscribe({
+          });}
+          else{
+          this.adminConsoleService.fetchUserListById(snapshotParamUsersList).subscribe({
             next: (res:any) => {
-              if(res[0].is_register) {
-                  this.router.navigate(['./orgLogin'], );
+              if(res[0].is_register==true) {
+                  this.router.navigate(['/orgLogin'], );
             }
             else{
-                this.router.navigate(['./register']);
+                this.router.navigate(['/register']);
                 }
             },
             error: (err) => {
@@ -57,7 +60,8 @@ export class AuthOrgGuard implements CanActivate {
             },
             complete: () => { }
           });
-          this.router.navigate(['./orgLogin'], );
+        }
+          this.router.navigate(['/orgLogin'], );
 
 
         return false;
