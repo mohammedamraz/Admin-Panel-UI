@@ -211,6 +211,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
+    this.activeWizard2 = 1;
 
  }
 
@@ -394,8 +395,12 @@ export class OrganisationDetailsComponent implements OnInit {
 
   setValue(doc: any){
     this.userForm.reset();
+    this.thirdParty = false;
+    this.errorMessage = '';
+    this.showLiveAlert = false;
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
+    this.activeWizard1 = 1;
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
@@ -407,7 +412,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res) => {
         console.log('the success=>', res);
-        this.activeWizard2 = this.activeWizard2 + 1;
+        this.activeWizard1 = this.activeWizard1 + 1;
       },
       error: (err) => {
         console.log('the failure=>', err);

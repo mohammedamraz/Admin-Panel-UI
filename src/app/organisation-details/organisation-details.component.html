@@ -1,4 +1,4 @@
-<ng-template #toggleModal2 let-modal>
+<ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
@@ -63,15 +63,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-3" style="display: grid; grid-template-columns: 1fr 2fr" >
-                                        <div class="form-check">
-                                          <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
-                                          <label class="form-check-label" for="customRadio1">Own Employee</label>
-                                        </div>
-                                        <div class="form-check">
-                                          <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
-                                          <label class="form-check-label" for="customRadio1"
-                                            >Employee of TPA</label
-                                          >
+                                            <div class="form-check">
+                                              <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                              <label class="form-check-label" for="customRadio1">Own Employee</label>
+                                            </div>
+                                            <div class="form-check">
+                                              <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                              <label class="form-check-label" for="customRadio1">Employee of TPA</label>
                                         </div>
                                       </div>
                                       <div class="col-md-8" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
@@ -79,10 +77,6 @@
                                             background: #383e4a;
                                             border: 1px solid #444c5b;
                                             border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
-                                        <!-- <div *ngIf="userForm.controls['third_party_org_name'].invalid && userForm.controls['third_party_org_name'].touched" class="alert-danger">
-                                                                      TPP required.      
-                                                                  </div> -->
-                  
                                         <datalist id="codes" style="background: white">
                                           <option *ngFor="let c of codeList" >
                                             {{ c }}
@@ -99,23 +93,7 @@
                                             padding-left: 0.5rem;">+</button>
                                         <!-- </div> -->
                                       </div>
-                                        <!-- <div class="mt-3" style="display: grid;
-                                        grid-template-columns: 1fr 2fr;">
-                                            <div class="form-check">
-                                                <input type="radio" id="customRadio1"[checked]="!thirdParty" name="customRadio" class="form-check-input" (click)="thirdParty=false">
-                                                <label class="form-check-label" for="customRadio1">Own Employee</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="radio" id="customRadio2" [checked]="false" name="customRadio" class="form-check-input" (click)="thirdParty=true">
-                                                <label class="form-check-label" for="customRadio2">Employee of Third-Party Tie-up</label>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="col-md-8" style=" padding-top: 1rem;padding-bottom: 1rem;" *ngIf="thirdParty">
-                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                            border: 1px solid #444C5B;
-                                            border-radius: 4px;"
-                                                name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name">
-                                        </div> -->
+
     
                                       
                                     </div> <!-- end col -->
@@ -523,7 +501,7 @@
         </div> <!-- end card-body -->
     </div> <!-- end card-->
 </ng-template>
-<ng-template #toggleModal3 let-modal>
+<ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
@@ -652,7 +630,7 @@ grid-template-columns: 8fr 4fr">
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;" *ngIf="userlogin">
-                        <a href="javascript:void(0)" (click)="open(toggleModal3);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a href="javascript:void(0)" (click)="open(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -761,7 +739,7 @@ grid-template-columns: 1fr 1fr;">
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a (click)="open(toggleModal2);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a (click)="open(toggleModal1);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -831,7 +809,7 @@ grid-template-columns: 1fr 1fr;">
 
                     <!-- <a href="javascript:void(0);" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a> -->
                     <!-- item-->
-                    <a href="javascript:void(0);" (click)="open(toggleModal2); setValue(person);" ngbDropdownItem>Create User</a>
+                    <a href="javascript:void(0);" (click)="open(toggleModal3); setValue(person);" ngbDropdownItem>Create User</a>
                     <!-- item-->
                     <a href="javascript:void(0);" [routerLink]="orglogin ? id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
@@ -840,7 +818,7 @@ grid-template-columns: 1fr 1fr;">
             </div>            
             <div class=" float-end" ngbDropdown placement="bottom-end"  *ngIf="userlogin" >
                 <div *ngFor="let person of tabDAta;">
-                <a  href="javascript:void(0)" (click)="open(toggleModal2);setValue(person);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <a  href="javascript:void(0)" (click)="open(toggleModal3);setValue(person);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-plus"></i>
                 </a>
             </div>            
