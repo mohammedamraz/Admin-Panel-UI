@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   srcImage:any='./assets/images/fedo-logo-white.png';
   image:any=[];
   org_name: string="fedo";
+  user_name: string="fedo";
   persons: PersonDetails[] = [];
   organisationCount:any=0;
   vitalsCount:any=0;
@@ -48,6 +49,16 @@ export class HomeComponent implements OnInit {
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   products:any[]=[];
   selectedProducts:any[]=[];
+  userForm!: FormGroup;
+  thirdParty: boolean = false;
+  notThirdParty: boolean =true;
+  codeList: any[] = [];
+  showButton: boolean = true;
+  userProduct:any[]=[];
+  selectedUserProducts:any[]=[];
+
+
+
 
   constructor(
     private readonly adminService: AdminConsoleService,
@@ -60,7 +71,17 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
+    this.adminService.fetchTpa(1).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+   
+        ; return doc;
+    })
     
 
 
@@ -86,6 +107,17 @@ export class HomeComponent implements OnInit {
         pilot_duration:[''],
         product_name:[''],
         url:['',[Validators.required]]
+      });
+
+      this.userForm =this.fb.group({
+        user_name: [''],
+        designation: [''],
+        email: [''],
+        mobile: [''],
+        org_id: [''],
+        product_id: [''],
+        third_party_org_name: [''],
+
       });
 
   }
@@ -129,15 +161,16 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>value.web_fedoscore).toString());
+    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+    data.append('type','orgAdmin');
     data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         console.log('the success=>',res);
-
+        this.org_name = res[0].organization_name;
         this.activeWizard1=this.activeWizard1+1;
       },
       error: (err) => {
@@ -156,9 +189,8 @@ export class HomeComponent implements OnInit {
     console.log('donned',product)
     
     if(event.target.checked){
-      this.list++;
       // this.basicWizardForm.controls[product].setValue(true);
-      this.selectedProducts.push(product.id)
+      this.list++;
       let details={
         prod_id:product.id,
         name:product.product_name, 
@@ -166,7 +198,7 @@ export class HomeComponent implements OnInit {
         pilot_duration:0,
         fedo_score:false,
         web_fedoscore:false,
-        productaccess_mobile: false,
+        productaccess_web: false,
         web_url:''
       };
       this.listdetails.push(details);
@@ -218,5 +250,86 @@ export class HomeComponent implements OnInit {
     }
   }
    get form1() { return this.basicWizardForm.controls; }
+
+   clearform(){
+    this.srcImage='./assets/images/fedo-logo-white.png';
+    this.basicWizardForm.reset();
+    this.listdetails=[];
+    this.list=4;
+    this.activeWizard1 =1;
+   }
+
+   change() {
+    this.thirdParty = !this.thirdParty;
+    this.notThirdParty = !this.thirdParty;
+
+
+  }
+
+  
+  inputTpa() {
+    this.userForm.get('third_party_org_name')?.value
+    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
+    console.log("code", this.codeList);
+    console.log("code",);
+    if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
+      this.showButton = false;
+      console.log("hello", this.showButton);
+    }
+
+    else {
+      this.showButton = true;
+    }
+
+  }
+  addTpa() {
+    let input = this.userForm.get('third_party_org_name')?.value
+    let org_id = '1'
+    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
+      // console.log("jhfgdjgj", typeof (input));
+
+      // console.log("", doc);
+      ; return doc;
+    })
+  }
+
+  checkingUserForm(){
+    this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
+    this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
+    this.adminService.createUser(this.userForm.value).subscribe({
+      next: (res:any) => {
+        console.log('the success=>', res);
+        this.user_name=res.user_name
+        this.activeWizard2 = this.activeWizard2 + 1;
+      },
+      error: (err) => {
+        console.log('the failure=>', err);
+        this.errorMessage = err;
+        this.showLiveAlert = true;
+
+      },
+      complete: () => { }
+    });
+  }
+
+  setValue(doc: any){
+    this.userForm.reset();
+    this.userForm.controls['org_id'].setValue(doc.id);
+    console.log('hey manaf =>',doc);
+
+    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    console.log('see manaf', this.userProduct)
+  }
+
+  updateUserProd(event:any, product:any){
+    if(event.target.checked){
+      this.selectedUserProducts.push(product);
+    }
+    else{
+      const selected =this.selectedUserProducts.findIndex(obj=>obj.product_id===product.product_id);
+      this.selectedUserProducts.splice(selected,1);
+    }
+
+  }
 
 }
