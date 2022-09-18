@@ -61,6 +61,9 @@ export class AdminConsoleService {
 
   }
    
+  fetchUserListById(id:number){
+    return this.http.get(`${API_URL}users/data/list/${id}`);
+  }
 
   fetchLatestOrg(){
     return this.http.get(`${API_URL}org?type=latest`);

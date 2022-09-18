@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   srcImage:any='./assets/images/fedo-logo-white.png';
   image:any=[];
   org_name: string="fedo";
+  user_name: string="fedo";
   persons: PersonDetails[] = [];
   organisationCount:any=0;
   vitalsCount:any=0;
@@ -296,8 +297,9 @@ export class HomeComponent implements OnInit {
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         console.log('the success=>', res);
+        this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
       },
       error: (err) => {

@@ -37,6 +37,7 @@ export class OrganisationListComponent implements OnInit {
   products:any[]=[];
   next:boolean=false;
   org_name: string="";
+  user_name: string="";
   image:any=[];
   selectedProducts:any[]=[];
   // userForm!: FormGroup;
@@ -317,8 +318,10 @@ export class OrganisationListComponent implements OnInit {
     this.userForm.controls['product_name'].setValue(this.product);
     this.userForm.controls['organization_name'].setValue(this.userOrganisationName);
     this.adminService.createUser(this.userForm.value).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         console.log('the success=>',res);
+        this.user_name=res.user_name
+
         this.userWizard1=this.userWizard1+1;
         // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
         // this.formGroupDirective?.resetForm();
