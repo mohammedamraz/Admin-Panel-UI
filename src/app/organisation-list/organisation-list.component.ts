@@ -16,9 +16,10 @@ import { SortEvent } from '../shared/advanced-table/sortable.directive';
 })
 export class OrganisationListComponent implements OnInit {
   activeWizard2: number = 1;
+  activeWizard3: number = 1;
   userWizard1:number =1;
   showLiveAlert=false;
-  list: number = 3;
+  list: number = 4;
   userForm!: FormGroup;
   basicWizardForm!: FormGroup;
   errorMessage='';
@@ -38,6 +39,13 @@ export class OrganisationListComponent implements OnInit {
   org_name: string="";
   image:any=[];
   selectedProducts:any[]=[];
+  // userForm!: FormGroup;
+  // thirdParty: boolean = false;
+  notThirdParty: boolean =true;
+  codeList: any[] = [];
+  showButton: boolean = true;
+  userProduct:any[]=[];
+  selectedUserProducts:any[]=[];
 
   constructor(
     private modalService: NgbModal,
@@ -55,7 +63,17 @@ export class OrganisationListComponent implements OnInit {
     this.columns = this.tabDAta
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
-  
+    this.adminService.fetchTpa(1).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+   
+        ; return doc;
+    })
+
     this.basicWizardForm = this.fb.group({
       organization_name:[''],
       admin_name:['',Validators.required],
@@ -70,19 +88,26 @@ export class OrganisationListComponent implements OnInit {
       pilot_duration:[''],
       product_name:[''],
     });
-    this.userForm = this.fb.group({
+
+    this.userForm =this.fb.group({
       user_name: [''],
       designation: [''],
-      email: ['', Validators.email],
+      email: [''],
       mobile: [''],
-      organization_name: [''],
-      product_name: [''],
+      org_id: [''],
+      product_id: [''],
       third_party_org_name: [''],
-      hsa: [''],
-      ruw: [''],
-      vitals: ['']
-    })
+
+    });
   }
+
+  clearform(){
+    this.srcImage='./assets/images/fedo-logo-white.png';
+    this.basicWizardForm.reset();
+    this.listdetails=[];
+    this.list=4;
+    this.activeWizard2 =1;
+   }
   
 
 
@@ -219,40 +244,40 @@ export class OrganisationListComponent implements OnInit {
     });
   } 
 
-  checkingUserForm(){
-    var data = new FormData();
-    data.append('organization_name',this.basicWizardForm.value.organization_name);
-    data.append('designation', this.basicWizardForm.value.designation);
-    data.append('admin_name', this.basicWizardForm.value.admin_name);
-    data.append('organization_email', this.basicWizardForm.value.organization_email);
-    data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
-    data.append('fedo_score', this.listdetails.map(value=>value.fedo_score).toString());
-    data.append('pilot_duration',this.listdetails.map(value=>value.pilot_duration).toString());
-    data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
-    data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
-    data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
-    data.append('type','orgAdmin');
-    data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
-    console.log('this image => ,',this.image)
-    this.image==''? null:data.append('file', this.image, this.image.name)
-    console.log('the request body => ', data)
-    this.adminService.createOrg(data).subscribe({
-      next: (res:any) => {
-        console.log('the success=>',res);
-        this.org_name = res[0].organization_name;
-        this.activeWizard2=this.activeWizard2+1;
-      },
-      error: (err) => {
-        console.log('the failure=>',err);
-        this.errorMessage=err;
-        this.showLiveAlert=true;
+  // // checkingForm(){
+  // //   var data = new FormData();
+  // //   data.append('organization_name',this.basicWizardForm.value.organization_name);
+  // //   data.append('designation', this.basicWizardForm.value.designation);
+  // //   data.append('admin_name', this.basicWizardForm.value.admin_name);
+  // //   data.append('organization_email', this.basicWizardForm.value.organization_email);
+  // //   data.append('organization_mobile','+91'+this.basicWizardForm.value.organization_mobile);
+  // //   data.append('fedo_score', this.listdetails.map(value=>value.fedo_score).toString());
+  // //   data.append('pilot_duration',this.listdetails.map(value=>value.pilot_duration).toString());
+  // //   data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
+  // //   data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
+  // //   data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
+  // //   data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+  // //   data.append('type','orgAdmin');
+  // //   data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
+  // //   console.log('this image => ,',this.image)
+  // //   this.image==''? null:data.append('file', this.image, this.image.name)
+  // //   console.log('the request body => ', data)
+  // //   this.adminService.createOrg(data).subscribe({
+  // //     next: (res:any) => {
+  // //       console.log('the success=>',res);
+  // //       this.org_name = res[0].organization_name;
+  // //       this.activeWizard2=this.activeWizard2+1;
+  // //     },
+  // //     error: (err) => {
+  // //       console.log('the failure=>',err);
+  // //       this.errorMessage=err;
+  // //       this.showLiveAlert=true;
 
-      },
-      complete: () => { }
-    });
+  // //     },
+  // //     complete: () => { }
+  // //   });
   
-  } 
+  // } 
 
   demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
@@ -324,5 +349,76 @@ export class OrganisationListComponent implements OnInit {
     if (this.service.endIndex > this.service.totalRecords) {
       this.service.endIndex = this.service.totalRecords;
     }
+  }
+  change() {
+    this.thirdParty = !this.thirdParty;
+    this.notThirdParty = !this.thirdParty;
+
+
+  }
+
+  
+  inputTpa() {
+    this.userForm.get('third_party_org_name')?.value
+    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
+    console.log("code", this.codeList);
+    console.log("code",);
+    if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
+      this.showButton = false;
+      console.log("hello", this.showButton);
+    }
+
+    else {
+      this.showButton = true;
+    }
+
+  }
+  addTpa() {
+    let input = this.userForm.get('third_party_org_name')?.value
+    let org_id = '1'
+    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
+      // console.log("jhfgdjgj", typeof (input));
+
+      // console.log("", doc);
+      ; return doc;
+    })
+  }
+
+  checkingUserForm(){
+    this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
+    this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
+    this.adminService.createUser(this.userForm.value).subscribe({
+      next: (res) => {
+        console.log('the success=>', res);
+        this.activeWizard2 = this.activeWizard2 + 1;
+      },
+      error: (err) => {
+        console.log('the failure=>', err);
+        this.errorMessage = err;
+        this.showLiveAlert = true;
+
+      },
+      complete: () => { }
+    });
+  }
+
+  setValue(doc: any){
+    this.userForm.reset();
+    this.userForm.controls['org_id'].setValue(doc.id);
+    console.log('hey manaf =>',doc);
+
+    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    console.log('see manaf', this.userProduct)
+  }
+
+  updateUserProd(event:any, product:any){
+    if(event.target.checked){
+      this.selectedUserProducts.push(product);
+    }
+    else{
+      const selected =this.selectedUserProducts.findIndex(obj=>obj.product_id===product.product_id);
+      this.selectedUserProducts.splice(selected,1);
+    }
+
   }
 }
