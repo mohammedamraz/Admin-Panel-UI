@@ -28,31 +28,13 @@ export class AuthOrgGuard implements CanActivate {
         //need to implement decription
         let snapshotParam:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).org_id;
         let snapshotParamUsersList:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).user_id;
-
-        if(snapshotParam){
-        
         this.adminConsoleService.fetchOrgById(snapshotParam).subscribe({
             next: (res:any) => {
-              if(res[0].is_register==true) {
-                  this.router.navigate(['/orgLogin'], );
+              if(res[0].is_register) {
+                  this.router.navigate(['./orgLogin'], );
             }
-            else{
-                this.router.navigate(['/register']);
-                }
-            },
-            error: (err) => {
-              console.log('the failure org=>',err);
-            },
-            complete: () => { }
-          });}
-          else{
-          this.adminConsoleService.fetchUserListById(snapshotParamUsersList).subscribe({
-            next: (res:any) => {
-              if(res[0].is_register==true) {
-                  this.router.navigate(['/orgLogin'], );
-            }
-            else{
-                this.router.navigate(['/register']);
+            else{              
+                this.router.navigate(['./register'], { queryParams: { data: res } });
                 }
             },
             error: (err) => {
@@ -60,8 +42,21 @@ export class AuthOrgGuard implements CanActivate {
             },
             complete: () => { }
           });
-        }
-          this.router.navigate(['/orgLogin'], );
+          this.adminConsoleService.fetchUserById(snapshotParamUsersList).subscribe({
+            next: (res:any) => {
+              if(res[0].is_register) {
+                  this.router.navigate(['./orgLogin'], );
+            }
+            else{
+                this.router.navigate(['./register'],{queryParams: { data: res } });
+                }
+            },
+            error: (err) => {
+              console.log('the failure=>',err);
+            },
+            complete: () => { }
+          });
+          this.router.navigate(['./orgLogin'], );
 
 
         return false;

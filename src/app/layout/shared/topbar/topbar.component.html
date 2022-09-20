@@ -16,9 +16,9 @@
                     </span>
                 </a>
                 <div ngbDropdownMenu class="dropdown-menu-end profile-dropdown ">
-                    <div class="dropdown-header noti-title" ngbDropdownItem>
+                    <!-- <div class="dropdown-header noti-title" ngbDropdownItem>
                         <h6 class="text-overflow m-0" style="color: white;">Welcome !</h6>
-                    </div>
+                    </div> -->
 
                     <ng-container *ngFor="let option of profileOptions;let i=index">
                         <div class="dropdown-divider" *ngIf="i===profileOptions.length-1"></div>
@@ -61,7 +61,7 @@
                     <li class="breadcrumb-item" *ngIf="!item.active"><a
                             [routerLink]="item.path">{{item.label}}</a>
                     </li>
-                    <li class="breadcrumb-item active" *ngIf="item.active">{{item.label}}
+                    <li class="breadcrumb-item active" style="font-weight: 500;" *ngIf="item.active">{{item.label}}
                     </li>
                 </ng-container>
             </ol>

@@ -22,12 +22,13 @@ export class RegisterComponent implements OnInit {
     password: ['', [Validators.required]],
     confirmPassword: ['', [Validators.required]],
     ConfirmationCode: ['']
-  });;
+  });
   formSubmitted: boolean = false;
   showPassword: boolean = false;
   loading: boolean = false;
   error: string = '';
   signUp:boolean = false;
+  email:any;
 
   constructor (
     private fb: FormBuilder,
@@ -35,10 +36,24 @@ export class RegisterComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private readonly adminService: AdminConsoleService,
     private cdr: ChangeDetectorRef,
+    private route: Router
 
-  ) { }
+  ) {
+    this.data = this.route.getCurrentNavigation()?.extras?.queryParams?.['data'];
+   }
+   data:any=[]
 
   ngOnInit(): void {
+    console.log(this.data);
+    
+    console.log(this.data[0].organization_email);
+ 
+    
+    this.signUpForm.controls['email'].setValue(this.data[0].organization_email);
+    this.signUpForm.controls['email'].setValue(this.data[0].email);
+ 
+ 
+    
   }
 
   /**

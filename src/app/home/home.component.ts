@@ -331,5 +331,8 @@ export class HomeComponent implements OnInit {
     }
 
   }
+  reloadCurrentPage() {
+    window. location. reload();
+    }
 
 }

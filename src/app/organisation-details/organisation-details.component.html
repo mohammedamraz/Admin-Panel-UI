@@ -618,14 +618,18 @@
 <div class="row" style="grid-auto-flow: column;
 display: grid;
 grid-template-columns: 8fr 4fr">
+
     <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid; grid-template-columns: 1fr 1fr;">
                     <div>
-                        <h4 style="color: #98a6ad;">Organisation Name</h4>
+                        <h4 style="color: #98a6ad;font-weight: 400;
+                        font-size: 18px;">Organisation Name</h4>
                         <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;
+                        margin-bottom: 0;font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;
                         font-size: large;">{{organization_name}}</p>
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
@@ -638,31 +642,43 @@ grid-template-columns: 8fr 4fr">
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid; grid-template-columns: 1fr 1fr;">
                     <div>
-                        <h4 style="color: #98a6ad;">Org Admin Full Name</h4>
+                        <h4 style="color: #98a6ad;font-weight: 400;
+                        font-size: 18px;">Org Admin Full Name</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">{{admin_name}}</p>
+                        font-size: large;font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;">{{admin_name}}</p>
                     </div>
                     <div>
-                        <h4 style="color: #98a6ad;">Designation</h4>
+                        <h4 style="color: #98a6ad;font-weight: 400;
+                        font-size: 18px;">Designation</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">{{designation}}</p>
+                        font-size: large;font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;">{{designation}}</p>
                     </div>
                 </div>
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid;grid-template-columns: 1fr 1fr;">
                     <div>
-                        <h4 style="color: #98a6ad;">Mobile Number</h4>
+                        <h4 style="color: #98a6ad;font-weight: 400;
+                        font-size: 18px;">Mobile Number</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">{{organization_mobile}}</p>
+                        font-size: large;font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;">{{organization_mobile}}</p>
                     </div>
                     <div>
-                        <h4 style="color: #98a6ad;">Email Address</h4>
+                        <h4 style="color: #98a6ad;font-weight: 400;
+                        font-size: 18px;">Email Address</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-size: large;">{{organization_email}}</p>
+                        font-size: large;font-weight: 500;
+                        font-size: 18px;
+                        line-height: 22px;">{{organization_email}}</p>
                     </div>
                 </div>
 
@@ -679,16 +695,17 @@ grid-template-columns: 8fr 4fr">
                 </div>
 
 
-                <div *ngIf="userlogin"  style="display: grid; 
-                grid-template-columns: min-content min-content;
+                <div *ngIf="userlogin"  style="display: grid;
+               
                 place-self: center;
-             grid-gap: 1rem;">
+             grid-gap: 1rem;grid-template-columns: 1fr 1fr">
              <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
                     <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
                     border-radius: 5px;overflow: hidden;"
                     accept="image/jpeg,image/jpg,image/png,image/gif">
                     <ngx-dropzone-label>
                         <i class="h1 text-muted dripicons-cloud-upload"></i>
+                        <p>Upload Another</p>
        
                     </ngx-dropzone-label>
                 </ngx-dropzone>
@@ -696,10 +713,12 @@ grid-template-columns: 8fr 4fr">
 
                 <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
        
-                        <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;"
+                        <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit"
                         (click)="onRemove($event)">
-                        <i class="mdi mdi-delete" style="font-size: 34px;padding: 1rem;"></i>
+                        <i class="mdi mdi-delete" style="font-size: 34px;"></i>
+                        <!-- <p>Delete Logo</p> -->
                     </a>
+                    <p style="text-align: center;">Delete Logo</p>
 
                 </div>
 
@@ -731,7 +750,7 @@ grid-template-columns: 1fr 1fr;">
     <div class="">
         <div class="card" style="background: #313844;">
                 <div class="card-body" style="grid-auto-flow: column;
-                display: grid; padding-bottom: 0;padding-left: 0.7rem; " *ngIf="false">
+                display: grid; padding-bottom: 0;padding-left: 0.7rem; ">
                     <div >
                         <h4 class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
@@ -746,21 +765,22 @@ grid-template-columns: 1fr 1fr;">
                 </div>
                 <div class="row">
                 <div class="card-body" style="display: grid; ">
-                    <div style="border-bottom-width: 1px;padding-bottom: 1rem;border-bottom-style: solid;">
-                        <h4 style="color: #98a6ad;">Organisation URL:</h4>
+                    <div style="border-bottom-width: 1px;padding-bottom: 1rem;border-bottom-style: dotted;">
+                        <h4 style="color: #98a6ad;">Org URL:</h4>
                         <p class="sub-header" style="
                         margin-bottom: 0;
-                        font-size: large;">https://www.fedo.ai/admin/vital/ <span style="color: #FFF;">{{url}}</span></p>
+                        font-size: 20;">https://www.fedo.ai/admin/ <span style="color: #FFF;font-weight: 500;">{{url}}</span></p>
                     </div>
                     <ng-template ngFor let-season [ngForOf]="product" let-i=index> 
                         <div style="border-bottom-width: 1px;
-                        padding-bottom: 1rem;margin-bottom: 1rem;
-                        border-bottom-style: solid;">
-                        <div>
+                        padding-bottom: 1rem;margin-bottom: 1rem;border-bottom-style: dotted;
+                      ">
+                        <div style="margin-top: 1rem;">
                             <h4 style="color: #98a6ad;"> Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}}</h4>
                             <p class="sub-header" style="margin-bottom: 0;font-size: large;">Apps</p>
                         </div>
                         <div style="
+                        
                         display: grid;
                         grid-auto-flow: column;
                         grid-gap: 1rem;
@@ -826,20 +846,22 @@ grid-template-columns: 1fr 1fr;">
             <h4 class="mt-0 header-title" style="color: white;">Recent 5 Users</h4>
             <div class="table-responsive">
                 <table class="table mb-0">
-                    <thead>
+                    <thead style="color: #9BA6AC;font-weight: 600;">
                         <tr>
                             <th>#</th>
                             <th>Org User Name</th>
-                            <th>Mobie</th>
-                            <th>Total Tests</th>
+                            <th>Mobile</th>
+                            <th style="text-align: -webkit-center;">Total Tests</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="color: #9BA6AC">
                         <tr *ngFor="let person of tableData;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
                             <td>{{person.user_name}}</td>
                             <td>{{person.mobile}}</td>
-                            <td>{{person.total_tests}}</td>
+                            <td style="text-align: center;color: #82B4F3;border-bottom-color:#9BA6AC">{{person.test}}</td>
+                            
+                            
                         </tr>
 
                      
