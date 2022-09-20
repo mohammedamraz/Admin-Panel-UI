@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
         product_id: [''],
-        third_party_org_name: ['',Validators.email],
+        third_party_org_name: ['',Validators.required],
 
       });
 
@@ -297,6 +297,7 @@ export class HomeComponent implements OnInit {
 
   checkingUserForm(){
     console.log("fen boy",this.userForm.value);
+    console.log('your boy', this.selectedUserProducts)
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
@@ -358,6 +359,12 @@ export class HomeComponent implements OnInit {
 
   nextDisabled(){
     return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
+  }
+
+  checkUserFirstForm(){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+      this.activeWizard2=this.activeWizard2+1;
+    }
   }
 
 }
