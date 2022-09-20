@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
-    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
+    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     this.adminService.fetchTpa(1).subscribe((doc: any) => {
