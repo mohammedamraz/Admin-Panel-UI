@@ -262,11 +262,11 @@
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     {{season.index}}
-                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
+                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
                                                             floor: 0,
-                                                            ceil: 100
+                                                            ceil: 90
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
@@ -292,7 +292,7 @@
                                                 <div style="place-self: center;padding-right: 0;">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
-                                                    name="userName" placeholder="ABSLI"required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':basicForm.submitted&&form1['url'].valid , 'is-invalid':basicForm.submitted&&form1['url'].invalid}">
+                                                    name="userName" placeholder="ABSLI"required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
                                                     <div *ngIf="form1['url'].invalid&&basicForm.touched" class="invalid-feedback">
                                                         Please enter url .
                                                     </div>

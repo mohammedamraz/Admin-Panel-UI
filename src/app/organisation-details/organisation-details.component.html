@@ -758,7 +758,7 @@ grid-template-columns: 1fr 1fr;">
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a (click)="open(toggleModal1);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a (click)="open(toggleModal1);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle [hidden]="true">
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -858,8 +858,8 @@ grid-template-columns: 1fr 1fr;">
                         <tr *ngFor="let person of tableData;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
                             <td>{{person.user_name}}</td>
-                            <td>{{person.mobile}}</td>
-                            <td style="text-align: center;color: #82B4F3;border-bottom-color:#9BA6AC">{{person.test}}</td>
+                            <td>{{person.mobile.slice(3,14)}}</td>
+                            <td style="text-align: center;color: #82B4F3;border-bottom-color:#9BA6AC">{{person.total_tests}}</td>
                             
                             
                         </tr>

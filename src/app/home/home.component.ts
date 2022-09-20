@@ -103,8 +103,8 @@ export class HomeComponent implements OnInit {
         hsa:[false],
         ruw:[false],
         vitals:[false],
-        designation:[''],
-        pilot_duration:[''],
+        designation:['',Validators.required],
+        pilot_duration:['',Validators.required],
         product_name:[''],
         url:['',[Validators.required]]
       });

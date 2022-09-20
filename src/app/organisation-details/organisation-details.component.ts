@@ -95,6 +95,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
+        
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
@@ -129,7 +130,8 @@ export class OrganisationDetailsComponent implements OnInit {
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-          (doc:any) => {this.tableData=doc;}
+          (doc:any) => {this.tableData=doc;console.log("ghf",doc);
+          }
         )
         },
       error:(err)=>{
@@ -342,7 +344,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res:any) => {
         console.log('the success=>',res.user_name);
-        this.user_name=res.user_name
+        this.user_name=res[0].user_name
 
         this.activeWizard1=this.activeWizard1+1;
         // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
