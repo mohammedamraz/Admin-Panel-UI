@@ -232,7 +232,6 @@ export class HomeComponent implements OnInit {
         next: (data:any)=>{
           
           
-          
           this.activeWizard1 = this.activeWizard1+1;
         },
         error:(data:any)=>{
@@ -334,5 +333,15 @@ export class HomeComponent implements OnInit {
   reloadCurrentPage() {
     window. location. reload();
     }
+
+  ngstyle(){
+   const stone = {'background': '#3B4F5F',
+    'border': '1px solid #3E596D',
+    'color': '#5FB6DB',
+    'pointer-events': 'auto'
+  }
+
+  return stone
+  }
 
 }

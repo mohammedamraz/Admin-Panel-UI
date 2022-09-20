@@ -15,7 +15,7 @@
                         class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard1 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class="d-none d-sm-inline">Org Details</span>
                             </a>
@@ -120,7 +120,7 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Org Settings</span>
                             </a>
@@ -211,7 +211,7 @@
                                 </ng-template>
                         </li>
                         <li [ngbNavItem]="3">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard1 > 3 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Products</span>
                             </a>
@@ -251,7 +251,7 @@
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
                             <li [ngbNavItem]="season.index">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard1>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">config {{season.name}}</span>
                             </a>
@@ -261,6 +261,7 @@
                                         <div  style="padding-bottom:1rem ;">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
+                                                    {{season.index}}
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
@@ -315,7 +316,7 @@
                         </ng-template>
 
                         <li [ngbNavItem]="list">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                            <a [ngStyle]=" list == activeWizard1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class="d-none d-sm-inline">Finish</span>
                             </a>
