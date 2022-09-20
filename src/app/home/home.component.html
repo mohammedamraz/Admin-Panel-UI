@@ -222,10 +222,9 @@
                                     grid-gap: 1rem;margin-bottom: 2rem;">
                                          
                                                 <ng-template ngFor let-season [ngForOf]="products" let-i=index>
-                                                    <div class="gal-detail thumb" style="    width: 142px;
-                                                    height: 180px;
-                                                    background: #3C424F;
-                                                    border-radius: 8px;">
+                                                    <div class="gal-detail thumb" style=" width: 142px;
+                                                    height: 180px;background: #3C424F;
+                                                     border-radius: 8px; margin:0px">
                                                         <a href="javascript:void(0)" class="image-popup" title="hi">
                                                         </a>
                                     
@@ -368,7 +367,8 @@
 </ng-template>
 <ng-template #toggleModal2 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body">
+        <div class="card-body" style="    background-color: #282E38;
+    width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
@@ -395,9 +395,15 @@
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem; 
                                                     border-radius: 4px;"
-                                                        name="userName" placeholder="User Full Name" formControlName="user_name">
+                                                        name="userName" placeholder="User Full Name" required formControlName="user_name">
                                                         <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>User Full Name</label>
+                                                        <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
+                                                            <label style="color: red;" *ngIf="userForm.controls['user_name'].errors">
+                                                            Name is required.
+                                                            </label>
                                                     </div>
+                                                    </div>
+                                                  
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
@@ -406,6 +412,11 @@
                                                     border-radius: 4px;"
                                                         name="userName" placeholder="Designation" formControlName="designation">
                                                     <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <div *ngIf="userForm.controls['designation'].invalid && userForm.controls['designation'].touched" >
+                                                        <label style="color: red;" *ngIf="userForm.controls['designation'].errors">
+                                                        Designation is required.
+                                                        </label>
+                                                </div>
                                                     </div>
                                             </div>
                                         </div>
@@ -415,8 +426,13 @@
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
                                                     border-radius: 4px;"
-                                                        name="userName" placeholder="Email Address" formControlName="email">
+                                                        name="userName" placeholder="Email Address" required formControlName="email">
                                                     <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched" >
+                                                        <label style="color: red;" *ngIf="userForm.controls['email'].errors">
+                                                    Enter Valid Email Address.
+                                                        </label>
+                                                </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -426,6 +442,11 @@
                                                     border-radius: 4px;"
                                                         name="userName" placeholder="Mobile Number" formControlName="mobile">
                                                  <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                 <div *ngIf="userForm.controls['mobile'].invalid && userForm.controls['mobile'].touched" >
+                                                    <label style="color: red;" *ngIf="userForm.controls['mobile'].errors">
+                                                    Enter Valid Mobile Number
+                                                    </label>
+                                            </div>
 
                                                     </div>
                                             </div>
@@ -442,14 +463,16 @@
                                           >
                                         </div>
                                       </div>
-                                      <div class="col-md-8" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
+                                      <div class="form-floating mb-3" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
                                         <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
                                             background: #383e4a;
                                             border: 1px solid #444c5b;
                                             border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
+                                            <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Select third-party Company or Add New</label>
                                         <!-- <div *ngIf="userForm.controls['third_party_org_name'].invalid && userForm.controls['third_party_org_name'].touched" class="alert-danger">
                                                                       TPP required.      
                                                                   </div> -->
+
                   
                                         <datalist id="codes" style="background: white">
                                           <option *ngFor="let c of codeList" >
@@ -459,7 +482,7 @@
                                         <!-- <div > -->
                                         <button *ngIf="showButton" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
-                                            height: 2.5rem;
+                                            height: 3..6rem;
                                             border: 1px solid #444c5b;
                                             border-radius: 4px;
                                             color: grey;
@@ -505,7 +528,7 @@
                                                             <div class="gal-detail thumb" style="    width: 142px;
                                                             height: 180px;
                                                             background: #3C424F;
-                                                            border-radius: 8px;">
+                                                            border-radius: 8px; margin:0px">
                                                                 <a href="javascript:void(0)" class="image-popup" title="hi">
                                                                 </a>
                                                             
@@ -634,9 +657,9 @@
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == 3)">
-                            <button type="button" (click)="activeWizard2=activeWizard2+1" class="btn btn-secondary" 
+                            <button type="button" (click)="activeWizard2=activeWizard2+1;" class="btn btn-info" 
                                 *ngIf=" activeWizard2==1">Next</button>
-                            <button type="button" class="btn btn-secondary" (click)="checkingUserForm()"
+                            <button type="button" class="btn btn-info" (click)="checkingUserForm()"
                                 *ngIf="activeWizard2==2">Submit</button>
                         </li>
                     </ul>
