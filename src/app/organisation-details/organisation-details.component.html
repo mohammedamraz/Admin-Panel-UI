@@ -619,8 +619,8 @@
 display: grid;
 grid-template-columns: 8fr 4fr">
 
-    <div class="">
-        <div class="card" style="background: #313844;">
+    <div class="" style="display:inline-grid">
+        <div class="card" style="background: #313844; border-radius:10px">
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid; grid-template-columns: 1fr 1fr;">
                     <div>
@@ -685,7 +685,7 @@ grid-template-columns: 8fr 4fr">
         </div>
     </div>
     <div class="" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'" >
-        <div  class="card" style="background: #313844; padding:1rem;display: grid;grid-template-rows: 1fr 1fr;">
+        <div  class="card" style="background: #313844; padding:1rem;display: grid;grid-template-rows: 1fr 1fr;border-radius:10px">
             <div class="card mt-1 mb-0 shadow-none border" *ngIf="srcImage!=='./assets/images/fedo-logo-white.png'" >
                 <div  style="align-self: center;">
                     <div class="row align-items-center" style="    place-content: center;">
@@ -699,13 +699,13 @@ grid-template-columns: 8fr 4fr">
                
                 place-self: center;
              grid-gap: 1rem;grid-template-columns: 1fr 1fr">
-             <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
-                    <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
-                    border-radius: 5px;overflow: hidden;"
+             <div class="col-auto"style="background: #3C424F; align-self: center;border-radius: 6px !important;">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;   margin:0;
+                    border-radius: 5px; overflow: hidden;"
                     accept="image/jpeg,image/jpg,image/png,image/gif">
-                    <ngx-dropzone-label>
-                        <i class="h1 text-muted dripicons-cloud-upload"></i>
-                        <p>Upload Another</p>
+                    <ngx-dropzone-label >
+                        <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
+                        <p style="text-align: center; font-size: 13px;">Upload Another</p>
        
                     </ngx-dropzone-label>
                 </ngx-dropzone>
@@ -715,10 +715,10 @@ grid-template-columns: 8fr 4fr">
        
                         <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit"
                         (click)="onRemove($event)">
-                        <i class="mdi mdi-delete" style="font-size: 34px;"></i>
+                        <i class="mdi mdi-delete" style="font-size: x-large;"></i>
                         <!-- <p>Delete Logo</p> -->
                     </a>
-                    <p style="text-align: center;">Delete Logo</p>
+                    <p style="text-align: center; font-size: 13px;    margin-bottom: 18px;">Delete Logo</p>
 
                 </div>
 
@@ -746,9 +746,9 @@ grid-template-columns: 8fr 4fr">
 </div>
 
 <div class="row" style="display: grid;
-grid-template-columns: 1fr 1fr;">
+grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
     <div class="">
-        <div class="card" style="background: #313844;">
+        <div class="card" style="background: #313844; border-radius:10px">
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid; padding-bottom: 0;padding-left: 0.7rem; ">
                     <div >
@@ -769,7 +769,7 @@ grid-template-columns: 1fr 1fr;">
                         <h4 style="color: #98a6ad;">Org URL:</h4>
                         <p class="sub-header" style="
                         margin-bottom: 0;
-                        font-size: 20;">https://www.fedo.ai/admin/ <span style="color: #FFF;font-weight: 500;">{{url}}</span></p>
+                        font-size: initial;">https://www.fedo.ai/admin/ <span style="color: #FFF;font-weight: 500;">{{url}}</span></p>
                     </div>
                     <ng-template ngFor let-season [ngForOf]="product" let-i=index> 
                         <div style="border-bottom-width: 1px;
@@ -818,13 +818,13 @@ grid-template-columns: 1fr 1fr;">
         </div>
     </div>
 
-    <div class="card" style="background: #313844;"  *ngIf="userlogin" >
+    <div class="card" style="background: #313844; border-radius:10px"  *ngIf="userlogin" >
         <div class="card-body">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-dots-vertical"></i>
                 </a>
-                <div ngbDropdownMenu *ngIf="userlogin">
+                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu *ngIf="userlogin">
                     <div *ngFor="let person of tabDAta;" >
 
                     <!-- <a href="javascript:void(0);" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a> -->
@@ -844,22 +844,22 @@ grid-template-columns: 1fr 1fr;">
             </div>            
         </div>            
             <h4 class="mt-0 header-title" style="color: white;">Recent 5 Users</h4>
-            <div class="table-responsive">
+            <div class="table-responsive" style="    overflow-x: inherit;">
                 <table class="table mb-0">
-                    <thead style="color: #9BA6AC;font-weight: 600;">
-                        <tr>
+                    <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
+                        <tr style="border-color: #49565d;">
                             <th>#</th>
                             <th>Org User Name</th>
-                            <th>Mobile</th>
+                            <th >Mobile</th>
                             <th style="text-align: -webkit-center;">Total Tests</th>
                         </tr>
                     </thead>
-                    <tbody style="color: #9BA6AC">
-                        <tr *ngFor="let person of tableData;let indexOfelement=index;">
+                    <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
+                        <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tableData;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
                             <td>{{person.user_name}}</td>
-                            <td>{{person.mobile.slice(3,14)}}</td>
-                            <td style="text-align: center;color: #82B4F3;border-bottom-color:#9BA6AC">{{person.total_tests}}</td>
+                            <td >{{person.mobile.slice(3,14)}}</td>
+                            <td style="text-align: -webkit-center;color: #82B4F3;">{{person.total_tests}}</td>
                             
                             
                         </tr>
