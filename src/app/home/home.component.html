@@ -725,7 +725,7 @@
             <div class="card-body widget-user">
                 <div class="float-end" ngbDropdown placement="bottom-end">
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
-                        <i class="mdi mdi-dots-vertical"></i>
+                        <i *ngIf="false" class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
@@ -747,7 +747,7 @@
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                     <i class="mdi mdi-dots-vertical"></i>
                 </a>
-                <div ngbDropdownMenu>
+                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                     <!-- item-->
                     <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create Org</a>
                     <a href="javascript:void(0);" [routerLink]="['/orgList']"  ngbDropdownItem>Org List</a>
@@ -800,7 +800,7 @@
                             <td style="    text-align: -webkit-center;">{{person.total_users}}</td>
                             <td style=" text-align: -webkit-center;color: #82B4F3;">{{person.total_tests}}</td>
                             <td class="option">                <div class="float-end "  ngbDropdown placement="bottom-end">
-                                <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                                <a href="javascript:void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
