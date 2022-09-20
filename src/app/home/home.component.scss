@@ -1,16 +1,14 @@
 .over-hover:hover{
     background-color: #4B5160;
-    // >.option{
-    //     : green;
-    // }
+    >
+    .option{
+        content-visibility: inherit;
+    
+    }
 }
-
 .option{
     content-visibility: hidden;
 }
-.option:hover{
-    content-visibility: inherit;
 
-}
 
 
