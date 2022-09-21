@@ -78,7 +78,7 @@ export class OrganisationListComponent implements OnInit {
     this.basicWizardForm = this.fb.group({
       organization_name:[''],
       admin_name:['',Validators.required],
-      organization_email:['',Validators.email],
+      organization_email:['',[Validators.required,Validators.email]],
       organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
       fedo_score:[false],
       hsa:[false],
@@ -223,16 +223,16 @@ export class OrganisationListComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'null':'vitals_'+value.web_url).toString());
     data.append('type','orgAdmin');
-    data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
+    data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         console.log('the success=>',res);
-        this.org_name = res[0].organization_name;
+        this.org_name = res.organization_name;
         this.activeWizard2=this.activeWizard2+1;
       },
       error: (err) => {
@@ -291,7 +291,7 @@ export class OrganisationListComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:0,
+        pilot_duration:15,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
@@ -424,4 +424,17 @@ export class OrganisationListComponent implements OnInit {
     }
 
   }
+  nextDisabled(){
+    return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
+  }
+  ngstyle(){
+    const stone = {'background': '#3B4F5F',
+     'border': '1px solid #3E596D',
+     'color': '#5FB6DB',
+     'pointer-events': 'auto'
+   }
+ 
+   return stone
+   }
+
 }
