@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
       organization_name: ['', Validators.required],
       admin_name:['',Validators.required],
       designation:['',Validators.required],
-      organization_email:['',Validators.required,Validators.email],
+      organization_email:['',[Validators.required,Validators.email]],
       organization_mobile:['',[Validators.required]],
       url:['',[Validators.required]]
     });
@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
         admin_name:['',Validators.required],
-        organization_email:['',Validators.required,Validators.email,],
+        organization_email:['',[Validators.required,Validators.email]],
         organization_mobile:['',[Validators.required]],
         fedo_score:[false],
         hsa:[false],
@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
         product_id: [''],
-        third_party_org_name: ['',Validators.email],
+        third_party_org_name: ['',Validators.required],
 
       });
 
@@ -165,17 +165,17 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'null':'vitals_'+value.web_url).toString());
     data.append('type','orgAdmin');
-    data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
+    data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
-        console.log('the success=>',res);
-        this.org_name = res[0].organization_name;
         this.activeWizard1=this.activeWizard1+1;
+        console.log('the success=>',res);
+        this.org_name = res.organization_name;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -199,7 +199,7 @@ export class HomeComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:0,
+        pilot_duration:15,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
@@ -233,24 +233,27 @@ export class HomeComponent implements OnInit {
         console.log("hgxfshdgdata",data);
         
     this.adminService.fetchOrgData(data).subscribe({
-        next: (data:any)=>{
-          
-          
+        next: (data:any)=>{    
           this.activeWizard1 = this.activeWizard1+1;
         },
         error:(data:any)=>{
-            console.log('the error =>',data);
-     
-                this.errorMessage=data;
-                this.showLiveAlert=true;
-            
+          console.log('the error =>',data);     
+          this.errorMessage=data;
+          this.showLiveAlert=true;
+          
         }
-    })
+      })
+    }
+    if(this.activeWizard1 == 2){
+      if(this.basicWizardForm.controls['url'].valid){
+        this.activeWizard1 = 3;
+      }
+    }
 
+    if(this.listdetails.length>0 ){
+      this.activeWizard1 = this.activeWizard1+1;
     }
-    else{
-        this.activeWizard1 = this.activeWizard1+1;
-    }
+
   }
    get form1() { return this.basicWizardForm.controls; }
 
@@ -294,6 +297,7 @@ export class HomeComponent implements OnInit {
 
   checkingUserForm(){
     console.log("fen boy",this.userForm.value);
+    console.log('your boy', this.selectedUserProducts)
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
@@ -347,7 +351,20 @@ export class HomeComponent implements OnInit {
     'pointer-events': 'auto'
   }
 
+  
+
   return stone
+  }
+
+
+  nextDisabled(){
+    return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
+  }
+
+  checkUserFirstForm(){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+      this.activeWizard2=this.activeWizard2+1;
+    }
   }
 
 }
