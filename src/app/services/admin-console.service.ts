@@ -160,6 +160,12 @@ export class AdminConsoleService {
         { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
     ])
     }
+    if(event.url == '/vitalsList'){
+      this.breadCrumbs.next([
+        { label: 'Vitals Dashboard', path: '/vitals-dashboard' },
+        { label: 'Pilots List', path: '/vitalsList', active:true },
+    ])
+    }
     
     if(event.url == '/home'){
       this.breadCrumbs.next([
