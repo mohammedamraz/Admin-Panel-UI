@@ -694,8 +694,8 @@
                                 <ng-template ngFor let-season [ngForOf]="person.product" let-i=index>      
                                     <div class="">
                                         <div class=" ">
-                                            Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="season.progress < 99" style="color: green;">Active</span>)
-                                            <ngb-progressbar style="margin-top: 0;" [type]="(season.progress > 99 ) ? 'danger':'warning'" [value]="season.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                            Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.status =='Expired'" style="color: #F08F8F;">{{season.status}}</span><span *ngIf="season.status =='Active'" style="color: green;">{{season.status}}</span>)
+                                            <ngb-progressbar style="margin-top: 0;" [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="season.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                         </div>
                                     </div>
                                 </ng-template>
