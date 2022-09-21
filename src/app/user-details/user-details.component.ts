@@ -39,7 +39,9 @@ export class UserDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
 
     this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
-     next:(res:any)=>{{this.userList=res;}}
+     next:(res:any)=>{this.userList=res;
+      this.userList = res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)
+    }
     })
 
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({

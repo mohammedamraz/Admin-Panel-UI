@@ -14,8 +14,11 @@ export class PilotsListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
-    this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetailsActive=doc})
+    this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
+     this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)});
+     
+    this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetailsActive=doc
+    this.vitalsDetailsActive = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)});
 
 
   }

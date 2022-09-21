@@ -711,7 +711,7 @@
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                     <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
-                                    <a href="javascript:void(0);" (click)="open(toggleModal2);userOrganisationName=person.organization_name" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
+                                    <a *ngIf="false" href="javascript:void(0);" (click)="open(toggleModal2);userOrganisationName=person.organization_name" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>
                             </div> 
