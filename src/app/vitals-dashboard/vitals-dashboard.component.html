@@ -401,14 +401,16 @@
                             <td>{{person.organization_name}}</td>
                             <td>
                             <div class="">
-                                fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>)
+                                {{person.pilot_duration}} days
+                                <!-- fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>) -->
                                 <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             </div>
                             </td>
                             <td style="    text-align: -webkit-center;">{{person.start_date | date: 'dd/MM/yyyy'}}</td>
                             <td style="    text-align: -webkit-center;">{{person.end_date | date: 'dd/MM/yyyy'}}</td>
                             <td style="    text-align: -webkit-center;">{{person.total_users}}</td>
-                            <td>{{person.status}}</td>
+                            <td *ngIf="person.status=='Active'" style="color: green;">{{person.status}}</td>
+                            <td *ngIf="person.status=='Expired'" style="color: #F08F8F;" >{{person.status}}</td>
                             <td style="    text-align: -webkit-center;color: #F2CA65;">{{person.total_tests}}</td>
                         </tr>
 

@@ -120,7 +120,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.start_date= res[0].start_date;
         this.status= res[0].status;
         this.updated_date= res[0].updated_date;
-        this.url= res[0].url.slice(32,);
+        this.url= res[0].url;
         const oneDay = 24 * 60 * 60 * 1000;
         const firstDate = new Date();
         const secondDate = new Date(this.end_date);
@@ -269,6 +269,11 @@ export class OrganisationDetailsComponent implements OnInit {
       complete: () => { }
     });
   }
+
+  reloadCurrentPage() {
+    window. location. reload();
+    }
+
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });
   }

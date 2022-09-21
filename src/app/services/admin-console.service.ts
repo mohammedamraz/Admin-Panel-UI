@@ -35,11 +35,19 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}2`) ;
   }
 
+  fetchVitalsActive(){
+    return this.http.get(`${API_URL}2?type=active`) ;
+  }
+
   fetchTotalTestVitals(){
     return this.http.get(`${API_URL}tests/2`) ;
   }
   fetchAllOrg(){
     return this.http.get(`${API_URL}/org`) ;
+  }
+
+  fetchAllActiveOrg(){
+    return this.http.get(`${API_URL}/org?type=active`) ;
   }
   createOrg(data:any){
     return this.http.post(`${API_URL}org`,data) ;
