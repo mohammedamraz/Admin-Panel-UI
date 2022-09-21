@@ -63,6 +63,7 @@ export class OrganisationDetailsComponent implements OnInit {
   selectedUserProducts:any[]=[];
   userProduct:any[]=[];
   codeList: any[] = [];
+  organaization_id:any
 
   
 
@@ -174,13 +175,13 @@ export class OrganisationDetailsComponent implements OnInit {
 
     });
     this.userForm =this.fb.group({
-      user_name: [''],
-      designation: [''],
-      email: [''],
-      mobile: [''],
-      org_id: [''],
-      product_id: [''],
-      third_party_org_name: [''],
+      user_name: ['',Validators.required],
+        designation: ['',Validators.required],
+        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+        mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+        org_id: [''],
+        product_id: [''],
+        third_party_org_name: ['',Validators.required],
 
     });
     this.adminService.fetchTpa(1).subscribe((doc: any) => {
@@ -386,7 +387,8 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   addTpa() {
     let input = this.userForm.get('third_party_org_name')?.value
-    let org_id = '1'
+    // let org_id = '1'
+    let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
       // console.log("jhfgdjgj", typeof (input));
 
@@ -403,6 +405,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
     this.activeWizard1 = 1;
+    this.organaization_id=doc.id
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
@@ -489,7 +492,19 @@ clearform(){
     this.list=4;
     this.activeWizard1 =1;
    }
-
+   checkUserFirstForm(){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+      this.activeWizard1=this.activeWizard1+1;
+    }
+  }
+  ngstyle(){
+    const stone = {'background': '#3B4F5F',
+     'border': '1px solid #3E596D',
+     'color': '#5FB6DB',
+     'pointer-events': 'auto'
+   }
+   return stone
+  }
 
 
 }
