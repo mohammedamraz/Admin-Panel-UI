@@ -175,7 +175,7 @@ export class HomeComponent implements OnInit {
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
         console.log('the success=>',res);
-        this.org_name = res.organization_name;
+        this.org_name = res[0].organization_name;
       },
       error: (err) => {
         console.log('the failure=>',err);
