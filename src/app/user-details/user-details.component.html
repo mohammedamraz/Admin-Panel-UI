@@ -1,159 +1,176 @@
 <ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body">
+        <div class="card-body" style="    background-color: #282E38;
+    width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');userForm.reset();list=3" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">Create Users</h4>
+            <h4 style="color: white;">Create User</h4>
     
             <form [formGroup]="userForm" #basicForm="ngForm">
                 <div id="basicwizard">
-    
-                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="userWizard1"
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
                         class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class="d-none d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
                                     <div class="col-12">
-                                        <div class="row mb-3">
+                                        <div class="row ">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B; 
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="User Full Name" formControlName="user_name">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Designation" formControlName="designation">
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Email Address" formControlName="email">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B; height: 3rem; 
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="User Full Name" required formControlName="user_name">
+                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>User Full Name</label>
+                                                        <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
+                                                            <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['user_name'].errors">
+                                                            Name is required.
+                                                            </label>
+                                                    </div>
+                                                    </div>
+                                                  
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px;"
-                                                    name="userName" placeholder="Mobile Number" formControlName="mobile">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Designation" formControlName="designation">
+                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <div *ngIf="userForm.controls['designation'].invalid && userForm.controls['designation'].touched" >
+                                                        <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['designation'].errors">
+                                                        Designation is required.
+                                                        </label>
+                                                </div>
+                                                    </div>
                                             </div>
                                         </div>
-                                        <div class="mt-3" style="display: grid;
-                                        grid-template-columns: 1fr 2fr;">
-                                            <div class="form-check">
-                                                <input type="radio" id="customRadio1"[checked]="!thirdParty" name="customRadio" class="form-check-input" (click)="thirdParty=false">
-                                                <label class="form-check-label" for="customRadio1">Own Employee</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Email Address" required formControlName="email">
+                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched" >
+                                                        <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['email'].errors">
+                                                    Enter Valid Email Address.
+                                                        </label>
+                                                </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input type="radio" id="customRadio2" [checked]="false" name="customRadio" class="form-check-input" (click)="thirdParty=true">
-                                                <label class="form-check-label" for="customRadio2">Employee of Third-Party Tie-up</label>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style="background: #383E4A;
+                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border-radius: 4px;"
+                                                        name="userName" placeholder="Mobile Number" formControlName="mobile">
+                                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                 <div *ngIf="userForm.controls['mobile'].invalid && userForm.controls['mobile'].touched" >
+                                                    <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['mobile'].errors">
+                                                    Enter Valid Mobile Number
+                                                    </label>
+                                            </div>
+
+                                                    </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-8" style=" padding-top: 1rem;padding-bottom: 1rem;" *ngIf="thirdParty">
-                                            <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                            border: 1px solid #444C5B;
-                                            border-radius: 4px;"
-                                                name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name">
+                                        <div class="mb-3" style="display: grid; grid-template-columns: 1fr 2fr" >
+                                        <div class="form-check">
+                                          <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                          <label class="form-check-label" for="customRadio1">Own Employee</label>
                                         </div>
+                                        <div class="form-check">
+                                          <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                          <label class="form-check-label" for="customRadio1"
+                                            >Employee of TPA</label
+                                          >
+                                        </div>
+                                      </div>
+                                      <div class="form-floating mb-3" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
+                                        <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
+                                            background: #383e4a;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
+                                            <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Select third-party Company or Add New</label>
+                                        <!-- <div *ngIf="userForm.controls['third_party_org_name'].invalid && userForm.controls['third_party_org_name'].touched" class="alert-danger">
+                                                                      TPP required.      
+                                                                  </div> -->
+
+                  
+                                        <datalist id="codes" style="background: white">
+                                          <option *ngFor="let c of codeList" >
+                                            {{ c }}
+                                          </option>
+                                        </datalist>
+                                        <!-- <div > -->
+                                        <button *ngIf="showButton" (click)="addTpa()" id="erase" style="
+                                            background: #383e4a;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;">+</button>
+                                        <!-- </div> -->
+                                      </div>
+    
+                                      
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Products</span>
                             </a>
-                            <ng-template ngbNavContent>
-                                    <div style="display: grid;
-                                    grid-auto-flow: column;
-                                    grid-template-columns:min-content min-content;
-                                    grid-gap: 1rem;margin-bottom: 2rem;">
+
+                                          <ng-template ngbNavContent>
+                                            <div style="display: grid;
+                                            grid-auto-flow: column;
+                                            grid-template-columns:min-content min-content;
+                                            grid-gap: 1rem;margin-bottom: 2rem;">
+                                                        <ng-template ngFor let-season [ngForOf]="userProduct" let-i=index>
+                                                            <div class="gal-detail thumb" style="    width: 142px;
+                                                            height: 180px;
+                                                            background: #3C424F;
+                                                            border-radius: 8px; margin:0px">
+                                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                                </a>
+                                                            
+                                                                <div style="    text-align: -webkit-center;
+                                                                display: grid;
+                                                                justify-items: center;
+                                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                                    <div class="avatar-md">
+                                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                                            F{{season.product_name.charAt(0)}}
+                                                                        </span>
+                                                                    </div>
+                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                                        <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                            </div>
+                                        </ng-template>
                                          
-                                                <div class="gal-detail thumb" style="    width: 142px;
-                                                height: 180px;
-                                                background: #3C424F;
-                                                border-radius: 8px;">
-                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
-                                                    </a>
-                                
-                                                    <div style="    text-align: -webkit-center;
-                                                    display: grid;
-                                                    justify-items: center;
-                                                    grid-gap: 1rem; margin-top: 0.5rem;">
-                                                        <div class="avatar-md">
-                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
-                                                                FH
-                                                            </span>
-                                                        </div>
-                                                        <p class="text-muted mb-1">Fedo HSA</p>
-                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="hsa" (change)="demoUserFunction($event,'hsa')" class="form-check-input" id="customSwitch1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="gal-detail thumb" style="    width: 142px;
-                                                height: 180px;
-                                                background: #3C424F;
-                                                border-radius: 8px;">
-                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
-                                                    </a>
-                                
-                                                    <div style="    text-align: -webkit-center;
-                                                    display: grid;
-                                                    justify-items: center;
-                                                    grid-gap: 1rem; margin-top: 0.5rem;">
-                                                        <div class="avatar-md">
-                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
-                                                                FV
-                                                            </span>
-                                                        </div>
-                                                        <p class="text-muted mb-1">Fedo Vitals</p>
-                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="vitals" (change)="demoUserFunction($event,'vitals')" class="form-check-input" id="customSwitch1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="gal-detail thumb" style="    width: 142px;
-                                                height: 180px;
-                                                background: #3C424F;
-                                                border-radius: 8px;">
-                                                    <a href="javascript:void(0)" class="image-popup" title="hi">
-                                                    </a>
-                                
-                                                    <div style="    text-align: -webkit-center;
-                                                    display: grid;
-                                                    justify-items: center;
-                                                    grid-gap: 1rem; margin-top: 0.5rem;">
-                                                        <div class="avatar-md">
-                                                            <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
-                                                                FR
-                                                            </span>
-                                                        </div>
-                                                        <p class="text-muted mb-1">Fedo RUW</p>
-                                                        <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                            <input type="checkbox" formControlName="ruw"  (change)="demoUserFunction($event,'ruw')" class="form-check-input" id="customSwitch1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                    </div>
-                                </ng-template>
                         </li>
 
                         <li [ngbNavItem]="3">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class="d-none d-sm-inline">Finish</span>
                             </a>
@@ -164,8 +181,8 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation ABC. An invitaton email has already been sent to the Org Admin.
-                                                 You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
+                                            <p style="color: #AEB5BC;" class="w-75 mb-2 mx-auto">You have successfully created the User <b>{{user_name}}</b>. An invitaton email has already been sent to the User.
+                                                You may inform the User to check mail and follow instructions to sign up and start Pilot.</p>
                                         </div>
                                     </div>
                                 </div> 
@@ -179,19 +196,26 @@
                         <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showLiveAlert" (closed)="showLiveAlert = false">{{errorMessage}}</ngb-alert>
                         </div>
-                        <li class="previous list-inline-item" *ngIf="!(userWizard1 == list)">
-                            <button class="btn btn-secondary" (click)="userWizard1=1" *ngIf="userWizard1 !== 3"
-                                [disabled]="userWizard1===1">Previous</button>
+                        <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard2=1" *ngIf="activeWizard2 !== 3"
+                                [disabled]="activeWizard2===1">Previous</button>
                         </li>
-                        <li class="next " style="text-align: center;" *ngIf="userWizard1 == 3">
-                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();list=3"
-                                >Close</button>
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == 3">
+                            <div style="    display: grid;
+                            grid-template-columns: min-content max-content;
+                            justify-content: center;
+                            grid-gap: 0.5rem;">
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();"
+                                    >Close</button>
+                                <button type="button" class="btn btn-info" (click)="activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false"
+                                    >Add Another User</button>
+                            </div>
                         </li>
-                        <li class="next list-inline-item float-end" *ngIf="!(userWizard1 == 3)">
-                            <button type="button" (click)="userWizard1=userWizard1+1" class="btn btn-secondary" 
-                                *ngIf=" userWizard1==1">Next</button>
-                            <button type="button" class="btn btn-secondary" (click)="checkingUserForm()"
-                                *ngIf="userWizard1==2">Submit</button>
+                        <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == 3)">
+                            <button type="button" style="width: 100px;" (click)=" checkUserFirstForm();" class="btn btn-info" 
+                                *ngIf=" activeWizard2==1">Next</button>
+                            <button type="button" style="width: 100px;" class="btn btn-info" (click)="checkingUserForm()" 
+                                *ngIf="activeWizard2==2&&selectedUserProducts.length!==0">Submit</button>
                         </li>
                     </ul>
     
@@ -206,12 +230,12 @@
 
 <div class="card" style="background: #313844;">
     <div class="card-body">
-        <div class=" float-end" style="    border: 1px solid #4B515F;" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)"   class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)"   class="dropdown-toggle card-drop" ngbDropdownToggle>
                 <i class="mdi mdi-dots-vertical"></i>
             </a>
-            <div ngbDropdownMenu *ngIf="false">
-                <a href="javascript:void(0);" (click)="open(toggleModal1)"  ngbDropdownItem>Create User</a>
+            <div *ngFor="let person of tableData;" ngbDropdownMenu>
+                <a href="javascript:void(0);" (click)="open(toggleModal1);setValue(person); "  ngbDropdownItem>Create User</a>
             </div>
         </div>            
         <!-- <div class=" float-end" ngbDropdown placement="bottom-end">
