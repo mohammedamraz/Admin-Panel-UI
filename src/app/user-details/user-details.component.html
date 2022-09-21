@@ -271,7 +271,7 @@
                         <td>{{person.mobile.slice(3,14)}}</td>
                         <td>{{(person.organization_name === userOrganisationName)?'Direct':person.organization_name}}</td>
                         <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
-                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0].total_tests}}</td>
+                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
                     </tr>
                 </tbody>
             </table>

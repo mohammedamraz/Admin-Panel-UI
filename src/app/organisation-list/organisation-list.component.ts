@@ -223,7 +223,7 @@ export class OrganisationListComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'null':'vitals_'+value.web_url).toString());
+    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
@@ -436,5 +436,9 @@ export class OrganisationListComponent implements OnInit {
  
    return stone
    }
+
+   reloadCurrentPage() {
+    window. location. reload();
+    }
 
 }

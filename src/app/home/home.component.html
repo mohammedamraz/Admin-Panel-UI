@@ -166,28 +166,31 @@
                                                     </div>
                                     
                                                     <div  style="display: grid; 
-                                                    grid-template-columns: min-content min-content;
+                                                    grid-template-columns: 1fr 1fr;
                                                     place-self: center;
                                                  grid-gap: 1rem;">
-                                                 <div style="background: #3C424F;padding-top: 0.5rem;border-radius: 6px !important;">
-                                                        <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;    padding: 1rem;
-                                                        border-radius: 5px;overflow: hidden;"
-                                                        accept="image/jpeg,image/jpg,image/png,image/gif">
-                                                        <ngx-dropzone-label>
-                                                            <i class="h1 text-muted dripicons-cloud-upload"></i>
-                                           
-                                                        </ngx-dropzone-label>
-                                                    </ngx-dropzone>
-                                                </div>
+                                                              <div class="col-auto"style="background: #3C424F; align-self: center;border-radius: 6px !important;">
+                                                                <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;   margin:0;
+                                                                border-radius: 5px; overflow: hidden;"
+                                                                accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                                <ngx-dropzone-label >
+                                                                    <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
+                                                                    <p style="text-align: center; font-size: 13px;">Upload Another</p>
+                                                   
+                                                                </ngx-dropzone-label>
+                                                            </ngx-dropzone>
+                                                        </div>
                                     
-                                                    <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
-                                           
-                                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;"
-                                                            (click)="onRemove($event)">
-                                                            <i class="mdi mdi-delete" style="font-size: 34px;padding: 1rem;"></i>
-                                                        </a>
-                                    
-                                                    </div>
+                                                <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
+       
+                                                    <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit"
+                                                    (click)="onRemove($event)">
+                                                    <i class="mdi mdi-delete" style="font-size: x-large;"></i>
+                                                    <!-- <p>Delete Logo</p> -->
+                                                </a>
+                                                <p style="text-align: center; font-size: 13px;    margin-bottom: 18px;">Delete Logo</p>
+                            
+                                            </div>
                                     
                                                     </div>
                                             </div>

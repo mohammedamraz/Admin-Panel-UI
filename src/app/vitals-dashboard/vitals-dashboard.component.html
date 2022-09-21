@@ -321,7 +321,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList',]"  [queryParams]="{ status: 'active'}" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">

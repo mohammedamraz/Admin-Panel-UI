@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
 
 @Component({
@@ -10,12 +11,18 @@ export class PilotsListComponent implements OnInit {
 
   vitalsDetails:any[]=[];
   vitalsDetailsActive:any[]=[];
-  constructor(private readonly adminService: AdminConsoleService,) { }
+  constructor(private readonly adminService: AdminConsoleService,    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
-    this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
-    this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetailsActive=doc})
+    this.route.queryParams.subscribe((params:any)=>{
+      if(params.status =='active'){
+        this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+      }
+      else{
+        this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+      }
+    })
 
 
   }
