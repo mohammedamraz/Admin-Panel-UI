@@ -9,11 +9,14 @@ import { AdminConsoleService } from '../services/admin-console.service';
 export class PilotsListComponent implements OnInit {
 
   vitalsDetails:any[]=[];
+  vitalsDetailsActive:any[]=[];
   constructor(private readonly adminService: AdminConsoleService,) { }
 
   ngOnInit(): void {
 
     this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+    this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetailsActive=doc})
+
 
   }
 
