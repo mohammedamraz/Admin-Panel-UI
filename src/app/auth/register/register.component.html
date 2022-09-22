@@ -90,12 +90,13 @@
         <div class="mb-3" *ngIf="signUp === true">
       <div class="form-floating ">
 
-            <label for="floatingInput" class="form-label" i18n>Confirmation Code</label>
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your Confirmation Code"
                 formControlName="ConfirmationCode" [ngClass]="{'is-invalid':formSubmitted && formValues['ConfirmationCode'].invalid}" style="background: #383E4A;
                 border: 1px solid #444C5B;height: 3rem;
                 border-radius: 4px;"
                 required />
+            <label for="floatingInput" class="form-label" i18n>Confirmation Code</label>
+
             <div *ngIf="formSubmitted && formValues['ConfirmationCode'].invalid " class="invalid-feedback">
 <!-- 
                 <div *ngIf="formValues['ConfirmationCode'].errors?.['required']" i18n>
