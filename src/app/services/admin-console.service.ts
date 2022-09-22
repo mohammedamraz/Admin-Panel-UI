@@ -68,6 +68,11 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}org/${id}`,data);
 
   }
+
+  patchOrgDetails(id:number,data:any){
+    return this.http.patch(`${API_URL}${id}`,data);
+
+  }
    
   fetchUserListById(id:number){
     return this.http.get(`${API_URL}users/data/list/${id}`);
@@ -161,6 +166,16 @@ export class AdminConsoleService {
 
     const loggedInUser = <any>this.authService.currentUser();
     const name = loggedInUser.org_data[0].organization_name;
+    // const name = this.fetchOrgById(event.url.slice(12,)).subscribe({
+    //   next: (res:any) => {
+       
+        
+    //     console.log('the breadcrumbs data=>', res);
+    //     // this.user_name=res.user_name
+    //     // this.activeWizard2 = this.activeWizard2 + 1;
+    //   },
+    // });
+    console.log("route")
 
 
     if(event.url == '/vitals-dashboard'){

@@ -519,6 +519,10 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   }
 
+  reloadPage(){
+    window.location.reload();
+  }
+
   checkingProductOrgForm(){
     
     const prod:any = this.listdetails.map((el:any)=>{
@@ -536,13 +540,13 @@ export class OrganisationDetailsComponent implements OnInit {
     let data = new FormData();
     data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
     data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
-    data.append('product_junction_id',prod.map((value:any) => value.product_junction_id).toString());
+    data.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
     data.append('product_id',prod.map((value:any) => value.product_id).toString());
-    data.append('web_access',prod.map((value:any) => value.web_access).toString());
+    data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
 
-    this.adminService.patchOrg(this.id, data).subscribe({
+    this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;

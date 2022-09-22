@@ -293,7 +293,7 @@
     <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
         <div class="card-body" style="    background-color: #282E38;width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3; reloadPage();" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -429,8 +429,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation <b>{{organization_name}}</b>. An invitaton email has already been sent to the Org Admin.
-                                                 You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
+                                            <p class="w-75 mb-2 mx-auto">You have successfully updated the Organisation Products of  <b>{{organization_name}}</b>.</p>
                                         </div>
                                     </div>
                                 </div> 
@@ -449,7 +448,7 @@
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
-                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]"
+                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]; reloadPage();"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
@@ -753,7 +752,7 @@ grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a (click)="open(toggleModal2);prepopulateOrgFormforEdit();" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle [hidden]="false">
+                        <a (click)="open(toggleModal2);" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle [hidden]="false">
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
