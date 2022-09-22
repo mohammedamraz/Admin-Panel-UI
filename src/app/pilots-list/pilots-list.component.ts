@@ -15,14 +15,18 @@ export class PilotsListComponent implements OnInit {
 
   ngOnInit(): void {
 
+
     this.route.queryParams.subscribe((params:any)=>{
       if(params.status =='active'){
-        this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+        this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);
+        this.vitalsDetails=doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
       }
       else{
-        this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+        this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
+        this.vitalsDetails= doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
       }
     })
+
 
 
   }
