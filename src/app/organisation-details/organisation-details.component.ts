@@ -19,7 +19,7 @@ export class OrganisationDetailsComponent implements OnInit {
   basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
-  list: number = 3;
+  list: number = 2;
   listorg:number =3;
   orglist:number =3;
   listdetails:any[]=[];
@@ -63,6 +63,9 @@ export class OrganisationDetailsComponent implements OnInit {
   selectedUserProducts:any[]=[];
   userProduct:any[]=[];
   codeList: any[] = [];
+  organaization_id:any;
+  products:any[]=[];
+  next:boolean=false;
 
   
 
@@ -81,6 +84,8 @@ export class OrganisationDetailsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
+
 
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
     if(data.hasOwnProperty('orglogin')){
@@ -95,11 +100,12 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
+        
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
-        this.listdetails = res[0].product;
-        this.list=this.list + res[0].product.length;
+        // this.listdetails = res[0].product;
+        // this.list=this.list + res[0].product.length;
 
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
@@ -119,7 +125,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.start_date= res[0].start_date;
         this.status= res[0].status;
         this.updated_date= res[0].updated_date;
-        this.url= res[0].url.slice(32,);
+        this.url= res[0].url;
         const oneDay = 24 * 60 * 60 * 1000;
         const firstDate = new Date();
         const secondDate = new Date(this.end_date);
@@ -128,8 +134,10 @@ export class OrganisationDetailsComponent implements OnInit {
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
+        this.createEditproc(this.products,this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-          (doc:any) => {this.tableData=doc;}
+          (doc:any) => {this.tableData=doc;console.log("ghf",doc);
+          }
         )
         },
       error:(err)=>{
@@ -172,27 +180,62 @@ export class OrganisationDetailsComponent implements OnInit {
 
     });
     this.userForm =this.fb.group({
-      user_name: [''],
-      designation: [''],
-      email: [''],
-      mobile: [''],
-      org_id: [''],
-      product_id: [''],
-      third_party_org_name: [''],
+      user_name: ['',Validators.required],
+        designation: ['',Validators.required],
+        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+        mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+        org_id: [''],
+        product_id: [''],
+        third_party_org_name: ['',Validators.required],
 
     });
-    this.adminService.fetchTpa(1).subscribe((doc: any) => {
-      for (let i = 0; i <= doc.length - 1; i++) {
-        if (doc[i].tpa_name != null) {
-          this.codeList.push(doc[i].tpa_name)
-        }
+    // this.adminService.fetchTpa(1).subscribe((doc: any) => {
+    //   for (let i = 0; i <= doc.length - 1; i++) {
+    //     if (doc[i].tpa_name != null) {
+    //       this.codeList.push(doc[i].tpa_name)
+    //     }
 
-      }
+    //   }
    
-        ; return doc;
-    })
+    //     ; return doc;
+    // })
 
   }
+
+  createEditproc(products:any,OrgProducts:any){
+
+   const product = products.map((doc:any)=>{
+      const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+
+      }
+      return doc
+    })
+
+    const list = OrgProducts.map((el:any) => {return {
+      fedoscore: el.fedoscore,
+      pilot_duration: el.pilot_duration,
+      product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
+      web_access: el.web_access,
+      web_url: el.web_url.slice(7,),
+      web_fedoscore:el.web_fedoscore,
+      product_junction_id: el.id,
+      product_id: el.product_id
+    }})
+    this.list=this.list+list.length
+    console.log('asdfq',product)
+    this.products = product
+    this.listdetails = list
+  }
+
+  
+  
 
   daysLefts(date:any){
     const firstDate = new Date();
@@ -267,6 +310,11 @@ export class OrganisationDetailsComponent implements OnInit {
       complete: () => { }
     });
   }
+
+  reloadCurrentPage() {
+    window. location. reload();
+    }
+
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true });
   }
@@ -300,7 +348,35 @@ export class OrganisationDetailsComponent implements OnInit {
       this.listdetails.splice(selected,1);
     }
   }
+  updateProduct(event:any, productId:string){
+    console.log('the products',this.products)
+    if(event.target.checked){
+      const data = {
+        fedoscore: false,
+        pilot_duration: 15,
+        product_name:productId === '1' ? 'HSA' : (productId === '2' ? 'Vitals':'RUW' ), 
+        web_access: false,
+        web_url: '',
+        web_fedoscore: false,
+        product_junction_id: '',
+        checked:true,
+        product_id:productId
+      }
+      this.list++;
+      this.listdetails.push(data);
+      const perish = this.products.findIndex(prod => prod.id == productId)
+      this.products[perish]['checked'] = true
+      this.products[perish]['noPenetration'] = false
 
+    }
+    else{
+      const selected =this.listdetails.findIndex(obj=>obj.product_id===productId);
+      this.listdetails.splice(selected,1);
+      this.list--;
+
+
+    }
+  }
   demoPrgFunction(event:any, product:string){
     if(product==='hsa'){
       this.OrgForm.controls['ruw'].setValue(false);
@@ -342,7 +418,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res:any) => {
         console.log('the success=>',res.user_name);
-        this.user_name=res.user_name
+        this.user_name=res[0].user_name
 
         this.activeWizard1=this.activeWizard1+1;
         // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
@@ -384,7 +460,7 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   addTpa() {
     let input = this.userForm.get('third_party_org_name')?.value
-    let org_id = '1'
+    let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
       // console.log("jhfgdjgj", typeof (input));
 
@@ -401,16 +477,29 @@ export class OrganisationDetailsComponent implements OnInit {
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
     this.activeWizard1 = 1;
+    this.organaization_id=doc.id
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
+
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {  
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+       ; return doc;
+    })
   }
 
   checkingUserForm(){
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
-      next: (res) => {
+      next: (res:any) => {
+        console.log("insode")
+        this.user_name = res.user_name
         console.log('the success=>', res);
         this.activeWizard1 = this.activeWizard1 + 1;
       },
@@ -439,6 +528,49 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
+
+  reloadPage(){
+    window.location.reload();
+  }
+
+  checkingProductOrgForm(){
+    
+    const prod:any = this.listdetails.map((el:any)=>{
+      return {
+        fedo_score:el.fedoscore,
+        pilot_duration: el.pilot_duration,
+        product_junction_id:el.product_junction_id,
+        product_id: el.product_id,
+        web_access: el.web_access,
+        web_url: el.web_access ? el.web_url :'',
+        web_fedoscore: el.web_access ? el.web_fedoscore:false
+      }
+    });
+    console.log('dalsdfj',prod.map((value:any) => value.fedo_score).toString())
+    let data = new FormData();
+    data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
+    data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
+    data.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
+    data.append('product_id',prod.map((value:any) => value.product_id).toString());
+    data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
+    data.append('web_url',prod.map((value:any) => value.web_url).toString());
+    data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+
+    this.adminService.patchOrgDetails(this.id, data).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+        this.activeWizard2=this.activeWizard2+1;
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorOrgMessage=err;
+        this.showOrgLiveAlert=true;
+      },
+      complete: () => { }
+    });
+    
+
   }
 
 
@@ -487,7 +619,19 @@ clearform(){
     this.list=4;
     this.activeWizard1 =1;
    }
-
+   checkUserFirstForm(){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+      this.activeWizard1=this.activeWizard1+1;
+    }
+  }
+  ngstyle(){
+    const stone = {'background': '#3B4F5F',
+     'border': '1px solid #3E596D',
+     'color': '#5FB6DB',
+     'pointer-events': 'auto'
+   }
+   return stone
+  }
 
 
 }

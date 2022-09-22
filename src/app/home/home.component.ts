@@ -56,6 +56,8 @@ export class HomeComponent implements OnInit {
   showButton: boolean = true;
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
+  organaization_id:any;
+
 
 
 
@@ -67,21 +69,18 @@ export class HomeComponent implements OnInit {
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    // let data = sessionStorage.getItem('org_data');
+    // console.log("jfghfh",this.tbDAta);
+    
+    
+    
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
-    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_Vitals_pilot_count']})
+    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-    this.adminService.fetchTpa(1).subscribe((doc: any) => {
-      for (let i = 0; i <= doc.length - 1; i++) {
-        if (doc[i].tpa_name != null) {
-          this.codeList.push(doc[i].tpa_name)
-        }
-
-      }
-   
-        ; return doc;
-    })
+    // let org_id = this.organaization_id
+ 
     
 
 
@@ -89,7 +88,7 @@ export class HomeComponent implements OnInit {
       organization_name: ['', Validators.required],
       admin_name:['',Validators.required],
       designation:['',Validators.required],
-      organization_email:['',Validators.required,Validators.email],
+      organization_email:['',[Validators.required,Validators.email]],
       organization_mobile:['',[Validators.required]],
       url:['',[Validators.required]]
     });
@@ -97,26 +96,26 @@ export class HomeComponent implements OnInit {
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
         admin_name:['',Validators.required],
-        organization_email:['',Validators.required,Validators.email,],
+        organization_email:['',[Validators.required,Validators.email]],
         organization_mobile:['',[Validators.required]],
         fedo_score:[false],
         hsa:[false],
         ruw:[false],
         vitals:[false],
-        designation:[''],
-        pilot_duration:[''],
+        designation:['',Validators.required],
+        pilot_duration:['',Validators.required],
         product_name:[''],
         url:['',[Validators.required]]
       });
 
       this.userForm =this.fb.group({
-        user_name: [''],
-        designation: [''],
-        email: [''],
-        mobile: [''],
+        user_name: ['',Validators.required],
+        designation: ['',Validators.required],
+        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+        mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
         product_id: [''],
-        third_party_org_name: [''],
+        third_party_org_name: ['',Validators.required],
 
       });
 
@@ -161,17 +160,18 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>'https://www.fedo.ai/products/vitals'+value.web_url).toString());
+    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
     data.append('type','orgAdmin');
-    data.append('url','https://www.fedo.ai/admin/vital/'+this.basicWizardForm.value.url);
+    data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
+        this.activeWizard1=this.activeWizard1+1;
         console.log('the success=>',res);
         this.org_name = res[0].organization_name;
-        this.activeWizard1=this.activeWizard1+1;
+
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -195,7 +195,7 @@ export class HomeComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:0,
+        pilot_duration:15,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
@@ -229,25 +229,27 @@ export class HomeComponent implements OnInit {
         console.log("hgxfshdgdata",data);
         
     this.adminService.fetchOrgData(data).subscribe({
-        next: (data:any)=>{
-          
-          
-          
+        next: (data:any)=>{    
           this.activeWizard1 = this.activeWizard1+1;
         },
         error:(data:any)=>{
-            console.log('the error =>',data);
-     
-                this.errorMessage=data;
-                this.showLiveAlert=true;
-            
+          console.log('the error =>',data);     
+          this.errorMessage=data;
+          this.showLiveAlert=true;
+          
         }
-    })
+      })
+    }
+    if(this.activeWizard1 == 2){
+      if(this.basicWizardForm.controls['url'].valid){
+        this.activeWizard1 = 3;
+      }
+    }
 
+    if(this.listdetails.length>0 ){
+      this.activeWizard1 = this.activeWizard1+1;
     }
-    else{
-        this.activeWizard1 = this.activeWizard1+1;
-    }
+
   }
    get form1() { return this.basicWizardForm.controls; }
 
@@ -284,20 +286,20 @@ export class HomeComponent implements OnInit {
   }
   addTpa() {
     let input = this.userForm.get('third_party_org_name')?.value
-    let org_id = '1'
-    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
-      // console.log("jhfgdjgj", typeof (input));
-
-      // console.log("", doc);
-      ; return doc;
+    let org_id = this.organaization_id
+    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {   ; return doc;
     })
   }
 
   checkingUserForm(){
+    console.log("fen boy",this.userForm.value);
+    console.log('your boy', this.selectedUserProducts)
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
+       
+        
         console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
@@ -316,6 +318,18 @@ export class HomeComponent implements OnInit {
     this.userForm.reset();
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
+    this.organaization_id=doc.id
+
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => { 
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+      }  
+        ; return doc;
+    })
+   
+    
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
@@ -330,6 +344,32 @@ export class HomeComponent implements OnInit {
       this.selectedUserProducts.splice(selected,1);
     }
 
+  }
+  reloadCurrentPage() {
+    window. location. reload();
+    }
+
+  ngstyle(){
+   const stone = {'background': '#3B4F5F',
+    'border': '1px solid #3E596D',
+    'color': '#5FB6DB',
+    'pointer-events': 'auto'
+  }
+
+  
+
+  return stone
+  }
+
+
+  nextDisabled(){
+    return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
+  }
+
+  checkUserFirstForm(){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+      this.activeWizard2=this.activeWizard2+1;
+    }
   }
 
 }

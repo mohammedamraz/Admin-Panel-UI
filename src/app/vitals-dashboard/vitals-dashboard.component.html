@@ -321,7 +321,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList',]"  [queryParams]="{ status: 'active'}" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -336,7 +336,7 @@
             <div class="card-body widget-user">
                 <div class="float-end" ngbDropdown placement="bottom-end">
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
-                        <i class="mdi mdi-dots-vertical"></i>
+                        <!-- <i class="mdi mdi-dots-vertical"></i> -->
                     </a>
                 </div>
                 <div class="text-center">
@@ -351,7 +351,7 @@
             <div class="card-body widget-user">
                 <div class="float-end" ngbDropdown placement="bottom-end">
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
-                        <i class="mdi mdi-dots-vertical"></i>
+                        <!-- <i class="mdi mdi-dots-vertical"></i> -->
                     </a>
                 </div>
                 <div class="text-center">
@@ -371,43 +371,48 @@
                 </a>
                 <div ngbDropdownMenu>
                     <!-- item-->
-                    <a href="javascript:void(0);" ngbDropdownItem>Create Pilot</a>
+                    <!-- <a href="javascript:void(0);" ngbDropdownItem>Create Pilot</a> -->
                     <!-- item-->
                     <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>Pilots List</a>
 
                 </div>
             </div>            
-            <h4 class="mt-0 header-title">Basic example</h4>
+            <h4 class="mt-0 header-title" style="color: white;">Recent 5 Pilots</h4>
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="    overflow-x: inherit;">
                 <table class="table mb-0">
-                    <thead>
-                        <tr>
+                    <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
+
+                        <tr style="border-color: #49565d;">
                             <th>#</th>
                             <th>Org Name</th>
                             <th>Pilot For</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Users</th>
-                            <th>Status</th>
-                            <th>Tests</th>
+                            <th style="    text-align: -webkit-center;">Start Date</th>
+                            <th style="    text-align: -webkit-center;">End Date</th>
+                            <th style="    text-align: -webkit-center;">Users</th>
+                            <th >Status</th>
+                            <th style="    text-align: -webkit-center;">Tests</th>
+                            
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr *ngFor="let person of vitalsDetails;let indexOfelement=index;">
+                    <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
+                        <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of vitalsDetails;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
                             <td>{{person.organization_name}}</td>
                             <td>
                             <div class="">
-                                fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
-                                <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                    
+                                {{person.pilot_duration}} days
+                                <!-- fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>) -->
+                                <ngb-progressbar style="margin-top: 0;" [type]="(person.status =='Expired') ? 'danger':'warning'" [value]="person.progress"  class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             </div>
                             </td>
-                            <td>{{person.start_date | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{person.end_date | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{person.total_users}}</td>
-                            <td>{{person.status}}</td>
-                            <td>{{person.total_tests}}</td>
+                            <td style="    text-align: -webkit-center;">{{person.start_date | date: 'dd/MM/yyyy'}}</td>
+                            <td style="    text-align: -webkit-center;">{{person.end_date | date: 'dd/MM/yyyy'}}</td>
+                            <td style="    text-align: -webkit-center;">{{person.total_users}}</td>
+                            <td *ngIf="person.status=='Active'" style="color: green;">{{person.status}}</td>
+                            <td *ngIf="person.status=='Expired'" style="color: #F08F8F;" >{{person.status}}</td>
+                            <td style="    text-align: -webkit-center;color: #F2CA65;">{{person.total_tests}}</td>
                         </tr>
 
                      

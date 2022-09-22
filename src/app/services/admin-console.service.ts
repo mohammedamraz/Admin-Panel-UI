@@ -35,11 +35,19 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}2`) ;
   }
 
+  fetchVitalsActive(){
+    return this.http.get(`${API_URL}2?type=active`) ;
+  }
+
   fetchTotalTestVitals(){
     return this.http.get(`${API_URL}tests/2`) ;
   }
   fetchAllOrg(){
     return this.http.get(`${API_URL}/org`) ;
+  }
+
+  fetchAllActiveOrg(){
+    return this.http.get(`${API_URL}/org?type=active`) ;
   }
   createOrg(data:any){
     return this.http.post(`${API_URL}org`,data) ;
@@ -58,6 +66,11 @@ export class AdminConsoleService {
 
   patchOrg(id:number,data:any){
     return this.http.patch(`${API_URL}org/${id}`,data);
+
+  }
+
+  patchOrgDetails(id:number,data:any){
+    return this.http.patch(`${API_URL}${id}`,data);
 
   }
    
@@ -150,14 +163,19 @@ export class AdminConsoleService {
 
 
   breadcrumbs(event:any){
-
+    let name ='';
     const loggedInUser = <any>this.authService.currentUser();
-    const name = loggedInUser.org_data[0].organization_name;
-
+    // let name = loggedInUser.org_data[0].organization_name;
 
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
         { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
+    ])
+    }
+    if(event.url == '/vitalsList'){
+      this.breadCrumbs.next([
+        { label: 'Vitals Dashboard', path: '/vitals-dashboard' },
+        { label: 'Pilots List', path: '/vitalsList', active:true },
     ])
     }
     
@@ -172,20 +190,32 @@ export class AdminConsoleService {
           { label: 'Organisations List', path: 'orgList', active: true },
       ])
     }
-    if(event.url.startsWith('/orgdetails')){
-      this.breadCrumbs.next([
-          { label: 'Home', path: 'home' },
-          { label: 'Organisations List', path: 'orgList' },
-          { label: name, path: `/orgdetails/${event.url.slice(12,)}`, active: true },
-      ])
+    if(event.url?.startsWith('/orgdetails')){
+      this.fetchOrgById(event.url.slice(12,)).subscribe({
+        next: (res:any) => {
+          name=res[0].organization_name
+          this.breadCrumbs.next([
+            { label: 'Home', path: 'home' },
+            { label: 'Organisations List', path: 'orgList' },
+            { label: name, path: `/orgdetails/${event.url.slice(12,)}`, active: true },
+        ])
+        },
+      });
+
     }
-    if(event.url.startsWith('/userdetails')){
-      this.breadCrumbs.next([
-          { label: 'Home', path: 'home' },
-          { label: 'Organisations List', path: 'orgList' },
-          { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
-          { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
-      ])
+    if(event.url?.startsWith('/userdetails')){
+      this.fetchOrgById(event.url.slice(12,)).subscribe({
+        next: (res:any) => {        
+           name=res[0].organization_name
+          this.breadCrumbs.next([
+            { label: 'Home', path: 'home' },
+            { label: 'Organisations List', path: 'orgList' },
+            { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
+            { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
+        ])
+        },
+      });
+
     }
 
 
@@ -203,6 +233,11 @@ export class AdminConsoleService {
   addTpa(data:any){
 
     return this.http.post(`${ADMIN_URL}/tpa`,data);
+  }
+  
+  sendEmailForVitalsWebAccess(data:any){
+    
+    return this.http.post(`${ADMIN_URL}notification/org/webAccess`,data);
   }
 
 

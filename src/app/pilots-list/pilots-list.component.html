@@ -11,42 +11,46 @@
                 <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
             </div>
         </div>             -->
-        <h4 class="mt-0 header-title">Basic example</h4>
+        <h4 class="mt-0 header-title" style="color: white;">Pilots</h4>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
             to any <code>&lt;table&gt;</code>.
         </p> -->
 
-        <div class="table-responsive">
+        <div class="table-responsive" style="    overflow-x: inherit;">
             <table class="table mb-0">
-                <thead>
-                    <tr>
+                <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
+
+                    <tr style="border-color: #49565d;">
                         <th>#</th>
                         <th>Org Name</th>
                         <th>Pilot For</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Users</th>
+                        <th style="    text-align: -webkit-center;">Start Date</th>
+                        <th style="    text-align: -webkit-center;">End Date</th>
+                        <th style="    text-align: -webkit-center;">Users</th>
                         <th>Status</th>
-                        <th>Tests</th>
+                        <th style="    text-align: -webkit-center;">Tests</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let person of vitalsDetails;let indexOfelement=index;">
+                <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
+                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of vitalsDetails;let indexOfelement=index;">
                         <th scope="row">{{indexOfelement+1}}</th>
                         <td>{{person.organization_name}}</td>
                         <td>
+                            
                                 <div class="">
-                                    fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">'Expired'</span><span *ngIf="person.progress < 99" style="color: green;">'Active'</span>)
-                                    <ngb-progressbar style="margin-top: 0;" [type]="(person.progress > 99 ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                    <!-- Fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>) -->
+                                    {{person.pilot_duration}} days
+                                    <ngb-progressbar style="margin-top: 0;" [type]="(person.status =='Expired' ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                 </div>
 
-                        </td>
-                        <td>{{person.start_date | date: 'dd/MM/yyyy'}}</td>
-                        <td>{{person.end_date | date: 'dd/MM/yyyy'}}</td>
-                        <td>{{person.total_users}}</td>
-                        <td>{{person.status}}</td>
-                        <td>{{person.total_tests}}</td>
+                        </td>   
+                        <td style="    text-align: -webkit-center;">{{person.start_date | date: 'dd/MM/yyyy'}}</td>
+                        <td style="    text-align: -webkit-center;">{{person.end_date | date: 'dd/MM/yyyy'}}</td>
+                        <td style="    text-align: -webkit-center;">{{person.total_users}}</td>
+                        <td *ngIf="person.status=='Active'" style="color: green;">{{person.status}}</td>
+                        <td *ngIf="person.status=='Expired'" style="color: #F08F8F;" >{{person.status}}</td>
+                        <td style="    text-align: -webkit-center; color: #82B4F3;">{{person.total_tests}}</td>
                     </tr>
 
                  
