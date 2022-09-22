@@ -120,13 +120,34 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             console.log('error =>',error)
             
           }
-        })
+        });
+
+
     }
     else{
       data['orglogin']=true;
       this.adminService.updateRegister(data.org_data[0].id).subscribe({
         next:(data:any) =>{
             console.log('there is a status updated',data);
+            
+            this.adminService.fetchOrgById(data.org_data[0].id).subscribe({
+              next:(data:any)=>{
+                const doc = data[0].product.find((ele:any) => ele.product_id == '2')
+                if(doc.web_access === true){
+                  this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})
+                  .subscribe({next:(data:any)=>{
+                      console.log('there is a web access email sent',data);
+                    },
+                  error:(error:string) =>{
+                    console.log('web access error =>',error)
+                  }})
+                }
+              },
+              error:(error: string) => {
+                console.log('error =>',error)
+                
+              }
+            })
         
           },
           error:(error: string) => {

@@ -19,7 +19,7 @@ export class OrganisationDetailsComponent implements OnInit {
   basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
-  list: number = 3;
+  list: number = 2;
   listorg:number =3;
   orglist:number =3;
   listdetails:any[]=[];
@@ -63,7 +63,9 @@ export class OrganisationDetailsComponent implements OnInit {
   selectedUserProducts:any[]=[];
   userProduct:any[]=[];
   codeList: any[] = [];
-  organaization_id:any
+  organaization_id:any;
+  products:any[]=[];
+  next:boolean=false;
 
   
 
@@ -81,6 +83,8 @@ export class OrganisationDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
 
 
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
@@ -100,8 +104,8 @@ export class OrganisationDetailsComponent implements OnInit {
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
-        this.listdetails = res[0].product;
-        this.list=this.list + res[0].product.length;
+        // this.listdetails = res[0].product;
+        // this.list=this.list + res[0].product.length;
 
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
@@ -130,6 +134,7 @@ export class OrganisationDetailsComponent implements OnInit {
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
+        this.createEditproc(this.products,this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;console.log("ghf",doc);
           }
@@ -196,6 +201,41 @@ export class OrganisationDetailsComponent implements OnInit {
     })
 
   }
+
+  createEditproc(products:any,OrgProducts:any){
+
+   const product = products.map((doc:any)=>{
+      const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+
+      }
+      return doc
+    })
+
+    const list = OrgProducts.map((el:any) => {return {
+      fedoscore: el.fedoscore,
+      pilot_duration: el.pilot_duration,
+      product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
+      web_access: el.web_access,
+      web_url: el.web_url.slice(7,),
+      web_fedoscore:el.web_fedoscore,
+      product_junction_id: el.id,
+      product_id: el.product_id
+    }})
+    this.list=this.list+list.length
+    console.log('asdfq',product)
+    this.products = product
+    this.listdetails = list
+  }
+
+  
+  
 
   daysLefts(date:any){
     const firstDate = new Date();
@@ -308,7 +348,35 @@ export class OrganisationDetailsComponent implements OnInit {
       this.listdetails.splice(selected,1);
     }
   }
+  updateProduct(event:any, productId:string){
+    console.log('the products',this.products)
+    if(event.target.checked){
+      const data = {
+        fedoscore: false,
+        pilot_duration: 15,
+        product_name:productId === '1' ? 'HSA' : (productId === '2' ? 'Vitals':'RUW' ), 
+        web_access: false,
+        web_url: '',
+        web_fedoscore: false,
+        product_junction_id: '',
+        checked:true,
+        product_id:productId
+      }
+      this.list++;
+      this.listdetails.push(data);
+      const perish = this.products.findIndex(prod => prod.id == productId)
+      this.products[perish]['checked'] = true
+      this.products[perish]['noPenetration'] = false
 
+    }
+    else{
+      const selected =this.listdetails.findIndex(obj=>obj.product_id===productId);
+      this.listdetails.splice(selected,1);
+      this.list--;
+
+
+    }
+  }
   demoPrgFunction(event:any, product:string){
     if(product==='hsa'){
       this.OrgForm.controls['ruw'].setValue(false);
@@ -449,6 +517,45 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
+
+  checkingProductOrgForm(){
+    
+    const prod:any = this.listdetails.map((el:any)=>{
+      return {
+        fedo_score:el.fedoscore,
+        pilot_duration: el.pilot_duration,
+        product_junction_id:el.product_junction_id,
+        product_id: el.product_id,
+        web_access: el.web_access,
+        web_url: el.web_access ? el.web_url :'',
+        web_fedoscore: el.web_access ? el.web_fedoscore:false
+      }
+    });
+    console.log('dalsdfj',prod.map((value:any) => value.fedo_score).toString())
+    let data = new FormData();
+    data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
+    data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
+    data.append('product_junction_id',prod.map((value:any) => value.product_junction_id).toString());
+    data.append('product_id',prod.map((value:any) => value.product_id).toString());
+    data.append('web_access',prod.map((value:any) => value.web_access).toString());
+    data.append('web_url',prod.map((value:any) => value.web_url).toString());
+    data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+
+    this.adminService.patchOrg(this.id, data).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+        this.activeWizard2=this.activeWizard2+1;
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorOrgMessage=err;
+        this.showOrgLiveAlert=true;
+      },
+      complete: () => { }
+    });
+    
+
   }
 
 

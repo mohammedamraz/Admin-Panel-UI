@@ -218,6 +218,11 @@ export class AdminConsoleService {
 
     return this.http.post(`${ADMIN_URL}/tpa`,data);
   }
+  
+  sendEmailForVitalsWebAccess(data:any){
+    
+    return this.http.post(`${ADMIN_URL}notification/org/webAccess`,data);
+  }
 
 
 

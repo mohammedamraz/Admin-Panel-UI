@@ -59,7 +59,7 @@ export class OrganisationListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.adminService.fetchAllActiveOrg().subscribe
+    this.adminService.fetchAllOrg().subscribe
     ((doc:any) =>{ this.tabDAta=doc;return doc});
     this.columns = this.tabDAta
 
