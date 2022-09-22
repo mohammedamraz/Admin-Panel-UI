@@ -36,7 +36,7 @@ export class OrganisationListComponent implements OnInit {
   files: File[] = [];
   products:any[]=[];
   next:boolean=false;
-  org_name: string="";
+  org_name: any
   user_name: string="";
   image:any=[];
   selectedProducts:any[]=[];
@@ -235,7 +235,8 @@ export class OrganisationListComponent implements OnInit {
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         console.log('the success=>',res);
-        this.org_name = res.organization_name;
+        
+        this.org_name = res[0].organization_name;
         this.activeWizard2=this.activeWizard2+1;
       },
       error: (err) => {

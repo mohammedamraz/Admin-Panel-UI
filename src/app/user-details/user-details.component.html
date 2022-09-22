@@ -205,7 +205,7 @@
                             grid-template-columns: min-content max-content;
                             justify-content: center;
                             grid-gap: 0.5rem;">
-                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();"
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage()"
                                     >Close</button>
                                 <button type="button" class="btn btn-info" (click)="activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false"
                                     >Add Another User</button>

@@ -286,5 +286,8 @@ export class UserDetailsComponent implements OnInit {
     }
 
   }
+  reloadCurrentPage() {
+    window. location. reload();
+    }
 
 }
