@@ -329,7 +329,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation {{org_name}} . An invitaton email has already been sent to the Org Admin.
+                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation <b> {{org_name}}</b> . An invitaton email has already been sent to the Org Admin.
                                                  You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
                                         </div>
                                     </div>
@@ -708,13 +708,13 @@
                         <td style="    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
                         <td style="    text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_users:0}}</td>
                         <td class="option">
-                            <div class=" float-end" ngbDropdown placement="bottom-end">
+                            <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                     <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
-                                    <a *ngIf="false" href="javascript:void(0);" (click)="open(toggleModal2);userOrganisationName=person.organization_name" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
+                                    <!-- <a href="javascript:void(0);" (click)="open(toggleModal2);userOrganisationName=person.organization_name" (click)="open(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a> -->
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>
                             </div> 

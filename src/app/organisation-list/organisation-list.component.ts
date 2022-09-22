@@ -47,6 +47,7 @@ export class OrganisationListComponent implements OnInit {
   showButton: boolean = true;
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
+  organaization_id:any;
 
   constructor(
     private modalService: NgbModal,
@@ -66,17 +67,17 @@ export class OrganisationListComponent implements OnInit {
       return doc});
     this.columns = this.tabDAta;
 
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
-    this.adminService.fetchTpa(1).subscribe((doc: any) => {
-      for (let i = 0; i <= doc.length - 1; i++) {
-        if (doc[i].tpa_name != null) {
-          this.codeList.push(doc[i].tpa_name)
-        }
+    // this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
+    // this.adminService.fetchTpa(1).subscribe((doc: any) => {
+    //   for (let i = 0; i <= doc.length - 1; i++) {
+    //     if (doc[i].tpa_name != null) {
+    //       this.codeList.push(doc[i].tpa_name)
+    //     }
 
-      }
+    //   }
    
-        ; return doc;
-    })
+    //     ; return doc;
+    // })
 
     this.basicWizardForm = this.fb.group({
       organization_name:[''],
@@ -382,7 +383,9 @@ export class OrganisationListComponent implements OnInit {
   }
   addTpa() {
     let input = this.userForm.get('third_party_org_name')?.value
-    let org_id = '1'
+    let org_id = this.organaization_id
+    console.log("11111111111111",this.organaization_id);
+    
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
       // console.log("jhfgdjgj", typeof (input));
 
@@ -413,9 +416,23 @@ export class OrganisationListComponent implements OnInit {
     this.userForm.reset();
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
+    this.organaization_id=doc.id
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
+
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {
+      // console.log("fetch tpaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",doc);
+      
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+   
+        ; return doc;
+    })
   }
 
   updateUserProd(event:any, product:any){

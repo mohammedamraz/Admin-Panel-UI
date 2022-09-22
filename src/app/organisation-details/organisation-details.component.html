@@ -260,14 +260,14 @@
                             <button class="btn btn-secondary" (click)="activeWizard1=1" *ngIf="activeWizard1 !== 3"
                                 [disabled]="activeWizard1===1">Previous</button>
                         </li>
-                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == 3">
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == 3||activeWizard1 == 3">
                             <div style="    display: grid;
                             grid-template-columns: min-content max-content;
                             justify-content: center;
                             grid-gap: 0.5rem;">
-                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();"
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage();"
                                     >Close</button>
-                                <button type="button" class="btn btn-info" (click)="activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false"
+                                <button type="button" class="btn btn-info" (click)="activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id)"
                                     >Add Another User</button>
                             </div>
                         </li>
@@ -307,7 +307,7 @@
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
            
                         <li [ngbNavItem]="1">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Products</span>
                             </a>
@@ -348,7 +348,7 @@
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
                             <li [ngbNavItem]="2+i">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2 > 2+i ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">config {{season.product_name}}</span>
                             </a>
@@ -418,7 +418,7 @@
                         </ng-template>
 
                         <li [ngbNavItem]="list">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class="d-none d-sm-inline">Finish</span>
                             </a>

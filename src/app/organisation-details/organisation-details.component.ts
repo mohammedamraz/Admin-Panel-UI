@@ -189,16 +189,16 @@ export class OrganisationDetailsComponent implements OnInit {
         third_party_org_name: ['',Validators.required],
 
     });
-    this.adminService.fetchTpa(1).subscribe((doc: any) => {
-      for (let i = 0; i <= doc.length - 1; i++) {
-        if (doc[i].tpa_name != null) {
-          this.codeList.push(doc[i].tpa_name)
-        }
+    // this.adminService.fetchTpa(1).subscribe((doc: any) => {
+    //   for (let i = 0; i <= doc.length - 1; i++) {
+    //     if (doc[i].tpa_name != null) {
+    //       this.codeList.push(doc[i].tpa_name)
+    //     }
 
-      }
+    //   }
    
-        ; return doc;
-    })
+    //     ; return doc;
+    // })
 
   }
 
@@ -460,7 +460,6 @@ export class OrganisationDetailsComponent implements OnInit {
   }
   addTpa() {
     let input = this.userForm.get('third_party_org_name')?.value
-    // let org_id = '1'
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
       // console.log("jhfgdjgj", typeof (input));
@@ -482,13 +481,25 @@ export class OrganisationDetailsComponent implements OnInit {
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
+
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {  
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+       ; return doc;
+    })
   }
 
   checkingUserForm(){
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
-      next: (res) => {
+      next: (res:any) => {
+        console.log("insode")
+        this.user_name = res.user_name
         console.log('the success=>', res);
         this.activeWizard1 = this.activeWizard1 + 1;
       },

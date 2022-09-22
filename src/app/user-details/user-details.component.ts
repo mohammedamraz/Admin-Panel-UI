@@ -79,17 +79,7 @@ export class UserDetailsComponent implements OnInit {
       // this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
       // this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
       // this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-      this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;console.log("ghghg",doc);return doc});
-      this.adminService.fetchTpa(1).subscribe((doc: any) => {
-        for (let i = 0; i <= doc.length - 1; i++) {
-          if (doc[i].tpa_name != null) {
-            this.codeList.push(doc[i].tpa_name)
-          }
-  
-        }
      
-          ; return doc;
-      })
       
 
       this.basicWizardForm = this.fb.group({
@@ -271,6 +261,18 @@ export class UserDetailsComponent implements OnInit {
     console.log('hey manaf =>',doc);
     this.activeWizard2 = 1;
     this.organaization_id=doc.id
+
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;console.log("ghghg",doc);return doc});
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+   
+        ; return doc;
+    })
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
