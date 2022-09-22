@@ -56,7 +56,8 @@ export class HomeComponent implements OnInit {
   showButton: boolean = true;
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
-  organaization_id:any
+  organaization_id:any;
+
 
 
 
@@ -69,23 +70,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     // let data = sessionStorage.getItem('org_data');
-    // console.log("session",data);
+    // console.log("jfghfh",this.tbDAta);
+    
+    
     
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-    this.adminService.fetchTpa(1).subscribe((doc: any) => {
-      for (let i = 0; i <= doc.length - 1; i++) {
-        if (doc[i].tpa_name != null) {
-          this.codeList.push(doc[i].tpa_name)
-        }
-
-      }
-   
-        ; return doc;
-    })
+    // let org_id = this.organaization_id
+ 
     
 
 
@@ -176,6 +171,7 @@ export class HomeComponent implements OnInit {
         this.activeWizard1=this.activeWizard1+1;
         console.log('the success=>',res);
         this.org_name = res[0].organization_name;
+
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -323,6 +319,15 @@ export class HomeComponent implements OnInit {
     this.userForm.controls['org_id'].setValue(doc.id);
     console.log('hey manaf =>',doc);
     this.organaization_id=doc.id
+
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => { 
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+      }  
+        ; return doc;
+    })
    
     
 

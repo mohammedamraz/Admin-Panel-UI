@@ -46,11 +46,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     
-    console.log(this.data[0].organization_email);
- 
-    
-    this.signUpForm.controls['email'].setValue(this.data[0].organization_email);
+    console.log("hghgjhhghghh",this.data[0].organization_email);
+    if(this.data[0].email){
     this.signUpForm.controls['email'].setValue(this.data[0].email);
+    }
+    else this.signUpForm.controls['email'].setValue(this.data[0].organization_email);
  
  
     
