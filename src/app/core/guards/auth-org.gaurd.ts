@@ -42,8 +42,9 @@ export class AuthOrgGuard implements CanActivate {
             },
             complete: () => { }
           });
-          this.adminConsoleService.fetchUserById(snapshotParamUsersList).subscribe({
+          this.adminConsoleService.fetchUserListById(snapshotParamUsersList).subscribe({
             next: (res:any) => {
+              console.log("data")
               if(res[0].is_register) {
                   this.router.navigate(['./orgLogin'], );
             }
@@ -52,7 +53,7 @@ export class AuthOrgGuard implements CanActivate {
                 }
             },
             error: (err) => {
-              console.log('the failure=>',err);
+              console.log('the failure surt=>',err);
             },
             complete: () => { }
           });
