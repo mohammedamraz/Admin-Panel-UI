@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
 
 @Component({
@@ -9,11 +10,24 @@ import { AdminConsoleService } from '../services/admin-console.service';
 export class PilotsListComponent implements OnInit {
 
   vitalsDetails:any[]=[];
-  constructor(private readonly adminService: AdminConsoleService,) { }
+  vitalsDetailsActive:any[]=[];
+  constructor(private readonly adminService: AdminConsoleService,    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
-    this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);this.vitalsDetails=doc})
+
+    this.route.queryParams.subscribe((params:any)=>{
+      if(params.status =='active'){
+        this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);
+        this.vitalsDetails=doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
+      }
+      else{
+        this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
+        this.vitalsDetails= doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
+      }
+    })
+
+
 
   }
 

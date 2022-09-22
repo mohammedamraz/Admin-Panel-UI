@@ -22,12 +22,13 @@ export class RegisterComponent implements OnInit {
     password: ['', [Validators.required]],
     confirmPassword: ['', [Validators.required]],
     ConfirmationCode: ['']
-  });;
+  });
   formSubmitted: boolean = false;
   showPassword: boolean = false;
   loading: boolean = false;
   error: string = '';
   signUp:boolean = false;
+  email:any;
 
   constructor (
     private fb: FormBuilder,
@@ -35,10 +36,24 @@ export class RegisterComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private readonly adminService: AdminConsoleService,
     private cdr: ChangeDetectorRef,
+    private route: Router
 
-  ) { }
+  ) {
+    this.data = this.route.getCurrentNavigation()?.extras?.queryParams?.['data'];
+   }
+   data:any=[]
 
   ngOnInit(): void {
+    console.log(this.data);
+    
+    console.log("hghgjhhghghh",this.data[0].organization_email);
+    if(this.data[0].email){
+    this.signUpForm.controls['email'].setValue(this.data[0].email);
+    }
+    else this.signUpForm.controls['email'].setValue(this.data[0].organization_email);
+ 
+ 
+    
   }
 
   /**
@@ -105,13 +120,34 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             console.log('error =>',error)
             
           }
-        })
+        });
+
+
     }
     else{
       data['orglogin']=true;
       this.adminService.updateRegister(data.org_data[0].id).subscribe({
         next:(data:any) =>{
             console.log('there is a status updated',data);
+            
+            this.adminService.fetchOrgById(data.org_data[0].id).subscribe({
+              next:(data:any)=>{
+                const doc = data[0].product.find((ele:any) => ele.product_id == '2')
+                if(doc.web_access === true){
+                  this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})
+                  .subscribe({next:(data:any)=>{
+                      console.log('there is a web access email sent',data);
+                    },
+                  error:(error:string) =>{
+                    console.log('web access error =>',error)
+                  }})
+                }
+              },
+              error:(error: string) => {
+                console.log('error =>',error)
+                
+              }
+            })
         
           },
           error:(error: string) => {

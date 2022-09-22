@@ -8,20 +8,19 @@
             <li class="notification-list topbar-dropdown" ngbDropdown>
                 <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" href="javascript:void(0)"
                     role="button" ngbDropdownToggle>
-
-                    <img src="./assets/images/login-icon-3048.png" alt="user-image" class="rounded-circle">
+                    <img src="./assets/images/person.jpg" alt="user-image" class="rounded-circle">
                     
                     <span class="pro-user-name ms-1">
-                        {{username}}<i class="mdi mdi-chevron-down"></i>
+                        {{username.split(" ", 2)[0]}}<i class="mdi mdi-chevron-down"></i>
                     </span>
                 </a>
                 <div ngbDropdownMenu class="dropdown-menu-end profile-dropdown ">
-                    <div class="dropdown-header noti-title" ngbDropdownItem>
+                    <!-- <div class="dropdown-header noti-title" ngbDropdownItem>
                         <h6 class="text-overflow m-0" style="color: white;">Welcome !</h6>
-                    </div>
+                    </div> -->
 
                     <ng-container *ngFor="let option of profileOptions;let i=index">
-                        <div class="dropdown-divider" *ngIf="i===profileOptions.length-1"></div>
+                        <div class="dropdown-divider" style="margin: 0;" *ngIf="i===profileOptions.length-1"></div>
                         <a class="notify-item" ngbDropdownItem>
                             <i [class]="option.icon"></i>
                             <span style="cursor: pointer;" [routerLink]="option.redirectTo">{{option.label}}</span>
@@ -61,7 +60,7 @@
                     <li class="breadcrumb-item" *ngIf="!item.active"><a
                             [routerLink]="item.path">{{item.label}}</a>
                     </li>
-                    <li class="breadcrumb-item active" *ngIf="item.active">{{item.label}}
+                    <li class="breadcrumb-item active" style="font-weight: 500;" *ngIf="item.active">{{item.label}}
                     </li>
                 </ng-container>
             </ol>
