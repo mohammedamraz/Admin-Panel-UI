@@ -163,20 +163,9 @@ export class AdminConsoleService {
 
 
   breadcrumbs(event:any){
-
+    let name ='';
     const loggedInUser = <any>this.authService.currentUser();
-    const name = loggedInUser.org_data[0].organization_name;
-    // const name = this.fetchOrgById(event.url.slice(12,)).subscribe({
-    //   next: (res:any) => {
-       
-        
-    //     console.log('the breadcrumbs data=>', res);
-    //     // this.user_name=res.user_name
-    //     // this.activeWizard2 = this.activeWizard2 + 1;
-    //   },
-    // });
-    console.log("route")
-
+    // let name = loggedInUser.org_data[0].organization_name;
 
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
@@ -201,20 +190,32 @@ export class AdminConsoleService {
           { label: 'Organisations List', path: 'orgList', active: true },
       ])
     }
-    if(event.url.startsWith('/orgdetails')){
-      this.breadCrumbs.next([
-          { label: 'Home', path: 'home' },
-          { label: 'Organisations List', path: 'orgList' },
-          { label: name, path: `/orgdetails/${event.url.slice(12,)}`, active: true },
-      ])
+    if(event.url?.startsWith('/orgdetails')){
+      this.fetchOrgById(event.url.slice(12,)).subscribe({
+        next: (res:any) => {
+          name=res[0].organization_name
+          this.breadCrumbs.next([
+            { label: 'Home', path: 'home' },
+            { label: 'Organisations List', path: 'orgList' },
+            { label: name, path: `/orgdetails/${event.url.slice(12,)}`, active: true },
+        ])
+        },
+      });
+
     }
-    if(event.url.startsWith('/userdetails')){
-      this.breadCrumbs.next([
-          { label: 'Home', path: 'home' },
-          { label: 'Organisations List', path: 'orgList' },
-          { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
-          { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
-      ])
+    if(event.url?.startsWith('/userdetails')){
+      this.fetchOrgById(event.url.slice(12,)).subscribe({
+        next: (res:any) => {        
+           name=res[0].organization_name
+          this.breadCrumbs.next([
+            { label: 'Home', path: 'home' },
+            { label: 'Organisations List', path: 'orgList' },
+            { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
+            { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
+        ])
+        },
+      });
+
     }
 
 
