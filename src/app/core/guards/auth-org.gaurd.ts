@@ -30,7 +30,7 @@ export class AuthOrgGuard implements CanActivate {
         let snapshotParamUsersList:any =JSON.parse(privateKey.decrypt(Forge.util.decode64(decodeURIComponent(Object.keys(route.queryParams)[0])), 'RSA-OAEP')).user_id;
         this.adminConsoleService.fetchOrgById(snapshotParam).subscribe({
             next: (res:any) => {
-              if(res[0].is_register) {
+              if(res[0].is_register==true) {
                   this.router.navigate(['./orgLogin'], );
             }
             else{              
@@ -45,7 +45,7 @@ export class AuthOrgGuard implements CanActivate {
           this.adminConsoleService.fetchUserListById(snapshotParamUsersList).subscribe({
             next: (res:any) => {
               console.log("data")
-              if(res[0].is_register) {
+              if(res[0].is_register==true) {
                   this.router.navigate(['./orgLogin'], );
             }
             else{
