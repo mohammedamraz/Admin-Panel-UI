@@ -66,6 +66,7 @@ export class OrganisationDetailsComponent implements OnInit {
   organaization_id:any;
   products:any[]=[];
   next:boolean=false;
+  created:boolean = false;
 
   
 
@@ -502,6 +503,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.user_name = res.user_name
         console.log('the success=>', res);
         this.activeWizard1 = this.activeWizard1 + 1;
+        this.created = true;
       },
       error: (err) => {
         console.log('the failure=>', err);
@@ -628,7 +630,7 @@ clearform(){
     const stone = {'background': '#3B4F5F',
      'border': '1px solid #3E596D',
      'color': '#5FB6DB',
-     'pointer-events': 'auto'
+     'pointer-events': this.created ? 'none':'auto'
    }
    return stone
   }

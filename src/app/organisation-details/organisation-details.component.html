@@ -122,7 +122,7 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-none d-sm-inline">Products</span>
                             </a>
@@ -267,7 +267,7 @@
                             grid-gap: 0.5rem;">
                                 <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage();"
                                     >Close</button>
-                                <button type="button" class="btn btn-info" (click)="activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id)"
+                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id)"
                                     >Add Another User</button>
                             </div>
                         </li>
@@ -350,7 +350,7 @@
                             <li [ngbNavItem]="2+i">
                             <a [ngStyle]=" activeWizard2 > 2+i ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">config {{season.product_name}}</span>
+                                <span class="d-none d-sm-inline">Config {{season.product_name}}</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
@@ -429,7 +429,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully updated the Organisation Products of  <b>{{organization_name}}</b>.</p>
+                                            <p class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
                                         </div>
                                     </div>
                                 </div> 
@@ -448,13 +448,13 @@
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
-                            <button type="button" class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]; reloadPage();"
+                            <button type="button"    style="width: 100px;"  class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]; reloadPage();"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
-                            <button type="button" (click)="activeWizard2=activeWizard2+1" class="btn btn-secondary" 
+                            <button type="button" (click)="activeWizard2=activeWizard2+1" style="width: 100px;" class="btn btn-info"
                                 *ngIf="activeWizard2<list-1">Next</button>
-                            <button type="button" class="btn btn-secondary" (click)="checkingProductOrgForm()"
+                            <button type="button" class="btn btn-secondary" (click)="checkingProductOrgForm()" style="width: 100px;" class="btn btn-info"
                                 *ngIf="activeWizard2 == list-1">Submit</button>
                         </li>
                     </ul>
@@ -484,7 +484,7 @@
                         class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class="d-none d-sm-inline">Org Details</span>
                             </a>
@@ -568,7 +568,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully updated your details.</p>
+                                            <p class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
                                         </div>
                                     </div>
                                     

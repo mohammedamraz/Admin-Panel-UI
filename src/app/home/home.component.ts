@@ -57,6 +57,7 @@ export class HomeComponent implements OnInit {
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   organaization_id:any;
+  created:boolean=false;
 
 
 
@@ -307,7 +308,7 @@ export class HomeComponent implements OnInit {
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
        
-        
+        this.created = true;
         console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
@@ -361,7 +362,7 @@ export class HomeComponent implements OnInit {
    const stone = {'background': '#3B4F5F',
     'border': '1px solid #3E596D',
     'color': '#5FB6DB',
-    'pointer-events': 'auto'
+    'pointer-events': this.created ? 'none':'auto'
   }
 
   
