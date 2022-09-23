@@ -243,7 +243,7 @@
                                                             </div>
                                                             <p class="text-muted mb-1">Fedo {{season.product_name.toUpperCase()}}</p>
                                                             <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                                <input type="checkbox" formControlName="{{season.product_name}}" (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
+                                                                <input type="checkbox"  (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -267,8 +267,8 @@
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
-                                                            floor: 0,
-                                                            ceil: 100
+                                                            floor: 1,
+                                                            ceil: 90
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->

@@ -265,7 +265,7 @@
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
-                                                            floor: 0,
+                                                            floor: 1,
                                                             ceil: 90
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->

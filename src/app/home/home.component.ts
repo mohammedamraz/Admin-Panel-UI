@@ -206,7 +206,7 @@ export class HomeComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:15,
+        pilot_duration:1,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,

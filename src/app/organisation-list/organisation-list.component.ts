@@ -67,7 +67,7 @@ export class OrganisationListComponent implements OnInit {
       return doc});
     this.columns = this.tabDAta;
 
-    // this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
     // this.adminService.fetchTpa(1).subscribe((doc: any) => {
     //   for (let i = 0; i <= doc.length - 1; i++) {
     //     if (doc[i].tpa_name != null) {
@@ -305,7 +305,7 @@ export class OrganisationListComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:15,
+        pilot_duration:1,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
