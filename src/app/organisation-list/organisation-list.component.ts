@@ -62,7 +62,7 @@ export class OrganisationListComponent implements OnInit {
   ngOnInit(): void {
 
     this.adminService.fetchAllOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc;
+    ((doc:any) =>{ this.tabDAta=doc; console.log('you are the one ', this.tabDAta)
       this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       return doc});
     this.columns = this.tabDAta;
@@ -149,6 +149,15 @@ export class OrganisationListComponent implements OnInit {
         this.activeWizard2 = this.activeWizard2+1;
     }
   }
+
+  daysLefts(date:any){
+    const firstDate = new Date();
+    const secondDate = new Date(date);
+    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+    return days_difference;
+  }
+
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
     this.srcImage = './assets/images/fedo-logo-white.png';

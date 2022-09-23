@@ -252,9 +252,9 @@
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
                             <li [ngbNavItem]="3+(i+1)">
-                            <a  [ngStyle]=" activeWizard1>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard1>3+(i+1) ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span style = 'text-transform: capitalize;'class="d-none d-sm-inline">Config {{season.name.toUpperCase() }}</span>
+                                <span style = 'text-transform: capitalize;'class="d-none d-sm-inline">Config {{season.name === 'vitals' ? 'Vitals' : season.name.toUpperCase() }}</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
@@ -714,7 +714,7 @@
                                         <div class="">
                                             <div class=" ">
                                                 Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.status =='Expired'" style="color: #F08F8F;">{{season.status}}</span><span *ngIf="season.status =='Active'" style="color: green;">{{season.status}}</span>)
-                                                <ngb-progressbar style="margin-top: 0;" [type]="(season.progress > 99 ) ? 'danger':'warning'" [value]="season.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                                <ngb-progressbar style="margin-top: 0;"  [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="(season.status =='Expired' ) ? 100 :(season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date))" [max]=" (season.status =='Expired' ) ? 100:season.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                             </div>
                                         </div>
                                     </ng-template>

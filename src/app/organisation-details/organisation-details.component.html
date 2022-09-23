@@ -793,8 +793,8 @@ grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
                         <div class="col-xl-5 card-body" style="padding-left:0">
                             <p style="
                             margin-bottom: 0.5rem;
-                        ">Pilot Duration({{season.pilot_duration-daysLefts(season.end_date)}} of {{season.pilot_duration}} days)</p>
-                            <ngb-progressbar style="margin-top: 0;" [type]="season.status =='Expired' ? 'danger':'warning'" [value]="season.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                        ">Pilot Duration({{season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date)}} of {{season.pilot_duration}} days)</p>
+                            <ngb-progressbar style="margin-top: 0;" [type]="season.status =='Expired' ? 'danger':'warning'" [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="(season.status =='Expired' ) ? 100 :(season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date))" [max]=" (season.status =='Expired' ) ? 100:season.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                         </div>
                         <div>
                             <h4 style="color: #98a6ad;">Fedo Score:</h4>

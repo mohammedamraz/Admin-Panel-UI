@@ -41,7 +41,7 @@
                                 <div class="">
                                     <!-- Fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>) -->
                                     {{person.pilot_duration}} days
-                                    <ngb-progressbar style="margin-top: 0;" [type]="(person.status =='Expired' ) ? 'danger':'warning'" [value]="person.progress" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                    <ngb-progressbar style="margin-top: 0;"  [type]="(person.status =='Expired' ) ? 'danger':'warning'" [value]="(person.status =='Expired' ) ? 100 :(person.pilot_duration-daysLefts(person.end_date) < 0? 0 : person.pilot_duration-daysLefts(person.end_date))" [max]=" (person.status =='Expired' ) ? 100:person.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                 </div>
 
                         </td>   

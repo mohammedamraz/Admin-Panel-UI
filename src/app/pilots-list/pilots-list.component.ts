@@ -31,4 +31,12 @@ export class PilotsListComponent implements OnInit {
 
   }
 
+  daysLefts(date:any){
+    const firstDate = new Date();
+    const secondDate = new Date(date);
+    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+    return days_difference;
+  }
+
 }
