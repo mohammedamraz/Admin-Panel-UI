@@ -48,6 +48,8 @@ export class OrganisationListComponent implements OnInit {
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   organaization_id:any;
+  created:boolean=false;
+
 
   constructor(
     private modalService: NgbModal,
@@ -225,6 +227,13 @@ export class OrganisationListComponent implements OnInit {
   }
 
   checkingForm(){
+
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
+      this.errorMessage='web url must be provided';
+      this.showLiveAlert=true;
+    }
+    else{
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
@@ -248,6 +257,7 @@ export class OrganisationListComponent implements OnInit {
         
         this.org_name = res[0].organization_name;
         this.activeWizard2=this.activeWizard2+1;
+        this.created = true;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -257,6 +267,7 @@ export class OrganisationListComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
   } 
 
   // // checkingForm(){
@@ -461,8 +472,8 @@ export class OrganisationListComponent implements OnInit {
     const stone = {'background': '#3B4F5F',
      'border': '1px solid #3E596D',
      'color': '#5FB6DB',
-     'pointer-events': 'auto'
-   }
+     'pointer-events': this.created ? 'none':'auto'
+    }
  
    return stone
    }

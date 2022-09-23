@@ -160,6 +160,13 @@ export class HomeComponent implements OnInit {
   }
 
   checkingForm(){
+
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
+      this.errorMessage='web url must be provided';
+      this.showLiveAlert=true;
+    }
+    else{
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
@@ -180,6 +187,7 @@ export class HomeComponent implements OnInit {
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
+        this.created = true;
         console.log('the success=>',res);
         this.org_name = res[0].organization_name;
 
@@ -192,6 +200,7 @@ export class HomeComponent implements OnInit {
       },
       complete: () => { }
     });
+    }
   }
 
 

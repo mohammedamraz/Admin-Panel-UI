@@ -50,16 +50,42 @@ export class LeftSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initMenu();
     this.loggedInUser = <any>this.authService.currentUser();
     if(this.loggedInUser.hasOwnProperty('user_data') ){
-      this.orglogin=true;
+      this.orglogin=true;    
+      this.menuItems =  [
+        { key: 'navigation', label: 'Navigation', isTitle: true },
+        {
+            key: 'dashboard',
+            label: 'Home',
+            isTitle: false,
+            icon: 'mdi mdi-home',
+            badge: { variant: 'success', text: '9+' },
+            url: '/home',
+        },];
+
     }
     else if( this.loggedInUser.hasOwnProperty('org_data')){
-      if(this.loggedInUser.org_data[0].type === 'admin')
-       this.orglogin = false;
-      else this.orglogin = true;
+      if(this.loggedInUser.org_data[0].type === 'admin'){
+      this.orglogin = false;
+      this.menuItems = MENU_ITEMS;
     }
+      else {
+        this.orglogin = true;
+        this.menuItems =  [
+          { key: 'navigation', label: 'Navigation', isTitle: true },
+          {
+              key: 'dashboard',
+              label: 'Home',
+              isTitle: false,
+              icon: 'mdi mdi-home',
+              badge: { variant: 'success', text: '9+' },
+              url: '/home',
+          },];
+        
+      }
+    }
+    // this.initMenu();
 
 
     }
