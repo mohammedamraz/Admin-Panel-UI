@@ -355,7 +355,7 @@ export class OrganisationDetailsComponent implements OnInit {
       const data = {
         fedoscore: false,
         pilot_duration: 15,
-        product_name:productId === '1' ? 'HSA' : (productId === '2' ? 'Vitals':'RUW' ), 
+        product_name:parseInt(productId) === 1 ? 'HSA' : (parseInt(productId) === 2 ? 'Vitals':'RUW' ), 
         web_access: false,
         web_url: '',
         web_fedoscore: false,
