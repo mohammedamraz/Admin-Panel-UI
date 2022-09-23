@@ -57,7 +57,9 @@ export class HomeComponent implements OnInit {
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   organaization_id:any;
+  showLiveAlertNextButton=false;
 
+  errorMessageNextButton='';
 
 
 
@@ -365,11 +367,48 @@ export class HomeComponent implements OnInit {
   nextDisabled(){
     return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
   }
+  
 
   checkUserFirstForm(){
+
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
-      this.activeWizard2=this.activeWizard2+1;
-    }
+
+      let data ={
+
+        // organization_name: this.userForm.controls['user_name'],
+
+        email: this.userForm.value['email'],
+
+        mobile: '+91'+ this.userForm.value['mobile']
+
+
+
+    };
+
+      this.adminService.fetchUserDataIfExists(data).subscribe({
+
+        next: (data:any)=>{    
+
+          this.activeWizard2=this.activeWizard2+1;
+
+        },
+
+        error: (err) => {
+
+          console.log('the failure=>',err);
+
+          this.errorMessageNextButton=err;
+
+          this.showLiveAlertNextButton=true;
+
+        },
+
+     
+
+    })
+
   }
+
+}
 
 }

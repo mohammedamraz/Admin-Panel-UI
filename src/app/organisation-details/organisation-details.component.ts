@@ -66,6 +66,9 @@ export class OrganisationDetailsComponent implements OnInit {
   organaization_id:any;
   products:any[]=[];
   next:boolean=false;
+  showLiveAlertNextButton=false;
+
+  errorMessageNextButton='';
 
   
 
@@ -619,11 +622,48 @@ clearform(){
     this.list=4;
     this.activeWizard1 =1;
    }
+
    checkUserFirstForm(){
+
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
-      this.activeWizard1=this.activeWizard1+1;
-    }
+
+      let data ={
+
+        // organization_name: this.userForm.controls['user_name'],
+
+        email: this.userForm.value['email'],
+
+        mobile: '+91'+ this.userForm.value['mobile']
+
+
+
+    };
+
+      this.adminService.fetchUserDataIfExists(data).subscribe({
+
+        next: (data:any)=>{    
+
+          this.activeWizard1=this.activeWizard1+1;
+
+        },
+
+        error: (err) => {
+
+          console.log('the failure=>',err);
+
+          this.errorMessageNextButton=err;
+
+          this.showLiveAlertNextButton=true;
+
+        },
+
+     
+
+    })
+
   }
+
+}
   ngstyle(){
     const stone = {'background': '#3B4F5F',
      'border': '1px solid #3E596D',

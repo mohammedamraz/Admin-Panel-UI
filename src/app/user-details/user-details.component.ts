@@ -56,6 +56,9 @@ export class UserDetailsComponent implements OnInit {
   vitalsCount:any=0;
   tabDAta:any[]=[];
   tableData:any[]=[];
+  showLiveAlertNextButton=false;
+
+  errorMessageNextButton='';
 
   
 
@@ -220,10 +223,46 @@ export class UserDetailsComponent implements OnInit {
    }
  
    checkUserFirstForm(){
-     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
-       this.activeWizard2=this.activeWizard2+1;
-     }
-   }
+
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+
+      let data ={
+
+        // organization_name: this.userForm.controls['user_name'],
+
+        email: this.userForm.value['email'],
+
+        mobile: '+91'+ this.userForm.value['mobile']
+
+
+
+    };
+
+      this.adminService.fetchUserDataIfExists(data).subscribe({
+
+        next: (data:any)=>{    
+
+          this.activeWizard2=this.activeWizard2+1;
+
+        },
+
+        error: (err) => {
+
+          console.log('the failure=>',err);
+
+          this.errorMessageNextButton=err;
+
+          this.showLiveAlertNextButton=true;
+
+        },
+
+     
+
+    })
+
+  }
+
+}
    change() {
     this.thirdParty = !this.thirdParty;
     this.notThirdParty = !this.thirdParty;
