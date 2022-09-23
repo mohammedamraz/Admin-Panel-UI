@@ -62,12 +62,12 @@ export class OrganisationListComponent implements OnInit {
   ngOnInit(): void {
 
     this.adminService.fetchAllOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc;
+    ((doc:any) =>{ this.tabDAta=doc; console.log('you are the one ', this.tabDAta)
       this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       return doc});
     this.columns = this.tabDAta;
 
-    // this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
     // this.adminService.fetchTpa(1).subscribe((doc: any) => {
     //   for (let i = 0; i <= doc.length - 1; i++) {
     //     if (doc[i].tpa_name != null) {
@@ -149,6 +149,15 @@ export class OrganisationListComponent implements OnInit {
         this.activeWizard2 = this.activeWizard2+1;
     }
   }
+
+  daysLefts(date:any){
+    const firstDate = new Date();
+    const secondDate = new Date(date);
+    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+    return days_difference;
+  }
+
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
     this.srcImage = './assets/images/fedo-logo-white.png';
@@ -296,7 +305,7 @@ export class OrganisationListComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:15,
+        pilot_duration:1,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
