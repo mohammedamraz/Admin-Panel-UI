@@ -251,7 +251,7 @@
                         </li>
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
-                            <li [ngbNavItem]="season.index">
+                            <li [ngbNavItem]="3+(i+1)">
                             <a  [ngStyle]=" activeWizard1>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span style = 'text-transform: capitalize;'class="d-none d-sm-inline">Config {{season.name.toUpperCase() }}</span>
