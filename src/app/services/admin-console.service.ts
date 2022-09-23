@@ -107,8 +107,11 @@ export class AdminConsoleService {
 
   //this api service is calling but we have to use this api in the next button when user is calling
   fetchUserDataIfExists(data:any){
-    
-    return this.http.get(`${API_URL}users/${data.organization_email}/${data.organization_mobile}`)
+
+   
+
+    return this.http.get(`${API_URL}users/${data.email}/${data.mobile}`)
+
   }
   
   //delete image logo from the organization db

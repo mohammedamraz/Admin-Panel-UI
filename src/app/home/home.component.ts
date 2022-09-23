@@ -57,7 +57,10 @@ export class HomeComponent implements OnInit {
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   organaization_id:any;
+  created:boolean=false;
+  showLiveAlertNextButton=false;
 
+  errorMessageNextButton='';
 
 
 
@@ -134,6 +137,14 @@ export class HomeComponent implements OnInit {
 
   }
 
+  daysLefts(date:any){
+    const firstDate = new Date();
+    const secondDate = new Date(date);
+    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
+    return days_difference;
+  }
+
   onSelect(event: any) {
     console.log('don');
     
@@ -195,7 +206,7 @@ export class HomeComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:15,
+        pilot_duration:1,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
@@ -299,7 +310,7 @@ export class HomeComponent implements OnInit {
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
        
-        
+        this.created = true;
         console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
@@ -353,7 +364,7 @@ export class HomeComponent implements OnInit {
    const stone = {'background': '#3B4F5F',
     'border': '1px solid #3E596D',
     'color': '#5FB6DB',
-    'pointer-events': 'auto'
+    'pointer-events': this.created ? 'none':'auto'
   }
 
   
@@ -365,11 +376,48 @@ export class HomeComponent implements OnInit {
   nextDisabled(){
     return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
   }
+  
 
   checkUserFirstForm(){
+
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
-      this.activeWizard2=this.activeWizard2+1;
-    }
+
+      let data ={
+
+        // organization_name: this.userForm.controls['user_name'],
+
+        email: this.userForm.value['email'],
+
+        mobile: '+91'+ this.userForm.value['mobile']
+
+
+
+    };
+
+      this.adminService.fetchUserDataIfExists(data).subscribe({
+
+        next: (data:any)=>{    
+
+          this.activeWizard2=this.activeWizard2+1;
+
+        },
+
+        error: (err) => {
+
+          console.log('the failure=>',err);
+
+          this.errorMessageNextButton=err;
+
+          this.showLiveAlertNextButton=true;
+
+        },
+
+     
+
+    })
+
   }
+
+}
 
 }

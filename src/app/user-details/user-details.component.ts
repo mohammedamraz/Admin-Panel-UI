@@ -56,6 +56,10 @@ export class UserDetailsComponent implements OnInit {
   vitalsCount:any=0;
   tabDAta:any[]=[];
   tableData:any[]=[];
+  created:boolean=false;
+  showLiveAlertNextButton=false;
+
+  errorMessageNextButton='';
 
   
 
@@ -184,7 +188,7 @@ export class UserDetailsComponent implements OnInit {
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
        
-        
+        this.created = true;
         console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
@@ -206,8 +210,8 @@ export class UserDetailsComponent implements OnInit {
     const stone = {'background': '#3B4F5F',
      'border': '1px solid #3E596D',
      'color': '#5FB6DB',
-     'pointer-events': 'auto'
-   }
+     'pointer-events': this.created ? 'none':'auto'
+    }
  
    
  
@@ -220,10 +224,46 @@ export class UserDetailsComponent implements OnInit {
    }
  
    checkUserFirstForm(){
-     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
-       this.activeWizard2=this.activeWizard2+1;
-     }
-   }
+
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+
+      let data ={
+
+        // organization_name: this.userForm.controls['user_name'],
+
+        email: this.userForm.value['email'],
+
+        mobile: '+91'+ this.userForm.value['mobile']
+
+
+
+    };
+
+      this.adminService.fetchUserDataIfExists(data).subscribe({
+
+        next: (data:any)=>{    
+
+          this.activeWizard2=this.activeWizard2+1;
+
+        },
+
+        error: (err) => {
+
+          console.log('the failure=>',err);
+
+          this.errorMessageNextButton=err;
+
+          this.showLiveAlertNextButton=true;
+
+        },
+
+     
+
+    })
+
+  }
+
+}
    change() {
     this.thirdParty = !this.thirdParty;
     this.notThirdParty = !this.thirdParty;
