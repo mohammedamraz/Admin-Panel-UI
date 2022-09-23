@@ -495,6 +495,11 @@
                                       
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
+                                <div id="liveAlertPlaceholder">
+
+                                    <ngb-alert type="warning" *ngIf="showLiveAlertNextButton" (closed)="showLiveAlertNextButton = false">{{errorMessageNextButton}}</ngb-alert>
+
+                                </div>
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">

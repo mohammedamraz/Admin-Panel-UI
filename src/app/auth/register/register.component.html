@@ -1,7 +1,8 @@
 <app-default-layout>
 
     <div class="text-center mb-4">
-        <h4 class="text-uppercase mt-0" style="color: #fff ;" i18n>Sign Up</h4>
+        <h4 *ngIf="verify==false" class="text-uppercase mt-0" style="color: #fff ;" i18n>Sign Up</h4>
+        <h4 *ngIf="verify==true" class=" mt-0" style="color: #fff ;" i18n>Verify Email</h4>
     </div>
 
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
@@ -28,10 +29,10 @@
       <div class="form-floating ">
 
             <input class="form-control" type="email" id="emailaddress" i18n-placeholder placeholder="Enter your email"
-                formControlName="email" required style="    background: #383E4A;
+                formControlName="email" required style="background: #383E4A; 
                 border: 1px solid #444C5B;height: 3rem;
                 border-radius: 4px;"readonly="readonly"
-                [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}"  />
+                [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}"/>
             <label for="floatingInput" class="form-label" i18n>Email Address</label>
 
             <label for="floatingInput" class="form-label" i18n>Email Address</label>
@@ -95,7 +96,8 @@
                 border: 1px solid #444C5B;height: 3rem;
                 border-radius: 4px;"
                 required />
-            <label for="floatingInput" class="form-label" i18n>Confirmation Code</label>
+            <label for="floatingInput" class="form-label" i18n>Enter OTP</label>
+            <small id="emailHelp" class="form-text text-muted">Check email for OTP</small>
 
             <div *ngIf="formSubmitted && formValues['ConfirmationCode'].invalid " class="invalid-feedback">
 <!-- 
@@ -104,6 +106,7 @@
                 </div> -->
 
             </div>
+            
         </div>
         </div>
         <!-- <div class="mb-3">
@@ -114,7 +117,8 @@
             </div>
         </div> -->
         <div class="mb-3 text-center d-grid">
-            <button class="btn btn-primary" type="submit" i18n> Sign Up </button>
+            <button *ngIf="verify==false" class="btn btn-primary" type="submit" i18n> Sign Up </button>
+            <button *ngIf="verify==true" class="btn btn-primary" (click)="onVerify()" i18n> Verify</button>
         </div>
 
     </form>

@@ -119,6 +119,11 @@
                                       
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
+                                <div id="liveAlertPlaceholder">
+
+                                    <ngb-alert type="warning" *ngIf="showLiveAlertNextButton" (closed)="showLiveAlertNextButton = false">{{errorMessageNextButton}}</ngb-alert>
+
+                                </div>
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
@@ -663,7 +668,7 @@ grid-template-columns: 8fr 4fr 14px">
                         margin-bottom: 0;
                         font-size: large;font-weight: 500;
                         font-size: 18px;
-                        line-height: 22px;">{{organization_mobile.slice(0,3)}} {{organization_mobile.slice(3,14)}}</p>
+                        line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
                     </div>
                     <div>
                         <h4 style="color: #98a6ad;font-weight: 400;
@@ -874,6 +879,8 @@ grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
                     <ng-template ngbPaginationNext>Next</ng-template>
                 </ngb-pagination>
             </div> -->
+            <p style="margin-top: 0.5rem;
+            text-align-last: right;">OA - Organization Admin</p>
             </div>
         </div>
 
