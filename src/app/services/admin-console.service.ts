@@ -65,11 +65,14 @@ export class AdminConsoleService {
   }
 
   patchOrg(id:number,data:any){
+    
+    data.organization_mobile='+91'+data.organization_mobile
     return this.http.patch(`${API_URL}org/${id}`,data);
 
   }
 
   patchOrgDetails(id:number,data:any){
+    
     return this.http.patch(`${API_URL}${id}`,data);
 
   }

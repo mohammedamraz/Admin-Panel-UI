@@ -70,6 +70,7 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertNextButton=false;
 
   errorMessageNextButton='';
+  addTpafunc:boolean=false;
 
   
 
@@ -227,13 +228,13 @@ export class OrganisationDetailsComponent implements OnInit {
       pilot_duration: el.pilot_duration,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
-      web_url: el.web_url.slice(7,),
+      web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id
     }})
     this.list=this.list+list.length
-    console.log('asdfq',product)
+    console.log('asdfq',list)
     this.products = product
     this.listdetails = list
   }
@@ -254,7 +255,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.OrgForm.controls['organization_name'].setValue(this.organization_name);
     this.OrgForm.controls['admin_name'].setValue(this.admin_name);
     this.OrgForm.controls['organization_email'].setValue(this.organization_email);
-    this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile);
+    this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile.slice(3,));
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
@@ -463,6 +464,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
   }
   addTpa() {
+    this.addTpafunc=true
     let input = this.userForm.get('third_party_org_name')?.value
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
@@ -525,6 +527,7 @@ export class OrganisationDetailsComponent implements OnInit {
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
+        this.created=true;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -552,7 +555,13 @@ export class OrganisationDetailsComponent implements OnInit {
         web_fedoscore: el.web_access ? el.web_fedoscore:false
       }
     });
-    console.log('dalsdfj',prod.map((value:any) => value.fedo_score).toString())
+    console.log('dalsdfj',this.listdetails)
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
+      this.errorOrgMessage='web url must be provided';
+      this.showOrgLiveAlert=true;    
+    }
+    else{
     let data = new FormData();
     data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
     data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
@@ -566,6 +575,7 @@ export class OrganisationDetailsComponent implements OnInit {
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
+        this.created = true;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -574,6 +584,7 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
     
 
   }

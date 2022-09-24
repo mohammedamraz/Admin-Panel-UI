@@ -1,8 +1,9 @@
+<h4 *ngIf="orglogin==true" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -104,7 +105,7 @@
                                           </option>
                                         </datalist>
                                         <!-- <div > -->
-                                        <button *ngIf="showButton" (click)="addTpa()" id="erase" style="
+                                        <button *ngIf="showButton&&addTpafunc==false" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3.6rem;
                                             border: 1px solid #444c5b;
@@ -112,6 +113,15 @@
                                             color: grey;
                                             padding-right: 0.5rem;
                                             padding-left: 0.5rem;">+</button>
+
+                                            <button *ngIf="addTpafunc" class="mdi mdi-check-all" id="erase" style="
+                                            background: #084b23;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;"></button>
                                         <!-- </div> -->
                                       </div>
 
@@ -374,8 +384,8 @@
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
                                                         [options]="{
-                                                            floor: 0,
-                                                            ceil: 100
+                                                            floor: 1,
+                                                            ceil: 90    
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
@@ -546,9 +556,9 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;"
+                                                border-radius: 4px; height: 3rem;" 
                                                     name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
                                                     <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
 
@@ -832,7 +842,7 @@ grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
                     <!-- item-->
                     <a href="javascript:void(0);" (click)="open(toggleModal3); setValue(person);" ngbDropdownItem>Create User</a>
                     <!-- item-->
-                    <a href="javascript:void(0);" [routerLink]="orglogin ? id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
+                    <a href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
                 </div>
             </div>

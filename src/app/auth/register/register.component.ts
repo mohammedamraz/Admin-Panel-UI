@@ -204,7 +204,7 @@ export class RegisterComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           console.log('there is a ssuucesesdf',data);
-          sessionStorage.setItem('currentUser', JSON.stringify( data    ) );
+          sessionStorage.setItem('currentUser', JSON.stringify(data) );
 // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
 // have to give a route in place of error  when error is happening it should not route it should give registration succeful
 
@@ -215,6 +215,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
   next: (data: any) => {
     // console.log('there is a ssuucesesdf',data.org_data[0].id)
     if(data.hasOwnProperty('user_data')){
+      console.log("user")
       data['orglogin']=false;
       this.adminService.updateUserRegister(data.user_data[0].id).subscribe({
         next:(data:any) =>{
@@ -232,6 +233,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
     }
     // console.log("cje")
     else if(!data.hasOwnProperty('user_data')){
+      console.log("organization")
       data['orglogin']=true;
       console.log("check",data.org_data[0].id)
       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
@@ -268,7 +270,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
         })
     }
     
-    console.log("dcsdfx",JSON.stringify(data))
+    console.log("dcs",JSON.stringify(data))
     // this.adminService.httpLoading$.next(true);
 
     sessionStorage.setItem('currentUser', JSON.stringify(data));

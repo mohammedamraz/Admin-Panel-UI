@@ -58,6 +58,7 @@ export class UserDetailsComponent implements OnInit {
   tableData:any[]=[];
   created:boolean=false;
   showLiveAlertNextButton=false;
+  addTpafunc:boolean=false;
 
   errorMessageNextButton='';
 
@@ -286,6 +287,7 @@ export class UserDetailsComponent implements OnInit {
 
   }
   addTpa() {
+    this.addTpafunc=true;
     let input = this.userForm.get('third_party_org_name')?.value
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {   ; return doc;
