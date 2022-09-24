@@ -1,3 +1,4 @@
+<h4 *ngIf="orglogin==true" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;width: 40rem;">
@@ -546,9 +547,9 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;"
+                                                border-radius: 4px; height: 3rem;" 
                                                     name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
                                                     <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
 
@@ -832,7 +833,7 @@ grid-template-columns: 1fr 1fr 0px; grid-column-gap:1rem">
                     <!-- item-->
                     <a href="javascript:void(0);" (click)="open(toggleModal3); setValue(person);" ngbDropdownItem>Create User</a>
                     <!-- item-->
-                    <a href="javascript:void(0);" [routerLink]="orglogin ? id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
+                    <a href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
                 </div>
             </div>

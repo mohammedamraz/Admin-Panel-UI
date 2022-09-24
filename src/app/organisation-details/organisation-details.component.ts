@@ -254,7 +254,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.OrgForm.controls['organization_name'].setValue(this.organization_name);
     this.OrgForm.controls['admin_name'].setValue(this.admin_name);
     this.OrgForm.controls['organization_email'].setValue(this.organization_email);
-    this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile);
+    this.OrgForm.controls['organization_mobile'].setValue(this.organization_mobile.slice(3,));
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
