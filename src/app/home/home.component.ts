@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
 import { AdminConsoleService } from '../services/admin-console.service';
-
+// import { EventService } from 'src/app/core/service/event.service';
 interface PersonDetails {
   id: number;
   firstName: string;
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   showLiveAlertNextButton=false;
 
   errorMessageNextButton='';
+  addTpafunc:boolean=false;
 
 
 
@@ -296,9 +297,12 @@ export class HomeComponent implements OnInit {
 
   }
   addTpa() {
+    this.addTpafunc=true
     let input = this.userForm.get('third_party_org_name')?.value
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {   ; return doc;
+    
+      
     })
   }
 

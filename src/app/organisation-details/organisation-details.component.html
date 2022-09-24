@@ -2,7 +2,7 @@
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -104,7 +104,7 @@
                                           </option>
                                         </datalist>
                                         <!-- <div > -->
-                                        <button *ngIf="showButton" (click)="addTpa()" id="erase" style="
+                                        <button *ngIf="showButton&&addTpafunc==false" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3.6rem;
                                             border: 1px solid #444c5b;
@@ -112,6 +112,15 @@
                                             color: grey;
                                             padding-right: 0.5rem;
                                             padding-left: 0.5rem;">+</button>
+
+                                            <button *ngIf="addTpafunc" class="mdi mdi-check-all" id="erase" style="
+                                            background: #084b23;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;"></button>
                                         <!-- </div> -->
                                       </div>
 
