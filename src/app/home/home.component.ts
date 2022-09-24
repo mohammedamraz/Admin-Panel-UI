@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
 import { AdminConsoleService } from '../services/admin-console.service';
-
+// import { EventService } from 'src/app/core/service/event.service';
 interface PersonDetails {
   id: number;
   firstName: string;
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   showLiveAlertNextButton=false;
 
   errorMessageNextButton='';
+  addTpafunc:boolean=false;
 
 
 
@@ -160,6 +161,13 @@ export class HomeComponent implements OnInit {
   }
 
   checkingForm(){
+
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
+      this.errorMessage='web url must be provided';
+      this.showLiveAlert=true;
+    }
+    else{
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
@@ -180,6 +188,7 @@ export class HomeComponent implements OnInit {
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
+        this.created = true;
         console.log('the success=>',res);
         this.org_name = res[0].organization_name;
 
@@ -192,6 +201,7 @@ export class HomeComponent implements OnInit {
       },
       complete: () => { }
     });
+    }
   }
 
 
@@ -296,9 +306,12 @@ export class HomeComponent implements OnInit {
 
   }
   addTpa() {
+    this.addTpafunc=true
     let input = this.userForm.get('third_party_org_name')?.value
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {   ; return doc;
+    
+      
     })
   }
 

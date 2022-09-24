@@ -371,7 +371,7 @@
         <div class="card-body" style="    background-color: #282E38;
     width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -481,7 +481,7 @@
                                           </option>
                                         </datalist>
                                         <!-- <div > -->
-                                        <button *ngIf="showButton" (click)="addTpa()" id="erase" style="
+                                        <button *ngIf="showButton&&addTpafunc==false" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3..6rem;
                                             border: 1px solid #444c5b;
@@ -489,6 +489,20 @@
                                             color: grey;
                                             padding-right: 0.5rem;
                                             padding-left: 0.5rem;">+</button>
+
+
+                                            <button *ngIf="addTpafunc" class="mdi mdi-check-all" id="erase" style="
+                                            background: #084b23;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;"></button>
+
+                                            <!-- <i class="mdi mdi-check-all">jhgh</i> -->
+
+                                           
                                         <!-- </div> -->
                                       </div>
     
@@ -578,7 +592,7 @@
                             grid-template-columns: min-content max-content;
                             justify-content: center;
                             grid-gap: 0.5rem;">
-                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();"
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage()"
                                     >Close</button>
                                 <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(organaization_id)"
                                     >Add Another User</button>
