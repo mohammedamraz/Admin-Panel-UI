@@ -227,13 +227,13 @@ export class OrganisationDetailsComponent implements OnInit {
       pilot_duration: el.pilot_duration,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
-      web_url: el.web_url.slice(7,),
+      web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id
     }})
     this.list=this.list+list.length
-    console.log('asdfq',product)
+    console.log('asdfq',list)
     this.products = product
     this.listdetails = list
   }
@@ -525,6 +525,7 @@ export class OrganisationDetailsComponent implements OnInit {
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
+        this.created=true;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -552,7 +553,13 @@ export class OrganisationDetailsComponent implements OnInit {
         web_fedoscore: el.web_access ? el.web_fedoscore:false
       }
     });
-    console.log('dalsdfj',prod.map((value:any) => value.fedo_score).toString())
+    console.log('dalsdfj',this.listdetails)
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
+      this.errorOrgMessage='web url must be provided';
+      this.showOrgLiveAlert=true;    
+    }
+    else{
     let data = new FormData();
     data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
     data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
@@ -566,6 +573,7 @@ export class OrganisationDetailsComponent implements OnInit {
       next: (res) => {
         console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
+        this.created = true;
       },
       error: (err) => {
         console.log('the failure=>',err);
@@ -574,6 +582,7 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
     
 
   }
