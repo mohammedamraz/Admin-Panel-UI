@@ -18,8 +18,8 @@ import { AdminConsoleService } from 'src/app/services/admin-console.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    email: ['vomahol122@esmoud.com', [Validators.required,]],
-    password: ['Gowda@967', Validators.required],
+    email: ['', [Validators.required,]],
+    password: ['', Validators.required],
     rememberMe:[true]
   });
   formSubmitted: boolean = false;
