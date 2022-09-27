@@ -223,7 +223,7 @@
                             grid-gap: 0.5rem;">
                                 <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage()"
                                     >Close</button>
-                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(organaization_id)"
+                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false"
                                     >Add Another User</button>
                             </div>
                         </li>

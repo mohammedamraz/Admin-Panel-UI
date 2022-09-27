@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     
-    console.log("hghgjhhghghh",this.data[0].organization_email);
+
     if(this.data[0].email){
     this.signUpForm.controls['email'].setValue(this.data[0].email);
     }
@@ -86,7 +86,6 @@ export class RegisterComponent implements OnInit {
         this.adminService.signup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email})
         .subscribe({
           next: (data: any) => {
-            console.log('there is a ssuucesesdf',data);
             this.signUp = true;
     this.verify=true
 
@@ -235,21 +234,16 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
     else if(!data.hasOwnProperty('user_data')){
       console.log("organization")
       data['orglogin']=true;
-      console.log("check",data.org_data[0].id)
       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
         next:(data:any) =>{
-            console.log('there is a status updated',data.org_data[0].id);
             
             from(lastValueFrom(this.adminService.fetchOrgById(data.org_data[0].id))).subscribe({
               next:(data:any)=>{
-                console.log("mail")
                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
                 if(doc.web_access === true){
-                console.log("mail inside")
                   
                 from(lastValueFrom(this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})))
                   .subscribe({next:(data:any)=>{
-                      console.log('there is a web access email sent',data);
                     },
                   error:(error:string) =>{
                     console.log('web access error =>',error)
@@ -270,7 +264,6 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
         })
     }
     
-    console.log("dcs",JSON.stringify(data))
     // this.adminService.httpLoading$.next(true);
 
     sessionStorage.setItem('currentUser', JSON.stringify(data));
