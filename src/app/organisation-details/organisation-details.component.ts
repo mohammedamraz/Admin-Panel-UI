@@ -29,7 +29,7 @@ export class OrganisationDetailsComponent implements OnInit {
   errorOrgMessage = '';
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
-  srcImage:any='./assets/images/fedo-logo-white.png';
+  srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
 
   //details
   organization_name:any='';
@@ -138,7 +138,7 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
+        this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc;console.log("ghf",doc);
@@ -288,7 +288,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.deleteImageLogoFromOrgDb(this.id).subscribe({
       next: (res) => {
         console.log('the success=>',res);
-        this.srcImage = './assets/images/fedo-logo-white.png';
+        this.srcImage = 'https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
 
       },
       error: (err) => {
