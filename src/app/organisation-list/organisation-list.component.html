@@ -689,8 +689,8 @@
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tabDAta;let indexOfelement=index;">
                         <th scope="row">{{indexOfelement+1}}</th>
-                        <td>{{person.organization_name}}</td>
-                        <td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;"  >{{person.organization_name}}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
                             <div style="    display: grid;
                             grid-template-columns: 1fr 1fr 1fr;
                             grid-gap: 1rem;">
@@ -705,8 +705,8 @@
                             </div>
 
                         </td>
-                        <td style="    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
-                        <td style="    text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_tests:0}}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style=" cursor: pointer;   text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_tests:0}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
