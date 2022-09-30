@@ -181,7 +181,7 @@ export class OrganisationListComponent implements OnInit {
 
 
   open(content: TemplateRef<NgbModal>): void {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 
   onSort(event: SortEvent): void {

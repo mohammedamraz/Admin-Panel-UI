@@ -321,7 +321,7 @@ export class OrganisationDetailsComponent implements OnInit {
     }
 
   open(content: TemplateRef<NgbModal>): void {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
   demoFunction(event:any, product:string){
     if(product==='hsa'){

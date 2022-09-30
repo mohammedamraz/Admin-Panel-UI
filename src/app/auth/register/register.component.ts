@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   signUp:boolean = false;
   verify:boolean = false;
   email:any;
+  org_id_for_email:any;
 
   constructor (
     private fb: FormBuilder,
@@ -232,12 +233,12 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
     }
     // console.log("cje")
     else if(!data.hasOwnProperty('user_data')){
-      console.log("organization")
       data['orglogin']=true;
+      this.org_id_for_email=data.org_data[0].id
       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
         next:(data:any) =>{
             
-            from(lastValueFrom(this.adminService.fetchOrgById(data.org_data[0].id))).subscribe({
+            from(lastValueFrom(this.adminService.fetchOrgById(this.org_id_for_email))).subscribe({
               next:(data:any)=>{
                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
                 if(doc.web_access === true){
