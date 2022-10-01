@@ -164,6 +164,22 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}user/register/status/${id}`,{});
 
   }
+  fetchAllOrgByPage(num:any,item:any){
+    
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}`)   
+  }
+  fetchAllUserOfOrgByPage(id:string,num:any,item:any){
+    return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}`);
+  }
+
+  fetchVitalsByPage(num:any,item:any){
+    return this.http.get(`${API_URL}2?page=${num}&per_page=${item}`) ;
+  }
+
+  fetchVitalsActiveByPage(num:any,item:any){
+    return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
+  }
+
 
 
 

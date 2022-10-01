@@ -260,6 +260,18 @@
             </a>
         </div>             -->
         <h4 class="mt-0 header-title" style="color: white;">User List</h4>
+
+        <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
+            <div class="text--start">
+                <label class="form-label me-1">Show
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
+                    border-color: #49565d;"
+                        id="event-category" required #idd   (click)="onFilter(idd)">
+                        <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
+                    </select>
+                    entries</label>
+            </div>
+        </div>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
             to any <code>&lt;table&gt;</code>.
@@ -280,8 +292,8 @@
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
-                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of userList;let indexOfelement=index;">
-                        <td scope="row">{{indexOfelement+1}}</td>
+                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of userList ;let i=index;">
+                        <td scope="row">{{entries *(page-1)+i+1}}</td>
                         <td>{{person.user_name}}</td>
                         <td>{{person.email}}</td>
                         <td>{{person.mobile.slice(3,14)}}</td>
@@ -291,6 +303,22 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
+                <div *ngIf="(total_pages*10)<=total_user">
+                    Showing {{currentPage-1}}1 to
+                    {{total_pages*10}} of {{total_user}} entries
+                </div>
+                <div *ngIf="(total_pages*10)>total_user">
+                    Showing {{currentPage-1}}1 to
+                    {{total_user}} of {{total_user}} entries
+                </div>
+                <ngb-pagination class="d-flex justify-content-end mt-2" 
+                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)" [(page)]="page">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+            </div>
+
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
             *ngIf="true">
             <!-- <div>   
