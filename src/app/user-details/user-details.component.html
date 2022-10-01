@@ -27,9 +27,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem; 
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name">
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>User Full Name</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
                                                         <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
                                                             <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['user_name'].errors">
                                                             Name is required.
@@ -42,9 +42,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Designation" formControlName="designation">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
                                                     <div *ngIf="userForm.controls['designation'].invalid && userForm.controls['designation'].touched" >
                                                         <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['designation'].errors">
                                                         Designation is required.
@@ -58,9 +58,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Email Address" required formControlName="email">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
                                                     <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched" >
                                                         <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['email'].errors">
                                                     Enter Valid Email Address.
@@ -72,9 +72,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Mobile Number" formControlName="mobile">
-                                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
                                                  <div *ngIf="userForm.controls['mobile'].invalid && userForm.controls['mobile'].touched" >
                                                     <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['mobile'].errors">
                                                     Enter Valid Mobile Number
@@ -100,8 +100,8 @@
                                         <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
                                             background: #383e4a;
                                             border: 1px solid #444c5b;
-                                            border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
-                                            <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Select third-party Company or Add New</label>
+                                            border-radius: 4px;color: #9BA6AC" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
+                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Select third-party Company or Add New</label>
                                         <!-- <div *ngIf="userForm.controls['third_party_org_name'].invalid && userForm.controls['third_party_org_name'].touched" class="alert-danger">
                                                                       TPP required.      
                                                                   </div> -->
