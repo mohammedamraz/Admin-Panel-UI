@@ -1,38 +1,9 @@
-<div class="account-pages" style="background-image: url(./assets/images/bg-image.png);padding-top:4.5rem;">
-  <div class="container">
+<app-default-layout>
 
-      <div class="row justify-content-center" style="padding-bottom: 5.3rem;">
-          <div class="col-md-8 col-lg-6 col-xl-4" style="padding: 0 0.8rem 0rem 1.1rem;" >
-              <div class="text-center" *ngIf="true">
-                  <div class="auth-logo">
-                      <a [routerLink]="'/'" class="logo logo-dark ">
-                          <span class="logo-lg">
-                              <img src="./assets/images/fedo-logo-white.png" alt="" height="22">
-                          </span>
-                      </a>
-
-                      <a [routerLink]="'/'" class="logo logo-light ">
-                          <span class="logo-lg">
-                              <img src="./assets/images/logo-light.png" alt="" height="22">
-                          </span>
-                      </a>
-                  </div>
-                  <p class="text-muted mt-2 mb-4">Organisation Admin Panel</p>
-
-              </div>
-              <div class="card" class="bg-pattern">
-                  <div class="card-body ">
-
-                      <ng-content></ng-content>
-
-                  </div> <!-- end card-body -->
-              </div>
-
-              <ng-content select="[footerLink]"></ng-content>
-              <div style="background:#313844;padding: 2.25rem;border-radius:5px">
               <div class="text-center mb-4">
                 <h4 class="text-uppercase mt-0" style="color: white;" i18n>Sign In</h4>
               </div>
+              <div style="background: #313844;">
             
               <form name="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <app-ui-preloader [display]="loading"></app-ui-preloader>
@@ -111,12 +82,5 @@
                 </div>
               </div>
           
-
-          </div> <!-- end col -->
-      </div>
-      <!-- end row -->
-  </div>
-  <!-- end container -->
-</div>
-<!-- end page -->
+            </app-default-layout>
    
