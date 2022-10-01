@@ -27,9 +27,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem; 
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name">
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>User Full Name</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
                                                         <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
                                                             <label style="font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['user_name'].errors">
                                                             Name is required.
@@ -41,9 +41,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Designation" formControlName="designation">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
                                                     <div *ngIf="userForm.controls['designation'].invalid && userForm.controls['designation'].touched" >
                                                         <label style="font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['designation'].errors">
                                                         Designation is required.
@@ -57,9 +57,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Email Address" required formControlName="email">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
                                                     <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched" >
                                                         <label style="font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['email'].errors">
                                                     Enter Valid Email Address.
@@ -71,9 +71,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Mobile Number" formControlName="mobile">
-                                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
                                                  <div *ngIf="userForm.controls['mobile'].invalid && userForm.controls['mobile'].touched" >
                                                     <label style="font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['mobile'].errors">
                                                     Enter Valid Mobile Number
@@ -97,8 +97,8 @@
                                         <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
                                             background: #383e4a;
                                             border: 1px solid #444c5b;
-                                            border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
-                                            <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Select third-party Company or Add New</label>
+                                            border-radius: 4px;color: #9BA6AC" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
+                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Select third-party Company or Add New</label>
                                         <datalist id="codes" style="background: white">
                                           <option *ngFor="let c of codeList" >
                                             {{ c }}
@@ -444,7 +444,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
                                         </div>
                                     </div>
                                 </div> 
@@ -506,15 +506,15 @@
                             <ng-template ngbNavContent>
                                 <div class="row" >
                                     <div class="col-12">
-                                        <div class="row mb-3" style="">
+                                        <div class="row mb-3">
                                             <div class="col-md">
                                                 <div class="form-floating ">
 
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B; height: 3rem;
-                                                border-radius: 4px; margin-bottom: 1rem;"
+                                                border-radius: 4px; margin-bottom: 1rem;color: #9BA6AC"
                                                     name="userName" placeholder="Organisation Name" formControlName="organization_name">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Organisation Name</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
                                             </div>
                                         </div>
                                     </div>
@@ -524,9 +524,9 @@
 
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;"
+                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Org Admin Full Name" formControlName="admin_name">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Org Admin Full Name</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label>
 
                                             </div>
                                         </div>
@@ -535,9 +535,9 @@
 
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;"
+                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Designation" formControlName="designation">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
 
                                             </div>
                                         </div>
@@ -547,9 +547,9 @@
                                                 <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;"
+                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
 
                                             </div>
                                         </div>
@@ -558,9 +558,9 @@
 
                                                 <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                 border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;" 
+                                                border-radius: 4px; height: 3rem;color: #9BA6AC" 
                                                     name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
 
                                             </div>
                                         </div>
@@ -572,7 +572,7 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none   ;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class="d-none d-sm-inline">Finish</span>
                             </a>
@@ -583,13 +583,13 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
                                         </div>
                                     </div>
                                     
                                 </div> 
                                 <div style="text-align: center; margin: 5rem 5rem 1rem 5rem;">
-                                <button style="width: 100px;" type="button" class="btn btn-secondary" (click)="reloadCurrentPage()"
+                                <button style="width: 100px;" type="button" class="btn btn-info" (click)="reloadCurrentPage()"
                                 >Close</button>
                             </div>
                             </ng-template>
@@ -604,7 +604,7 @@
                             <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
                         </div>
                         <li class="previous list-inline-item" >
-                            <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('')" 
+                            <button style="width: 6rem;" type="button" class="btn btn-info" (click)="modal.dismiss('')" 
                                 >Close</button>
                         </li>
 
@@ -711,7 +711,7 @@
                     accept="image/jpeg,image/jpg,image/png,image/gif">
                     <ngx-dropzone-label >
                         <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
-                        <p style="text-align: center; font-size: 13px; color: #98a6ad;">Upload Another</p>
+                        <p style="text-align: center; font-size: 13px; color: #9BA6AC;">Upload Another</p>
        
                     </ngx-dropzone-label>
                 </ngx-dropzone>
@@ -724,7 +724,7 @@
                         <img src="./assets/images/Vector.png"  style="font-size: x-large;">
                         <!-- <p>Delete Logo</p> -->
                     </a>
-                    <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #98a6ad;">Delete Logo</p>
+                    <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
 
                 </div>
             </div>

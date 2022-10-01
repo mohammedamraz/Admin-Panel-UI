@@ -25,16 +25,16 @@
                                         <div class="row mb-3">
                                             <div class="col-md">
                                                 <div class="form-floating ">
-                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                    <input type="text"  class="form-control" id="userName1" style="background: #383E4A; 
                                                     border: 1px solid #444C5B;    height: 3rem;
-                                                    border-radius: 4px;"
-                                                        name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['organization_name'].valid , 'is-invalid': basicForm.submitted && form1['organization_name'].invalid }">
+                                                    border-radius: 4px;    color: #9BA6AC;"
+                                                    name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['organization_name'].valid , 'is-invalid': basicForm.submitted && form1['organization_name'].invalid }">
     
                                                         <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
                                                             Looks good!
                                                         </div>
                                  -->
-                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Organisation Name</label>
+                                 <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
                                                         <div *ngIf="basicForm.submitted && form1['organization_name'].invalid && form1['organization_name'].invalid " class="invalid-feedback">
                                                             Please enter Organisation Name.
                                                         </div>
@@ -51,12 +51,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;
-                                                    border-radius: 4px;    height: 3rem;"
+                                                    border-radius: 4px;    height: 3rem;color: #9BA6AC;    "
                                                         name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['admin_name'].valid , 'is-invalid': basicForm.submitted && form1['admin_name'].invalid }">
                                                         <div *ngIf="basicForm.submitted && form1['admin_name'].invalid" class="invalid-feedback">
                                                             Please enter Admin Name.
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Org Admin Full Name</label
+                                                        <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Org Admin Full Name</label
                                                       >
                                                 </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
@@ -68,9 +68,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;    color: #9BA6AC;"
                                                         name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{'is-valid':basicForm.submitted&&form1['designation'].valid , 'is-invalid':basicForm.submitted&&form1['designation'].invalid}">
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Designation</label>
                                                         <div *ngIf="basicForm.submitted && form1['designation'].invalid" class="invalid-feedback">
                                                             Please enter Designation.
                                                         </div>
@@ -82,12 +82,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;    color: #9BA6AC;"
                                                         name="userName" placeholder="Email Address" required formControlName="organization_email"  [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_email'].valid , 'is-invalid':basicForm.submitted&&form1['organization_email'].invalid}">
                                                         <div *ngIf="basicForm.submitted && form1['organization_email'].invalid" class="invalid-feedback">
                                                              Enter Valid Email ID
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Email Address</label>
 
                                                 </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_email'].errors">
@@ -101,12 +101,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;    color: #9BA6AC;"
                                                         name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_mobile'].valid , 'is-invalid':basicForm.submitted&&form1['organization_mobile'].invalid}">
                                                         <div *ngIf="basicForm.submitted && form1['organization_mobile'].invalid" class="invalid-feedback">
                                                             Please enter Mobile Number .
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Mobile Number</label>
                                                 </div>
                                                    
 
@@ -130,7 +130,7 @@
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: auto auto;">
-                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            <div style="place-self: center;padding-right: 0;    color: #9BA6AC;">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;    color: #9BA6AC;
                                             border: 1px solid #444C5B;    
                                             border-radius: 4px;"    
                                                 name="userName" placeholder=""required="" formControlName="url" [ngClass]="{'is-valid':basicForm.submitted&&form1['url'].valid , 'is-invalid':basicForm.submitted&&form1['url'].invalid}">
@@ -147,7 +147,7 @@
                                                     <div  style="align-self: center;">
                                                         <div class="row align-items-center" style="    place-content: center;">
                                                         
-                                                        <img src={{srcImage}} alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                                                        <img src={{srcImage}} alt="" style="width: 15rem; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
                                                     </div>
                                                     </div>
                                                     </div>
@@ -168,26 +168,26 @@
                                                     <div  style="    display: flex;
                 place-content: center;
                 column-gap: 1rem;">
-             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-3"style="background: #3C424F; align-self: center;border-radius: 6px !important; height:5rem">
+             <div class="col-xl-4.5 col-lg-5 col-md-5 col-sm-3"style="background: #3C424F; align-self: center;border-radius: 6px !important; height:5rem">
                     <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; height: 0;   margin:0;
                     border-radius: 5px; overflow: hidden;padding-top: 1rem;"
                     accept="image/jpeg,image/jpg,image/png,image/gif">
                     <ngx-dropzone-label >
                         <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
-                        <p style="text-align: center; font-size: 13px; color: #98a6ad;">Upload Another</p>
+                        <p style="text-align: center; font-size: 13px; color:  #9BA6AC;">Upload Another</p>
        
                     </ngx-dropzone-label>
                 </ngx-dropzone>
             </div>
 
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-2" style="background: #3C424F;    align-self: center; border-radius: 6px !important; height:5rem;padding-top: 0.3rem">
+                <div class="col-xl-3.5 col-lg-4 col-md-4 col-sm-2" style="background: #3C424F;    align-self: center; border-radius: 6px !important; height:5rem;padding-top: 0.3rem">
        
                         <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit;    margin-bottom: 0.3rem;"
                         (click)="onRemove($event)">
                         <img src="./assets/images/Vector.png"  style="font-size: x-large;">
                         <!-- <p>Delete Logo</p> -->
                     </a>
-                    <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #98a6ad;">Delete Logo</p>
+                    <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
 
                 </div>
             </div>
@@ -287,7 +287,7 @@
                                                 <h4 class="header-title" style="color: #AEB5BC;">Define Web App Vitals URL:</h4>
                                                 <div class="row" style="display: grid;
                                                 grid-template-columns: min-content max-content;">
-                                                <div style="place-self: center;padding-right: 0;">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                <div style="place-self: center;padding-right: 0;    color: #9BA6AC;">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;    color: #9BA6AC;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
                                                     name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
@@ -325,7 +325,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation <b>{{org_name}}</b>. An invitaton email has already been sent to the Org Admin.
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC;">You have successfully created the Organisation <b>{{org_name}}</b>. An invitaton email has already been sent to the Org Admin.
                                                  You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
                                         </div>
                                     </div>
@@ -345,7 +345,7 @@
                                 [disabled]="activeWizard1===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard1 == list">
-                            <button style="width: 100px;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');basicWizardForm.reset();list=4;listdetails=[];reloadCurrentPage()"
+                            <button style="width: 100px;" type="button" class="btn btn-info" (click)="modal.dismiss('');basicWizardForm.reset();list=4;listdetails=[];reloadCurrentPage()"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard1 == list)">
@@ -393,9 +393,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem; 
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name">
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>User Full Name</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
                                                         <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
                                                             <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['user_name'].errors">
                                                             Name is required.
@@ -408,9 +408,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Designation" formControlName="designation">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
                                                     <div *ngIf="userForm.controls['designation'].invalid && userForm.controls['designation'].touched" >
                                                         <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['designation'].errors">
                                                         Designation is required.
@@ -423,10 +423,10 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border: 1px solid #444C5B;  height: 3rem;color: #9BA6AC;
                                                     border-radius: 4px;"
                                                         name="userName" placeholder="Email Address" required formControlName="email">
-                                                    <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
                                                     <div *ngIf="userForm.controls['email'].invalid && userForm.controls['email'].touched" >
                                                         <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['email'].errors">
                                                     Enter Valid Email Address.
@@ -437,10 +437,10 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style="background: #383E4A;
-                                                    border: 1px solid #444C5B;  height: 3rem;
+                                                    border: 1px solid #444C5B;  height: 3rem;color: #9BA6AC;
                                                     border-radius: 4px;"
                                                         name="userName" placeholder="Mobile Number" formControlName="mobile">
-                                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
                                                  <div *ngIf="userForm.controls['mobile'].invalid && userForm.controls['mobile'].touched" >
                                                     <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['mobile'].errors">
                                                     Enter Valid Mobile Number
@@ -465,9 +465,9 @@
                                       <div class="form-floating mb-3" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
                                         <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
                                             background: #383e4a;
-                                            border: 1px solid #444c5b;
+                                            border: 1px solid #444c5b;color: #9BA6AC;
                                             border-radius: 4px;" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" />
-                                            <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Select third-party Company or Add New</label>
+                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Select third-party Company or Add New</label>
                                         <!-- <div *ngIf="userForm.controls['third_party_org_name'].invalid && userForm.controls['third_party_org_name'].touched" class="alert-danger">
                                                                       TPP required.      
                                                                   </div> -->
@@ -621,7 +621,7 @@
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
-                    <div ngbDropdownMenu style="">
+                    <div ngbDropdownMenu>
                         <!-- item-->
                         <a href="javascript:void(0);" [routerLink]="['/orgList']" ngbDropdownItem>View List</a>
                     </div>
