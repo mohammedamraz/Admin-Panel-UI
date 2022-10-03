@@ -9,3 +9,17 @@
 .option{
     content-visibility: hidden;
 }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 800px) {
+    .grid-container{
+        grid-template-columns: auto;
+
+    }
+}
+

@@ -1,8 +1,8 @@
 <!-- Topbar Start -->
 <div class="navbar-custom">
     <div [class]="containerClass" style="    background: #282E38;
-    height: 100%;">
-        <ul class="list-unstyled topnav-menu float-end mb-0">
+    height: 100%; display: grid; grid-auto-flow: column;">
+        <ul style="grid-column: 34;" class="list-unstyled topnav-menu float-end mb-0">
          
 
             <li class="notification-list topbar-dropdown" ngbDropdown>
@@ -55,7 +55,7 @@
             </a>
         </div>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="font-size: larger;padding: 1rem;">
+            <ol class="breadcrumb" style="font-size: larger;padding: 1rem; padding-top: 1.4rem;">
                 <ng-container *ngFor="let item of breadcrumbData">
                     <li class="breadcrumb-item" *ngIf="!item.active"><a
                             [routerLink]="item.path">{{item.label}}</a>
@@ -66,9 +66,9 @@
             </ol>
         </nav>
 
-        <ul class="list-unstyled topnav-menu topnav-menu-left mb-0">
+        <ul class="list-unstyled topnav-menu topnav-menu-left mb-0 column-hide">
             <li *ngIf="layoutType==='vertical'">
-                <button class="button-menu-mobile disable-btn waves-effect open-left"
+                <button class="button-menu-mobile disable-btn waves-effect open-left" style="color: white"
                     (click)="toggleMobileMenu($event)">
                     <i class="fe-menu"></i>
                 </button>
