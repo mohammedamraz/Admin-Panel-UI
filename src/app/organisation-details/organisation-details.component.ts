@@ -141,7 +141,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-          (doc:any) => {this.tableData=doc;console.log("ghf",doc);
+          (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
           }
         )
         },
@@ -158,7 +158,7 @@ export class OrganisationDetailsComponent implements OnInit {
     // ((doc:any) =>{ this.tabDAta=doc;return doc})
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-      (doc:any) => {this.tableData=doc;}
+      (doc:any) => {this.tableData=doc.data;}
     )
 
     this.OrgForm = this.fb.group({

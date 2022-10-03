@@ -264,9 +264,9 @@
         <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
             <div class="text--start">
                 <label class="form-label me-1">Show
-                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
-                        id="event-category" required #idd   (click)="onFilter(idd)">
+                        id="event-category" required #idd [(ngModel)]="service.pageSize"   (click)="onFilter(idd)">
                         <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
                     </select>
                     entries</label>
@@ -304,12 +304,12 @@
                 </tbody>
             </table>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
-                <div *ngIf="(total_pages*10)<=total_user">
-                    Showing {{currentPage-1}}1 to
-                    {{total_pages*10}} of {{total_user}} entries
+                <div *ngIf="(currentPage*entries)<=total_user">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_user}} entries
                 </div>
-                <div *ngIf="(total_pages*10)>total_user">
-                    Showing {{currentPage-1}}1 to
+                <div *ngIf="(currentPage*entries)>total_user">
+                    Showing {{entries *(page-1)+1}} to
                     {{total_user}} of {{total_user}} entries
                 </div>
                 <ngb-pagination class="d-flex justify-content-end mt-2" 

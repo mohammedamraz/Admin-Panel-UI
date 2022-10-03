@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
+import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
 
 @Component({
   selector: 'app-pilots-list',
@@ -25,21 +26,22 @@ export class PilotsListComponent implements OnInit {
   
   currentPage:any;
   // tabDAta:any[]=[];
-  constructor(private readonly adminService: AdminConsoleService,    private route: ActivatedRoute) { }
+    // public service: AdvancedTableService,
+  constructor(private readonly adminService: AdminConsoleService,public service: AdvancedTableService,    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
 
 
-    this.route.queryParams.subscribe((params:any)=>{
-      if(params.status =='active'){
-        this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);
-        this.vitalsDetails=doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
-      }
-      else{
-        this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
-        this.vitalsDetails= doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
-      }
-    })
+    // this.route.queryParams.subscribe((params:any)=>{
+    //   if(params.status =='active'){
+    //     this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);
+    //     this.vitalsDetails=doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
+    //   }
+    //   else{
+    //     this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
+    //     this.vitalsDetails= doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
+    //   }
+    // })
 
 
 
@@ -88,22 +90,40 @@ export class PilotsListComponent implements OnInit {
     // console.log("fjhgvjgfjd",this.pagenumber);
     // console.log("entries",this.entries);
 
-    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
-    ((doc:any) =>{ 
-      this.total_org=doc.total
-      this.total_pages=doc.total_pages
-      this.currentPage=doc.page
-      // console.log('doc.......................',doc)
-      this.vitalsDetails=doc.data
-      
-      // this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      this.length=this.vitalsDetails.length
-     
-      return doc});
-      // this.columns = this.tabDAta;
-      // console.log("heloooo",this.tabDAta);
-      // this.onFilter(this.item)
-     
+    this.route.queryParams.subscribe((params:any)=>{
+      if(params.status =='active'){
+        this.adminService.fetchVitalsActiveByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manafff,', doc);
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        // console.log('doc.......................',doc.data)
+        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+        this.length=this.vitalsDetails.length
+        console.log("hello00000",this.length);
+        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        // this.length=this.tabDAta.length
+        // console.log("hello00000",this.length);
+  
+        return doc})
+      }
+      else{
+        this.adminService.fetchVitalsByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        // console.log('doc.......................',doc.data)
+        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+        this.length=this.vitalsDetails.length
+        console.log("hello00000",this.length);
+        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        // this.length=this.tabDAta.length
+        // console.log("hello00000",this.length);
+  
+        return doc})
+      }
+    })
       
       
       
@@ -116,22 +136,40 @@ export class PilotsListComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
-    ((doc:any) =>{ 
-      this.total_pages=doc.total_pages
-      this.currentPage=doc.page
-      this.total_org=doc.total
-      // console.log('doc.......................',doc)
-      this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
-      this.length=this.vitalsDetails.length
-      // console.log("hello00000",this.length);
-      this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      // this.length=this.tabDAta.length
-      // console.log("hello00000",this.length);
-      
-      return doc});
-
-    //  return data.value
+    this.route.queryParams.subscribe((params:any)=>{
+      if(params.status =='active'){
+        this.adminService.fetchVitalsActiveByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manaff,', doc);
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        // console.log('doc.......................',doc.data)
+        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+        this.length=this.vitalsDetails.length
+        console.log("hello00000",this.length);
+        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        // this.length=this.tabDAta.length
+        // console.log("hello00000",this.length);
+  
+        return doc})
+      }
+      else{
+        this.adminService.fetchVitalsByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        // console.log('doc.......................',doc.data)
+        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+        this.length=this.vitalsDetails.length
+        console.log("hello00000",this.length);
+        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        // this.length=this.tabDAta.length
+        // console.log("hello00000",this.length);
+  
+        return doc})
+      }
+    })
      
       
   }

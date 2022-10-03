@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
+import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
 
 @Component({
   selector: 'app-user-details',
@@ -33,6 +34,7 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
+    public service: AdvancedTableService,
     private modalService: NgbModal,
     private fb: FormBuilder,
 
@@ -82,9 +84,9 @@ export class UserDetailsComponent implements OnInit {
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
 
-    this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
-     next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
-    })
+    // this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
+    //  next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
+    // })
 
 // pagination function starts
 
@@ -271,6 +273,21 @@ export class UserDetailsComponent implements OnInit {
       const selected =this.listdetails.findIndex(obj=>obj.name===product.product_name);
       this.selectedProducts.slice(product.id,1);
       this.listdetails.splice(selected,1);
+    }
+  }
+
+  paginate(): void {
+    // paginate
+    this.service.totalRecords = this.tableData.length;
+    if (this.service.totalRecords === 0) {
+      this.service.startIndex = 0;
+    }
+    else {
+      this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
+    }
+    this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
+    if (this.service.endIndex > this.service.totalRecords) {
+      this.service.endIndex = this.service.totalRecords;
     }
   }
 

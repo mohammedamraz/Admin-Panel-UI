@@ -18,7 +18,7 @@
                 <label class="form-label me-1">Show
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
-                        id="event-category" required #idd   (click)="onFilter(idd)">
+                        id="event-category" required #idd [(ngModel)]="service.pageSize"  (click)="onFilter(idd)">
                         <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
                     </select>
                     entries</label>
@@ -69,12 +69,12 @@
                 </tbody>
             </table>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
-                <div >
-                    Showing {{currentPage-1}}1 to
-                    {{total_pages*10}} of {{total_org}} entries
+                <div *ngIf="(currentPage*entries)<=total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_org}} entries
                 </div>
-                <div *ngIf="(total_pages*10)>total_org">
-                    Showing {{currentPage-1}}1 to
+                <div *ngIf="(currentPage*entries)>total_org">
+                    Showing {{entries *(page-1)+1}} to
                     {{total_org}} of {{total_org}} entries
                 </div>
                 <ngb-pagination class="d-flex justify-content-end mt-2" 
