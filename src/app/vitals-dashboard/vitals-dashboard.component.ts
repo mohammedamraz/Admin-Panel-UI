@@ -54,7 +54,7 @@ export class VitalsDashboardComponent implements OnInit {
     this.adminService.fetchLatestVitals().subscribe((doc:any) =>{
       this.adminService.fetchVitalsCount().subscribe((doc:any) =>{console.log('vitals count',doc);this.vitalsCount=doc.total_vitals_pilot_count});
 
-      console.log('latest vitals,', doc);this.vitalsDetails=doc});
+      console.log('latest vitals,', doc);this.vitalsDetails=doc.data});
     
     
     this.basicWizardForm = this.fb.group({

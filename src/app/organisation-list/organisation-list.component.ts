@@ -15,6 +15,7 @@ import { SortEvent } from '../shared/advanced-table/sortable.directive';
   styleUrls: ['./organisation-list.component.scss']
 })
 export class OrganisationListComponent implements OnInit {
+  page = 1;
   activeWizard2: number = 1;
   activeWizard3: number = 1;
   userWizard1:number =1;
@@ -50,6 +51,17 @@ export class OrganisationListComponent implements OnInit {
   organaization_id:any;
   created:boolean=false;
 
+  length:any
+
+  pageSizeOptions: number[] = [5, 10, 20];
+  
+  entries:any=this.pageSizeOptions[1]
+  pagenumber:any=1;
+  total_pages:any;
+  total_org:any;
+  
+  currentPage:any;
+
 
   constructor(
     private modalService: NgbModal,
@@ -63,9 +75,22 @@ export class OrganisationListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.adminService.fetchAllOrg().subscribe
-    ((doc:any) =>{ this.tabDAta=doc; console.log('you are the one ', this.tabDAta)
+    // console.log("entries",this.entries)
+    // console.log("optionsss",this.pageSizeOptions.values())
+    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_org=doc.total
+      this.currentPage=doc.page
+      this.total_pages=doc.total_pages
+
+      // console.log('doc.......................',doc.data)
+      this.tabDAta=doc.data; console.log('you are the one ', this.tabDAta)
+      this.length=this.tabDAta.length
+      console.log("hello00000",this.length);
       this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+
       return doc});
     this.columns = this.tabDAta;
 
@@ -107,6 +132,60 @@ export class OrganisationListComponent implements OnInit {
 
     });
   }
+
+  loadPage(val:any){
+    this.pagenumber=val
+    // console.log("fjhgvjgfjd",this.pagenumber);
+    // console.log("entries",this.entries);
+
+    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_org=doc.total
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      // console.log('doc.......................',doc)
+      this.tabDAta=doc.data
+      
+      // this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      this.length=this.tabDAta.length
+     
+      return doc});
+      this.columns = this.tabDAta;
+      // console.log("heloooo",this.tabDAta);
+      // this.onFilter(this.item)
+     
+      
+      
+      
+    
+  }
+
+  onFilter (data:any) {
+      this.entries=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_org=doc.total
+      // console.log('doc.......................',doc)
+      this.tabDAta=doc.data; console.log('you are the one ', this.tabDAta)
+      this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
+    //  return data.value
+     
+      
+  }
+
 
   clearform(){
     this.srcImage='./assets/images/fedo-logo-white.png';

@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
+    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data;return doc});
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     // let org_id = this.organaization_id
  
