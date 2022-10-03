@@ -261,7 +261,7 @@
                                     grid-template-columns: 16rem 13rem;   grid-gap: 1rem;">
                                         <div  style="padding-bottom:1rem;">
                                             <div class="card">
-                                                <div class="card-body" style="padding-left: 0;">
+                                                <div class="card-body" style="padding-left: 0;padding-bottom:0">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
@@ -270,11 +270,33 @@
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div>
+                                            <div style="padding-bottom:1rem">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox"  class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
+                                            </div>
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" *ngIf="season.event_mode!=0"  >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
+                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
+                                                        <div >
+                                              <input type="radio" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">Thank You Popup</label>
+                                            </div>
+                                            <div >
+                                              <input type="radio" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <label class="form-check-label" for="customRadio1"
+                                                >Vitals Dashboard</label>
+                                            </div>
+                                                    </div>
+                                      </div>
                                             </div>
                                         </div>
                                         <div class="card-body" style="padding: 0;margin-top:1.5rem" *ngIf="season.name === 'vitals'">

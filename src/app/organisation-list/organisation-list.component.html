@@ -1,4 +1,4 @@
-<ng-template #toggleModal1 let-modal>
+<ng-template #toggleModal1 let-modal style="width: auto;">
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    width: 40rem;
         background: #272d35;">
@@ -18,7 +18,7 @@
                         <li [ngbNavItem]="1">
                                 <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class="d-none d-sm-inline">Org Details</span>
+                                <span class=" d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -122,7 +122,7 @@
                         <li [ngbNavItem]="2">
                             <a  [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Org Settings</span>
+                                <span class=" d-sm-inline">Org Settings</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
@@ -216,7 +216,7 @@
                         <li [ngbNavItem]="3">
                             <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Products</span>
+                                <span class=" d-sm-inline">Products</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div style="display: grid;
@@ -256,7 +256,7 @@
                             <li [ngbNavItem]="season.index">
                                 <a  [ngStyle]=" activeWizard2>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span style = 'text-transform: capitalize;'class="d-none d-sm-inline">Config {{season.name.toUpperCase() }}</span>
+                                <span style = 'text-transform: capitalize;'class=" d-sm-inline">Config {{season.name.toUpperCase() }}</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div class="row" style="    display: grid;
@@ -320,7 +320,7 @@
                         <li [ngbNavItem]="list">
                             <a [ngStyle]=" list == activeWizard2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class="d-none d-sm-inline">Finish</span>
+                                <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">
@@ -387,7 +387,7 @@
                         <li [ngbNavItem]="1">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class="d-none d-sm-inline">User Details</span>
+                                <span class=" d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -496,7 +496,7 @@
                         <li [ngbNavItem]="2">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Products</span>
+                                <span class=" d-sm-inline">Products</span>
                             </a>
 
                                           <ng-template ngbNavContent>
@@ -604,7 +604,7 @@
                         <li [ngbNavItem]="3">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class="d-none d-sm-inline">Finish</span>
+                                <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">

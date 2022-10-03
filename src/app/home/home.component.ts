@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
+    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data;return doc});
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     // let org_id = this.organaization_id
  
@@ -180,6 +180,7 @@ export class HomeComponent implements OnInit {
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
     data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
+    data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
@@ -204,6 +205,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  setEventMode(event: any,product:any,value:any){
+    console.log('the value => ',event);
+
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].event_mode = value ;
+  }
+
+  eventmode(event:any, product:any){
+    console.log("asd",event.target.checked)
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode = 1;  
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode=0;  
+    }
+  }
+
 
   demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
@@ -220,7 +240,10 @@ export class HomeComponent implements OnInit {
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
-        web_url:''
+        web_url:'',
+        event:false,
+        event_mode:0
+
       };
       this.listdetails.push(details);
     }
