@@ -12,6 +12,18 @@
             </div>
         </div>             -->
         <h4 class="mt-0 header-title" style="color: white;">Pilots</h4>
+
+        <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
+            <div class="text--start">
+                <label class="form-label me-1">Show
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
+                    border-color: #49565d;"
+                        id="event-category" required #idd [(ngModel)]="service.pageSize"  (click)="onFilter(idd)">
+                        <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
+                    </select>
+                    entries</label>
+            </div>
+        </div>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
             to any <code>&lt;table&gt;</code>.
@@ -33,10 +45,10 @@
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
-                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of vitalsDetails;let indexOfelement=index;">
-                        <th scope="row">{{indexOfelement+1}}</th>
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">{{person.organization_name}}</td>
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
+                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of vitalsDetails;let i=index;">
+                        <th scope="row">{{entries *(page-1)+i+1}}</th>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);" style="cursor: pointer;">{{person.organization_name}}</td>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);" style="cursor: pointer;">
                             
                                 <div class="">
                                     <!-- Fedo Vitals(<span *ngIf="person.progress > 99" style="color: #F08F8F;">Expired</span><span *ngIf="person.progress < 99" style="color: green;">Active</span>) -->
@@ -45,17 +57,34 @@
                                 </div>
 
                         </td>   
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);"  style="cursor: pointer;    text-align: -webkit-center;">{{person.start_date | date: 'dd/MM/yyyy'}}</td>
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center;">{{person.end_date | date: 'dd/MM/yyyy'}}</td>
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center;">{{person.total_users}}</td>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);"  style="cursor: pointer;    text-align: -webkit-center;">{{person.start_date | date: 'dd/MM/yyyy'}}</td>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center;">{{person.end_date | date: 'dd/MM/yyyy'}}</td>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center;">{{person.total_users}}</td>
                         <td *ngIf="person.status=='Active'" style="color: green;">{{person.status}}</td>
                         <td *ngIf="person.status=='Expired'" style="color: #F08F8F;" >{{person.status}}</td>
-                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center; color: #82B4F3;">{{person.total_tests}}</td>
+                        <td [routerLink]="['/orgdetails', person.org_id]" href="javascript:void(0);"  style=" cursor: pointer;   text-align: -webkit-center; color: #82B4F3;">{{person.total_tests}}</td>
                     </tr>
 
                  
                 </tbody>
             </table>
+            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
+                <div *ngIf="(currentPage*entries)<=total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_org}} entries
+                </div>
+                <div *ngIf="(currentPage*entries)>total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{total_org}} of {{total_org}} entries
+                </div>
+                <ngb-pagination class="d-flex justify-content-end mt-2" 
+                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)" [(page)]="page">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+            </div>
+
+
             <!-- <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
             *ngIf="true">
             <div>
