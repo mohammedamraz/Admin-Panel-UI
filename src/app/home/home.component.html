@@ -397,14 +397,12 @@
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name"
                                                         [ngClass]="{ 'is-valid': basicForm.submitted && form1['firstName'].valid , 'is-invalid': basicForm.submitted && form1['firstName'].invalid }">
                                                         <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
-                                                        <!-- <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
+                                                        <div *ngIf="userForm.controls['user_name'].invalid && userForm.controls['user_name'].touched" >
                                                             <label style="    font-size: 0.75rem;color: #ff5b5b;" *ngIf="userForm.controls['user_name'].errors">
                                                             Name is required.
                                                             </label>
-                                                    </div> -->
-                                                    <div *ngIf="basicForm.submitted && form1['firstName'].invalid" class="invalid-feedback">
-                                                        Please enter first name.
                                                     </div>
+                                                    
 
 
                                                     </div>
