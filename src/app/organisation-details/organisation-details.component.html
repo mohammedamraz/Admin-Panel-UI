@@ -144,8 +144,7 @@
 
                                           <ng-template ngbNavContent>
                                             <div style="display: grid;
-                                            grid-auto-flow: column;
-                                            grid-template-columns:min-content min-content;
+                                            grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
                                             grid-gap: 1rem;margin-bottom: 2rem;">
                                                         <ng-template ngFor let-season [ngForOf]="userProduct" let-i=index>
                                                             <div class="gal-detail thumb" style="    width: 142px;
@@ -328,8 +327,7 @@
                             </a>
                             <ng-template ngbNavContent>
                                     <div style="display: grid;
-                                    grid-auto-flow: column;
-                                    grid-template-columns:min-content min-content;
+                                    grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
                                     grid-gap: 1rem;margin-bottom: 2rem;">
                                          
                                          <ng-template ngFor let-season [ngForOf]="products" let-i=index>
@@ -388,11 +386,33 @@
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div>
-                                                <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>
+                                            <div style="padding-bottom:1rem">
+                                                <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>{{season.name}}
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" class="form-check-input"  [readonly]="orglogin" id="customSwitch1">
                                                 </div>
+                                            </div>
+                                            <div *ngIf="season.product_name === 'Vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" *ngIf="season.event_mode!='0'"  >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
+                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
+                                                        <div >
+                                              <input type="radio" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">Thank You Popup</label>
+                                            </div>
+                                            <div >
+                                              <input type="radio" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <label class="form-check-label" for="customRadio1"
+                                                >Vitals Dashboard</label>
+                                            </div>
+                                                    </div>
+                                      </div>
                                             </div>
                                         </div>
                                         <div class="card-body" style="padding: 0;margin-top:1.5rem" *ngIf="season.product_name === 'Vitals'">

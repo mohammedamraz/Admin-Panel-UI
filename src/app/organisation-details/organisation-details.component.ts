@@ -231,7 +231,8 @@ export class OrganisationDetailsComponent implements OnInit {
       web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
-      product_id: el.product_id
+      product_id: el.product_id,
+      event_mode:el.event_mode
     }})
     this.list=this.list+list.length
     console.log('asdfq',list)
@@ -520,6 +521,25 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   }
 
+  setEventMode(event: any,product:any,value:any){
+    console.log('the value => ',event);
+
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].event_mode = value ;
+  }
+
+  eventmode(event:any, product:any){
+    console.log("asd",event.target.checked)
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode = 1;  
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode=0;  
+    }
+  }
+
 
   checkingOrgForm(){
 
@@ -552,7 +572,8 @@ export class OrganisationDetailsComponent implements OnInit {
         product_id: el.product_id,
         web_access: el.web_access,
         web_url: el.web_access ? el.web_url :'',
-        web_fedoscore: el.web_access ? el.web_fedoscore:false
+        web_fedoscore: el.web_access ? el.web_fedoscore:false,
+        event_mode: el.event_mode
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -570,6 +591,7 @@ export class OrganisationDetailsComponent implements OnInit {
     data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+    data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
