@@ -13,7 +13,9 @@ import { first } from 'rxjs';
 export class RecoverPasswordComponent implements OnInit {
 
   resetPassswordForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, ]],
+    password: ['', [Validators.required, ]],
+    confirmPassword: ['', [Validators.required,]],
 
   });
 

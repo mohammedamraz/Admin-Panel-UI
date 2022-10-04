@@ -35,12 +35,12 @@
                 [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}"/>
             <label for="floatingInput" class="form-label" i18n>Email Address</label>
 
-            <label for="floatingInput" class="form-label" i18n>Email Address</label>
+            <!-- <label for="floatingInput" class="form-label" i18n>Email Address</label> -->
 
             <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
 
                 <div *ngIf="formValues['email'].errors?.['required']" i18n>
-                    Please enter email
+                    Mandatory field
                 </div>
                 <div *ngIf="formValues['email'].errors?.['email']" i18n>
                     Email must be a valid Email Address
@@ -55,7 +55,7 @@
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
                 formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
                 border: 1px solid #444C5B;height: 3rem;
-                border-radius: 4px;"
+                border-radius: 4px;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 required />
             <label for="floatingInput" class="form-label" i18n>New Password</label>
 
@@ -63,8 +63,11 @@
             <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
-                    Password is required.
+                    Mandatory field.
                 </div>
+                <div *ngIf="formValues['password'].errors?.['pattern']">
+                    Invalid Password format. Please enter valid Password format
+               </div>
 
             </div>
         </div>
@@ -75,15 +78,18 @@
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
                 formControlName="confirmPassword" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="    background: #383E4A;
                 border: 1px solid #444C5B;height: 3rem;
-                border-radius: 4px;"
+                border-radius: 4px;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 required />
             <label for="floatingInput" class="form-label" i18n>Confirm New Password</label>
 
             <div *ngIf="formSubmitted && formValues['confirmPassword'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['confirmPassword'].errors?.['required']" i18n>
-                    Password is required.
+                    Mandatory field.
                 </div>
+                <div *ngIf="formValues['confirmPassword'].errors?.['pattern']">
+                    Invalid Password format. Please enter valid Password format
+               </div>
 
             </div>
         </div>
