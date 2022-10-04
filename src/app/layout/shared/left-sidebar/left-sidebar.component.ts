@@ -32,6 +32,7 @@ export class LeftSidebarComponent implements OnInit {
   loggedInUser: any={}
   menuItems: MenuItem[] = [];
   orglogin=false;
+  products:any[]=[];
 
   constructor (
     router: Router,
@@ -71,17 +72,41 @@ export class LeftSidebarComponent implements OnInit {
       this.menuItems = MENU_ITEMS;
     }
       else {
-        this.orglogin = true;
-        this.menuItems =  [
-          { key: 'navigation', label: 'Navigation', isTitle: true },
-          {
-              key: 'dashboard',
-              label: 'Home',
+        this.orglogin = false;
+        this.adminService.fetchOrgById(this.loggedInUser.org_data[0].id).subscribe({
+          next:(res:any) =>{
+            this.products = res[0].product;
+            const prod = this.products.map(product => ({
+              
+              key: 'apps-tasks',
+              label: product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW'),
               isTitle: false,
-              icon: 'mdi mdi-home',
-              badge: { variant: 'success', text: '9+' },
-              url: '/home',
-          },];
+              icon: `mdi ${product.product_id === '1' ? 'mdi-account-box-multiple':(product.product_id === '2' ? 'mdi-clipboard-pulse-outline': 'mdi-briefcase-variant' ) }`,
+              collapsed: true,
+              children: [
+                  {
+                      key: 'task-kanban',
+                      label: 'Dashboard',
+                      url: `/${this.loggedInUser.org_data[0].id}/pilotdashboard/${product.product_id}`,
+                      parentKey: 'apps-tasks',
+                  },
+              ],
+            }))
+            this.menuItems =  [
+              { key: 'navigation', label: 'Navigation', isTitle: true },
+              {
+                  key: 'dashboard',
+                  label: 'Home',
+                  isTitle: false,
+                  icon: 'mdi mdi-home',
+                  // badge: { variant: 'success', text: '9+' },
+                  url: `/${this.loggedInUser.org_data[0].id}/dashboard`,
+              },
+              ...prod
+           
+            ];
+          }});
+
         
       }
     }

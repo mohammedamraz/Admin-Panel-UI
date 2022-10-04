@@ -261,7 +261,11 @@ export class AdminConsoleService {
     
     return this.http.post(`${ADMIN_URL}notification/org/webAccess`,data);
   }
-
+  
+  fetchScan(orgId:any,prodId:any){
+    
+    return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+  }
 
 
 
