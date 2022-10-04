@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     confirmPassword: ['', [Validators.required]],
-    ConfirmationCode: ['']
+    ConfirmationCode: ['', [Validators.required]]
   });
   formSubmitted: boolean = false;
   showPassword: boolean = false;
