@@ -759,10 +759,10 @@
 
     
 </div>
-
-    <div class="row" *ngIf="orglogin" >
-        <div class="col-xl-3 col-md-6" *ngFor="let product of orgProd;let indexOfelement=index;">
-            <div class="card" style="background: #313844;"  >
+<h4 style="color: white;">Your Fedo Products</h4>
+    <div class="row mb-2" *ngIf="orglogin" >
+        <div class="col-xl-3 col-md-4" *ngFor="let product of orgProd;let indexOfelement=index;">
+            <div class="card" style="background: #313844;border-radius:10px"  >
                 <div class="card-body widget-user">
                     <div class="float-end" ngbDropdown placement="bottom-end">
                         <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
@@ -934,7 +934,7 @@
 </div>
 </div>
 
-<div class="card" style="background: #313844;" *ngIf="orglogin">
+<div class="card" style="background: #313844; border-radius:10px" *ngIf="orglogin">
     <div class="card-body">
         <div class=" float-end" ngbDropdown placement="bottom-end">
             <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>

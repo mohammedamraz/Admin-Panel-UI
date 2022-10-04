@@ -245,10 +245,10 @@
 </ng-template>
 <div class="row">
     <div class="col-xl-6 col-md-6">
-        <div class="card" style="background: #313844;;" >
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
                 <h4 class="mt-0 header-title" style="color: white;">Pilot Duration</h4>
-                <div class="col-xl-5 card-body" style="padding-left:0">
+                <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
                     <p style="
                     margin-bottom: 0.5rem;">
               {{product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date)}} 
@@ -259,17 +259,11 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-6" >
-        <div class="card" style="background: #313844;;" >
-            <div class="card-body widget-user">
-                <h4 class="mt-0 header-title" style="color: white;">Downloads</h4>
-                <div style="
-                        
-                display: grid;
-                grid-auto-flow: column;
-                grid-gap: 1rem;
-                padding-top: 1rem;
-                grid-template-columns: min-content;">
+    <div class="col-xl-6 col-md-6 " >
+        <div class="card pt-2  " style="background: #313844;border-radius: 10px; padding-bottom:1.25rem"  >
+            <div class="card-body widget-user ">
+                <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
+                <div class="download-style " >
                 <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
                 </a>
@@ -285,10 +279,10 @@
         </div>
     </div>
     <div class="col-xl-6 col-md-6">
-        <div class="card" style="background: #313844;;" >
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
                 <h4 class="mt-0 header-title" style="color: white;">Enable Fedo Score for Mobile App    </h4>
-                <div class="form-check form-switch" style=" display: block;">
+                <div class="form-check form-switch mt-3" style=" display: block;">
                     <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
                     <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
                     <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
@@ -298,7 +292,7 @@
     </div>
 </div>    
 
-<div class="card" style="background: #313844;">
+<div class="card mt-1" style="background: #313844;border-radius: 10px;">
     <div class="card-body">
         <div class=" float-end" ngbDropdown placement="bottom-end">
             <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
