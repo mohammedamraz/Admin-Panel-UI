@@ -71,6 +71,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
+  orgProd:any=[];
 
   
 
@@ -236,8 +237,25 @@ export class OrganisationDetailsComponent implements OnInit {
     }})
     this.list=this.list+list.length
     console.log('asdfq',list)
-    this.products = product
-    this.listdetails = list
+    this.products = product;
+    this.listdetails = list;
+
+    if(this.orglogin){
+      this.orgProd = OrgProducts.map((doc:any) =>{
+        let count = 0;
+        this.adminService.fetchScan(this.snapshotParam,doc.product_id).subscribe(
+          (doc:any) => {count=doc.total_tests;})
+          return {
+            product_id:doc.product_id,
+            productName:doc.product_id  === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' ),
+            status:doc.status,
+            count:count,
+            end_date: doc.end_date,
+            pilot_duration:doc.pilot_duration
+          }
+      })
+      console.log('sewer',this.orgProd)
+    }
   }
 
   

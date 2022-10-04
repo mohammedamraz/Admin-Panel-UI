@@ -62,19 +62,35 @@ export class OrgLoginComponent implements OnInit {
          console.log('there is a ssuucesesdf',data);
         if(data.hasOwnProperty('user_data')){
           data['orglogin']=false;
+          if(this.formValues['rememberMe'].value){
+            localStorage.setItem("currentUser", JSON.stringify(data))
+            sessionStorage.setItem('currentUser', JSON.stringify(data) );
+          }
+          else{
+            sessionStorage.setItem('currentUser', JSON.stringify(data) );
+          }
+          this.adminConsoleService.httpLoading$.next(true);
+          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
         }
-        else{
+        else if(data.org_data[0].type != 'admin'){
           data['orglogin']=true;
-        }
-        if(this.formValues['rememberMe'].value){
-          localStorage.setItem("currentUser", JSON.stringify(data))
-          sessionStorage.setItem('currentUser', JSON.stringify(data) );
-        }
-        else{
-          sessionStorage.setItem('currentUser', JSON.stringify(data) );
-        }
-        this.adminConsoleService.httpLoading$.next(true);
-        this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
+          if(this.formValues['rememberMe'].value){
+            localStorage.setItem("currentUser", JSON.stringify(data))
+            sessionStorage.setItem('currentUser', JSON.stringify(data) );
+          }
+          else{
+            sessionStorage.setItem('currentUser', JSON.stringify(data) );
+          }
+          this.adminConsoleService.httpLoading$.next(true);
+          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
+          
+
+        } 
+        else { console.log("super admin");
+        
+          this.error = 'Invalid email or password';}
+
+        
         },
         error: (error: string) => {
           console.log('asdf',error)
