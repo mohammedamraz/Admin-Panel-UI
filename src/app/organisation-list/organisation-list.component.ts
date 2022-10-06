@@ -55,7 +55,7 @@ export class OrganisationListComponent implements OnInit {
 
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
   
-  entries:any=this.pageSizeOptions[1]
+  entries:any=this.pageSizeOptions[0]
   pagenumber:any=1;
   total_pages:any;
   total_org:any;
