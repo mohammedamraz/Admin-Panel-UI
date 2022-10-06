@@ -942,13 +942,13 @@
             </a>
             <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                 <!-- item-->
-                <a href="javascript:void(0);" (click)="open(toggleModal3); " ngbDropdownItem>Create User</a>
+                <a href="javascript:void(0);" (click)="open(toggleModal3);setValue(tabDAta[0]); " ngbDropdownItem>Create User</a>
                 <a href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
             </div>
         </div>            
         <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)" (click)="open(toggleModal3);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+            <a href="javascript:void(0)" (click)="open(toggleModal3);setValue(tabDAta[0]);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                 <i class="mdi mdi-plus"></i>
             </a>
         </div>            
