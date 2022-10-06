@@ -29,7 +29,7 @@ export class OrganisationDetailsComponent implements OnInit {
   errorOrgMessage = '';
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
-  srcImage:any='./assets/images/fedo-logo-white.png';
+  srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
 
   //details
   organization_name:any='';
@@ -71,6 +71,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
+  orgProd:any=[];
 
   
 
@@ -138,10 +139,10 @@ export class OrganisationDetailsComponent implements OnInit {
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
         console.log('the days left', days_difference)
         this.daysLeft = days_difference;
-        this.srcImage=res[0].logo === ''||!res[0].logo ? "./assets/images/fedo-logo-white.png": res[0].logo ;
+        this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-          (doc:any) => {this.tableData=doc;console.log("ghf",doc);
+          (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
           }
         )
         },
@@ -158,7 +159,7 @@ export class OrganisationDetailsComponent implements OnInit {
     // ((doc:any) =>{ this.tabDAta=doc;return doc})
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-      (doc:any) => {this.tableData=doc;}
+      (doc:any) => {this.tableData=doc.data;}
     )
 
     this.OrgForm = this.fb.group({
@@ -231,12 +232,30 @@ export class OrganisationDetailsComponent implements OnInit {
       web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
-      product_id: el.product_id
+      product_id: el.product_id,
+      event_mode:el.event_mode
     }})
     this.list=this.list+list.length
     console.log('asdfq',list)
-    this.products = product
-    this.listdetails = list
+    this.products = product;
+    this.listdetails = list;
+
+    if(this.orglogin){
+      this.orgProd = OrgProducts.map((doc:any) =>{
+        let count = 0;
+        this.adminService.fetchScan(this.snapshotParam,doc.product_id).subscribe(
+          (doc:any) => {count=doc.total_tests;})
+          return {
+            product_id:doc.product_id,
+            productName:doc.product_id  === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' ),
+            status:doc.status,
+            count:count,
+            end_date: doc.end_date,
+            pilot_duration:doc.pilot_duration
+          }
+      })
+      console.log('sewer',this.orgProd)
+    }
   }
 
   
@@ -288,7 +307,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.adminService.deleteImageLogoFromOrgDb(this.id).subscribe({
       next: (res) => {
         console.log('the success=>',res);
-        this.srcImage = './assets/images/fedo-logo-white.png';
+        this.srcImage = 'https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
 
       },
       error: (err) => {
@@ -321,7 +340,7 @@ export class OrganisationDetailsComponent implements OnInit {
     }
 
   open(content: TemplateRef<NgbModal>): void {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
   demoFunction(event:any, product:string){
     if(product==='hsa'){
@@ -520,6 +539,25 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   }
 
+  setEventMode(event: any,product:any,value:any){
+    console.log('the value => ',event);
+
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].event_mode = value ;
+  }
+
+  eventmode(event:any, product:any){
+    console.log("asd",event.target.checked)
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode = 1;  
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode=0;  
+    }
+  }
+
 
   checkingOrgForm(){
 
@@ -552,7 +590,8 @@ export class OrganisationDetailsComponent implements OnInit {
         product_id: el.product_id,
         web_access: el.web_access,
         web_url: el.web_access ? el.web_url :'',
-        web_fedoscore: el.web_access ? el.web_fedoscore:false
+        web_fedoscore: el.web_access ? el.web_fedoscore:false,
+        event_mode: el.event_mode
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -570,6 +609,7 @@ export class OrganisationDetailsComponent implements OnInit {
     data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+    data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {

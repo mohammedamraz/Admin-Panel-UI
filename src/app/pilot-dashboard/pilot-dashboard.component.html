@@ -1,8 +1,9 @@
 <ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
+        <div class="card-body" style="    background-color: #282E38;
+    width: 40rem;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
@@ -16,7 +17,7 @@
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class=" d-sm-inline">User Details</span>
+                                <span class="d-none d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -83,7 +84,7 @@
                                                     </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
+                                        <div class="mb-3" style="display: grid; grid-template-columns: 1fr 2fr" >
                                         <div class="form-check">
                                           <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
                                           <label class="form-check-label" for="customRadio1">Own Employee</label>
@@ -147,12 +148,13 @@
                         <li [ngbNavItem]="2">
                             <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-sm-inline">Products</span>
+                                <span class="d-none d-sm-inline">Products</span>
                             </a>
 
                                           <ng-template ngbNavContent>
                                             <div style="display: grid;
-                                            grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
+                                            grid-auto-flow: column;
+                                            grid-template-columns:min-content min-content;
                                             grid-gap: 1rem;margin-bottom: 2rem;">
                                                         <ng-template ngFor let-season [ngForOf]="userProduct" let-i=index>
                                                             <div class="gal-detail thumb" style="    width: 142px;
@@ -171,7 +173,7 @@
                                                                             F{{season.product_name.charAt(0)}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.name === 'vitals' ? 'Vitals' : season.product_name}}</p>
+                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                         <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
@@ -186,7 +188,7 @@
                         <li [ngbNavItem]="3">
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class=" d-sm-inline">Finish</span>
+                                <span class="d-none d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">
@@ -221,7 +223,7 @@
                             grid-gap: 0.5rem;">
                                 <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage()"
                                     >Close</button>
-                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false"
+                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(orgId);showLiveAlertNextButton=false"
                                     >Add Another User</button>
                             </div>
                         </li>
@@ -241,35 +243,73 @@
         </div> <!-- end card-body -->
     </div> <!-- end card-->
 </ng-template>
+<div class="row">
+    <div class="col-xl-6 col-md-6">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <h4 class="mt-0 header-title" style="color: white;">Pilot Duration</h4>
+                <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
+                    <p style="
+                    margin-bottom: 0.5rem;">
+              {{daysLefts(product.end_date)}} 
+                    days left for pilot to end</p>
+                    <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                </div>
 
-<div class="card layout-style" style="background: #313844;">
-    <div class="card-body">
-        <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)"   class="dropdown-toggle card-drop" ngbDropdownToggle>
-                <i class="mdi mdi-dots-vertical"></i>
-            </a>
-            <div *ngFor="let person of tableData;" ngbDropdownMenu>
-                <a href="javascript:void(0);" (click)="open(toggleModal1);setValue(person); "  ngbDropdownItem>Create User</a>
-            </div>
-        </div>            
-        <!-- <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)" (click)="open(toggleModal1)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                <i class="mdi mdi-plus"></i>
-            </a>
-        </div>             -->
-        <h4 class="mt-0 header-title" style="color: white;">User List</h4>
-
-        <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
-            <div class="text--start">
-                <label class="form-label me-1">Show
-                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
-                    border-color: #49565d;"
-                        id="event-category" required #idd [(ngModel)]="service.pageSize"   (click)="onFilter(idd)">
-                        <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
-                    </select>
-                    entries</label>
             </div>
         </div>
+    </div>
+    <div class="col-xl-6 col-md-6 " >
+        <div class="card pt-2  " style="background: #313844;border-radius: 10px; padding-bottom:1.25rem"  >
+            <div class="card-body widget-user ">
+                <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
+                <div class="download-style " >
+                <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
+                    <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
+                </a>
+                <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="opacity: 0.4;" >
+                    <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
+                </a>
+                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                    <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-6">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <h4 class="mt-0 header-title" style="color: white;">Enable Fedo Score for Mobile App    </h4>
+                <div class="form-check form-switch mt-3" style=" display: block;">
+                    <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
+                    <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
+                    <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+
+<div class="card mt-1" style="background: #313844;border-radius: 10px;">
+    <div class="card-body">
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-dots-vertical"></i>
+            </a>
+            <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                <!-- item-->
+                <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create User</a>
+
+            </div>
+        </div>            
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)" (click)="open(toggleModal1);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-plus"></i>
+            </a>
+        </div>            
+        <h4 class="mt-0 header-title" (click)="open(toggleModal1)" style="color: white;">Recent 5 Users</h4>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
             to any <code>&lt;table&gt;</code>.
@@ -278,55 +318,30 @@
         <div class="table-responsive" >
             <table class="table advanced-table table-nowrap mb-0">
                 <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
-                    <tr style="border-color: #49565d;" >
+                    <tr  style="border-color: #49565d;" >
                         <th>#</th>
-                        <th>User Name</th>
+                        <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Employee Of</th>
-                        <th style="    text-align: -webkit-center;">Sign Up Date</th>
-                        <th style="    text-align: -webkit-center;">Vitals Test</th>
-
+                        <th style="    text-align: -webkit-center;">Created Date</th>
+                        <th style="    text-align: -webkit-center;">Total Tests</th>
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
-                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of userList ;let i=index;">
-                        <td scope="row">{{entries *(page-1)+i+1}}</td>
+                    <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tableData;let indexOfelement=index;">
+                        <td scope="row">{{indexOfelement+1}}</td>
                         <td>{{person.user_name}}</td>
                         <td>{{person.email}}</td>
-                        <td>{{person.mobile.slice(3,14)}}</td>
+                        <td >{{person.mobile.slice(3,14)}}</td>
                         <td>{{person.third_party_org_name != null ? (person.third_party_org_name==''? 'Direct':person.third_party_org_name) :'Direct'}}</td>
                         <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
                         <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
-                <div *ngIf="(currentPage*entries)<=total_user">
-                    Showing {{entries *(page-1)+1}} to
-                    {{currentPage*entries}} of {{total_user}} entries
-                </div>
-                <div *ngIf="(currentPage*entries)>total_user">
-                    Showing {{entries *(page-1)+1}} to
-                    {{total_user}} of {{total_user}} entries
-                </div>
-                <ngb-pagination class="d-flex justify-content-end mt-2" 
-                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)" [(page)]="page">
-                        <ng-template ngbPaginationPrevious>Prev</ng-template>
-                        <ng-template ngbPaginationNext>Next</ng-template>
-                    </ngb-pagination>
-            </div>
 
-            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
-            *ngIf="true">
-            <!-- <div>   
-                Showing  entries
-            </div> -->
-        </div>
         </div>
     </div>
 
 </div>
-
-
-

@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     confirmPassword: ['', [Validators.required]],
-    ConfirmationCode: ['']
+    ConfirmationCode: ['', [Validators.required]]
   });
   formSubmitted: boolean = false;
   showPassword: boolean = false;
@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   signUp:boolean = false;
   verify:boolean = false;
   email:any;
+  org_id_for_email:any;
 
   constructor (
     private fb: FormBuilder,
@@ -227,17 +228,24 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             
           }
         });
+        sessionStorage.setItem('currentUser', JSON.stringify(data) );
+      
+      this.adminService.httpLoading$.next(true);
+      this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
+        next:(res:any) =>{
+          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
+        }})
 
 
     }
     // console.log("cje")
     else if(!data.hasOwnProperty('user_data')){
-      console.log("organization")
       data['orglogin']=true;
+      this.org_id_for_email=data.org_data[0].id
       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
         next:(data:any) =>{
             
-            from(lastValueFrom(this.adminService.fetchOrgById(data.org_data[0].id))).subscribe({
+            from(lastValueFrom(this.adminService.fetchOrgById(this.org_id_for_email))).subscribe({
               next:(data:any)=>{
                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
                 if(doc.web_access === true){
@@ -262,14 +270,15 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             
           }
         })
+        sessionStorage.setItem('currentUser', JSON.stringify(data));
+
+
+        this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
     }
     
     // this.adminService.httpLoading$.next(true);
 
-    sessionStorage.setItem('currentUser', JSON.stringify(data));
 
-
-    this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
   },
             error: (error: string) => {
               console.log('asdf',error)

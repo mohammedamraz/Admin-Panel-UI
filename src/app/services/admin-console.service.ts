@@ -92,6 +92,7 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}users/${id}?type=latest`);
   }
 
+
   loginAdmin(formData: any) {
 
     console.debug('UsersConsoleService/loginAdmin()')
@@ -164,6 +165,22 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}user/register/status/${id}`,{});
 
   }
+  fetchAllOrgByPage(num:any,item:any){
+    
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}`)   
+  }
+  fetchAllUserOfOrgByPage(id:string,num:any,item:any){
+    return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}`);
+  }
+
+  fetchVitalsByPage(num:any,item:any){
+    return this.http.get(`${API_URL}2?page=${num}&per_page=${item}`) ;
+  }
+
+  fetchVitalsActiveByPage(num:any,item:any){
+    return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
+  }
+
 
 
 
@@ -245,7 +262,27 @@ export class AdminConsoleService {
     
     return this.http.post(`${ADMIN_URL}notification/org/webAccess`,data);
   }
+  
+  fetchScan(orgId:any,prodId:any){
+    
+    return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+  }
 
+  fetchUserScan(userId:any,prodId:any){
+    
+    return this.http.get(`${ADMIN_URL}junction/tests?user_id=${userId}&product_id=${prodId}`);
+  }
+  
+  fetchUserProdById(userId:any){
+    
+    return this.http.get(`${API_URL}users/data/product/list/${userId}`);
+    }
+
+    fetchLatestUserOfOrgProd(orgId:any, prodId:any){
+
+      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&per_page=5`)
+      // return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+    }
 
 
 

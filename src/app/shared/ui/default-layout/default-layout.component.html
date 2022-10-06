@@ -1,8 +1,8 @@
-<div class="account-pages" style="background: url(assets/images/bg-image.png); padding: 3rem 3rem 9rem;">
+<div class="account-pages" style="background: url(assets/images/bg-image.png); padding: 4.5rem 0rem 9rem 0rem;">
     <div class="container">
 
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6 col-xl-4">
+            <div class="col-md-8 col-lg-6 col-xl-4" style="padding: 0 0.8rem 0rem 1.1rem;">
                 <div class="text-center" *ngIf="hasLogo">
                     <div class="auth-logo">
                         <a [routerLink]="'/'" class="logo logo-dark ">
@@ -21,7 +21,7 @@
 
                 </div>
                 <div class="card" [class]="cardClass">
-                    <div class="card-body p-4" style="background: #313844;">
+                    <div class="card-body p-4" style="background: #313844;border-radius:5px">
 
                         <ng-content></ng-content>
 

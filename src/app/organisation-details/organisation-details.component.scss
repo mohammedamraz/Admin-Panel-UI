@@ -9,3 +9,47 @@
 .option{
     content-visibility: hidden;
 }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 800px) {
+    .grid-container{
+        grid-template-columns: auto;
+
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 2000px) {
+    .layout-style{
+        background: #282E38;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1400px) {
+    .layout-style{
+        background: #282E38;
+        
+    }
+}
+
+
+
+@media screen and (min-width: 600px) and (max-width: 766px) {
+    .layout-style{
+        background: #282E38;
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 599px) {
+    .layout-style{
+        background: #282E38;
+        margin-top: 3rem;
+
+    }
+}
+

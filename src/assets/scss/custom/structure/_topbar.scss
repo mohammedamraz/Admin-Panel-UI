@@ -454,6 +454,10 @@ body[data-layout-mode="horizontal"] {
     .page-title-main{
         display: none;
     }
+
+    .column-hide{
+        grid-column: 2;
+    }
 }
 
 @media (max-width: 992px) {

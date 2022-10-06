@@ -1,38 +1,9 @@
-<div class="account-pages" style="background-image: url(./assets/images/bg-image.png);padding: 3rem;">
-  <div class="container">
+<app-default-layout>
 
-      <div class="row justify-content-center" style="padding-bottom: 5.3rem;">
-          <div class="col-md-8 col-lg-6 col-xl-4" >
-              <div class="text-center" *ngIf="true">
-                  <div class="auth-logo">
-                      <a [routerLink]="'/'" class="logo logo-dark ">
-                          <span class="logo-lg">
-                              <img src="./assets/images/fedo-logo-white.png" alt="" height="22">
-                          </span>
-                      </a>
-
-                      <a [routerLink]="'/'" class="logo logo-light ">
-                          <span class="logo-lg">
-                              <img src="./assets/images/logo-light.png" alt="" height="22">
-                          </span>
-                      </a>
-                  </div>
-                  <p class="text-muted mt-2 mb-4">Organisation Admin Panel</p>
-
-              </div>
-              <div class="card" class="bg-pattern">
-                  <div class="card-body ">
-
-                      <ng-content></ng-content>
-
-                  </div> <!-- end card-body -->
-              </div>
-
-              <ng-content select="[footerLink]"></ng-content>
-              <div style="background:#313844;padding: 2.25rem;">
               <div class="text-center mb-4">
                 <h4 class="text-uppercase mt-0" style="color: white;" i18n>Sign In</h4>
               </div>
+              <div style="background: #313844;">
             
               <form name="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <app-ui-preloader [display]="loading"></app-ui-preloader>
@@ -43,19 +14,17 @@
       <div class="form-floating ">
 
                   <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
-                    placeholder="Enter your email" formControlName="email" style="    background: #383E4A;
-                    border: 1px solid #444C5B;height: 3rem;
-                    border-radius: 4px;"
+                    placeholder="Enter your email" formControlName="email" style="height: 3rem;" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                     [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
-                    <label for="floatingInput" class="form-label" i18n>User Name</label>
+                    <label for="floatingInput" class="form-label" i18n>Email address</label>
             
                   <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
             
                     <div *ngIf="formValues['email'].errors?.['required']" i18n>
-                      Please enter username
+                      Mandatory field
                     </div>
-                    <div *ngIf="formValues['email'].errors?.['email']" i18n>
-                      Email must be a valid Email Address
+                    <div *ngIf="formValues['email'].errors?.['pattern']" i18n>
+                      Invalid email format. Please enter valid email format
                     </div>
                   </div>
             
@@ -66,17 +35,18 @@
       <div class="form-floating ">
 
                   <input class="form-control" type="password" required i18n-placeholder id="password"
-                    placeholder="Enter your password" formControlName="password" style="    background: #383E4A;
-                    border: 1px solid #444C5B;height: 3rem;
-                    border-radius: 4px;"
+                    placeholder="Enter your password" formControlName="password" style="height: 3rem; "pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                     [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" />
                   <label for="floatingInput" class="form-label" i18n>Password</label>
 
                   <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
             
                     <div *ngIf="formValues['password'].errors?.['required']" i18n>
-                      Password is required.
+                      Mandatory field.
                     </div>
+                    <div *ngIf="formValues['password'].errors?.['pattern']">
+                      Invalid Password format. Please enter valid Password format
+                 </div>
             
                     </div>
                   </div>
@@ -111,12 +81,5 @@
                 </div>
               </div>
           
-
-          </div> <!-- end col -->
-      </div>
-      <!-- end row -->
-  </div>
-  <!-- end container -->
-</div>
-<!-- end page -->
+            </app-default-layout>
    

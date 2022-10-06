@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
+import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
 
 @Component({
   selector: 'app-user-details',
@@ -10,6 +11,7 @@ import { AdminConsoleService } from '../services/admin-console.service';
   styleUrls: ['./user-details.component.scss']
 })
 export class UserDetailsComponent implements OnInit {
+  page=1
   // activeWizard1: number = 1;
   activeWizard2: number = 1;
   // activeWizard3: number = 1;
@@ -32,6 +34,7 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
+    public service: AdvancedTableService,
     private modalService: NgbModal,
     private fb: FormBuilder,
 
@@ -62,6 +65,18 @@ export class UserDetailsComponent implements OnInit {
 
   errorMessageNextButton='';
 
+  length:any
+
+  pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
+
+  
+  entries:any=this.pageSizeOptions[0]
+  pagenumber:any=1;
+  total_pages:any;
+  total_user:any;
+  
+  currentPage:any;
+
   
 
   ngOnInit(): void {
@@ -70,9 +85,33 @@ export class UserDetailsComponent implements OnInit {
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
 
-    this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
-     next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
-    })
+    // this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
+    //  next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
+    // })
+
+// pagination function starts
+
+     // console.log("entries",this.entries)
+    // console.log("optionsss",this.pageSizeOptions.values())
+    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_user=doc.total
+      this.currentPage=doc.page
+      this.total_pages=doc.total_pages
+
+      // console.log('doc.......................',doc.data)
+      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.length=this.userList.length
+      console.log("hello00000",this.length);
+      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+
+      return doc});
+
+
+// pagination ends
+    
 
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
@@ -115,6 +154,64 @@ export class UserDetailsComponent implements OnInit {
 
 
   }
+
+// pagination function starts
+
+
+  loadPage(val:any){
+    this.pagenumber=val
+    // console.log("fjhgvjgfjd",this.pagenumber);
+    // console.log("entries",this.entries);
+
+    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_user=doc.total
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      // console.log('doc.......................',doc)
+      this.userList=doc.data
+      
+      // this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      this.length=this.userList.length
+     
+      return doc});
+      // this.columns = this.tabDAta;
+      // console.log("heloooo",this.tabDAta);
+      // this.onFilter(this.item)
+     
+      
+      
+      
+    
+  }
+
+  onFilter (data:any) {
+      this.entries=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_user=doc.total
+      // console.log('doc.......................',doc)
+      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.length=this.userList.length
+      // console.log("hello00000",this.length);
+      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
+    //  return data.value
+     
+      
+  }
+
+// pagination func endsss
   
   checkingForm(){
     var data = new FormData();
@@ -180,6 +277,21 @@ export class UserDetailsComponent implements OnInit {
     }
   }
 
+  paginate(): void {
+    // paginate
+    this.service.totalRecords = this.tableData.length;
+    if (this.service.totalRecords === 0) {
+      this.service.startIndex = 0;
+    }
+    else {
+      this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
+    }
+    this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
+    if (this.service.endIndex > this.service.totalRecords) {
+      this.service.endIndex = this.service.totalRecords;
+    }
+  }
+
 
   checkingUserForm(){
     console.log("fen boy",this.userForm.value);
@@ -205,7 +317,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   open(content: TemplateRef<NgbModal>): void {
-    this.modalService.open(content, { centered: true });
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
   ngstyle(){
     const stone = {'background': '#3B4F5F',

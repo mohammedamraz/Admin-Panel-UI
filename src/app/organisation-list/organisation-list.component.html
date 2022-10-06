@@ -1,13 +1,12 @@
-<ng-template #toggleModal1 let-modal>
+<ng-template #toggleModal1 let-modal >
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    width: 40rem;
-        background: #272d35;">
+        <div class="card-body" style="background: #272d35;min-width: min-content;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=4;listdetails=[];reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">create organization</h4>
+            <h4 style="color: white;">Create Organization</h4>
     
             <form [formGroup]="basicWizardForm" #basicForm="ngForm">
                 <div id="basicwizard">
@@ -18,7 +17,7 @@
                         <li [ngbNavItem]="1">
                                 <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class="d-none d-sm-inline">Org Details</span>
+                                <span class=" d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -28,14 +27,14 @@
                                                 <div class="form-floating ">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;    height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['organization_name'].valid , 'is-invalid': basicForm.submitted && form1['organization_name'].invalid }">
     
                                                         <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
                                                             Looks good!
                                                         </div>
                                  -->
-                                 <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Organisation Name</label>
+                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
                                                         <div *ngIf="basicForm.submitted && form1['organization_name'].invalid && form1['organization_name'].invalid " class="invalid-feedback">
                                                             Please enter Organisation Name.
                                                         </div>
@@ -52,12 +51,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;
-                                                    border-radius: 4px;    height: 3rem;"
+                                                    border-radius: 4px;    height: 3rem;color: #9BA6AC"
                                                         name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-valid': basicForm.submitted && form1['admin_name'].valid , 'is-invalid': basicForm.submitted && form1['admin_name'].invalid }">
                                                         <div *ngIf="basicForm.submitted && form1['admin_name'].invalid" class="invalid-feedback">
                                                             Please enter Admin Name.
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Org Admin Full Name</label
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label
                                                       >
                                                 </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_name'].valid" class="valid-feedback">
@@ -69,9 +68,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{'is-valid':basicForm.submitted&&form1['designation'].valid , 'is-invalid':basicForm.submitted&&form1['designation'].invalid}">
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Designation</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
                                                         <div *ngIf="basicForm.submitted && form1['designation'].invalid" class="invalid-feedback">
                                                             Please enter Designation.
                                                         </div>
@@ -83,12 +82,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B;  height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Email Address" required formControlName="organization_email"  [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_email'].valid , 'is-invalid':basicForm.submitted&&form1['organization_email'].invalid}">
                                                         <div *ngIf="basicForm.submitted && form1['organization_email'].invalid" class="invalid-feedback">
                                                              Enter Valid Email ID
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Email Address</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
 
                                                 </div>
                                                     <!-- <div *ngIf="basicForm.submitted && form1['organization_email'].errors">
@@ -102,12 +101,12 @@
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style="background: #383E4A;
                                                     border: 1px solid #444C5B; height: 3rem;
-                                                    border-radius: 4px;"
+                                                    border-radius: 4px;color: #9BA6AC"
                                                         name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{'is-valid':basicForm.submitted&&form1['organization_mobile'].valid , 'is-invalid':basicForm.submitted&&form1['organization_mobile'].invalid}">
                                                         <div *ngIf="basicForm.submitted && form1['organization_mobile'].invalid" class="invalid-feedback">
                                                             Please enter Mobile Number .
                                                         </div>
-                                                        <label for="floatingInput" style="font-size: 0.8rem" class="form-label" i18n>Mobile Number</label>
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
                                                 </div>
                                                    
 
@@ -120,20 +119,19 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a  [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard2 > 2 ? ngstyle():null"  ngbNavLink class="rounded-0 pt-2 pb-2"style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Org Settings</span>
+                                <span class=" d-sm-inline">Org Settings</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <div class="row" style="    display: grid;
-                                    grid-template-columns: 1fr 1fr;   grid-gap: 1rem; padding-bottom: 1rem;">
+                                    <div class="row grid-container2" style="    display: grid;">
                                         <div >
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
-                                            grid-template-columns: auto auto;">
-                                            <div style="place-self: center;padding-right: 0;">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                            grid-template-columns: 1fr 1fr;">
+                                            <div style="place-self: center;padding-right: 0;color: #9BA6AC">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;
                                             border: 1px solid #444C5B;
-                                            border-radius: 4px;"    
+                                            border-radius: 4px;" 
                                             name="userName" placeholder=""required="" formControlName="url" [ngClass]="{'is-valid':basicForm.submitted&&form1['url'].valid , 'is-invalid':basicForm.submitted&&form1['url'].invalid}">
                                             <div *ngIf="form1['url'].invalid&&form1['url'].touched" class="invalid-feedback">
                                                 Mandatory field. Enter custom name for the URL
@@ -148,7 +146,7 @@
                                                     <div  style="align-self: center;">
                                                         <div class="row align-items-center" style="    place-content: center;">
                                                         
-                                                        <img src={{srcImage}} alt="" style="width: 90%; height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                                                        <img src={{srcImage}} alt="" style="  height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
                                                     </div>
                                                     </div>
                                                     </div>
@@ -158,7 +156,7 @@
                                                             <div class="card mt-1 mb-0 shadow-none border">
                                                                 <div style="align-self: center;">
                                                                     <div class="row align-items-center" style="    place-content: center;">
-                                                                            <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 90%;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
+                                                                            <img class="avatar-sm rounded bg-light" [alt]="f.name" style="width: 15rem;height: 133px;border-radius: 5px; border: 2px dashed #717386; margin-bottom: 1rem;"
                                                                                 [src]="getPreviewUrl(f)">
                                                                     </div>
                                                                 </div>
@@ -166,34 +164,32 @@
                                                         </div>
                                                     </div>
                                     
-                                                    <div  style="display: grid; 
-                                                    grid-template-columns: 1fr 1fr;
-                                                    place-self: center;
-                                                 grid-gap: 1rem;">
-                                                              <div class="col-auto"style="background: #3C424F; align-self: center;border-radius: 6px !important;">
-                                                                <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; overflow-x: none;height: 0;   margin:0;
-                                                                border-radius: 5px; overflow: hidden;"
-                                                                accept="image/jpeg,image/jpg,image/png,image/gif">
-                                                                <ngx-dropzone-label >
-                                                                    <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
-                                                                    <p style="text-align: center; font-size: 13px;">Upload Another</p>
-                                                   
-                                                                </ngx-dropzone-label>
-                                                            </ngx-dropzone>
-                                                        </div>
+                                                    <div  style="    display: flex;
+                                                    place-content: center;
+                                                    column-gap: 1rem;">
+                                                 <div class="col-xl-4.5 col-lg-5 col-md-5 col-sm-3"style="background: #3C424F; align-self: center;border-radius: 6px !important; height:5rem">
+                                                        <ngx-dropzone (change)="onSelect($event)" class="dropzone" style="background: #3C424F; border: none; height: 0;   margin:0;
+                                                        border-radius: 5px; overflow: hidden;padding-top: 1rem;"
+                                                        accept="image/jpeg,image/jpg,image/png,image/gif">
+                                                        <ngx-dropzone-label >
+                                                            <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
+                                                            <p style="text-align: center; font-size: 13px; color:  #9BA6AC;">Upload Another</p>
+                                           
+                                                        </ngx-dropzone-label>
+                                                    </ngx-dropzone>
+                                                </div>
                                     
-                                                <div class="col-auto" style="background: #3C424F;    align-self: center; border-radius: 6px !important;">
-       
-                                                    <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit"
-                                                    (click)="onRemove($event)">
-                                                    <i class="mdi mdi-delete" style="font-size: x-large;"></i>
-                                                    <!-- <p>Delete Logo</p> -->
-                                                </a>
-                                                <p style="text-align: center; font-size: 13px;    margin-bottom: 18px;">Delete Logo</p>
-                            
-                                            </div>
+                                                    <div class="col-xl-3.5 col-lg-4 col-md-4 col-sm-2" style="background: #3C424F;    align-self: center; border-radius: 6px !important; height:5rem;padding-top: 0.3rem">
+                                           
+                                                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit;    margin-bottom: 0.3rem;"
+                                                            (click)="onRemove($event)">
+                                                            <img src="./assets/images/Vector.png"  style="font-size: x-large;">
+                                                            <!-- <p>Delete Logo</p> -->
+                                                        </a>
+                                                        <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
                                     
                                                     </div>
+                                                </div>
                                             </div>
 
                                             <div style="    background: #3C424F;
@@ -214,15 +210,14 @@
                                 </ng-template>
                         </li>
                         <li [ngbNavItem]="3">
-                            <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events:none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Products</span>
+                                <span class=" d-sm-inline">Products</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div style="display: grid;
-                                    grid-auto-flow: column;
-                                    grid-template-columns:min-content min-content;
-                                    grid-gap: 0.5rem;margin-bottom: 2rem;">
+                                    grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
+                                    grid-gap: 1rem;margin-bottom: 2rem;">
                                          
                                                 <ng-template ngFor let-season [ngForOf]="products" let-i=index>
                                                     <div class="gal-detail thumb" style="    width: 142px;
@@ -241,7 +236,7 @@
                                                                     F{{season.product_name.charAt(0).toUpperCase()}}
                                                                 </span>
                                                             </div>
-                                                            <p class="text-muted mb-1">Fedo {{season.product_name.toUpperCase()}}</p>
+                                                            <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
                                                             <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                 <input type="checkbox"  (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
                                                             </div>
@@ -256,14 +251,13 @@
                             <li [ngbNavItem]="season.index">
                                 <a  [ngStyle]=" activeWizard2>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span style = 'text-transform: capitalize;'class="d-none d-sm-inline">Config {{season.name.toUpperCase() }}</span>
+                                <span style = 'text-transform: capitalize;'class=" d-sm-inline">Config {{season.name === 'vitals' ? 'Vitals' : season.name.toUpperCase() }}</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <div class="row" style="    display: grid;
-                                    grid-template-columns: 16rem 13rem;   grid-gap: 1rem;">
-                                        <div  style="padding-bottom:1rem ;">
+                                    <div class="row grid-container">
+                                        <div >
                                             <div class="card">
-                                                <div class="card-body" style="padding-left: 0;">
+                                                <div class="card-body" style="padding-left: 0;padding-bottom:0">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
@@ -272,14 +266,36 @@
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div>
+                                            <div style="margin-bottom:1rem ;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox"  class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" *ngIf="season.event_mode!=0"  >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
+                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
+                                                        <div >
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
+                                            </div>
+                                            <div >
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Vitals Dashboard</label>
+                                            </div>
+                                                    </div>
+                                      </div>
+                                            </div>
+
                                         </div>
-                                        <div class="card-body" style="padding: 0;margin-top:1.5rem" *ngIf="season.name === 'vitals'">
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem;margin-left: 1rem;" *ngIf="season.name === 'vitals'">
                                             <div>
                                                 <h4 class="header-title" style="color: white;">Enable Vitals Web App</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
@@ -288,10 +304,9 @@
                                             </div>
                                             <div *ngIf="next">
                                             <div >
-                                                <h4 class="header-title" style="color: #AEB5BC;">Define Web App Vitals URL:</h4>
-                                                <div class="row" style="display: grid;
-                                                grid-template-columns: min-content max-content;">
-                                                <div style="place-self: center;padding-right: 0;">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;
+                                                <h4 class="header-title" style="color: #AEB5BC;    margin-top: 1rem;">Define Web App Vitals URL:</h4>
+                                                <div class="row" style="display: grid;margin-bottom:1rem">
+                                                <div style="place-self: center;padding-right: 0;color: #9BA6AC">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;margin-left:1rem;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
                                                 name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
@@ -320,7 +335,7 @@
                         <li [ngbNavItem]="list">
                             <a [ngStyle]=" list == activeWizard2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class="d-none d-sm-inline">Finish</span>
+                                <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">
@@ -329,7 +344,7 @@
                                             <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
                                             <h3 class="mt-0" style="color: #fff;">Success !</h3>
     
-                                            <p class="w-75 mb-2 mx-auto">You have successfully created the Organisation <b> {{org_name}}</b> . An invitaton email has already been sent to the Org Admin.
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">You have successfully created the Organisation <b> {{org_name}}</b> . An invitaton email has already been sent to the Org Admin.
                                                  You may inform the Org Admin to check mail and follow instructions to sign up and start Pilot.</p>
                                         </div>
                                     </div>
@@ -349,11 +364,11 @@
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
-                            <button type="button" class="btn btn-secondary"style="width: 100px;" (click)="listdetails=[];modal.dismiss('');basicWizardForm.reset();"
+                            <button type="button" class="btn btn-info"style="width: 100px;" (click)="listdetails=[];modal.dismiss('');basicWizardForm.reset();"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
-                            <button type="submit" style="width: 100px;"(click)="fetchData()" class="btn btn-info" 
+                            <button  style="width: 100px;" type="submit"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
                             <button type="button" class="btn btn-info"style="width: 100px;" (click)="checkingForm();basicWizardForm.reset();"
                                 *ngIf="activeWizard2!=3&&activeWizard2 == list-1">Submit</button>
@@ -387,7 +402,7 @@
                         <li [ngbNavItem]="1">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class="d-none d-sm-inline">User Details</span>
+                                <span class=" d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -496,7 +511,7 @@
                         <li [ngbNavItem]="2">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Products</span>
+                                <span class=" d-sm-inline">Products</span>
                             </a>
 
                                           <ng-template ngbNavContent>
@@ -521,7 +536,7 @@
                                                                             F{{season.product_name.charAt(0)}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                                    <p class="text-muted mb-1">Fedo {{season.name === 'vitals' ? 'Vitals' : season.product_name}}</p>
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                         <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
@@ -604,7 +619,7 @@
                         <li [ngbNavItem]="3">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class="d-none d-sm-inline">Finish</span>
+                                <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">
@@ -668,13 +683,25 @@
             </a>
         </div>            
         <h4 class="mt-0 header-title" style="color: white;">Organisation List</h4>
+        
+        <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
+            <div class="text--start">
+                <label class="form-label me-1">Show
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
+                    border-color: #49565d;"
+                        id="event-category" required #idd [(ngModel)]="service.pageSize"  (click)="onFilter(idd)">
+                        <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
+                    </select>
+                    entries</label>
+            </div>
+        </div>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
             to any <code>&lt;table&gt;</code>.
         </p> -->
 
-        <div class="table-responsive" style="    overflow-x: inherit;" >
-            <table class="table mb-0">
+        <div class="table-responsive">
+            <table class="table advanced-table table-nowrap mb-0">
                 <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                     <tr style="border-color: #49565d;">
                         <th>#</th>
@@ -687,10 +714,10 @@
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
-                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tabDAta;let indexOfelement=index;">
-                        <th scope="row">{{indexOfelement+1}}</th>
-                        <td>{{person.organization_name}}</td>
-                        <td>
+                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tabDAta ;let i=index;">
+                        <th scope="row">{{entries *(page-1)+i+1}}</th>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;"  >{{person.organization_name}}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
                             <div style="    display: grid;
                             grid-template-columns: 1fr 1fr 1fr;
                             grid-gap: 1rem;">
@@ -705,8 +732,8 @@
                             </div>
 
                         </td>
-                        <td style="    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
-                        <td style="    text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_tests:0}}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style=" cursor: pointer;   text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_tests:0}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
@@ -722,6 +749,22 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
+                <div *ngIf="(currentPage*entries)<=total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_org}} entries
+                </div>
+                <div *ngIf="(currentPage*entries)>total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{total_org}} of {{total_org}} entries
+                </div>
+                <ngb-pagination class="d-flex justify-content-end mt-2" 
+                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)" [(page)]="page">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+            </div>
             <!-- <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
             *ngIf="true">
             <div>   
