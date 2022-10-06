@@ -9,3 +9,33 @@
 .option{
     content-visibility: hidden;
 }
+
+@media screen and (min-width: 1400px) and (max-width: 2000px) {
+    .layout-style{
+        background: #282E38;
+    }
+}
+
+@media screen and (min-width: 767px) and (max-width: 1400px) {
+    .layout-style{
+        background: #282E38;
+        
+    }
+}
+
+
+
+@media screen and (min-width: 430px) and (max-width: 766px) {
+    .layout-style{
+        background: #282E38;
+        margin-top: 3rem;
+    }
+}
+
+@media screen and (min-width: 300px) and (max-width: 430px) {
+    .layout-style{
+        background: #282E38;
+        margin-top: 5rem;
+
+    }
+}
