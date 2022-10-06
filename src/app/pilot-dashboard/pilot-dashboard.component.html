@@ -251,7 +251,7 @@
                 <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
                     <p style="
                     margin-bottom: 0.5rem;">
-              {{product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date)}} 
+              {{daysLefts(product.end_date)}} 
                     days left for pilot to end</p>
                     <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                 </div>

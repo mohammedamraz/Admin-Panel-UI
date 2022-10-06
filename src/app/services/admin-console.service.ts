@@ -92,6 +92,7 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}users/${id}?type=latest`);
   }
 
+
   loginAdmin(formData: any) {
 
     console.debug('UsersConsoleService/loginAdmin()')
@@ -266,6 +267,22 @@ export class AdminConsoleService {
     
     return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
   }
+
+  fetchUserScan(userId:any,prodId:any){
+    
+    return this.http.get(`${ADMIN_URL}junction/tests?user_id=${userId}&product_id=${prodId}`);
+  }
+  
+  fetchUserProdById(userId:any){
+    
+    return this.http.get(`${API_URL}users/data/product/list/${userId}`);
+    }
+
+    fetchLatestUserOfOrgProd(orgId:any, prodId:any){
+
+      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&per_page=5`)
+      // return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+    }
 
 
 
