@@ -52,8 +52,8 @@ export class PilotDashboardComponent implements OnInit {
         console.log('asdw',this.product);
         this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
       }});
-    this.adminService.fetchLatestUserOfOrg(this.orgId).subscribe(
-      (doc:any) => {this.tableData=doc.data;});
+    this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
+      (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
       this.userForm =this.fb.group({
         user_name: ['',Validators.required],
         designation: ['',Validators.required],

@@ -228,6 +228,13 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             
           }
         });
+        sessionStorage.setItem('currentUser', JSON.stringify(data) );
+      
+      this.adminService.httpLoading$.next(true);
+      this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
+        next:(res:any) =>{
+          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
+        }})
 
 
     }
@@ -263,14 +270,15 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             
           }
         })
+        sessionStorage.setItem('currentUser', JSON.stringify(data));
+
+
+        this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
     }
     
     // this.adminService.httpLoading$.next(true);
 
-    sessionStorage.setItem('currentUser', JSON.stringify(data));
 
-
-    this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
   },
             error: (error: string) => {
               console.log('asdf',error)

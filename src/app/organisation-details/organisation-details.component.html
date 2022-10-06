@@ -647,7 +647,7 @@
 
 <div class="row" >
 <!-- <div class="col-xl-3 col-md-6"></div> -->
-    <div class="col-xl-8 col-md-8" >
+    <div class="col-xl-8 col-md-8" style="display:inline-grid" >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
                 <div class="card-body" style="grid-auto-flow: column;
                 display: grid; grid-template-columns: 1fr 1fr;">
@@ -714,6 +714,8 @@
     </div>
     <div class="col-xl-4 col-md-4"  >
         <div  class="card" style="background: #313844; border-radius:10px">
+            <h4 *ngIf="orglogin"  style="color: white; margin: 2rem 0 0 2rem">Manage Logo</h4>
+            
             <div class="card-body mt-1 mb-0 shadow-none border"  >
                 <div  style="align-self: center;">
                     <div class="row align-items-center" style="    place-content: center; margin-bottom:1.3rem">
@@ -779,7 +781,7 @@
                             <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
                             <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             <p style="margin-bottom: 0.5rem;">
-                      {{product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date)}} 
+                      {{daysLefts(product.end_date)}} 
                             days left for pilot to end</p>
                         </div>
                     </div>
@@ -942,12 +944,13 @@
             </a>
             <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                 <!-- item-->
-                <a href="javascript:void(0);" (click)="open(toggleModal3); " ngbDropdownItem>Create User</a>
+                <a href="javascript:void(0);" (click)="open(toggleModal3);setValue(tabDAta[0]); " ngbDropdownItem>Create User</a>
+                <a href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
 
             </div>
         </div>            
         <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)" (click)="open(toggleModal3);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+            <a href="javascript:void(0)" (click)="open(toggleModal3);setValue(tabDAta[0]);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                 <i class="mdi mdi-plus"></i>
             </a>
         </div>            

@@ -17,6 +17,7 @@ import { PilotsListComponent } from './pilots-list/pilots-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 import { PilotDashboardComponent } from './pilot-dashboard/pilot-dashboard.component';
+import { UserdashboardComponent } from './userdashboard/userdashboard.component';
 
 
 const routes: Routes = [
@@ -92,7 +93,11 @@ const routes: Routes = [
         canActivate: [OrgGuard],
         component: PilotDashboardComponent
       },
-      
+      {
+        path: ':orgId/userdashboard/:Id',
+        canActivate: [OrgGuard],
+        component: UserdashboardComponent
+      },
       
     ]
   },
