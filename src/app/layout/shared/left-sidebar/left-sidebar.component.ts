@@ -53,17 +53,32 @@ export class LeftSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = <any>this.authService.currentUser();
     if(this.loggedInUser.hasOwnProperty('user_data') ){
-      this.orglogin=true;    
-      this.menuItems =  [
-        { key: 'navigation', label: 'Navigation', isTitle: true },
-        {
-            key: 'dashboard',
-            label: 'Home',
-            isTitle: false,
-            icon: 'mdi mdi-home',
-            badge: { variant: 'success', text: '9+' },
-            url: '/home',
-        },];
+      // this.orglogin=true;    
+      this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
+        next:(res:any) =>{ 
+          this.products = res;
+            const prod = this.products.map(product => ({
+              
+              key: 'apps-tasks',
+              label: product.product_id === 1 ? 'HSA' : (product.product_id === 2 ? 'Vitals':'RUW'),
+              isTitle: false,
+              icon: `mdi ${product.product_id === '1' ? 'mdi-account-box-multiple':(product.product_id === '2' ? 'mdi-clipboard-pulse-outline': 'mdi-briefcase-variant' ) }`,
+              collapsed: true,
+              children: [
+                  {
+                      key: 'task-kanban',
+                      label: 'Dashboard',
+                      url: `/${this.loggedInUser.user_data[0].org_id}/userdashboard/${product.product_id}`,
+                      parentKey: 'apps-tasks',
+                  },
+              ],
+            }))
+            this.menuItems =  [
+              { key: 'navigation', label: 'Navigation', isTitle: true },
+              ...prod
+           
+            ];
+        }})
 
     }
     else if( this.loggedInUser.hasOwnProperty('org_data')){
@@ -71,7 +86,7 @@ export class LeftSidebarComponent implements OnInit {
       this.orglogin = false;
       this.menuItems = MENU_ITEMS;
     }
-      else {
+    else {
         this.orglogin = false;
         this.adminService.fetchOrgById(this.loggedInUser.org_data[0].id).subscribe({
           next:(res:any) =>{

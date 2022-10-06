@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-xl-6 col-md-6">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <h4 class="mt-0 header-title" style="color: white;">Your Scans</h4>
+                <div class="col-xl-12 card-body" style="padding:0">
+                    <p style="
+                    margin-bottom: 0.5rem;"> You have completed <b style="    color: #82B4F3;font-size: xxx-large;">{{testScan}}</b>  scans since  your account is created</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-md-6 " >
+        <div class="card pt-2  " style="background: #313844;border-radius: 10px; padding-bottom:1.25rem"  >
+            <div class="card-body widget-user ">
+                <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
+                <div class="download-style "  style="    display: grid;
+                grid-auto-flow: column;
+                grid-gap: 1rem;
+                padding-top: 1rem;
+                grid-template-columns: min-content;">
+                <a *ngIf="product.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.mobile_url,'mobile')" >
+                    <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
+                </a>
+                <a *ngIf="product.ios_url !== null"  class='cursor-pointer' (click)="playstore(product.ios_url,'ios')" style="opacity: 0.4;" >
+                    <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
+                </a>
+                <a *ngIf="product.web_url !== null"  class='cursor-pointer' (click)="playstore(product.web_url,'web')" >
+                    <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

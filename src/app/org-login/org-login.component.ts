@@ -70,7 +70,10 @@ export class OrgLoginComponent implements OnInit {
             sessionStorage.setItem('currentUser', JSON.stringify(data) );
           }
           this.adminConsoleService.httpLoading$.next(true);
-          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
+          this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
+            next:(res:any) =>{
+              this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
+            }})
         }
         else if(data.org_data[0].type != 'admin'){
           data['orglogin']=true;
@@ -83,12 +86,9 @@ export class OrgLoginComponent implements OnInit {
           }
           this.adminConsoleService.httpLoading$.next(true);
           this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
-          
-
         } 
         else { console.log("super admin");
-        
-          this.error = 'Invalid email or password';}
+                  this.error = 'Invalid email or password';}
 
         
         },
