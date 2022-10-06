@@ -1,7 +1,6 @@
 <ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    background-color: #282E38;
-    width: 40rem;">
+        <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
@@ -17,7 +16,7 @@
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-account-circle me-1"></i> -->
-                                <span class="d-none d-sm-inline">User Details</span>
+                                <span class=" d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -84,7 +83,7 @@
                                                     </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: 1fr 2fr" >
+                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
                                         <div class="form-check">
                                           <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
                                           <label class="form-check-label" for="customRadio1">Own Employee</label>
@@ -148,13 +147,12 @@
                         <li [ngbNavItem]="2">
                             <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span class="d-none d-sm-inline">Products</span>
+                                <span class="d-sm-inline">Products</span>
                             </a>
 
                                           <ng-template ngbNavContent>
                                             <div style="display: grid;
-                                            grid-auto-flow: column;
-                                            grid-template-columns:min-content min-content;
+                                            grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
                                             grid-gap: 1rem;margin-bottom: 2rem;">
                                                         <ng-template ngFor let-season [ngForOf]="userProduct" let-i=index>
                                                             <div class="gal-detail thumb" style="    width: 142px;
@@ -173,7 +171,7 @@
                                                                             F{{season.product_name.charAt(0)}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                                    <p class="text-muted mb-1">Fedo {{season.name === 'vitals' ? 'Vitals' : season.product_name}}</p>
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                         <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
@@ -188,7 +186,7 @@
                         <li [ngbNavItem]="3">
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
-                                <span class="d-none d-sm-inline">Finish</span>
+                                <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row">

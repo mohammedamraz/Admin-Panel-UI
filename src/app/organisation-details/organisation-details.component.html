@@ -1,7 +1,7 @@
 <h4 *ngIf="orglogin==true" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    background-color: #282E38;">
+        <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
@@ -83,7 +83,7 @@
                                                     </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3" style="display: grid; grid-template-columns: 1fr 2fr" >
+                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
                                             <div class="form-check">
                                               <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
                                               <label class="form-check-label" for="customRadio1">Own Employee</label>
@@ -137,7 +137,7 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2"style="pointer-events:none">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class=" d-sm-inline">Products</span>
                             </a>
@@ -163,7 +163,7 @@
                                                                             F{{season.product_name.charAt(0)}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                                    <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name}}</p>
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                         <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
@@ -305,7 +305,7 @@
 
 <ng-template #toggleModal2 let-modal style="width: auto;">
     <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
-        <div class="card-body" style="    background-color: #282E38;">
+        <div class="card-body" style="     min-width: min-content;   background-color: #282E38;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3; reloadPage();" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
@@ -415,7 +415,7 @@
                                       </div>
                                             </div>
                                         </div>
-                                        <div class="card-body" style="padding: 0;margin-top:1.5rem" *ngIf="season.product_name === 'Vitals'">
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " *ngIf="season.product_name === 'Vitals'">
                                             <div>
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Vitals Web App</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
