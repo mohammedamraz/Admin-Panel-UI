@@ -116,7 +116,7 @@ export class OrganisationListComponent implements OnInit {
       ruw:[false],
       vitals:[false],
       designation:[''],
-      url:[''],
+      url:['',Validators.required],
       pilot_duration:[''],
       product_name:[''],
     });
@@ -325,6 +325,8 @@ export class OrganisationListComponent implements OnInit {
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
     data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
+    data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
+
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     console.log('this image => ,',this.image)
@@ -384,6 +386,28 @@ export class OrganisationListComponent implements OnInit {
   
   // } 
 
+
+  setEventMode(event: any,product:any,value:any){
+    console.log('the value => ',event);
+
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].event_mode = value ;
+  }
+
+  eventmode(event:any, product:any){
+    console.log("asd",event.target.checked)
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode = 1;  
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode=0;  
+    }
+  }
+
+
+
   demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
     console.log('donned',product)
@@ -399,7 +423,9 @@ export class OrganisationListComponent implements OnInit {
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
-        web_url:''
+        web_url:'',
+        event:false,
+        event_mode:0
       };
       this.listdetails.push(details);
     }

@@ -1,13 +1,12 @@
-<ng-template #toggleModal1 let-modal style="width: auto;">
+<ng-template #toggleModal1 let-modal >
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    width: 40rem;
-        background: #272d35;">
+        <div class="card-body" style="background: #272d35;min-width: min-content;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=4;listdetails=[];reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>            
-            <h4 style="color: white;">create organization</h4>
+            <h4 style="color: white;">Create Organization</h4>
     
             <form [formGroup]="basicWizardForm" #basicForm="ngForm">
                 <div id="basicwizard">
@@ -120,20 +119,19 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a  [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard2 > 2 ? ngstyle():null"  ngbNavLink class="rounded-0 pt-2 pb-2"style="pointer-events: none;">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class=" d-sm-inline">Org Settings</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <div class="row" style="    display: grid;
-                                    grid-template-columns: 1fr 1fr;   grid-gap: 1rem; padding-bottom: 1rem;">
+                                    <div class="row grid-container2" style="    display: grid;">
                                         <div >
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
-                                            grid-template-columns: auto auto;">
+                                            grid-template-columns: 1fr 1fr;">
                                             <div style="place-self: center;padding-right: 0;color: #9BA6AC">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;
                                             border: 1px solid #444C5B;
-                                            border-radius: 4px;"    
+                                            border-radius: 4px;" 
                                             name="userName" placeholder=""required="" formControlName="url" [ngClass]="{'is-valid':basicForm.submitted&&form1['url'].valid , 'is-invalid':basicForm.submitted&&form1['url'].invalid}">
                                             <div *ngIf="form1['url'].invalid&&form1['url'].touched" class="invalid-feedback">
                                                 Mandatory field. Enter custom name for the URL
@@ -148,7 +146,7 @@
                                                     <div  style="align-self: center;">
                                                         <div class="row align-items-center" style="    place-content: center;">
                                                         
-                                                        <img src={{srcImage}} alt="" style="width:  height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
+                                                        <img src={{srcImage}} alt="" style="  height: 133px;border-radius: 5px;  border: 2px dashed #717386; margin-bottom: 1rem;" >
                                                     </div>
                                                     </div>
                                                     </div>
@@ -212,15 +210,14 @@
                                 </ng-template>
                         </li>
                         <li [ngbNavItem]="3">
-                            <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events:none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class=" d-sm-inline">Products</span>
                             </a>
                             <ng-template ngbNavContent>
                                     <div style="display: grid;
-                                    grid-auto-flow: column;
-                                    grid-template-columns:min-content min-content;
-                                    grid-gap: 0.5rem;margin-bottom: 2rem;">
+                                    grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
+                                    grid-gap: 1rem;margin-bottom: 2rem;">
                                          
                                                 <ng-template ngFor let-season [ngForOf]="products" let-i=index>
                                                     <div class="gal-detail thumb" style="    width: 142px;
@@ -239,7 +236,7 @@
                                                                     F{{season.product_name.charAt(0).toUpperCase()}}
                                                                 </span>
                                                             </div>
-                                                            <p class="text-muted mb-1">Fedo {{season.product_name.toUpperCase()}}</p>
+                                                            <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
                                                             <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                 <input type="checkbox"  (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
                                                             </div>
@@ -254,14 +251,13 @@
                             <li [ngbNavItem]="season.index">
                                 <a  [ngStyle]=" activeWizard2>season.index ? ngstyle() : null" style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
-                                <span style = 'text-transform: capitalize;'class=" d-sm-inline">Config {{season.name.toUpperCase() }}</span>
+                                <span style = 'text-transform: capitalize;'class=" d-sm-inline">Config {{season.name === 'vitals' ? 'Vitals' : season.name.toUpperCase() }}</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <div class="row" style="    display: grid;
-                                    grid-template-columns: 16rem 13rem;   grid-gap: 1rem;">
-                                        <div  style="padding-bottom:1rem ;">
+                                    <div class="row grid-container">
+                                        <div >
                                             <div class="card">
-                                                <div class="card-body" style="padding-left: 0;">
+                                                <div class="card-body" style="padding-left: 0;padding-bottom:0">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
@@ -270,14 +266,36 @@
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div>
+                                            <div style="margin-bottom:1rem ;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox"  class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" *ngIf="season.event_mode!=0"  >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
+                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
+                                                        <div >
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
+                                            </div>
+                                            <div >
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Vitals Dashboard</label>
+                                            </div>
+                                                    </div>
+                                      </div>
+                                            </div>
+
                                         </div>
-                                        <div class="card-body" style="padding: 0;margin-top:1.5rem" *ngIf="season.name === 'vitals'">
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem;margin-left: 1rem;" *ngIf="season.name === 'vitals'">
                                             <div>
                                                 <h4 class="header-title" style="color: white;">Enable Vitals Web App</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
@@ -286,10 +304,9 @@
                                             </div>
                                             <div *ngIf="next">
                                             <div >
-                                                <h4 class="header-title" style="color: #AEB5BC;">Define Web App Vitals URL:</h4>
-                                                <div class="row" style="display: grid;
-                                                grid-template-columns: min-content max-content;">
-                                                <div style="place-self: center;padding-right: 0;color: #9BA6AC">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;
+                                                <h4 class="header-title" style="color: #AEB5BC;    margin-top: 1rem;">Define Web App Vitals URL:</h4>
+                                                <div class="row" style="display: grid;margin-bottom:1rem">
+                                                <div style="place-self: center;padding-right: 0;color: #9BA6AC">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;margin-left:1rem;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
                                                 name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
@@ -351,7 +368,7 @@
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
-                            <button type="submit" style="width: 100px;"(click)="fetchData()" class="btn btn-info" 
+                            <button  style="width: 100px;" type="submit"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
                             <button type="button" class="btn btn-info"style="width: 100px;" (click)="checkingForm();basicWizardForm.reset();"
                                 *ngIf="activeWizard2!=3&&activeWizard2 == list-1">Submit</button>
@@ -519,7 +536,7 @@
                                                                             F{{season.product_name.charAt(0)}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                                    <p class="text-muted mb-1">Fedo {{season.name === 'vitals' ? 'Vitals' : season.product_name}}</p>
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                                         <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
