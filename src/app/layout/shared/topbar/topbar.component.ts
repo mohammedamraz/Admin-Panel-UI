@@ -40,6 +40,7 @@ export class TopbarComponent implements OnInit {
   topnavCollapsed: boolean = false;
   breadcrumbData: any[] = [];
   username:string='';
+  usernameRole : string = '';
 
 
   @Input() layoutType: string = 'vertical';
@@ -69,14 +70,18 @@ export class TopbarComponent implements OnInit {
         this.adminService.breadCrumbs.subscribe(
           (data:any[]) => {
             this.breadcrumbData = data
-            this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Super Admin)';
+            this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
+            this.usernameRole = '(Super Admin)'
           }
         )
       }
-      else this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Org Admin)';
+      else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Org Admin)';
+      this.usernameRole = '(Org Admin)'
+    }
     }
     else{
       this.username=this.loggedInUser.user_data[0].user_name.split(" ", 2)[0]+' (User)';
+      this.usernameRole = '(User)'
     }
     this.loggedInUser = this.authService.currentUser();
 
