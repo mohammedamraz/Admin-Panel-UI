@@ -28,6 +28,7 @@ export class RecoverPasswordComponent implements OnInit {
   formSubmitted: boolean = false;
   orgLogin: boolean = false;
   successMessage?: string = "";
+  errorMessage?: string = "";
   titleString?: string = "Enter your email address and we'll send you an email with Confirmation Code  to  reset  your password. ";
 
   constructor (
@@ -65,16 +66,17 @@ export class RecoverPasswordComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
         this.orgLogin = true;
-          this.successMessage = "We have sent you an email containing a link to reset your password";
+          this.successMessage = "We have sent you an email containing an OTP to reset your password";
           this.titleString =''
+          this.errorMessage = ''
         //  this.router.navigate(['/home']);
         },
         error: (error: string) => {
           // this.orgLogin = true;
           // this.formSubmitted = true;
           console.log('the error =>',error);
-          this.successMessage = error;
-          this.titleString =''
+          this.errorMessage = 'Email does not exist. Please check for typos and try again';
+          // this.titleString =''
 
   
         }});
@@ -93,7 +95,7 @@ export class RecoverPasswordComponent implements OnInit {
           // this.orgLogin = true;
           // this.formSubmitted = true;
           console.log('the error =>',error);
-          this.successMessage = error;
+          this.errorMessage = 'Wrong OTP. Please check and enter correct OTP';
           this.titleString =''
           // this.router.navigate(['./auth/orgLogin'], );
 
