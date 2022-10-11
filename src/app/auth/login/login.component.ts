@@ -78,8 +78,7 @@ export class LoginComponent implements OnInit {
         }
       },
         error: (error: string) => {
-          console.log('asdf',error)
-          this.error = error;
+          this.error = 'Invalid email or password';
         }});
 
 

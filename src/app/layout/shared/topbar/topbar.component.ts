@@ -75,12 +75,12 @@ export class TopbarComponent implements OnInit {
           }
         )
       }
-      else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Org Admin)';
+      else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
       this.usernameRole = '(Org Admin)'
     }
     }
     else{
-      this.username=this.loggedInUser.user_data[0].user_name.split(" ", 2)[0]+' (User)';
+      this.username=this.loggedInUser.user_data[0].user_name.split(" ", 2)[0];
       this.usernameRole = '(User)'
     }
     this.loggedInUser = this.authService.currentUser();
