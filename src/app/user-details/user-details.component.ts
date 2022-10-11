@@ -19,14 +19,15 @@ export class UserDetailsComponent implements OnInit {
 
 
   basicWizardForm!: FormGroup;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false ;
   codeList: any[] = [];
-  showButton: boolean = true;
+  showButton: boolean = true ;
   organaization_id:any;
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   image:any=[];
   org_name:any
+  formSubmitted=false
 
 
   
@@ -76,9 +77,6 @@ export class UserDetailsComponent implements OnInit {
   total_user:any;
   
   currentPage:any;
-
-  
-
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
@@ -142,7 +140,7 @@ export class UserDetailsComponent implements OnInit {
       });
 
       this.userForm =this.fb.group({
-        user_name: ['',Validators.required],
+        user_name: ['',Validators.required, ],
         designation: ['',Validators.required],
         email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
@@ -337,9 +335,17 @@ export class UserDetailsComponent implements OnInit {
    }
  
    checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
 
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
 
         // organization_name: this.userForm.controls['user_name'],
@@ -357,6 +363,8 @@ export class UserDetailsComponent implements OnInit {
         next: (data:any)=>{    
 
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
@@ -373,13 +381,14 @@ export class UserDetailsComponent implements OnInit {
      
 
     })
+  }
 
   }
 
 }
    change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }

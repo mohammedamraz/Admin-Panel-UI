@@ -245,7 +245,7 @@ export class OrganisationListComponent implements OnInit {
 
   }
   onSelect(event: any) {
-    console.log('don');
+    // console.log('don');
     
     this.files =[...event.addedFiles];
     this.srcImage = event.addedFiles;

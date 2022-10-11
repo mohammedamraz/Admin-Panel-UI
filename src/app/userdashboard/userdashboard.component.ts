@@ -35,7 +35,7 @@ export class UserdashboardComponent implements OnInit {
     console.log('asdf',this.prodId)
     this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
       next:(res:any) =>{
-        console.log('hi girls', res)
+        // console.log('hi girls', res)
         const selected =res.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
         this.product= res[selected];
         console.log('asdw',this.product);

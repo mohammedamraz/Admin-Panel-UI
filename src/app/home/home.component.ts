@@ -147,7 +147,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSelect(event: any) {
-    console.log('don');
+    // console.log('don');
     
     this.files =[...event.addedFiles];
     this.srcImage = event.addedFiles;
@@ -227,7 +227,7 @@ export class HomeComponent implements OnInit {
 
   demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
-    console.log('donned',product)
+    // console.log('donned',product)
     
     if(event.target.checked){
       // this.basicWizardForm.controls[product].setValue(true);
