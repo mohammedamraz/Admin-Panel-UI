@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   selectedProducts:any[]=[];
   userForm!: FormGroup;
   thirdParty: boolean = false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   codeList: any[] = [];
   showButton: boolean = true;
   userProduct:any[]=[];
@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit {
   organaization_id:any;
   created:boolean=false;
   showLiveAlertNextButton=false;
+  formSubmitted=false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -306,8 +307,8 @@ export class HomeComponent implements OnInit {
    }
 
    change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }
@@ -415,8 +416,18 @@ export class HomeComponent implements OnInit {
   
 
   checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
+
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
 
       let data ={
 
@@ -435,6 +446,8 @@ export class HomeComponent implements OnInit {
         next: (data:any)=>{    
 
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
@@ -451,7 +464,7 @@ export class HomeComponent implements OnInit {
      
 
     })
-
+  }
   }
 
 }
