@@ -23,7 +23,7 @@ export class PilotDashboardComponent implements OnInit {
   showLiveAlert=false;
   errorMessage='';
   thirdParty=false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   codeList: any[] = [];
   showButton: boolean = true;
   addTpafunc:boolean=false;
@@ -31,6 +31,8 @@ export class PilotDashboardComponent implements OnInit {
   errorMessageNextButton='';
   userProduct:any[]=[];
   list: number = 3;
+
+  formSubmitted=false
 
 
 
@@ -123,8 +125,8 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
   }
   inputTpa() {
     this.userForm.get('third_party_org_name')?.value
@@ -162,8 +164,16 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid&& (this.thirdParty==true || this.notThirdParty== true)){
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
         email: this.userForm.value['email'],
         mobile: '+91'+ this.userForm.value['mobile']
@@ -172,6 +182,7 @@ export class PilotDashboardComponent implements OnInit {
       this.adminService.fetchUserDataIfExists(data).subscribe({
         next: (data:any)=>{    
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
         },
         error: (err) => {
           console.log('the failure=>',err);
@@ -180,7 +191,9 @@ export class PilotDashboardComponent implements OnInit {
         },
     })
   }
+  }
+
+  }
 }
   
 
-}

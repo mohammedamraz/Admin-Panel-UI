@@ -40,3 +40,23 @@
         grid-template-columns: auto auto;
     }
 }
+
+.form-control{
+    // .form-control {
+        display: block;
+        width: 100%;
+        padding: .45rem .9rem;
+        font-size: .9rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ct-input-color);
+        background-color:  #383E4A;
+        background-clip: padding-box;
+        border: 1px solid  #444C5B;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 4px;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    
+}
