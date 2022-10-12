@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./organisation-details.component.scss']
 })
 export class OrganisationDetailsComponent implements OnInit {
+  
 
   files: File[] = [];
   tabDAta:any[]=[];
@@ -58,7 +59,7 @@ export class OrganisationDetailsComponent implements OnInit {
   userForm!: FormGroup;
   userlogin:boolean=true;
   thirdParty: boolean = false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   showButton: boolean = true;
   selectedUserProducts:any[]=[];
   userProduct:any[]=[];
@@ -77,6 +78,8 @@ export class OrganisationDetailsComponent implements OnInit {
 
   // thirdParty=false;
   tableData:any[]=[];
+
+  formSubmitted=false
 
 
 
@@ -460,8 +463,8 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   } 
   change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }
@@ -678,8 +681,17 @@ clearform(){
 
    checkUserFirstForm(){
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    this.formSubmitted=true;
 
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
+
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
 
         // organization_name: this.userForm.controls['user_name'],
@@ -697,6 +709,8 @@ clearform(){
         next: (data:any)=>{    
 
           this.activeWizard1=this.activeWizard1+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
@@ -713,6 +727,7 @@ clearform(){
      
 
     })
+  }
 
   }
 
