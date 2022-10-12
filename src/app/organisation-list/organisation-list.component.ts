@@ -60,6 +60,7 @@ export class OrganisationListComponent implements OnInit {
   total_pages:any;
   total_org:any;
   
+  urlFormSubmitted = false
   currentPage:any;
 
 
@@ -110,7 +111,7 @@ export class OrganisationListComponent implements OnInit {
       organization_name:[''],
       admin_name:['',Validators.required],
       organization_email:['',[Validators.required,Validators.email]],
-      organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      organization_mobile:['',[Validators.required,  Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       fedo_score:[false],
       hsa:[false],
       ruw:[false],
@@ -201,6 +202,8 @@ export class OrganisationListComponent implements OnInit {
     this.showLiveAlert=false;
 
     if(this.activeWizard2 == 1){
+    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
         let data ={
             organization_name: this.basicWizardForm.value.organization_name,
             organization_email: this.basicWizardForm.value.organization_email,
@@ -226,9 +229,22 @@ export class OrganisationListComponent implements OnInit {
     })
 
     }
-    else{
-        this.activeWizard2 = this.activeWizard2+1;
+  }
+  if(this.activeWizard2 == 2){
+    this.urlFormSubmitted=true
+    if(this.basicWizardForm.controls['url'].valid){
+      this.activeWizard2 = 3;
+    this.urlFormSubmitted=false
+
     }
+  }
+
+  if(this.listdetails.length>0 ){
+    this.activeWizard2 = this.activeWizard2+1;
+  }
+    // else{
+    //     this.activeWizard2 = this.activeWizard2+1;
+    // }
   }
 
   daysLefts(date:any){
@@ -309,7 +325,7 @@ export class OrganisationListComponent implements OnInit {
 
     const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
     if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
-      this.errorMessage='web url must be provided';
+      this.errorMessage='Web url in Vitals is a mandatory field';
       this.showLiveAlert=true;
     }
     else{
