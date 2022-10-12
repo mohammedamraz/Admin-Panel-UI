@@ -65,15 +65,16 @@ export class TopbarComponent implements OnInit {
     this._fetchProfileOptions();
     this.loggedInUser = <any>this.authService.currentUser();
     if(this.loggedInUser.hasOwnProperty('org_data') ){
-      
+      this.adminService.breadCrumbs.subscribe(
+        (data:any[]) => {
+          this.breadcrumbData = data
+          
+        }
+      )
       if(this.loggedInUser.org_data[0].type == 'admin'){
-        this.adminService.breadCrumbs.subscribe(
-          (data:any[]) => {
-            this.breadcrumbData = data
-            this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
-            this.usernameRole = '(Super Admin)'
-          }
-        )
+        this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
+          this.usernameRole = '(Super Admin)'
+        
       }
       else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
       this.usernameRole = '(Org Admin)'

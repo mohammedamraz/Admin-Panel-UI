@@ -456,13 +456,13 @@
                                                     <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
                                                     <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
                                                         <div >
-                                              <input type="radio" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
-                                              <label class="form-check-label" for="customRadio1">Thank You Popup</label>
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
                                             </div>
                                             <div >
-                                              <input type="radio" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
                                               <label class="form-check-label" for="customRadio1"
-                                                >Vitals Dashboard</label>
+                                                >&nbsp;Vitals Dashboard</label>
                                             </div>
                                                     </div>
                                       </div>
@@ -485,7 +485,7 @@
                                                     border: 1px solid #444C5B;
                                                     border-radius: 4px;
                                                     width: 40%;
-                                                    "    
+                                                    "    [readonly]="true"
                                                         name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" >
                                                     </p>
                                                 <!-- </div> -->
@@ -529,15 +529,23 @@
     
                     <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
                     <ul class="list-inline mb-0 wizard" >
-                        <div id="liveAlertPlaceholder">
+                        <div *ngIf="showOrgLiveAlert" class="mb-3" style="width: 100%;
+                                        margin-top: 0.25rem;
+                                        font-size: 0.75rem;
+                                        color: #F08F8F;">
+
+                                                  {{errorOrgMessage}}
+                                                
+                                              </div>
+                        <!-- <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
-                        </div>
+                        </div> -->
                         <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
                             <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
-                            <button type="button"    style="width: 100px;"  class="btn btn-secondary" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]; reloadPage();"
+                            <button type="button"    style="width: 100px;"  class="btn btn-secondary mt-4" (click)="modal.dismiss('');OrgForm.reset();listorg=3;listdetails=[]; reloadPage();"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
@@ -584,11 +592,17 @@
                                             <div class="col-md">
                                                 <div class="form-floating ">
 
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B; height: 3rem;
-                                                border-radius: 4px; margin-bottom: 1rem;color: #9BA6AC"
-                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name">
+                                                <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
+                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name" [readonly]="true">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
+                                                    <!-- <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
+                                                            Enter full Organisation Name
+                                                          </div>
+                                                    </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -596,46 +610,70 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
-                                                    name="userName" placeholder="Org Admin Full Name" formControlName="admin_name">
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid}" 
+                                                name="userName" placeholder="Org Admin Full Name" required formControlName="admin_name">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label>
-
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['admin_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['admin_name'].errors?.['pattern']" i18n>
+                                                            Invalid name format. Please enter your full name
+                                                          </div>
+                                                    </div>
                                             </div>
                                         </div>
                                             <div class="col-md-6">
                                         <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
-                                                    name="userName" placeholder="Designation" formControlName="designation">
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['designation'].invalid}" 
+                                                name="userName" placeholder="Designation" formControlName="designation" minlength="3">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
-
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['designation'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['designation'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['designation'].errors?.['minlength']" i18n>
+                                                            Enter full designation
+                                                          </div>
+                                                    </div>
                                             </div>
                                         </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;color: #9BA6AC"
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
-
+                                                    <!-- <div *ngIf="OrgDetailsEditForm && form1['organization_email'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
+                                                            Enter full Organisation Name
+                                                          </div>
+                                                    </div> -->
                                             </div>
                                         </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                border: 1px solid #444C5B;
-                                                border-radius: 4px; height: 3rem;color: #9BA6AC" 
-                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile" >
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC" 
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile"
+                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid}" >
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
-
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['pattern']" i18n>
+                                                            Invalid format. Please enter valid format
+                                                          </div>
+                                                    </div>
                                             </div>
                                         </div>
                                         </div>
