@@ -14,7 +14,7 @@
 
 .grid-container{
     display: grid;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: auto auto ;
     margin-bottom: 1rem;
 }
 

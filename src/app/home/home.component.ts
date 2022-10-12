@@ -159,6 +159,10 @@ export class HomeComponent implements OnInit {
   }
 
   open(content: TemplateRef<NgbModal>): void {
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' , size: 'lg' });
+  }
+
+  openUserForm(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 

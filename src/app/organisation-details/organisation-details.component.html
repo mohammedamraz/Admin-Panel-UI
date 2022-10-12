@@ -399,7 +399,7 @@
                                                             F{{season.product_name.charAt(0).toUpperCase()}}
                                                         </span>
                                                     </div>
-                                                    <p class="text-muted mb-1">Fedo {{season.product_name.toUpperCase()}}</p>
+                                                    <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
                                                         <input type="checkbox" [checked]="season.checked" (change)="updateProduct($event,season.id)"  [ngStyle]="{'pointer-events': season.noPenetration ? 'none':'fill'}"  class="form-check-input" id="customSwitch1">
                                                     </div>
@@ -753,7 +753,7 @@
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;" *ngIf="userlogin">
-                        <a href="javascript:void(0)" (click)="open(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
@@ -895,7 +895,7 @@
                     </div>
                     <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                     align-self: center;">
-                        <a (click)="open(toggleModal2);" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle [hidden]="false">
+                        <a (click)="orgEdit(toggleModal2);" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle [hidden]="false">
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>

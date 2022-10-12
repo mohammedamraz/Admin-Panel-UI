@@ -286,10 +286,10 @@ export class OrganisationDetailsComponent implements OnInit {
 
  }
 
-  orgEdit(content: TemplateRef<NgbModal>){
-    this.modalService.open(content, { centered: true });
-
+  orgEdit(content: TemplateRef<NgbModal>): void {
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
+  
 
   getSize(f: File) {
     const bytes = f.size;

@@ -161,8 +161,9 @@
                                             <h4 class="header-title" style="color: white;">Define Org URL</h4>
                                             <div class="row" style="display: grid;
                                             grid-template-columns: 1fr 1fr;">
-                                            <div style="place-self: center;padding-right: 0;color: #9BA6AC">www.fedo.ai/admin/</div><input type="text" class="form-control" id="userName1" style="color: #9BA6AC;" minlength="3" maxlength="50"
-                                            name="userName" placeholder=""required formControlName="url" [ngClass]="{'is-invalid':urlFormSubmitted&&form1['url'].invalid}">
+                                            <div style="place-self: center;padding-right: 0;color: #9BA6AC">www.fedo.ai/admin/</div>
+                                            <input type="text" class="form-control" id="userName1" style="color: #9BA6AC;" minlength="3" maxlength="50"
+                                            name="userName" pattern="[A-Za-z]+" placeholder=""required formControlName="url" [ngClass]="{'is-invalid':urlFormSubmitted&&form1['url'].invalid}">
                                             <!-- <div *ngIf="urlFormSubmitted && form1['url'].invalid" class="invalid-feedback">
                                                 Mandatory field. Enter custom name for the URL
                                                 </div> -->
@@ -173,9 +174,9 @@
                                                       <div *ngIf="form1['url'].errors?.['minlength']" i18n>
                                                         Invalid format. Please enter valid format
                                                       </div>
-                                                      <!-- <div *ngIf="form1['url'].errors?.['maxlength']" i18n>
-                                                        Invalid format. Please enter valid format
-                                                      </div> -->
+                                                      <div *ngIf="form1['url'].errors?.['pattern']" i18n>
+                                                        Cannot contain spaces or special characters
+                                                      </div>
                                                 </div>
 
                                             </div>
