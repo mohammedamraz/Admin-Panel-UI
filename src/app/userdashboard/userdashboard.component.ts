@@ -30,20 +30,25 @@ export class UserdashboardComponent implements OnInit {
   
   ngOnInit(): void {
     this.loggedInUser = <any>this.authService.currentUser();
-    this.orgId = this.route.snapshot.paramMap.get("orgId");
-    this.prodId = this.route.snapshot.paramMap.get("Id");
-    console.log('asdf',this.prodId)
-    this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
-      next:(res:any) =>{
-        console.log('hi girls', res)
-        const selected =res.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
-        this.product= res[selected];
-        console.log('asdw',this.product);
-      }});
-      this.adminService.fetchUserScan(this.loggedInUser.user_data[0].id,this.prodId).subscribe({
+    // this.orgId = this.route.snapshot.paramMap.get("orgId");
+    // this.prodId = this.route.snapshot.paramMap.get("Id");
+    // console.log('asdf',this.prodId)
+
+    this.route.params.subscribe((val:any) =>{
+      this.orgId = val.orgId;
+      this.prodId = val.Id;
+      this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
         next:(res:any) =>{
-          this.testScan = res.total_tests
+          console.log('hi girls', res)
+          const selected =res.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
+          this.product= res[selected];
+          console.log('asdw',this.product);
         }});
+        this.adminService.fetchUserScan(this.loggedInUser.user_data[0].id,this.prodId).subscribe({
+          next:(res:any) =>{
+            this.testScan = res.total_tests
+          }});
+    })
   }
 
 

@@ -241,6 +241,26 @@ export class AdminConsoleService {
 
     }
 
+    if(event.url?.slice(3,)=='/dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`, active: true},
+    ])
+    }
+
+    if(event.url?.slice(3,)=='/userdetails'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
+        { label: 'Users List', path: `${event.url.split('/')[1]}/userdetails`, active: true},
+    ])
+    }
+
+    if(event.url?.split('/')[2]=='pilotdashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
+        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Pilot`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
+    ])
+    }
+
 
   }
 
