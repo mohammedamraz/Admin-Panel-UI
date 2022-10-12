@@ -31,6 +31,7 @@ export class PilotDashboardComponent implements OnInit {
   errorMessageNextButton='';
   userProduct:any[]=[];
   list: number = 3;
+  
 
   formSubmitted=false
 
@@ -45,27 +46,33 @@ export class PilotDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.orgId = this.route.snapshot.paramMap.get("orgId");
-    this.productId = this.route.snapshot.paramMap.get("Id");
-    this.adminService.fetchOrgById(this.orgId).subscribe({
-      next:(res:any) =>{
-        const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
-        this.product= res[0].product[selected];
-        console.log('asdw',this.product);
-        this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
-      }});
-    this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
-      (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
-      this.userForm =this.fb.group({
-        user_name: ['',Validators.required],
-        designation: ['',Validators.required],
-        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
-        mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-        org_id: [this.orgId],
-        product_id: [''],
-        third_party_org_name: ['',Validators.required],
+    this.route.params.subscribe((val:any) =>{
+      this.orgId = val.orgId;
+      this.productId = val.Id;
+      this.adminService.fetchOrgById(this.orgId).subscribe({
+        next:(res:any) =>{
+          const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
+          this.product= res[0].product[selected];
+          console.log('asdw',this.product);
+          this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
+        }});
+      this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
+        (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
+        this.userForm =this.fb.group({
+          user_name: ['',Validators.required],
+          designation: ['',Validators.required],
+          email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+          mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+          org_id: [this.orgId],
+          product_id: [''],
+          third_party_org_name: ['',Validators.required],
+  
+        });
+    })
+    // this.orgId = this.route.snapshot.paramMap.get("orgId");
+    // this.productId = this.route.snapshot.paramMap.get("Id");
+    // console.log('tjhs',this.productId)
 
-      });
 
 
     
@@ -82,7 +89,7 @@ export class PilotDashboardComponent implements OnInit {
 
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
-    else {let redirectWindow = window.open("https://www.google.com");}   
+    // else {let redirectWindow = window.open("https://www.google.com");}   
   }
 
   open(content: TemplateRef<NgbModal>): void {
