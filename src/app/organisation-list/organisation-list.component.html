@@ -280,7 +280,7 @@
                                                             </div>
                                                             <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
                                                             <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                                <input type="checkbox"  (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
+                                                                <input type="checkbox" formControlName="{{season.product_name}}" (change)="demoFunction($event,season)" class="form-check-input" id="customSwitch1">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -417,7 +417,7 @@
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
                             <button  style="width: 100px;" type="submit"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
-                            <button type="button" class="btn btn-info"style="width: 100px;" (click)="checkingForm();basicWizardForm.reset();"
+                            <button type="button" class="btn btn-info"style="width: 100px;" (click)="checkingForm();"
                                 *ngIf="activeWizard2!=3&&activeWizard2 == list-1">Submit</button>
                         </li>
                     </ul>

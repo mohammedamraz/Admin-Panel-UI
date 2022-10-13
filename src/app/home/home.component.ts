@@ -175,6 +175,13 @@ export class HomeComponent implements OnInit {
     }
     else{
     var data = new FormData();
+    // this shoulf also implement for the create organization for the web url thing 
+    // if( this.listdetails[selectedIndex]?.productaccess_web == true){
+    //   data.append('web_url',this.listdetails.map(value=>this.basicWizardForm.value.url==''?'':'vitals_'+this.basicWizardForm.value.url).toString());
+    // }
+    // else if( this.listdetails[selectedIndex]?.productaccess_web == false){
+    //   data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
+    // }
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
     data.append('admin_name', this.basicWizardForm.value.admin_name);
@@ -296,6 +303,9 @@ export class HomeComponent implements OnInit {
     if(this.activeWizard1 == 2){
       this.urlFormSubmitted=true
       if(this.basicWizardForm.controls['url'].valid){
+        //this should be implemented for web url in the readonly thinhg for create org variable shoulf be set above 
+    // this.web_url_data = this.basicWizardForm.value.url
+
         this.activeWizard1 = 3;
       this.urlFormSubmitted=false
 
