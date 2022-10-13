@@ -582,14 +582,7 @@
                                                 
                                               </div>
 
-                                              <div *ngIf="showLiveAlertNextButton" style="width: 100%;
-                                        margin-top: 0.25rem;
-                                        font-size: 0.75rem;
-                                        color: #F08F8F;">
-
-                                                  {{errorMessageNextButton}}
-                                                
-                                              </div>
+                                              
                                       </div>
                                       <div class="form-floating " style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
                                         <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
@@ -638,15 +631,22 @@
 
                                                 <!-- <div *ngIf="thirdParty==false && notThirdParty==false" i18n> -->
                                                   
-                                                  <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['required']" i18n>
+                                                  <!-- <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['required']" i18n>
                                                     Mandatory field
-                                                  </div>
+                                                  </div> -->
 
                                                   <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['minlength']" i18n>
                                                     Enter full Third Party Name
                                                   </div>
                                                   
                                               </div>
+                                              <div class="mb-3" *ngIf="showLiveAlertNextButton" style="width: 100%;
+                                              font-size: 0.75rem;
+                                              color: #F08F8F;">
+      
+                                                        {{errorMessageNextButton}}
+                                                      
+                                                    </div>
     
                                       
                                     </div> <!-- end col -->

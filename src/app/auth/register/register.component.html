@@ -59,7 +59,7 @@
             <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
-                    Mandatory field.
+                    Mandatory field
                 </div>
                 <div *ngIf="formValues['password'].errors?.['pattern']">
                     Invalid Password format. Please enter valid Password format
@@ -79,7 +79,7 @@
             <div *ngIf="formSubmitted && formValues['confirmPassword'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['confirmPassword'].errors?.['required']" i18n>
-                    Mandatory field.
+                    Mandatory field
                 </div>
                 <div *ngIf="formValues['confirmPassword'].errors?.['pattern']">
                     Invalid Password format. Please enter valid Password format
@@ -113,7 +113,7 @@
             <div *ngIf="formValues['ConfirmationCode'].touched " class="invalid-feedback">
 
                 <div *ngIf="formValues['ConfirmationCode'].errors?.['required']" i18n>
-                    Mandatory field.
+                    Mandatory field
                 </div>
                 <div *ngIf="formValues['ConfirmationCode'].errors?.['minlength']">
                     Invalid OTP format. Please enter valid OTP format

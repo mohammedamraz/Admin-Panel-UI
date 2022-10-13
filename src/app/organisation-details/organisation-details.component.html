@@ -124,14 +124,7 @@
                                                 
                                               </div>
 
-                                              <div *ngIf="showLiveAlertNextButton" style="width: 100%;
-                                        margin-top: 0.25rem;
-                                        font-size: 0.75rem;
-                                        color: #F08F8F;">
-
-                                                  {{errorMessageNextButton}}
-                                                
-                                              </div>
+                                              
 
                                       </div>
                                       <div class="form-floating" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
@@ -172,14 +165,21 @@
 
                                                 <!-- <div *ngIf="thirdParty==false && notThirdParty==false" i18n> -->
                                                   
-                                                  <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['required']" i18n>
+                                                  <!-- <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['required']" i18n>
                                                     Mandatory field
-                                                  </div>
+                                                  </div> -->
 
                                                   <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['minlength']" i18n>
                                                     Enter full Third Party Name
                                                   </div>
                                                   
+                                              </div>
+                                              <div class="mb-3" *ngIf="showLiveAlertNextButton" style="width: 100%;
+                                        font-size: 0.75rem;
+                                        color: #F08F8F;">
+
+                                                  {{errorMessageNextButton}}
+                                                
                                               </div>
 
     
@@ -593,16 +593,17 @@
                                                 <div class="form-floating ">
 
                                                 <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
-                                                    name="userName" placeholder="Organisation Name" formControlName="organization_name" [readonly]="true">
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid}" 
+                                                name="userName" minlength="3" placeholder="Organisation Name" formControlName="organization_name" oninput=" this.value = this.value.replace(/[0-9]/g,'')" >
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
-                                                    <!-- <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid " class="invalid-feedback">
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid " class="invalid-feedback">
                                                         <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
                                                           <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
                                                             Enter full Organisation Name
                                                           </div>
-                                                    </div> -->
+                                                    </div>
                                             </div>
                                         </div>
                                     </div>

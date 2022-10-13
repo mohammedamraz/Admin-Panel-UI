@@ -167,7 +167,7 @@ export class OrganisationDetailsComponent implements OnInit {
     )
 
     this.OrgForm = this.fb.group({
-      organization_name:[this.organization_name],
+      organization_name:[this.organization_name,[Validators.required]],
       admin_name:[this.admin_name],
       organization_email:[this.organization_email,Validators.email],
       organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
@@ -566,7 +566,7 @@ export class OrganisationDetailsComponent implements OnInit {
   checkingOrgForm(){
 
     this.OrgDetailsEditForm = true
-    if(this.OrgForm.controls['organization_mobile'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid ){
+    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid ){
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
