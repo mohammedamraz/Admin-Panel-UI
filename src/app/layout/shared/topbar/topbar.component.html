@@ -1,7 +1,7 @@
 <!-- Topbar Start -->
 <div class="navbar-custom">
     <div [class]="containerClass" style="    background: #282E38;
-    height: 100%; display: grid; grid-auto-flow: column;">
+    height: auto; display: grid; grid-auto-flow: column;">
         <ul style="grid-column: 34;" class="list-unstyled topnav-menu float-end mb-0">
          
 
@@ -55,12 +55,12 @@
             </a>
         </div>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="font-size: larger;padding: 1rem; padding-top: 1.4rem;">
+            <ol class="breadcrumb" style="font-size: larger;padding-top: 1.4rem;color: #9BA6AC;">
                 <ng-container *ngFor="let item of breadcrumbData">
                     <li class="breadcrumb-item" *ngIf="!item.active"><a
-                            [routerLink]="item.path">{{item.label}}</a>
+                            [routerLink]="item.path">{{item.label}}</a> 
                     </li>
-                    <li class="breadcrumb-item active" style="font-weight: 500;" *ngIf="item.active">{{item.label}}
+                    <li class="breadcrumb-item active" style="font-weight: 500;color:#fff" *ngIf="item.active">{{item.label}}
                     </li>
                 </ng-container>
             </ol>
