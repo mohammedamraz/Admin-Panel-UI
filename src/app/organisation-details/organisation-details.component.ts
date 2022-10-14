@@ -1,9 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../core/service/auth.service';
 
 
 @Component({
@@ -73,8 +74,8 @@ export class OrganisationDetailsComponent implements OnInit {
   errorMessageNextButton='';
   addTpafunc:boolean=false;
   orgProd:any=[];
-  OrgDetailsEditForm = false
-
+  OrgDetailsEditForm = false;
+  @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   
 
   // thirdParty=false;
@@ -90,13 +91,14 @@ export class OrganisationDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private readonly route: ActivatedRoute,
     private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+
   ) { }
 
   ngOnInit(): void {
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-
-
+    
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
     if(data.hasOwnProperty('orglogin')){
       if(data.orglogin){
@@ -110,7 +112,11 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
-        
+        if(res[0].product.every((v:any)=>v.status==="Expired") && this.orglogin ){
+          this.open(<TemplateRef<NgbModal>><unknown>this.input);
+        }
+
+
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
@@ -751,6 +757,11 @@ clearform(){
     // else {let redirectWindow = window.open("https://www.google.com");}
    // redirectWindow.location;
     
+  }
+
+  closeUser(){
+    this.authenticationService.logout();
+    this.reloadCurrentPage();
   }
 
 
