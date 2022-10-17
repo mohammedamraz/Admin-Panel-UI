@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,8 +31,7 @@ export class PilotDashboardComponent implements OnInit {
   errorMessageNextButton='';
   userProduct:any[]=[];
   list: number = 3;
-  
-
+  @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   formSubmitted=false
 
 
@@ -53,8 +52,12 @@ export class PilotDashboardComponent implements OnInit {
         next:(res:any) =>{
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
-          console.log('asdw',this.product);
+          console.log('asdw',this.product.status);
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
+          if(this.product.status == "Expired"){
+              // this.open(<TemplateRef<NgbModal>><unknown>this.input)
+
+          }
         }});
       this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
         (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
@@ -78,6 +81,8 @@ export class PilotDashboardComponent implements OnInit {
     
 
   }
+
+
 
   daysLefts(date:any){
     const firstDate = new Date();
