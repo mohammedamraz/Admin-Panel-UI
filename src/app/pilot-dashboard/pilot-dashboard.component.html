@@ -410,7 +410,7 @@
 
 </div>
 
-<ng-template #toggleModal4 let-modal>
+<div *ngIf="show" class="overlay">
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;min-width: min-content;     display: grid;
         grid-gap: 2rem;">
@@ -440,4 +440,4 @@
         </div>
 
     </div> 
-</ng-template>
+</div>

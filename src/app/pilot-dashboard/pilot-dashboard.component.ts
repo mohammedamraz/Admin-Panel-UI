@@ -30,6 +30,7 @@ export class PilotDashboardComponent implements OnInit {
   showLiveAlertNextButton=false;
   errorMessageNextButton='';
   userProduct:any[]=[];
+  show:boolean=false;
   list: number = 3;
   @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   formSubmitted=false
@@ -55,8 +56,7 @@ export class PilotDashboardComponent implements OnInit {
           console.log('asdw',this.product.status);
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
           if(this.product.status == "Expired"){
-              // this.open(<TemplateRef<NgbModal>><unknown>this.input)
-
+            this.show = true;
           }
         }});
       this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
