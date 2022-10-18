@@ -41,6 +41,7 @@ export class TopbarComponent implements OnInit {
   breadcrumbData: any[] = [];
   username:string='';
   usernameRole : string = '';
+  superAdmin:boolean=false;
 
 
   @Input() layoutType: string = 'vertical';
@@ -74,6 +75,7 @@ export class TopbarComponent implements OnInit {
       if(this.loggedInUser.org_data[0].type == 'admin'){
         this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
           this.usernameRole = '(Super Admin)'
+          // this.superAdmin=true
         
       }
       else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];

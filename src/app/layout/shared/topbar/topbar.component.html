@@ -24,6 +24,7 @@
                         <a class="notify-item" ngbDropdownItem>
                             <i [class]="option.icon"></i>
                             <span style="cursor: pointer;" [routerLink]="option.redirectTo">{{option.label}}</span>
+                            <!-- <span *ngIf="superAdmin" style="cursor: pointer;" [routerLink]="./login" >{{option.label}}</span> -->
                         </a>
                     </ng-container>
 
