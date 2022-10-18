@@ -436,6 +436,11 @@ export class OrganisationListComponent implements OnInit {
     this.listdetails[selected].event_mode = value ;
   }
 
+  updateStatus(data:any){
+    console.log("datat",data)
+
+  }
+
   eventmode(event:any, product:any){
     console.log("asd",event.target.checked)
     if(event.target.checked ==  true){
@@ -629,4 +634,12 @@ export class OrganisationListComponent implements OnInit {
     window. location. reload();
     }
 
+  
+
+}
+
+export const ACTIVE: any = {
+  'Active Org': 'false',
+  'Inactive Org': 'true',
+  'All Org': ''
 }

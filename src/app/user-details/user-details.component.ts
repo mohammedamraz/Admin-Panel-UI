@@ -189,6 +189,11 @@ export class UserDetailsComponent implements OnInit {
     
   }
 
+  updateStatus(data:any){
+    console.log("datat",data)
+
+  }
+
   onFilter (data:any) {
       this.entries=data.value
       

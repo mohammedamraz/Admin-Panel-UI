@@ -106,7 +106,7 @@ export class OrganisationDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = <any>this.authenticationService.currentUser();
     this.loggedInUser.org_data[0].is_deleted = true;
-    if(this.loggedInUser.org_data[0].is_deleted){
+    if(this.loggedInUser.org_data[0].is_deleted&&this.orglogin){
       this.open(<TemplateRef<NgbModal>><unknown>this.input2);
     }
 
