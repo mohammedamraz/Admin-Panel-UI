@@ -77,6 +77,8 @@ export class UserDetailsComponent implements OnInit {
   total_user:any;
   
   currentPage:any;
+  showLiveAlertAPI=false;
+  errorMessageAPI='';
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
@@ -306,8 +308,8 @@ export class UserDetailsComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -372,9 +374,11 @@ export class UserDetailsComponent implements OnInit {
 
           console.log('the failure=>',err);
 
-          this.errorMessageNextButton=err;
+          this.errorMessageAPI=err;
 
-          this.showLiveAlertNextButton=true;
+          this.showLiveAlertAPI=true;
+          this.errorMessageNextButton='';
+          this.showLiveAlertNextButton=false;
 
         },
 
