@@ -79,6 +79,9 @@ export class UserDetailsComponent implements OnInit {
   currentPage:any;
   showLiveAlertAPI=false;
   errorMessageAPI='';
+  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users']
+  activeStatusValue: any= this.activeStatusOptions[0]
+
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
@@ -209,6 +212,29 @@ export class UserDetailsComponent implements OnInit {
     //  return data.value
      
       
+  }
+
+  onActiveStatus(data :any){
+    this.activeStatusValue=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_user=doc.total
+      // console.log('doc.......................',doc)
+      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.length=this.userList.length
+      // console.log("hello00000",this.length);
+      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
   }
 
 // pagination func endsss

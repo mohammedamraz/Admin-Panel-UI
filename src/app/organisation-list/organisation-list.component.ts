@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { USERS } from '../apps/chat/data';
 import { Employee } from '../pages/tables/advanced/advance.model';
 import { EMPLOYEES } from '../pages/tables/advanced/data';
 import { AdminConsoleService } from '../services/admin-console.service';
@@ -54,6 +55,8 @@ export class OrganisationListComponent implements OnInit {
   length:any
 
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
+  activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org']
+  activeStatusValue: any= this.activeStatusOptions[0]
   
   entries:any=this.pageSizeOptions[0]
   pagenumber:any=1;
@@ -400,7 +403,30 @@ export class OrganisationListComponent implements OnInit {
   // //     complete: () => { }
   // //   });
   
-  // } 
+  // }
+  
+  onActiveStatus(data :any){
+    this.activeStatusValue=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_org=doc.total
+      // console.log('doc.......................',doc)
+      this.tabDAta=doc.data; console.log('you are the one ', this.tabDAta)
+      this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
+  }
 
 
   setEventMode(event: any,product:any,value:any){

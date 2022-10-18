@@ -731,7 +731,8 @@
         </div>            
         <h4 class="mt-0 header-title" style="color: white;">Organisation List</h4>
         
-        <div class="col-12 col-md-6" *ngIf="pageSizeOptions.length">
+        <div class="row">
+        <div class="col-xl-4 col-md-4" *ngIf="pageSizeOptions.length">
             <div class="text--start">
                 <label class="form-label me-1">Show
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
@@ -741,6 +742,21 @@
                     </select>
                     entries</label>
             </div>
+        </div>
+        <div class="col-xl-4 col-md-4" *ngIf="activeStatusOptions.length">
+            <div class="text--start">
+                <!-- <label class="form-label me-1">Show -->
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
+                    border-color: #49565d;"
+                        id="event-category" required #idd [(ngModel)]="activeStatusValue"  (change)="onActiveStatus($event.target)">
+                        <option *ngFor="let option of activeStatusOptions" #id [value]="option"  >{{option}}</option>
+                    </select>
+                    <!-- entries</label> -->
+            </div>
+        </div>
+    
+        <!-- <div class="col-md-6" *ngIf="pageSizeOptions.length"> -->
+            
         </div>
         <!-- <p class="text-muted font-14 mb-3">
             For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
