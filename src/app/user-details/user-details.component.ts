@@ -189,8 +189,16 @@ export class UserDetailsComponent implements OnInit {
     
   }
 
-  updateStatus(data:any){
-    console.log("datat",data)
+  updateStatus(data:any,userData:any){
+    // console.log("datat",data)
+    this.adminService.patchUserStatus(userData.id, data).subscribe({
+      next: (res) => {
+        // console.log('the success=>',res);
+        this.reloadCurrentPage();
+        // this.activeWizard2=this.activeWizard2+1;
+        // this.created=true;
+      },
+    })
 
   }
 

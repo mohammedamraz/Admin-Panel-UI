@@ -71,6 +71,20 @@ export class AdminConsoleService {
 
   }
 
+  patchOrgStatus(id:number,data:any){
+
+    
+    return this.http.patch(`${API_URL}org/${id}`,{is_deleted:!data});
+
+  }
+
+  patchUserStatus(id:number,data:any){
+
+    
+    return this.http.patch(`${API_URL}users/${id}`,{is_deleted:!data});
+
+  }
+
   patchOrgDetails(id:number,data:any){
     
     return this.http.patch(`${API_URL}${id}`,data);
