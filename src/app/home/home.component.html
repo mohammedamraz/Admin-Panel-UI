@@ -411,6 +411,9 @@
                                                   {{errorMessage}}
                                                 
                                               </div>
+                                              <div id="liveAlertPlaceholder">
+                                                <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
+                                            </div>
                         <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list)">
                             <button style="width: 100px;" class="btn btn-secondary" (click)="activeWizard1=activeWizard1-1" *ngIf="activeWizard1 !== list"
                                 [disabled]="activeWizard1===1">Previous</button>

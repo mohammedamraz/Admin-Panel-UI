@@ -300,11 +300,13 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchOrgData(data).subscribe({
         next: (data:any)=>{    
           this.activeWizard1 = this.activeWizard1+1;
+          this.errorMessageAPI='';
+          this.showLiveAlertAPI=false;
         },
         error:(data:any)=>{
           console.log('the error =>',data);     
-          this.errorMessage=data;
-          this.showLiveAlert=true;
+          this.errorMessageAPI=data;
+          this.showLiveAlertAPI=true;
           
         }
       })

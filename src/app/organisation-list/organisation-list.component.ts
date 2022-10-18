@@ -65,6 +65,8 @@ export class OrganisationListComponent implements OnInit {
   
   urlFormSubmitted = false
   currentPage:any;
+  showLiveAlertAPI=false;
+    errorMessageAPI='';
 
 
   constructor(
@@ -221,12 +223,14 @@ export class OrganisationListComponent implements OnInit {
           
           
           this.activeWizard2 = this.activeWizard2+1;
+          this.errorMessageAPI='';
+                this.showLiveAlertAPI=false;
         },
         error:(data:any)=>{
             console.log('the error =>',data);
      
-                this.errorMessage=data;
-                this.showLiveAlert=true;
+                this.errorMessageAPI=data;
+                this.showLiveAlertAPI=true;
             
         }
     })
