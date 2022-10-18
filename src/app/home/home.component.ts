@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
   selectedProducts:any[]=[];
   userForm!: FormGroup;
   thirdParty: boolean = false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   codeList: any[] = [];
   showButton: boolean = true;
   userProduct:any[]=[];
@@ -59,9 +59,13 @@ export class HomeComponent implements OnInit {
   organaization_id:any;
   created:boolean=false;
   showLiveAlertNextButton=false;
+  formSubmitted=false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
+  urlFormSubmitted = false;
+
+  changeButton:boolean=false
 
 
 
@@ -72,9 +76,14 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal) { }
 
+    showLiveAlertAPI=false;
+    errorMessageAPI='';
+
+
   ngOnInit(): void {
     // let data = sessionStorage.getItem('org_data');
     // console.log("jfghfh",this.tbDAta);
+  
     
     
     
@@ -101,7 +110,7 @@ export class HomeComponent implements OnInit {
         organization_name:['',Validators.required],
         admin_name:['',Validators.required],
         organization_email:['',[Validators.required,Validators.email]],
-        organization_mobile:['',[Validators.required]],
+        organization_mobile:['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         fedo_score:[false],
         hsa:[false],
         ruw:[false],
@@ -122,6 +131,9 @@ export class HomeComponent implements OnInit {
         third_party_org_name: ['',Validators.required],
 
       });
+      
+      
+     
 
   }
   get validator() {
@@ -147,7 +159,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSelect(event: any) {
-    console.log('don');
+    // console.log('don');
     
     this.files =[...event.addedFiles];
     this.srcImage = event.addedFiles;
@@ -157,6 +169,10 @@ export class HomeComponent implements OnInit {
   }
 
   open(content: TemplateRef<NgbModal>): void {
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' , size: 'lg' });
+  }
+
+  openUserForm(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 
@@ -164,11 +180,18 @@ export class HomeComponent implements OnInit {
 
     const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
     if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
-      this.errorMessage='web url must be provided';
+      this.errorMessage='Web url in Vitals is a mandatory field';
       this.showLiveAlert=true;
     }
     else{
     var data = new FormData();
+    // this shoulf also implement for the create organization for the web url thing 
+    // if( this.listdetails[selectedIndex]?.productaccess_web == true){
+    //   data.append('web_url',this.listdetails.map(value=>this.basicWizardForm.value.url==''?'':'vitals_'+this.basicWizardForm.value.url).toString());
+    // }
+    // else if( this.listdetails[selectedIndex]?.productaccess_web == false){
+    //   data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
+    // }
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
     data.append('admin_name', this.basicWizardForm.value.admin_name);
@@ -227,7 +250,7 @@ export class HomeComponent implements OnInit {
 
   demoFunction(event:any, product:any){
     console.log('asdf',event.target.checked);
-    console.log('donned',product)
+    // console.log('donned',product)
     
     if(event.target.checked){
       // this.basicWizardForm.controls[product].setValue(true);
@@ -264,6 +287,8 @@ export class HomeComponent implements OnInit {
     this.showLiveAlert=false;
 
     if(this.activeWizard1 == 1){
+    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
         let data ={
             organization_name: this.basicWizardForm.value.organization_name,
             organization_email: this.basicWizardForm.value.organization_email,
@@ -275,18 +300,27 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchOrgData(data).subscribe({
         next: (data:any)=>{    
           this.activeWizard1 = this.activeWizard1+1;
+          this.errorMessageAPI='';
+          this.showLiveAlertAPI=false;
         },
         error:(data:any)=>{
           console.log('the error =>',data);     
-          this.errorMessage=data;
-          this.showLiveAlert=true;
+          this.errorMessageAPI=data;
+          this.showLiveAlertAPI=true;
           
         }
       })
     }
+    }
     if(this.activeWizard1 == 2){
+      this.urlFormSubmitted=true
       if(this.basicWizardForm.controls['url'].valid){
+        //this should be implemented for web url in the readonly thinhg for create org variable shoulf be set above 
+    // this.web_url_data = this.basicWizardForm.value.url
+
         this.activeWizard1 = 3;
+      this.urlFormSubmitted=false
+
       }
     }
 
@@ -306,8 +340,8 @@ export class HomeComponent implements OnInit {
    }
 
    change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }
@@ -326,6 +360,13 @@ export class HomeComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
+    
 
   }
   addTpa() {
@@ -353,8 +394,8 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -415,8 +456,18 @@ export class HomeComponent implements OnInit {
   
 
   checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
+
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
 
       let data ={
 
@@ -435,23 +486,27 @@ export class HomeComponent implements OnInit {
         next: (data:any)=>{    
 
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
         error: (err) => {
 
           console.log('the failure=>',err);
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
 
-          this.errorMessageNextButton=err;
+          this.errorMessageNextButton='';
 
-          this.showLiveAlertNextButton=true;
+          this.showLiveAlertNextButton=false;
 
         },
 
      
 
     })
-
+  }
   }
 
 }

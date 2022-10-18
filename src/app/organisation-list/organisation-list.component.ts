@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { USERS } from '../apps/chat/data';
 import { Employee } from '../pages/tables/advanced/advance.model';
 import { EMPLOYEES } from '../pages/tables/advanced/data';
 import { AdminConsoleService } from '../services/admin-console.service';
@@ -54,13 +55,18 @@ export class OrganisationListComponent implements OnInit {
   length:any
 
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
+  activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org']
+  activeStatusValue: any= this.activeStatusOptions[0]
   
   entries:any=this.pageSizeOptions[0]
   pagenumber:any=1;
   total_pages:any;
   total_org:any;
   
+  urlFormSubmitted = false
   currentPage:any;
+  showLiveAlertAPI=false;
+    errorMessageAPI='';
 
 
   constructor(
@@ -110,7 +116,7 @@ export class OrganisationListComponent implements OnInit {
       organization_name:[''],
       admin_name:['',Validators.required],
       organization_email:['',[Validators.required,Validators.email]],
-      organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      organization_mobile:['',[Validators.required,  Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       fedo_score:[false],
       hsa:[false],
       ruw:[false],
@@ -201,6 +207,8 @@ export class OrganisationListComponent implements OnInit {
     this.showLiveAlert=false;
 
     if(this.activeWizard2 == 1){
+    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
         let data ={
             organization_name: this.basicWizardForm.value.organization_name,
             organization_email: this.basicWizardForm.value.organization_email,
@@ -215,20 +223,35 @@ export class OrganisationListComponent implements OnInit {
           
           
           this.activeWizard2 = this.activeWizard2+1;
+          this.errorMessageAPI='';
+                this.showLiveAlertAPI=false;
         },
         error:(data:any)=>{
             console.log('the error =>',data);
      
-                this.errorMessage=data;
-                this.showLiveAlert=true;
+                this.errorMessageAPI=data;
+                this.showLiveAlertAPI=true;
             
         }
     })
 
     }
-    else{
-        this.activeWizard2 = this.activeWizard2+1;
+  }
+  if(this.activeWizard2 == 2){
+    this.urlFormSubmitted=true
+    if(this.basicWizardForm.controls['url'].valid){
+      this.activeWizard2 = 3;
+    this.urlFormSubmitted=false
+
     }
+  }
+
+  if(this.listdetails.length>0 ){
+    this.activeWizard2 = this.activeWizard2+1;
+  }
+    // else{
+    //     this.activeWizard2 = this.activeWizard2+1;
+    // }
   }
 
   daysLefts(date:any){
@@ -245,7 +268,7 @@ export class OrganisationListComponent implements OnInit {
 
   }
   onSelect(event: any) {
-    console.log('don');
+    // console.log('don');
     
     this.files =[...event.addedFiles];
     this.srcImage = event.addedFiles;
@@ -260,7 +283,7 @@ export class OrganisationListComponent implements OnInit {
 
 
   open(content: TemplateRef<NgbModal>): void {
-    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' , size:'lg'});
   }
 
   onSort(event: SortEvent): void {
@@ -309,7 +332,7 @@ export class OrganisationListComponent implements OnInit {
 
     const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
     if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
-      this.errorMessage='web url must be provided';
+      this.errorMessage='Web url in Vitals is a mandatory field';
       this.showLiveAlert=true;
     }
     else{
@@ -384,7 +407,30 @@ export class OrganisationListComponent implements OnInit {
   // //     complete: () => { }
   // //   });
   
-  // } 
+  // }
+  
+  onActiveStatus(data :any){
+    this.activeStatusValue=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_org=doc.total
+      // console.log('doc.......................',doc)
+      this.tabDAta=doc.data; console.log('you are the one ', this.tabDAta)
+      this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
+  }
 
 
   setEventMode(event: any,product:any,value:any){
@@ -392,6 +438,20 @@ export class OrganisationListComponent implements OnInit {
 
     const selected = this.listdetails.findIndex(obj=>obj.name===product);
     this.listdetails[selected].event_mode = value ;
+  }
+
+  updateStatus(data:any,orgData:any){
+    // console.log("datat",data,orgData)
+    this.adminService.patchOrgStatus(orgData.id, data).subscribe({
+      next: (res) => {
+        // console.log('the success=>',res);
+        this.reloadCurrentPage();
+        // this.activeWizard2=this.activeWizard2+1;
+        // this.created=true;
+      },
+    })
+    
+
   }
 
   eventmode(event:any, product:any){
@@ -587,4 +647,12 @@ export class OrganisationListComponent implements OnInit {
     window. location. reload();
     }
 
+  
+
+}
+
+export const ACTIVE: any = {
+  'Active Org': 'false',
+  'Inactive Org': 'true',
+  'All Org': ''
 }

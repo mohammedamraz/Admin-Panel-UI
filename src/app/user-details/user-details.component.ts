@@ -19,14 +19,15 @@ export class UserDetailsComponent implements OnInit {
 
 
   basicWizardForm!: FormGroup;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false ;
   codeList: any[] = [];
-  showButton: boolean = true;
+  showButton: boolean = true ;
   organaization_id:any;
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   image:any=[];
   org_name:any
+  formSubmitted=false
 
 
   
@@ -76,8 +77,11 @@ export class UserDetailsComponent implements OnInit {
   total_user:any;
   
   currentPage:any;
-
-  
+  showLiveAlertAPI=false;
+  errorMessageAPI='';
+  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users']
+  activeStatusValue: any= this.activeStatusOptions[0]
+  changeButton:boolean=false
 
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
@@ -142,7 +146,7 @@ export class UserDetailsComponent implements OnInit {
       });
 
       this.userForm =this.fb.group({
-        user_name: ['',Validators.required],
+        user_name: ['',Validators.required, ],
         designation: ['',Validators.required],
         email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
@@ -185,6 +189,19 @@ export class UserDetailsComponent implements OnInit {
     
   }
 
+  updateStatus(data:any,userData:any){
+    // console.log("datat",data)
+    this.adminService.patchUserStatus(userData.id, data).subscribe({
+      next: (res) => {
+        // console.log('the success=>',res);
+        this.reloadCurrentPage();
+        // this.activeWizard2=this.activeWizard2+1;
+        // this.created=true;
+      },
+    })
+
+  }
+
   onFilter (data:any) {
       this.entries=data.value
       
@@ -209,6 +226,29 @@ export class UserDetailsComponent implements OnInit {
     //  return data.value
      
       
+  }
+
+  onActiveStatus(data :any){
+    this.activeStatusValue=data.value
+      
+      // console.log("jhgfdhfh",this.entries);
+      // console.log("page number",this.pagenumber)
+
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    ((doc:any) =>{ 
+      this.total_pages=doc.total_pages
+      this.currentPage=doc.page
+      this.total_user=doc.total
+      // console.log('doc.......................',doc)
+      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.length=this.userList.length
+      // console.log("hello00000",this.length);
+      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc});
+
   }
 
 // pagination func endsss
@@ -308,8 +348,8 @@ export class UserDetailsComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -337,9 +377,17 @@ export class UserDetailsComponent implements OnInit {
    }
  
    checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
 
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
 
         // organization_name: this.userForm.controls['user_name'],
@@ -357,6 +405,8 @@ export class UserDetailsComponent implements OnInit {
         next: (data:any)=>{    
 
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
@@ -364,22 +414,25 @@ export class UserDetailsComponent implements OnInit {
 
           console.log('the failure=>',err);
 
-          this.errorMessageNextButton=err;
+          this.errorMessageAPI=err;
 
-          this.showLiveAlertNextButton=true;
+          this.showLiveAlertAPI=true;
+          this.errorMessageNextButton='';
+          this.showLiveAlertNextButton=false;
 
         },
 
      
 
     })
+  }
 
   }
 
 }
    change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }
@@ -396,6 +449,12 @@ export class UserDetailsComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
   addTpa() {

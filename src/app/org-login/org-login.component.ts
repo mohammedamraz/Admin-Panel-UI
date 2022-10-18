@@ -48,9 +48,9 @@ export class OrgLoginComponent implements OnInit {
   * On submit form
   */
   onSubmit(): void {
-    this.router.navigate([`${1}/dashboard`]);
+    // this.router.navigate([`${1}/dashboard`]);
 
-    this.error='';
+    // this.error='';
     this.formSubmitted = true;
     if (this.loginForm.valid) {
       // this.loading = true;
@@ -93,8 +93,8 @@ export class OrgLoginComponent implements OnInit {
         
         },
         error: (error: string) => {
-          console.log('asdf',error)
-          this.error = error;
+          
+          this.error = 'Invalid email or password';
 
         }});
 

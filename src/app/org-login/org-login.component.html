@@ -7,9 +7,9 @@
             
               <form name="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <app-ui-preloader [display]="loading"></app-ui-preloader>
-                <ngb-alert [dismissible]="false" type="danger" *ngIf="error">
+                <!-- <ngb-alert [dismissible]="false" type="danger" *ngIf="error">
                   {{ error }}
-                </ngb-alert>
+                </ngb-alert> -->
                 <div class="mb-3">
       <div class="form-floating ">
 
@@ -27,6 +27,7 @@
                       Invalid email format. Please enter valid email format
                     </div>
                   </div>
+                 
             
                   </div>
                 </div>
@@ -42,13 +43,18 @@
                   <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
             
                     <div *ngIf="formValues['password'].errors?.['required']" i18n>
-                      Mandatory field.
+                      Mandatory field
                     </div>
                     <div *ngIf="formValues['password'].errors?.['pattern']">
                       Invalid Password format. Please enter valid Password format
                  </div>
             
                     </div>
+                    <div *ngIf="error" class="mt-1" style="width: 100%;
+                    font-size: 0.75rem;
+                    color: #F08F8F;">
+                        {{error}}
+                   </div>
                   </div>
                 </div>
             

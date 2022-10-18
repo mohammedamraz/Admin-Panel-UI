@@ -40,6 +40,8 @@ export class TopbarComponent implements OnInit {
   topnavCollapsed: boolean = false;
   breadcrumbData: any[] = [];
   username:string='';
+  usernameRole : string = '';
+  superAdmin:boolean=false;
 
 
   @Input() layoutType: string = 'vertical';
@@ -64,19 +66,25 @@ export class TopbarComponent implements OnInit {
     this._fetchProfileOptions();
     this.loggedInUser = <any>this.authService.currentUser();
     if(this.loggedInUser.hasOwnProperty('org_data') ){
-      
+      this.adminService.breadCrumbs.subscribe(
+        (data:any[]) => {
+          this.breadcrumbData = data
+          
+        }
+      )
       if(this.loggedInUser.org_data[0].type == 'admin'){
-        this.adminService.breadCrumbs.subscribe(
-          (data:any[]) => {
-            this.breadcrumbData = data
-            this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Super Admin)';
-          }
-        )
+        this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
+          this.usernameRole = '(Super Admin)'
+          // this.superAdmin=true
+        
       }
-      else this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0]+' (Org Admin)';
+      else {this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
+      this.usernameRole = '(Org Admin)'
+    }
     }
     else{
-      this.username=this.loggedInUser.user_data[0].user_name.split(" ", 2)[0]+' (User)';
+      this.username=this.loggedInUser.user_data[0].user_name.split(" ", 2)[0];
+      this.usernameRole = '(User)'
     }
     this.loggedInUser = this.authService.currentUser();
 

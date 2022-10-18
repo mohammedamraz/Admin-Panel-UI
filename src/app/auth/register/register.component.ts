@@ -89,16 +89,17 @@ export class RegisterComponent implements OnInit {
           next: (data: any) => {
             this.signUp = true;
     this.verify=true
+    this.error = '';
 
             
           },
           error: (error: string) => {
-            this.error = error;
+            this.error = 'Email is already registered. Please check and try again';
             this.cdr.detectChanges();
            }});
       }
       else{
-        this.error = 'Invalid password'
+        this.error = 'Email is already registered. Please check and try again'
       }
     }
     // else{
@@ -283,7 +284,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             error: (error: string) => {
               console.log('asdf',error)
               
-              this.error = 'username or password is incorrect';
+              this.error = 'Email is already registered. Please check and try again';
               this.loading = false;
 
 
@@ -293,7 +294,7 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
           },
           error: (error: string) => {
             console.log('asdf',error)
-            this.error = 'invalidcode';
+            this.error = 'Wrong OTP. Please check and enter correct OTP';
          }});
 
 

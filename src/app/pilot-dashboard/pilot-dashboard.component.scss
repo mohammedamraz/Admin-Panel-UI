@@ -40,3 +40,49 @@
         grid-template-columns: auto auto;
     }
 }
+
+.form-control{
+    // .form-control {
+        display: block;
+        width: 100%;
+        padding: .45rem .9rem;
+        font-size: .9rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: var(--ct-input-color);
+        background-color:  #383E4A;
+        background-clip: padding-box;
+        border: 1px solid  #444C5B;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 4px;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    
+}
+
+.overlay {
+    height: 100%;
+    display: grid;
+    width: 84%;
+    margin-left: -1rem;
+    position: fixed;
+    top: 0;
+    background-color: rgba(0,0,0, 0.9);
+    background-color: rgba(0,0,0,.5);
+    overflow-x: hidden;
+    transition: 0.5s;
+    color: white;
+    align-content: center;
+    justify-items: center;
+    left: 16rem;
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 991px) {
+
+    .overlay {
+        left: 0;
+        width: 100%;
+    }
+  }

@@ -1,9 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../core/service/auth.service';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./organisation-details.component.scss']
 })
 export class OrganisationDetailsComponent implements OnInit {
+  
 
   files: File[] = [];
   tabDAta:any[]=[];
@@ -58,7 +60,7 @@ export class OrganisationDetailsComponent implements OnInit {
   userForm!: FormGroup;
   userlogin:boolean=true;
   thirdParty: boolean = false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   showButton: boolean = true;
   selectedUserProducts:any[]=[];
   userProduct:any[]=[];
@@ -72,11 +74,22 @@ export class OrganisationDetailsComponent implements OnInit {
   errorMessageNextButton='';
   addTpafunc:boolean=false;
   orgProd:any=[];
+  OrgDetailsEditForm = false;
+  @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
+  @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
+  loggedInUser: any={};
 
   
 
   // thirdParty=false;
   tableData:any[]=[];
+
+  formSubmitted=false
+
+  changeButton:boolean=false
+
+  showLiveAlertAPI=false;
+  errorMessageAPI='';
 
 
 
@@ -86,13 +99,21 @@ export class OrganisationDetailsComponent implements OnInit {
     private modalService: NgbModal,
     private readonly route: ActivatedRoute,
     private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+
   ) { }
 
   ngOnInit(): void {
+    this.loggedInUser = <any>this.authenticationService.currentUser();
+    // this.loggedInUser.org_data[0].is_deleted = true;
+
+    if(this.loggedInUser.org_data[0].is_deleted&&this.loggedInUser.org_data[0].type=='orgAdmin'){
+   
+      this.open(<TemplateRef<NgbModal>><unknown>this.input2);
+    }
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-
-
+    
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
     if(data.hasOwnProperty('orglogin')){
       if(data.orglogin){
@@ -106,13 +127,15 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
-        
+        // res[0].product[1].status="Expired"
+        if(res[0].product.every((v:any)=>v.status==="Expired") && this.orglogin ){
+          this.open(<TemplateRef<NgbModal>><unknown>this.input);
+        }
+
+
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
-        // this.listdetails = res[0].product;
-        // this.list=this.list + res[0].product.length;
-
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
@@ -163,11 +186,11 @@ export class OrganisationDetailsComponent implements OnInit {
     )
 
     this.OrgForm = this.fb.group({
-      organization_name:[this.organization_name],
+      organization_name:[this.organization_name,[Validators.required]],
       admin_name:[this.admin_name],
       organization_email:[this.organization_email,Validators.email],
-      organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
-      designation:[this.designation],
+      organization_mobile:[this.organization_mobile,[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      designation:[this.designation,[Validators.required]],
       fedo_score:[this.fedo_score],
       url:[this.url],
     });
@@ -282,10 +305,10 @@ export class OrganisationDetailsComponent implements OnInit {
 
  }
 
-  orgEdit(content: TemplateRef<NgbModal>){
-    this.modalService.open(content, { centered: true });
-
+  orgEdit(content: TemplateRef<NgbModal>): void {
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
+  
 
   getSize(f: File) {
     const bytes = f.size;
@@ -460,8 +483,8 @@ export class OrganisationDetailsComponent implements OnInit {
     });
   } 
   change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
 
 
   }
@@ -480,6 +503,12 @@ export class OrganisationDetailsComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
   addTpa() {
@@ -531,8 +560,8 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -561,6 +590,9 @@ export class OrganisationDetailsComponent implements OnInit {
 
   checkingOrgForm(){
 
+    this.OrgDetailsEditForm = true
+    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid ){
+
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
         console.log('the success=>',res);
@@ -574,6 +606,7 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
   }
 
   reloadPage(){
@@ -678,8 +711,17 @@ clearform(){
 
    checkUserFirstForm(){
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    this.formSubmitted=true;
 
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
+
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
 
         // organization_name: this.userForm.controls['user_name'],
@@ -697,22 +739,28 @@ clearform(){
         next: (data:any)=>{    
 
           this.activeWizard1=this.activeWizard1+1;
+          this.showLiveAlertNextButton=false;
+
 
         },
 
         error: (err) => {
 
           console.log('the failure=>',err);
+          this.errorMessageAPI=err;
 
-          this.errorMessageNextButton=err;
+          this.showLiveAlertAPI=true;
 
-          this.showLiveAlertNextButton=true;
+          this.errorMessageNextButton='';
+
+          this.showLiveAlertNextButton=false;
 
         },
 
      
 
     })
+  }
 
   }
 
@@ -728,9 +776,14 @@ clearform(){
 
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
-    else {let redirectWindow = window.open("https://www.google.com");}
+    // else {let redirectWindow = window.open("https://www.google.com");}
    // redirectWindow.location;
     
+  }
+
+  closeUser(){
+    this.authenticationService.logout();
+    this.reloadCurrentPage();
   }
 
 

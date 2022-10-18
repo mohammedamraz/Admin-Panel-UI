@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,14 +23,22 @@ export class PilotDashboardComponent implements OnInit {
   showLiveAlert=false;
   errorMessage='';
   thirdParty=false;
-  notThirdParty: boolean =true;
+  notThirdParty: boolean =false;
   codeList: any[] = [];
   showButton: boolean = true;
   addTpafunc:boolean=false;
   showLiveAlertNextButton=false;
   errorMessageNextButton='';
   userProduct:any[]=[];
+  show:boolean=false;
   list: number = 3;
+  @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
+  formSubmitted=false
+  changeButton:boolean=false
+
+  showLiveAlertAPI=false;
+  errorMessageAPI='';
+
 
 
 
@@ -43,32 +51,43 @@ export class PilotDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.orgId = this.route.snapshot.paramMap.get("orgId");
-    this.productId = this.route.snapshot.paramMap.get("Id");
-    this.adminService.fetchOrgById(this.orgId).subscribe({
-      next:(res:any) =>{
-        const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
-        this.product= res[0].product[selected];
-        console.log('asdw',this.product);
-        this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
-      }});
-    this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
-      (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
-      this.userForm =this.fb.group({
-        user_name: ['',Validators.required],
-        designation: ['',Validators.required],
-        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
-        mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-        org_id: [this.orgId],
-        product_id: [''],
-        third_party_org_name: ['',Validators.required],
+    this.route.params.subscribe((val:any) =>{
+      this.orgId = val.orgId;
+      this.productId = val.Id;
+      this.adminService.fetchOrgById(this.orgId).subscribe({
+        next:(res:any) =>{
+          const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
+          this.product= res[0].product[selected];
+          this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
+          this.show = false;
+          if(this.product.status == "Expired"){
+            this.show = true;
+          }
+        }});
+      this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
+        (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
+        this.userForm =this.fb.group({
+          user_name: ['',Validators.required],
+          designation: ['',Validators.required],
+          email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+          mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+          org_id: [this.orgId],
+          product_id: [''],
+          third_party_org_name: ['',Validators.required],
+  
+        });
+    })
+    // this.orgId = this.route.snapshot.paramMap.get("orgId");
+    // this.productId = this.route.snapshot.paramMap.get("Id");
+    // console.log('tjhs',this.productId)
 
-      });
 
 
     
 
   }
+
+
 
   daysLefts(date:any){
     const firstDate = new Date();
@@ -80,7 +99,7 @@ export class PilotDashboardComponent implements OnInit {
 
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
-    else {let redirectWindow = window.open("https://www.google.com");}   
+    // else {let redirectWindow = window.open("https://www.google.com");}   
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -110,8 +129,8 @@ export class PilotDashboardComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -123,8 +142,8 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   change() {
-    this.thirdParty = !this.thirdParty;
-    this.notThirdParty = !this.thirdParty;
+    this.thirdParty = this.notThirdParty;
+    this.notThirdParty = !this.notThirdParty;
   }
   inputTpa() {
     this.userForm.get('third_party_org_name')?.value
@@ -139,6 +158,12 @@ export class PilotDashboardComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
 
@@ -162,8 +187,16 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   checkUserFirstForm(){
+    this.formSubmitted=true;
 
-    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid){
+    if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid&& (this.thirdParty==true || this.notThirdParty== true)){
+      if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
+        this.errorMessageNextButton='Mandatory field';
+
+          this.showLiveAlertNextButton=true;
+
+      }
+      else{
       let data ={
         email: this.userForm.value['email'],
         mobile: '+91'+ this.userForm.value['mobile']
@@ -172,15 +205,21 @@ export class PilotDashboardComponent implements OnInit {
       this.adminService.fetchUserDataIfExists(data).subscribe({
         next: (data:any)=>{    
           this.activeWizard2=this.activeWizard2+1;
+          this.showLiveAlertNextButton=false;
         },
         error: (err) => {
           console.log('the failure=>',err);
-          this.errorMessageNextButton=err;
-          this.showLiveAlertNextButton=true;
+
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
+          this.errorMessageNextButton='';
+          this.showLiveAlertNextButton=false;
         },
     })
+  }
+  }
+
   }
 }
   
 
-}
