@@ -76,6 +76,9 @@ export class OrganisationDetailsComponent implements OnInit {
   orgProd:any=[];
   OrgDetailsEditForm = false;
   @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
+  @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
+  loggedInUser: any={};
+
   
 
   // thirdParty=false;
@@ -101,6 +104,11 @@ export class OrganisationDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loggedInUser = <any>this.authenticationService.currentUser();
+    this.loggedInUser.org_data[0].is_deleted = true;
+    if(this.loggedInUser.org_data[0].is_deleted){
+      this.open(<TemplateRef<NgbModal>><unknown>this.input2);
+    }
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     
@@ -117,6 +125,7 @@ export class OrganisationDetailsComponent implements OnInit {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
+        // res[0].product[1].status="Expired"
         if(res[0].product.every((v:any)=>v.status==="Expired") && this.orglogin ){
           this.open(<TemplateRef<NgbModal>><unknown>this.input);
         }
@@ -125,9 +134,6 @@ export class OrganisationDetailsComponent implements OnInit {
         this.tabDAta=res
         console.log('the file', res);
         this.designation= res[0].designation;
-        // this.listdetails = res[0].product;
-        // this.list=this.list + res[0].product.length;
-
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;

@@ -312,11 +312,11 @@
             <div class="card-body widget-user">
                 <h4 class="mt-0 header-title" style="color: white;">Pilot Duration</h4>
                 <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
-                    <p style="
+                    <p *ngIf="product.status =='Active'" style="
                     margin-bottom: 0.5rem;">
               {{daysLefts(product.end_date)}} 
                     days left for pilot to end</p>
-                    <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                    <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>                    <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                 </div>
 
             </div>
@@ -410,20 +410,19 @@
 </div>
 
 <div *ngIf="show" class="overlay">
-    <div class="card" style="background-color: #282E38;margin-bottom: 0;">
-        <div class="card-body" style="    background-color: #282E38;min-width: min-content;     display: grid;
+    <div class="card" style="background-color: #EC6661;margin-bottom: 0;">
+        <div class="card-body" style="   min-width: min-content;border-radius: 4px;    background-color: #EC6661;  display: grid;
         grid-gap: 2rem;">
                 <div style="text-align:center">
-                    <img src="./assets/images/notification.png" style="width:8%">
+                    <img src="./assets/images/Alert.png" style="width:8%">
                 </div>
    
-            <h3 class="mt-0" style="color: #fff;    text-align-last: center;">Notification!</h3>
+            <h3 class="mt-0" style="color: #fff;    text-align-last: center;">Alert!</h3>
 
             <p style="text-align: center;
             font-size: 1rem;
-            line-height: 1.3rem;
-            color: #9BA6AC;">
-                The <30 days> Pilot of your organisation has expired.<br/>
+            line-height: 1.3rem ;">
+                The <{{product.pilot_duration +" days" }}> Pilot of your organisation has expired.<br/>
             You will not be able to perform any activities from your account now.<br/>
                                     <br/>
             We hope you were able to do enough scans and compare app data with physical data?<br/>
@@ -433,9 +432,9 @@
                     Good day!
             </p>
             
-                    <div style="text-align-last:center">
+                    <!-- <div style="text-align-last:center">
                         <button type="button" style="width: 100px;border-radius: 4px;" class="btn btn-info" >Close</button>
-                    </div>
+                    </div> -->
         </div>
 
     </div> 

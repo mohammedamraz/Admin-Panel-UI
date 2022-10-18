@@ -40,3 +40,29 @@
         grid-template-columns: auto auto;
     }
 }
+
+.overlay {
+    height: 100%;
+    display: grid;
+    width: 84%;
+    margin-left: -1rem;
+    position: fixed;
+    top: 0;
+    background-color: rgba(0,0,0, 0.9);
+    background-color: rgba(0,0,0,.5);
+    overflow-x: hidden;
+    transition: 0.5s;
+    color: white;
+    align-content: center;
+    justify-items: center;
+    left: 16rem;
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 991px) {
+
+    .overlay {
+        left: 0;
+        width: 100%;
+    }
+  }
