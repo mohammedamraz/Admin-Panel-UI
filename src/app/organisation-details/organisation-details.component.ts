@@ -83,6 +83,11 @@ export class OrganisationDetailsComponent implements OnInit {
 
   formSubmitted=false
 
+  changeButton:boolean=false
+
+  showLiveAlertAPI=false;
+  errorMessageAPI='';
+
 
 
   constructor(
@@ -490,6 +495,12 @@ export class OrganisationDetailsComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
   addTpa() {
@@ -541,8 +552,8 @@ export class OrganisationDetailsComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -728,10 +739,13 @@ clearform(){
         error: (err) => {
 
           console.log('the failure=>',err);
+          this.errorMessageAPI=err;
 
-          this.errorMessageNextButton=err;
+          this.showLiveAlertAPI=true;
 
-          this.showLiveAlertNextButton=true;
+          this.errorMessageNextButton='';
+
+          this.showLiveAlertNextButton=false;
 
         },
 

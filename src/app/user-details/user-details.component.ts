@@ -81,6 +81,7 @@ export class UserDetailsComponent implements OnInit {
   errorMessageAPI='';
   activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users']
   activeStatusValue: any= this.activeStatusOptions[0]
+  changeButton:boolean=false
 
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
@@ -435,6 +436,12 @@ export class UserDetailsComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
   addTpa() {

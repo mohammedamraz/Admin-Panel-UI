@@ -150,7 +150,7 @@
                                           </option>
                                         </datalist>
                                         <!-- <div > -->
-                                        <button *ngIf="showButton&&addTpafunc==false" (click)="addTpa()" id="erase" style="
+                                        <button *ngIf="showButton&&addTpafunc==false&&changeButton && userForm.controls['third_party_org_name'].value.length>=3" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3..6rem;
                                             border: 1px solid #444c5b;
