@@ -77,6 +77,8 @@ export class UserDetailsComponent implements OnInit {
   total_user:any;
   
   currentPage:any;
+
+  changeButton:boolean=false
   ngOnInit(): void {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
@@ -405,6 +407,12 @@ export class UserDetailsComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
 
   }
   addTpa() {

@@ -63,7 +63,9 @@ export class HomeComponent implements OnInit {
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
-  urlFormSubmitted = false
+  urlFormSubmitted = false;
+
+  changeButton:boolean=false
 
 
 
@@ -74,9 +76,14 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal) { }
 
+    showLiveAlertAPI=false;
+    errorMessageAPI='';
+
+
   ngOnInit(): void {
     // let data = sessionStorage.getItem('org_data');
     // console.log("jfghfh",this.tbDAta);
+  
     
     
     
@@ -124,6 +131,9 @@ export class HomeComponent implements OnInit {
         third_party_org_name: ['',Validators.required],
 
       });
+      
+      
+     
 
   }
   get validator() {
@@ -348,6 +358,13 @@ export class HomeComponent implements OnInit {
     else {
       this.showButton = true;
     }
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+      // console.log('manafmannnu');
+      this.changeButton=true
+      this.addTpafunc=false
+      console.log(x)
+   })
+    
 
   }
   addTpa() {
@@ -375,8 +392,8 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => {
         console.log('the failure=>', err);
-        this.errorMessage = err;
-        this.showLiveAlert = true;
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
 
       },
       complete: () => { }
@@ -475,10 +492,12 @@ export class HomeComponent implements OnInit {
         error: (err) => {
 
           console.log('the failure=>',err);
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
 
-          this.errorMessageNextButton=err;
+          this.errorMessageNextButton='';
 
-          this.showLiveAlertNextButton=true;
+          this.showLiveAlertNextButton=false;
 
         },
 

@@ -27,10 +27,10 @@
                                                     <input type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC"
                                                     oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
                                                     pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
-                                                    [ngClass]="{'is-invalid':formSubmitted && userForm.controls['user_name'].invalid}"
+                                                    [ngClass]="{'is-invalid':userForm.controls['user_name'].touched && userForm.controls['user_name'].invalid || formSubmitted && userForm.controls['user_name'].invalid}"
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name">
                                                         <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
-                                                        <div *ngIf="formSubmitted && userForm.controls['user_name'].invalid" class="invalid-feedback">
+                                                        <div *ngIf="userForm.controls['user_name'].touched && userForm.controls['user_name'].invalid || formSubmitted && userForm.controls['user_name'].invalid" class="invalid-feedback">
 
                                                             <div *ngIf="userForm.controls['user_name'].errors?.['required']" i18n>
                                                               Mandatory field
@@ -47,11 +47,11 @@
                                                     <input type="text" class="form-control" id="userName1" style="  height: 3rem;color: #9BA6AC"
                                                         name="userName" placeholder="Designation" required formControlName="designation" minlength="3"
                                                         oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                        [ngClass]="{'is-invalid':formSubmitted && userForm.controls['designation'].invalid}">
+                                                        [ngClass]="{'is-invalid':userForm.controls['designation'].touched && userForm.controls['designation'].invalid || formSubmitted && userForm.controls['designation'].invalid}">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
                                                     
                                                     
-                                                    <div *ngIf="formSubmitted && userForm.controls['designation'].invalid" class="invalid-feedback">
+                                                    <div *ngIf="userForm.controls['designation'].touched && userForm.controls['designation'].invalid || formSubmitted && userForm.controls['designation'].invalid" class="invalid-feedback">
 
                                                         <div *ngIf="userForm.controls['designation'].errors?.['required']" i18n>
                                                           Mandatory field
@@ -72,11 +72,11 @@
                                                     <input type="text" class="form-control" id="userName1" style="  height: 3rem;color: #9BA6AC"
                                                         name="userName" placeholder="Email Address" required formControlName="email"
                                                         pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                                                        [ngClass]="{'is-invalid':formSubmitted && userForm.controls['email'].invalid}">
+                                                        [ngClass]="{'is-invalid':userForm.controls['email'].touched && userForm.controls['email'].invalid || formSubmitted && userForm.controls['email'].invalid}">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
 
 
-                                                    <div *ngIf="formSubmitted && userForm.controls['email'].invalid" class="invalid-feedback">
+                                                    <div *ngIf="userForm.controls['email'].touched && userForm.controls['email'].invalid || formSubmitted && userForm.controls['email'].invalid" class="invalid-feedback">
 
                                                         <div *ngIf="userForm.controls['email'].errors?.['required']" i18n>
                                                           Mandatory field
@@ -93,10 +93,10 @@
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
                                                         name="userName" placeholder="Mobile Number" formControlName="mobile"
-                                                        [ngClass]="{'is-invalid':formSubmitted && userForm.controls['mobile'].invalid}">
+                                                        [ngClass]="{'is-invalid':userForm.controls['mobile'].touched && userForm.controls['mobile'].invalid || formSubmitted && userForm.controls['mobile'].invalid}">
                                                  <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
 
-                                                 <div *ngIf="formSubmitted && userForm.controls['mobile'].invalid" class="invalid-feedback">
+                                                 <div *ngIf="userForm.controls['mobile'].touched && userForm.controls['mobile'].invalid || formSubmitted && userForm.controls['mobile'].invalid" class="invalid-feedback">
 
                                                     <div *ngIf="userForm.controls['mobile'].errors?.['required']" i18n>
                                                       Mandatory field
@@ -153,7 +153,7 @@
                                           </option>
                                         </datalist>
                                         <!-- <div > -->
-                                        <button *ngIf="showButton&&addTpafunc==false" (click)="addTpa()" id="erase" style="
+                                        <button *ngIf="showButton&&addTpafunc==false&&changeButton && userForm.controls['third_party_org_name'].value.length>=3" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3..6rem;
                                             border: 1px solid #444c5b;
@@ -273,7 +273,7 @@
                     <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
                     <ul class="list-inline mb-0 wizard" >
                         <div id="liveAlertPlaceholder">
-                            <ngb-alert type="warning" *ngIf="showLiveAlert" (closed)="showLiveAlert = false">{{errorMessage}}</ngb-alert>
+                            <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
                         </div>
                         <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
                             <button class="btn btn-secondary" (click)="activeWizard2=1" *ngIf="activeWizard2 !== 3"
@@ -286,7 +286,7 @@
                             grid-gap: 0.5rem;">
                                 <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage()"
                                     >Close</button>
-                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(orgId);showLiveAlertNextButton=false;formSubmitted=false;notThirdParty=false; thirdParty=false; addTpafunc=false"
+                                <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(orgId);showLiveAlertNextButton=false;formSubmitted=false;notThirdParty=false; thirdParty=false; addTpafunc=false; showLiveAlertNextButton=false;showLiveAlertAPI=false"
                                     >Add Another User</button>
                             </div>
                         </li>
