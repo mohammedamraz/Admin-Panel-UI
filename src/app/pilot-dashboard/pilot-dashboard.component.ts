@@ -53,8 +53,8 @@ export class PilotDashboardComponent implements OnInit {
         next:(res:any) =>{
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
-          console.log('asdw',this.product.status);
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
+          this.show = false;
           if(this.product.status == "Expired"){
             this.show = true;
           }
