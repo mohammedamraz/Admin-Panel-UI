@@ -83,7 +83,7 @@ export class OrganisationListComponent implements OnInit {
 
     // console.log("entries",this.entries)
     // console.log("optionsss",this.pageSizeOptions.values())
-    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
       this.currentPage=doc.page
@@ -144,7 +144,7 @@ export class OrganisationListComponent implements OnInit {
     // console.log("fjhgvjgfjd",this.pagenumber);
     // console.log("entries",this.entries);
 
-    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
       this.total_pages=doc.total_pages
@@ -172,7 +172,7 @@ export class OrganisationListComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
@@ -415,7 +415,7 @@ export class OrganisationListComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries).subscribe
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
