@@ -306,6 +306,7 @@ export class OrganisationDetailsComponent implements OnInit {
  }
 
   orgEdit(content: TemplateRef<NgbModal>): void {
+    this.createEditproc(this.products,this.product);
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
   
