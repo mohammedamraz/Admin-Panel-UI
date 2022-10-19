@@ -194,6 +194,9 @@ export class AdminConsoleService {
   fetchVitalsActiveByPage(num:any,item:any){
     return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
   }
+  sendEmailNotification(data:any){  
+    return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
+  }
 
   sendEmailOnceOrgIsCreated(content:any){
 
