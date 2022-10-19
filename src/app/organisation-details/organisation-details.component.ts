@@ -785,6 +785,20 @@ clearform(){
   closeUser(){
     this.authenticationService.logout();
     this.reloadCurrentPage();
+    
+    let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
+  console.log("hello",data);
+  
+
+    this.adminService.sendEmailNotification(data).subscribe({
+      next: (res:any) => {
+       console.log('sweet person',res);
+       }   
+      
+    });
+
+
   }
 
 
