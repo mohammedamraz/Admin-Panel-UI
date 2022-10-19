@@ -37,7 +37,7 @@
 
     <div class="row mt-3" footerLink>
         <div class="col-12 text-center">
-            <p class="text-muted" i18n>Back to <a [routerLink]="['../orgLogin']" class="text-dark ms-1"><b>Sign In</b></a>
+            <p class="text-muted" i18n>Back to <a [routerLink]="admin?'../login':'../orgLogin'" class="text-dark ms-1"><b>Sign In</b></a>
             </p>
         </div> <!-- end col -->
     </div>
