@@ -15,10 +15,10 @@
 
                   <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
                     placeholder="Enter your email" formControlName="email" style="height: 3rem;" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                    [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}" />
+                    [ngClass]="{'is-invalid': formValues['email'].touched && formValues['email'].invalid ||formSubmitted && formValues['email'].invalid}" />
                     <label for="floatingInput" class="form-label" i18n>Email address</label>
             
-                  <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
+                  <div *ngIf="formValues['email'].touched && formValues['email'].invalid ||formSubmitted && formValues['email'].invalid" class="invalid-feedback">
             
                     <div *ngIf="formValues['email'].errors?.['required']" i18n>
                       Mandatory field
@@ -37,10 +37,10 @@
 
                   <input class="form-control" type="password" required i18n-placeholder id="password"
                     placeholder="Enter your password" formControlName="password" style="height: 3rem; "pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                    [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" />
+                    [ngClass]="{'is-invalid':formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid}" />
                   <label for="floatingInput" class="form-label" i18n>Password</label>
 
-                  <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
+                  <div *ngIf="formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid " class="invalid-feedback">
             
                     <div *ngIf="formValues['password'].errors?.['required']" i18n>
                       Mandatory field

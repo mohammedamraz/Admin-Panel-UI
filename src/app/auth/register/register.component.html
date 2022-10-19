@@ -51,12 +51,12 @@
       <div class="form-floating ">
 
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
-                formControlName="password" [ngClass]="{'is-invalid':formSubmitted && formValues['password'].invalid}" style="height: 3rem;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                formControlName="password" [ngClass]="{'is-invalid':formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid}" style="height: 3rem;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 required />
             <label for="floatingInput" class="form-label" i18n>New Password</label>
 
 
-            <div *ngIf="formSubmitted && formValues['password'].invalid " class="invalid-feedback">
+            <div *ngIf="formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
                     Mandatory field
@@ -72,11 +72,11 @@
       <div class="form-floating ">
 
             <input class="form-control" type="password" id="confirmPassword" i18n-placeholder placeholder="Enter your password"
-                formControlName="confirmPassword" [ngClass]="{'is-invalid':formSubmitted && formValues['confirmPassword'].invalid}" style="height: 3rem;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                formControlName="confirmPassword" [ngClass]="{'is-invalid':formValues['confirmPassword'].touched && formValues['confirmPassword'].invalid ||formSubmitted && formValues['confirmPassword'].invalid}" style="height: 3rem;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 required />
             <label for="floatingInput" class="form-label" i18n>Confirm New Password</label>
 
-            <div *ngIf="formSubmitted && formValues['confirmPassword'].invalid " class="invalid-feedback">
+            <div *ngIf="formValues['confirmPassword'].touched && formValues['confirmPassword'].invalid ||formSubmitted && formValues['confirmPassword'].invalid " class="invalid-feedback">
 
                 <div *ngIf="formValues['confirmPassword'].errors?.['required']" i18n>
                     Mandatory field

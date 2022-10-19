@@ -121,10 +121,10 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
         //     const doc = data[0].product.find((ele:any) => ele.product_id == '2')
     console.log("org data",data);
 
-            // from(lastValueFrom(this.adminService.sendEmailOnceUserIsCreated({email:data[0].email,name:data[0].user_name.split(' ')[0]})))
-            //   .subscribe({next:(data:any)=>{
-            //     },
-            //   })
+            from(lastValueFrom(this.adminService.sendEmailOnceUserIsCreated({email:data.user_data[0].email,name:data.user_data[0].user_name.split(' ')[0]})))
+              .subscribe({next:(data:any)=>{
+                },
+              })
           // }})
         
        
@@ -148,10 +148,10 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
         console.log("org data",data);
 
-                // from(lastValueFrom(this.adminService.sendEmailOnceOrgIsCreated({email:data[0].organization_email,organisation_admin_name:data[0].admin_name.split(' ')[0],pilot_duration:data[0].product.pilot_duration})))
-                //   .subscribe({next:(data:any)=>{
-                //     },
-                //   })
+                from(lastValueFrom(this.adminService.sendEmailOnceOrgIsCreated({email:data[0].organization_email,organisation_admin_name:data[0].admin_name.split(' ')[0],pilot_duration:data[0].product[0].pilot_duration})))
+                  .subscribe({next:(data:any)=>{
+                    },
+                  })
                 if(doc.web_access === true){
                   
                 from(lastValueFrom(this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})))
