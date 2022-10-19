@@ -195,6 +195,16 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
   }
 
+  sendEmailOnceOrgIsCreated(content:any){
+
+    return this.http.post(`${ADMIN_URL}notification/signup/org/email`,content);
+  }
+
+  sendEmailOnceUserIsCreated(content:any){
+
+    return this.http.post(`${ADMIN_URL}notification/signup/user/email`,content);
+      }
+
 
 
 
