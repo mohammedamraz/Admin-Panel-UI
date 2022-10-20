@@ -239,7 +239,7 @@ export class HomeComponent implements OnInit {
     console.log("asd",event.target.checked)
     if(event.target.checked ==  true){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails[selected].event_mode = 1;  
+      this.listdetails[selected].event_mode = null;  
     }
     else if (event.target.checked===false){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -259,7 +259,7 @@ export class HomeComponent implements OnInit {
         prod_id:product.id,
         name:product.product_name, 
         index:this.list-1, 
-        pilot_duration:1,
+        pilot_duration:0,
         fedo_score:false,
         web_fedoscore:false,
         productaccess_web: false,
@@ -318,18 +318,72 @@ export class HomeComponent implements OnInit {
         //this should be implemented for web url in the readonly thinhg for create org variable shoulf be set above 
     // this.web_url_data = this.basicWizardForm.value.url
 
-        this.activeWizard1 = 3;
+      this.activeWizard1 = 3;
       this.urlFormSubmitted=false
 
       }
     }
 
+
+
     if(this.listdetails.length>0 ){
-      this.activeWizard1 = this.activeWizard1+1;
+      this.checkListDetailsForm()
+      // this.activeWizard1 = this.activeWizard1+1;
     }
 
   }
+
+  checkListDetailsForm(){
+
+    if(this.activeWizard1==3){
+      this.activeWizard1=4;
+    }else{
+      this.makeMove();
+    }
+
+
+
+
+
+    
+    // this.activeWizard1 = this.activeWizard1+1;
+
+  }
    get form1() { return this.basicWizardForm.controls; }
+   makeMove(){
+    const selected = this.listdetails.findIndex(obj=>obj.index===this.activeWizard1);
+    console.log('the modelal =>',this.listdetails[selected])
+    const prod = this.listdetails[selected];
+    prod.productaccess_web===true ? (prod.web_url!):{}
+    let satisfied1 = false;
+    let satisfied2 = false;
+    if(prod.productaccess_web===true){
+      if(prod.web_url!==""){
+        satisfied1=true;
+      }
+    }
+    else{
+      satisfied1=true;
+    }
+    if(prod.event==true){
+      if(prod.event_mode!==null&&prod.event_mode!==0){
+        satisfied2=true;
+      }
+    }
+    else{
+      satisfied2=true;
+    }
+
+    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
+      if(this.activeWizard1===this.list-1){
+        this.checkingForm();
+      }
+      else{
+        this.activeWizard1 = this.activeWizard1+1;
+      }
+    }
+  }
+
 
    clearform(){
     this.srcImage='./assets/images/fedo-logo-white.png';
