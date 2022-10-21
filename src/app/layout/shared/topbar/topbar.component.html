@@ -23,7 +23,7 @@
                         <div class="dropdown-divider" style="margin: 0;" *ngIf="i===profileOptions.length-1"></div>
                         <a class="notify-item" ngbDropdownItem>
                             <i [class]="option.icon"></i>
-                            <span style="cursor: pointer;" [routerLink]="option.redirectTo">{{option.label}}</span>
+                            <span style="cursor: pointer;" [routerLink]="option.redirectTo"  [queryParams]="usernameRole === '(Super Admin)'?{ status: 'active'}:{}">{{option.label}}</span>
                             <!-- <span *ngIf="superAdmin" style="cursor: pointer;" [routerLink]="./login" >{{option.label}}</span> -->
                         </a>
                     </ng-container>

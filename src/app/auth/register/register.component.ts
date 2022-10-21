@@ -87,125 +87,10 @@ export class RegisterComponent implements OnInit {
         this.adminService.signup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email})
         .subscribe({
           next: (data: any) => {
-            this.signUp = true;
-    this.verify=true
+    //         this.signUp = true;
+    // this.verify=true
     this.error = '';
-
-            
-          },
-          error: (error: string) => {
-            this.error = 'Email is already registered. Please check and try again';
-            this.cdr.detectChanges();
-           }});
-      }
-      else{
-        this.error = 'Email is already registered. Please check and try again'
-      }
-    }
-    // else{
-//       console.log('the vilayutu', this.signUpForm.value.ConfirmationCode)
-//       this.adminService.ConfirmSignup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email,ConfirmationCode: this.signUpForm.value.ConfirmationCode })
-//       .subscribe({
-//         next: (data: any) => {
-//           console.log('there is a ssuucesesdf',data);
-//           sessionStorage.setItem('currentUser', JSON.stringify( data    ) );
-// // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
-// // have to give a route in place of error  when error is happening it should not route it should give registration succeful
-
-
-// this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
-// .pipe(first())
-// .subscribe({
-//   next: (data: any) => {
-//     console.log('there is a ssuucesesdf',data.org_data[0].id)
-//     if(data.hasOwnProperty('user_data')){
-//       data['orglogin']=false;
-//       this.adminService.updateUserRegister(data.user_data[0].id).subscribe({
-//         next:(data:any) =>{
-//             console.log('there is a status updated',data);
-            
-        
-//           },
-//           error:(error: string) => {
-//             console.log('error =>',error)
-            
-//           }
-//         });
-
-
-//     }
-//     // console.log("cje")
-//     else if(!data.hasOwnProperty('user_data')){
-//       data['orglogin']=true;
-//       console.log("check",data.org_data[0].id)
-//       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
-//         next:(data:any) =>{
-//             console.log('there is a status updated',data.org_data[0].id);
-            
-//             from(lastValueFrom(this.adminService.fetchOrgById(data.org_data[0].id))).subscribe({
-//               next:(data:any)=>{
-//                 console.log("mail")
-//                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
-//                 if(doc.web_access === true){
-//                 console.log("mail inside")
-                  
-//                 from(lastValueFrom(this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})))
-//                   .subscribe({next:(data:any)=>{
-//                       console.log('there is a web access email sent',data);
-//                     },
-//                   error:(error:string) =>{
-//                     console.log('web access error =>',error)
-//                   }})
-//                 }
-//               },
-//               error:(error: string) => {
-//                 console.log('error =>',error)
-                
-//               }
-//             })
-        
-//           },
-//           error:(error: string) => {
-//             console.log('error =>',error)
-            
-//           }
-//         })
-//     }
-    
-//     console.log("dcsdfx",JSON.stringify(data))
-//     this.adminService.httpLoading$.next(true);
-
-//     sessionStorage.setItem('currentUser', JSON.stringify(data));
-
-
-//     this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
-//   },
-//             error: (error: string) => {
-//               console.log('asdf',error)
-              
-//               this.error = 'username or password is incorrect';
-//               this.loading = false;
-
-
-              
-//             }});
-            
-//           },
-//           error: (error: string) => {
-//             console.log('asdf',error)
-//             this.error = 'invalidcode';
-//          }});
-    // }
-
-  }
-
-  onVerify(){
-    console.log('the vilayutu', this.signUpForm.value.ConfirmationCode)
-      this.adminService.ConfirmSignup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email,ConfirmationCode: this.signUpForm.value.ConfirmationCode })
-      .subscribe({
-        next: (data: any) => {
-          console.log('there is a ssuucesesdf',data);
-          sessionStorage.setItem('currentUser', JSON.stringify(data) );
+    sessionStorage.setItem('currentUser', JSON.stringify(data) );
 // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
 // have to give a route in place of error  when error is happening it should not route it should give registration succeful
 
@@ -230,7 +115,19 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
           }
         });
         sessionStorage.setItem('currentUser', JSON.stringify(data) );
-      
+        console.log("dataatattata",data);
+        // from(lastValueFrom(this.adminService.fetchOrgById(this.org_id_for_email))).subscribe({
+        //   next:(data:any)=>{
+        //     const doc = data[0].product.find((ele:any) => ele.product_id == '2')
+    console.log("org data",data);
+
+            from(lastValueFrom(this.adminService.sendEmailOnceUserIsCreated({email:data.user_data[0].email,name:data.user_data[0].user_name.split(' ')[0]})))
+              .subscribe({next:(data:any)=>{
+                },
+              })
+          // }})
+        
+       
       this.adminService.httpLoading$.next(true);
       this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
         next:(res:any) =>{
@@ -249,6 +146,12 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             from(lastValueFrom(this.adminService.fetchOrgById(this.org_id_for_email))).subscribe({
               next:(data:any)=>{
                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
+        console.log("org data",data);
+
+                from(lastValueFrom(this.adminService.sendEmailOnceOrgIsCreated({email:data[0].organization_email,organisation_admin_name:data[0].admin_name.split(' ')[0],pilot_duration:data[0].product[0].pilot_duration})))
+                  .subscribe({next:(data:any)=>{
+                    },
+                  })
                 if(doc.web_access === true){
                   
                 from(lastValueFrom(this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})))
@@ -290,15 +193,123 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
 
               
             }});
+
+
             
           },
           error: (error: string) => {
-            console.log('asdf',error)
-            this.error = 'Wrong OTP. Please check and enter correct OTP';
-         }});
-
+            this.error = 'Email is already registered. Please check and try again';
+            this.cdr.detectChanges();
+           }});
+      }
+      else{
+        this.error = 'Email is already registered. Please check and try again'
+      }
+    }
+   
 
   }
+
+//   onVerify(){
+//     console.log('the vilayutu', this.signUpForm.value.ConfirmationCode)
+//       this.adminService.ConfirmSignup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email,ConfirmationCode: this.signUpForm.value.ConfirmationCode })
+//       .subscribe({
+//         next: (data: any) => {
+//           console.log('there is a ssuucesesdf',data);
+//           sessionStorage.setItem('currentUser', JSON.stringify(data) );
+// // this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
+// // have to give a route in place of error  when error is happening it should not route it should give registration succeful
+
+
+// this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password })
+// .pipe(first())
+// .subscribe({
+//   next: (data: any) => {
+//     // console.log('there is a ssuucesesdf',data.org_data[0].id)
+//     if(data.hasOwnProperty('user_data')){
+//       console.log("user")
+//       data['orglogin']=false;
+//       this.adminService.updateUserRegister(data.user_data[0].id).subscribe({
+//         next:(data:any) =>{
+//             console.log('there is a status updated',data);
+            
+        
+//           },
+//           error:(error: string) => {
+//             console.log('error =>',error)
+            
+//           }
+//         });
+//         sessionStorage.setItem('currentUser', JSON.stringify(data) );
+      
+//       this.adminService.httpLoading$.next(true);
+//       this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
+//         next:(res:any) =>{
+//           this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
+//         }})
+
+
+//     }
+//     // console.log("cje")
+//     else if(!data.hasOwnProperty('user_data')){
+//       data['orglogin']=true;
+//       this.org_id_for_email=data.org_data[0].id
+//       from(lastValueFrom(this.adminService.updateRegister(data.org_data[0].id))).subscribe({
+//         next:(data:any) =>{
+            
+//             from(lastValueFrom(this.adminService.fetchOrgById(this.org_id_for_email))).subscribe({
+//               next:(data:any)=>{
+//                 const doc = data[0].product.find((ele:any) => ele.product_id == '2')
+//                 if(doc.web_access === true){
+                  
+//                 from(lastValueFrom(this.adminService.sendEmailForVitalsWebAccess({url:doc.web_url,email:data[0].organization_email,organisation_admin_name:data[0].admin_name,organisation_name:data[0].organization_name})))
+//                   .subscribe({next:(data:any)=>{
+//                     },
+//                   error:(error:string) =>{
+//                     console.log('web access error =>',error)
+//                   }})
+//                 }
+//               },
+//               error:(error: string) => {
+//                 console.log('error =>',error)
+                
+//               }
+//             })
+        
+//           },
+//           error:(error: string) => {
+//             console.log('error =>',error)
+            
+//           }
+//         })
+//         sessionStorage.setItem('currentUser', JSON.stringify(data));
+
+
+//         this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
+//     }
+    
+//     // this.adminService.httpLoading$.next(true);
+
+
+//   },
+//             error: (error: string) => {
+//               console.log('asdf',error)
+              
+//               this.error = 'Email is already registered. Please check and try again';
+//               this.loading = false;
+
+
+              
+//             }});
+            
+//           },
+//           error: (error: string) => {
+//             console.log('asdf',error)
+//             this.error = 'Wrong OTP. Please check and enter correct OTP';
+//          }});
+
+
+//   }
 
 
 }
