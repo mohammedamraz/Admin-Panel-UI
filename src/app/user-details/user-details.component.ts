@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// import { ACTIVE } from '../organisation-list/organisation-list.component';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
 
@@ -97,7 +98,7 @@ export class UserDetailsComponent implements OnInit {
 
      // console.log("entries",this.entries)
     // console.log("optionsss",this.pageSizeOptions.values())
-    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_user=doc.total
       this.currentPage=doc.page
@@ -167,7 +168,7 @@ export class UserDetailsComponent implements OnInit {
     // console.log("fjhgvjgfjd",this.pagenumber);
     // console.log("entries",this.entries);
 
-    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_user=doc.total
       this.total_pages=doc.total_pages
@@ -208,7 +209,7 @@ export class UserDetailsComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
@@ -234,7 +235,7 @@ export class UserDetailsComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
@@ -506,3 +507,10 @@ export class UserDetailsComponent implements OnInit {
     }
 
 }
+
+export const ACTIVE: any = {
+  'Active Users': 'false',
+  'Inactive Users': 'true',
+  'All Users': ''
+}
+

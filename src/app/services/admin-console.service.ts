@@ -179,12 +179,12 @@ export class AdminConsoleService {
     return this.http.patch(`${API_URL}user/register/status/${id}`,{});
 
   }
-  fetchAllOrgByPage(num:any,item:any){
+  fetchAllOrgByPage(num:any,item:any,is_deleted:any){
     
-    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}`)   
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_deleted=${is_deleted}`)   
   }
-  fetchAllUserOfOrgByPage(id:string,num:any,item:any){
-    return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}`);
+  fetchAllUserOfOrgByPage(id:string,num:any,item:any,is_deleted:any){
+    return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
   }
 
   fetchVitalsByPage(num:any,item:any){
@@ -194,6 +194,19 @@ export class AdminConsoleService {
   fetchVitalsActiveByPage(num:any,item:any){
     return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
   }
+  sendEmailNotification(data:any){  
+    return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
+  }
+
+  sendEmailOnceOrgIsCreated(content:any){
+
+    return this.http.post(`${ADMIN_URL}notification/signup/org/email`,content);
+  }
+
+  sendEmailOnceUserIsCreated(content:any){
+
+    return this.http.post(`${ADMIN_URL}notification/signup/user/email`,content);
+      }
 
 
 
