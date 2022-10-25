@@ -84,6 +84,7 @@ export class OrganisationListComponent implements OnInit {
   web_url_error_token= false
 
   ngOnInit(): void {
+    
 
     // console.log("entries",this.entries)
     // console.log("optionsss",this.pageSizeOptions.values())
@@ -338,7 +339,7 @@ export class OrganisationListComponent implements OnInit {
         this.checkingForm();
       }
       else{
-        this.validation=true;
+        this.validation=false;
         this.activeWizard2 = this.activeWizard2+1;
       }
     }
