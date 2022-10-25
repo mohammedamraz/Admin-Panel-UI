@@ -67,6 +67,9 @@ export class HomeComponent implements OnInit {
 
   changeButton:boolean=false
 
+  validation:boolean=false
+  web_url_error=''
+
 
 
 
@@ -78,6 +81,7 @@ export class HomeComponent implements OnInit {
 
     showLiveAlertAPI=false;
     errorMessageAPI='';
+    web_url_error_token= false
 
 
   ngOnInit(): void {
@@ -233,6 +237,10 @@ export class HomeComponent implements OnInit {
 
     const selected = this.listdetails.findIndex(obj=>obj.name===product);
     this.listdetails[selected].event_mode = value ;
+    if(this.listdetails[selected].event_mode!=null){
+      this.validation=false
+    }
+    
   }
 
   eventmode(event:any, product:any){
@@ -265,7 +273,8 @@ export class HomeComponent implements OnInit {
         productaccess_web: false,
         web_url:'',
         event:false,
-        event_mode:0
+        event_mode:0,
+        pressed:false
 
       };
       this.listdetails.push(details);
@@ -327,6 +336,17 @@ export class HomeComponent implements OnInit {
 
 
     if(this.listdetails.length>0 ){
+    
+      if(this.listdetails.length>0 ){
+        console.log("hey manaf",this.listdetails[0]);
+        if(this.listdetails[0].event==true&&this.listdetails[0].event_mode==null||this.listdetails[0].event_mode==0)
+        {
+          this.validation=true
+        }
+      }
+
+
+      
       this.checkListDetailsForm()
       // this.activeWizard1 = this.activeWizard1+1;
     }
@@ -349,39 +369,63 @@ export class HomeComponent implements OnInit {
     // this.activeWizard1 = this.activeWizard1+1;
 
   }
-   get form1() { return this.basicWizardForm.controls; }
+  checkInputValue(value: string){
+    var patt = new RegExp(/^[a-zA-Z]+$/);
+    var res = patt.test(value);
+    console.log("res",res);
+    
+    if(!res){
+      this.web_url_error_token = true
+      this.web_url_error= 'Cannot contain spaces special characters'
+    //fetch data from db and fill the second form
+    }
+    else this.web_url_error_token = false
+}
+
+  get form1() { return this.basicWizardForm.controls; }
    makeMove(){
     const selected = this.listdetails.findIndex(obj=>obj.index===this.activeWizard1);
     console.log('the modelal =>',this.listdetails[selected])
     const prod = this.listdetails[selected];
     prod.productaccess_web===true ? (prod.web_url!):{}
+    prod.pressed = true
     let satisfied1 = false;
     let satisfied2 = false;
     if(prod.productaccess_web===true){
-      if(prod.web_url!==""){
-        satisfied1=true;
+      var specialChars = new RegExp(/^[a-zA-Z]+$/);
+      console.log("length",(prod.web_url).length)
+      console.log("special char",specialChars.test(prod.web_url));
+      if((prod.web_url).length>2&&specialChars.test(prod.web_url)==true){ 
+        satisfied1=true;       
       }
     }
     else{
       satisfied1=true;
+      this.validation=true;
     }
     if(prod.event==true){
       if(prod.event_mode!==null&&prod.event_mode!==0){
+        // prod.pressed = true
         satisfied2=true;
+
       }
     }
     else{
       satisfied2=true;
+      this.validation=true;
     }
-
+    
     if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
       if(this.activeWizard1===this.list-1){
         this.checkingForm();
       }
       else{
+        
+        this.validation=false;
         this.activeWizard1 = this.activeWizard1+1;
       }
     }
+    
   }
 
 
