@@ -21,14 +21,14 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}org/count`);
   }
 
-  fetchVitalsCount(){
-    return this.http.get(`${API_URL}count?product=vitals`) ;
+  fetchVitalsCount(productName:any){
+    return this.http.get(`${API_URL}count?product=${productName}`) ;
   }
-  fetchActiveVitalsCount(){
-    return this.http.get(`${API_URL}count?product=vitals&status=active`) ;
+  fetchActiveVitalsCount(productName:any){
+    return this.http.get(`${API_URL}count?product=${productName}&status=active`) ;
   }
-  fetchLatestVitals(){
-    return this.http.get(`${API_URL}2?type=latest`) ;
+  fetchLatestVitals(id:any){
+    return this.http.get(`${API_URL}${id}?type=latest`) ;
   }
   
   fetchVitals(){
@@ -39,8 +39,8 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}2?type=active`) ;
   }
 
-  fetchTotalTestVitals(){
-    return this.http.get(`${API_URL}tests/2`) ;
+  fetchTotalTestVitals(id:any){
+    return this.http.get(`${API_URL}tests/${id}`) ;
   }
   fetchAllOrg(){
     return this.http.get(`${API_URL}/org`) ;
@@ -187,12 +187,12 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
   }
 
-  fetchVitalsByPage(num:any,item:any){
-    return this.http.get(`${API_URL}2?page=${num}&per_page=${item}`) ;
+  fetchVitalsByPage(id:any,num:any,item:any){
+    return this.http.get(`${API_URL}${id}?page=${num}&per_page=${item}`) ;
   }
 
-  fetchVitalsActiveByPage(num:any,item:any){
-    return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
+  fetchVitalsActiveByPage(id:any,num:any,item:any){
+    return this.http.get(`${API_URL}${id}?type=active&page=${num}&per_page=${item}`) ;
   }
   sendEmailNotification(data:any){  
     return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);

@@ -85,6 +85,39 @@ export class LeftSidebarComponent implements OnInit {
       if(this.loggedInUser.org_data[0].type === 'admin'){
       this.orglogin = false;
       this.menuItems = MENU_ITEMS;
+      this.adminService.fetchProducts().subscribe(
+        (doc:any) =>{
+          let tempProd = [];
+          tempProd.push(MENU_ITEMS[0]);
+          tempProd.push(MENU_ITEMS[1]);
+          console.log('the balud =>',doc);
+          const prod = doc.map((product:any) => ({ 
+              key: 'apps-tasks',
+              label: `${product.id === 1 ? 'HSA' : (product.id === 2 ? 'Vitals':'RUW')}`,
+              isTitle: false,
+              icon: `mdi ${product.id == 1 ?'mdi-account-box-multiple':(product.id == 2?'mdi-clipboard-pulse-outline':'mdi-briefcase-variant')}`,
+              collapsed: true,
+              children: [
+                  {
+                      key: 'task-kanban',
+                      label: 'Dashboard',
+                      url: `/vitals-dashboard/${product.id}`,
+                      parentKey: 'apps-tasks',
+                  },
+                  {
+                      key: 'task-details',
+                      label: 'Pilots List',
+                      url: `vitalsList/${product.id}`,
+                      parentKey: 'apps-tasks',
+                  },
+              ],  
+          }));
+          this.menuItems = [...tempProd,...prod]
+
+
+
+        }
+      )
     }
     else {
         this.orglogin = false;

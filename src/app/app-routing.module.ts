@@ -54,12 +54,12 @@ const routes: Routes = [
         component: CreateOrganizationComponent
       },
       {
-        path:'vitals-dashboard',
+        path:'vitals-dashboard/:id',
         canActivate: [AuthGuard],
         component: VitalsDashboardComponent
       },
       {
-        path:'vitalsList',
+        path:'vitalsList/:id',
         canActivate: [AuthGuard],
         component: PilotsListComponent
       },

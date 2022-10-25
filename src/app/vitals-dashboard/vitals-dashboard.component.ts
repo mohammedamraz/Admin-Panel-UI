@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { AdminConsoleService } from '../services/admin-console.service';
 
@@ -31,6 +32,8 @@ export class VitalsDashboardComponent implements OnInit {
   files: File[] = [];
   showLiveAlert=false;
   errorMessage='';
+  snapshotParam:any = "initial value";
+
 
 
 
@@ -41,35 +44,71 @@ export class VitalsDashboardComponent implements OnInit {
     private readonly adminService: AdminConsoleService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer, 
+    private readonly route: ActivatedRoute,
+
     
 
 
     ) { }
 
   ngOnInit(): void {
-
-    this.adminService.fetchVitalsCount().subscribe((doc:any) =>{console.log('vitals count',doc);this.vitalsCount=doc.total_vitals_pilot_count});
-    this.adminService.fetchActiveVitalsCount().subscribe((doc:any) =>{console.log('active vitals count',doc);this.activePilotsCount=doc.total_vitals_pilot_count});
-    this.adminService.fetchTotalTestVitals().subscribe((doc:any) =>{console.log('total test vitals',doc);this.totalTests=doc.total_tests});
-    this.adminService.fetchLatestVitals().subscribe((doc:any) =>{
-      this.adminService.fetchVitalsCount().subscribe((doc:any) =>{console.log('vitals count',doc);this.vitalsCount=doc.total_vitals_pilot_count});
-
-      console.log('latest vitals,', doc);this.vitalsDetails=doc.data});
+    this.snapshotParam = this.route.snapshot.paramMap.get("id");
+    console.log('the balance u got =>', this.snapshotParam)
     
-    
-    this.basicWizardForm = this.fb.group({
-      organization_name:[''],
-      admin_name:[''],
-      organization_email:['',Validators.email],
-      organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
-      fedo_score:[false],
-      hsa:[false],
-      ruw:[false],
-      vitals:[false],
-      designation:[''],
-      url:[''],
-      pilot_duration:[''],
-      product_name:[''],
+    this.route.params.subscribe((val:any) =>{
+      this.snapshotParam = val.id;
+
+      this.adminService.fetchVitalsCount(this.snapshotParam == '1' ? 'hsa':(this.snapshotParam == '2' ? 'vitals':'ruw') ).subscribe((doc:any) =>{
+        if(this.snapshotParam==='1'){
+          console.log('hsa count true',doc);
+          this.vitalsCount = doc.total_hsa_pilot_count;
+        }else if(this.snapshotParam==='2'){
+          console.log('vitals count true',doc);
+          this.vitalsCount = doc.total_vitals_pilot_count;
+        }else {
+          console.log('ruw count true',doc); 
+          this.vitalsCount = doc.total_ruw_pilot_count;
+          
+        }
+        // this.vitalsCount=(this.snapshotParam==='1'?doc.total_hsa_pilot_count:(this.snapshotParam==='2'?doc.total_vitals_pilot_count:doc.total_ruw_pilot_count));
+        // doc.total_vitals_pilot_count
+      });
+      this.adminService.fetchActiveVitalsCount(this.snapshotParam == '1' ? 'hsa':(this.snapshotParam == '2' ? 'vitals':'ruw') ).subscribe((doc:any) =>{
+        console.log('active vitals count',doc);
+        if(this.snapshotParam==='1'){
+          console.log('hsa count true',doc);
+          this.activePilotsCount = doc.total_hsa_pilot_count;
+        }else if(this.snapshotParam==='2'){
+          console.log('vitals count true',doc);
+          this.activePilotsCount = doc.total_vitals_pilot_count;
+        }else {
+          console.log('ruw count true',doc); 
+          this.activePilotsCount = doc.total_ruw_pilot_count;
+          
+        }
+        // this.activePilotsCount=doc.total_vitals_pilot_count
+      });
+      this.adminService.fetchTotalTestVitals(this.snapshotParam).subscribe((doc:any) =>{console.log('total test vitals',doc);this.totalTests=doc.total_tests});
+      this.adminService.fetchLatestVitals(this.snapshotParam).subscribe((doc:any) =>{
+        // this.adminService.fetchVitalsCount().subscribe((doc:any) =>{console.log('vitals count',doc);this.vitalsCount=doc.total_vitals_pilot_count});
+  
+        console.log('latest vitals,', doc);this.vitalsDetails=doc.data});
+      
+      
+      this.basicWizardForm = this.fb.group({
+        organization_name:[''],
+        admin_name:[''],
+        organization_email:['',Validators.email],
+        organization_mobile:['',[Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+        fedo_score:[false],
+        hsa:[false],
+        ruw:[false],
+        vitals:[false],
+        designation:[''],
+        url:[''],
+        pilot_duration:[''],
+        product_name:[''],
+      });
     });
   }
 

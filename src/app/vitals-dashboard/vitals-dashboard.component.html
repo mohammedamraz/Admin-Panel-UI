@@ -302,7 +302,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList/'+snapshotParam]" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -321,7 +321,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList',]"  [queryParams]="{ status: 'active'}" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="['/vitalsList/'+snapshotParam]"  [queryParams]="{ status: 'active'}" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
@@ -373,7 +373,7 @@
                     <!-- item-->
                     <!-- <a href="javascript:void(0);" ngbDropdownItem>Create Pilot</a> -->
                     <!-- item-->
-                    <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>Pilots List</a>
+                    <a href="javascript:void(0);" [routerLink]="['/vitalsList/'+snapshotParam]" ngbDropdownItem>Pilots List</a>
 
                 </div>
             </div>            

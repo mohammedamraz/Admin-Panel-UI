@@ -24,61 +24,61 @@ export class PilotsListComponent implements OnInit {
   pagenumber:any=1;
   total_pages:any;
   total_org:any;
+  snapshotParam:any = "initial value";
+
   
   currentPage:any;
   // tabDAta:any[]=[];
     // public service: AdvancedTableService,
-  constructor(private readonly adminService: AdminConsoleService,public service: AdvancedTableService,    private route: ActivatedRoute) { }
+  constructor(private readonly adminService: AdminConsoleService,public service: AdvancedTableService,    private route: ActivatedRoute,     
+    ) { }
 
   ngOnInit(): void {
-
-
-    // this.route.queryParams.subscribe((params:any)=>{
-    //   if(params.status =='active'){
-    //     this.adminService.fetchVitalsActive().subscribe((doc:any) =>{console.log('dude,', doc);
-    //     this.vitalsDetails=doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
-    //   }
-    //   else{
-    //     this.adminService.fetchVitals().subscribe((doc:any) =>{console.log('dude,', doc);
-    //     this.vitalsDetails= doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id)})
-    //   }
-    // })
+    this.snapshotParam = this.route.snapshot.paramMap.get("id");
+    console.log('the balance u pilots =>', this.snapshotParam)
 
 
 
-    this.route.queryParams.subscribe((params:any)=>{
-      if(params.status =='active'){
-        this.adminService.fetchVitalsActiveByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
-        this.total_org=doc.total
-        this.currentPage=doc.page
-        this.total_pages=doc.total_pages
-  
-        // console.log('doc.......................',doc.data)
-        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
-        this.length=this.vitalsDetails.length
-        console.log("hello00000",this.length);
-        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-        // this.length=this.tabDAta.length
-        // console.log("hello00000",this.length);
-  
-        return doc})
-      }
-      else{
-        this.adminService.fetchVitalsByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
-        this.total_org=doc.total
-        this.currentPage=doc.page
-        this.total_pages=doc.total_pages
-  
-        // console.log('doc.......................',doc.data)
-        this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
-        this.length=this.vitalsDetails.length
-        console.log("hello00000",this.length);
-        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-        // this.length=this.tabDAta.length
-        // console.log("hello00000",this.length);
-  
-        return doc})
-      }
+
+
+
+    this.route.params.subscribe((val:any)=>{
+      this.snapshotParam = val.id;
+      console.log('asf => ',this.snapshotParam);
+      this.route.queryParams.subscribe((params:any)=>{
+        if(params.status =='active'){
+          this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+          this.total_org=doc.total
+          this.currentPage=doc.page
+          this.total_pages=doc.total_pages
+    
+          // console.log('doc.......................',doc.data)
+          this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+          this.length=this.vitalsDetails.length
+          console.log("hello00000",this.length);
+          this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.length=this.tabDAta.length
+          // console.log("hello00000",this.length);
+    
+          return doc})
+        }
+        else{
+          this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+          this.total_org=doc.total
+          this.currentPage=doc.page
+          this.total_pages=doc.total_pages
+    
+          // console.log('doc.......................',doc.data)
+          this.vitalsDetails=doc.data; console.log('you are the one ', this.vitalsDetails)
+          this.length=this.vitalsDetails.length
+          console.log("hello00000",this.length);
+          this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.length=this.tabDAta.length
+          // console.log("hello00000",this.length);
+    
+          return doc})
+        }
+      })
     })
 
 
@@ -93,7 +93,7 @@ export class PilotsListComponent implements OnInit {
 
     this.route.queryParams.subscribe((params:any)=>{
       if(params.status =='active'){
-        this.adminService.fetchVitalsActiveByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manafff,', doc);
+        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manafff,', doc);
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
@@ -109,7 +109,7 @@ export class PilotsListComponent implements OnInit {
         return doc})
       }
       else{
-        this.adminService.fetchVitalsByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+        this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
@@ -139,7 +139,7 @@ export class PilotsListComponent implements OnInit {
 
     this.route.queryParams.subscribe((params:any)=>{
       if(params.status =='active'){
-        this.adminService.fetchVitalsActiveByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manaff,', doc);
+        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('manaff,', doc);
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
@@ -155,7 +155,7 @@ export class PilotsListComponent implements OnInit {
         return doc})
       }
       else{
-        this.adminService.fetchVitalsByPage(this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
+        this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{console.log('dude,', doc);
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
