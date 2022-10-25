@@ -90,7 +90,6 @@ export class LeftSidebarComponent implements OnInit {
           let tempProd = [];
           tempProd.push(MENU_ITEMS[0]);
           tempProd.push(MENU_ITEMS[1]);
-          console.log('the balud =>',doc);
           const prod = doc.map((product:any) => ({ 
               key: 'apps-tasks',
               label: `${product.id === 1 ? 'HSA' : (product.id === 2 ? 'Vitals':'RUW')}`,
@@ -150,9 +149,16 @@ export class LeftSidebarComponent implements OnInit {
                   // badge: { variant: 'success', text: '9+' },
                   url: `/${this.loggedInUser.org_data[0].id}/dashboard`,
               },
-              ...prod
+              ...prod,
            
             ];
+            this.menuItems.push({
+              key: 'task-kanban',
+              label: 'Settings',
+              icon: 'dripicons-gear',
+              url: `/${this.loggedInUser.org_data[0].id}/settings`,
+              // parentKey: 'apps-tasks',
+            })
           }});
 
         

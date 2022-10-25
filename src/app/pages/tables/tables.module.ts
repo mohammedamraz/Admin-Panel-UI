@@ -11,6 +11,7 @@ import { OrganisationDetailsComponent } from 'src/app/organisation-details/organ
 import { OrganisationListComponent } from 'src/app/organisation-list/organisation-list.component';
 import { PilotDashboardComponent } from 'src/app/pilot-dashboard/pilot-dashboard.component';
 import { PilotsListComponent } from 'src/app/pilots-list/pilots-list.component';
+import { SettingsComponent } from 'src/app/settings/settings.component';
 import { AdvancedTableModule } from 'src/app/shared/advanced-table/advanced-table.module';
 import { UserDetailsComponent } from 'src/app/user-details/user-details.component';
 import { UserdashboardComponent } from 'src/app/userdashboard/userdashboard.component';
@@ -33,7 +34,8 @@ import { TablesRoutingModule } from './tables-routing.module';
     OrganisationDetailsComponent,
     UserDetailsComponent,
     PilotDashboardComponent,
-    UserdashboardComponent
+    UserdashboardComponent,
+    SettingsComponent,
 
     
   ],

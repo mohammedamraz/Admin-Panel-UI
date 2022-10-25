@@ -288,6 +288,13 @@ export class AdminConsoleService {
     ])
     }
 
+    if(event.url?.slice(3,)=='/settings'){
+      this.breadCrumbs.next([
+        { label: 'Settings', path: `${event.url.split('/')[1]}/settings`},
+        { label: 'Org Details', path: `${event.url.split('/')[1]}/settings`, active: true},
+    ])
+    }
+
 
   }
 
