@@ -208,6 +208,30 @@ export class AdminConsoleService {
     return this.http.post(`${ADMIN_URL}notification/signup/user/email`,content);
       }
 
+  ResendInvitationMailForOrg(content:any){
+    console.log("daya",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/resend/email/org`,content);
+      }
+
+  ResendInvitationMailForUser(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/resend/email/users`,content);
+      }
+
+  sendEmailOnceUserIsBackActive(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/email/user/active`,content);
+  }
+
+  sendEmailOnceOrgIsBackActive(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/email/org/active`,content);
+  }
+
 
 
 

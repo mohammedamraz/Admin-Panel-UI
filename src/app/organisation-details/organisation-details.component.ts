@@ -305,6 +305,26 @@ export class OrganisationDetailsComponent implements OnInit {
 
  }
 
+ updateStatus(data:any,userData:any){
+  // console.log("datat",data)
+  this.adminService.patchUserStatus(userData.id, data).subscribe({
+    next: (res) => {
+      console.log('the success=>',data);
+      if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+      this.reloadCurrentPage();
+      // this.activeWizard2=this.activeWizard2+1;
+      // this.created=true;
+    }
+  })
+
+}
+
+resendInvitationMail(data:any){
+  console.log("ersdfzdx",data);
+  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+
+  }
+
   orgEdit(content: TemplateRef<NgbModal>): void {
     this.createEditproc(this.products,this.product);
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });

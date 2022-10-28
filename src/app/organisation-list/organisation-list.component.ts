@@ -408,7 +408,13 @@ export class OrganisationListComponent implements OnInit {
   // //   });
   
   // }
-  
+
+  resendInvitationMail(data:any){
+  console.log("ersdfzdx",data.admin_name);
+  this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url})
+
+  }
+    
   onActiveStatus(data :any){
     this.activeStatusValue=data.value
       
@@ -444,6 +450,7 @@ export class OrganisationListComponent implements OnInit {
     // console.log("datat",data,orgData)
     this.adminService.patchOrgStatus(orgData.id, data).subscribe({
       next: (res) => {
+        if(data) this.adminService.sendEmailOnceOrgIsBackActive({name:orgData.admin_name,email:orgData.organization_email})
         // console.log('the success=>',res);
         this.reloadCurrentPage();
         // this.activeWizard2=this.activeWizard2+1;

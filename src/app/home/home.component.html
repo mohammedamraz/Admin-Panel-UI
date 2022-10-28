@@ -858,6 +858,7 @@
                     <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                         <tr  style="border-color: #49565d;" >
                             <th>#</th>
+                            <th></th>
                             <th>Org Name</th>
                             <th>Pilots</th>
                             <th style="    text-align: -webkit-center;">Total Users</th>
@@ -868,6 +869,8 @@
                     <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                         <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tabDAta;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
+                            <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
+                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
                             <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">{{person.organization_name}}</td>
                             <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
                                 <div style="    display: grid;
@@ -896,7 +899,21 @@
                                     <a  [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <a href="javascript:void(0);" (click)="openUserForm(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                    <div style="display: flex;
+                                    align-items: center;"><div style="display: flex;" *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)
+                                        
                                 </div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)
+                                    </div>
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+                                </div>
+                                
                             </div></td>
                         </tr>
 

@@ -821,6 +821,10 @@
                                         <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
                                 </div>
                             </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+
 
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>
