@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
+import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
+import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 
 
 @Component({
@@ -90,6 +92,104 @@ export class OrganisationDetailsComponent implements OnInit {
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
+   barChartOptions : ChartDataset = {
+    type: 'bar',
+    data: {
+        labels: ["January", "February", "March"],
+        datasets: [
+            {
+                label: "Sales Analytics",
+                backgroundColor: "RGBA(3,149,253,0.3)",
+                borderColor: "#0388FD",
+                borderWidth: 1,
+                hoverBackgroundColor: "RGBA(3,149,253,0.6)",
+                hoverBorderColor: "#0388FD",
+                data: [65,89 , 80,]
+            }
+        ],
+    },
+    chartOptions: {
+        maintainAspectRatio: false,
+    }
+}
+chartOptions: Partial<ApexChartOptions> = {
+  series: [
+    {
+      name: 'Series A',
+      type: 'area',
+      data: [50, 75, 30,],
+    },
+    {
+      name: 'Series B',
+      type: 'line',
+      data: [0, 40, 80, ],
+    },
+  ],
+  chart: {
+    height: 268,
+    type: 'line',
+    toolbar: {
+      show: false,
+    },
+    stacked: false,
+    zoom: {
+      enabled: false,
+    },
+  },
+  stroke: {
+    curve: 'smooth',
+    width: [3, 3],
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    show: false,
+  },
+  fill: {
+    type: 'solid',
+    opacity: [0, 1],
+  },
+  colors: ['#3cc469', '#188ae2'],
+  xaxis: {
+    categories: ['W1', 'W2', 'W3', ],
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: '#adb5bd',
+      },
+    },
+  },
+  yaxis: {
+    tickAmount: 4,
+    min: 0,
+    max: 100,
+    labels: {
+      style: {
+        colors: '#adb5bd',
+      },
+    },
+  },
+  grid: {
+    show: false,
+    padding: {
+      top: 0,
+      bottom: 0,
+    },
+  },
+  tooltip: {
+    theme: 'dark',
+  },
+
+};
+
+ 
+
 
 
 
@@ -228,7 +328,7 @@ export class OrganisationDetailsComponent implements OnInit {
    
     //     ; return doc;
     // })
-
+   
   }
 
   createEditproc(products:any,OrgProducts:any){

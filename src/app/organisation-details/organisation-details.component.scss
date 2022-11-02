@@ -72,3 +72,51 @@
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     
 }
+.graph-container{
+    display: grid;
+    grid-template-columns:  max-content 1fr;
+    margin-bottom: 1rem;
+    grid-gap:1rem;
+}
+
+@media (max-width: 800px) {
+    .graph-container{
+        grid-template-columns: auto;
+
+    }
+    
+}
+.BarGraph-container{
+    display: grid;
+    grid-template-columns:  max-content 1fr;
+    margin-bottom: 1rem;
+    grid-gap:1rem;
+}
+
+@media (max-width: 800px) {
+    .BarGraph-container{
+        grid-template-columns: auto;
+
+    }
+    
+    
+
+}
+.cards-body{
+    grid-auto-flow: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-left: 1.5rem;
+    padding-bottom: .5rem;
+
+}
+
+@media screen and (min-width: 300px) and (max-width: 599px) {
+    .cards-body{
+       display: block;
+
+    //    padding: 1rem;
+
+    }
+}
+
