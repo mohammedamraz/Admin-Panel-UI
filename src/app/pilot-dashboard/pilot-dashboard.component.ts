@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
@@ -135,8 +135,8 @@ chartOptions: Partial<ApexChartOptions> = {
   },
 
 };
-model!: NgbDateStruct;
-date!: { year: number; month: number; };
+// model!: NgbDateStruct;
+// date!: { year: number; month: number; };
 
 
 

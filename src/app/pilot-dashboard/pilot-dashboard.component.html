@@ -307,7 +307,7 @@
     </div> <!-- end card-->
 </ng-template>
 <div class="row">
-    <div class="col-xl-6 col-md-6">
+    <div class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
                 <h4 class="mt-0 header-title" style="color: white;">Pilot Duration</h4>
@@ -322,26 +322,26 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-6 " >
-        <div class="card pt-2  " style="background: #313844;border-radius: 10px; padding-bottom:1.25rem"  >
+    <div class="col-xl-4 col-md-6 " style="display: grid">
+        <div class="card pt-2  " style="background: #313844;border-radius: 10px;"  >
             <div class="card-body widget-user ">
                 <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
                 <div class="download-style " >
                 <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
-                    <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;">
+                    <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="opacity: 0.4;" >
-                    <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
+                <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
+                    <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
-                    <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                <a *ngIf="product.url.web_url == null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                    <button  style="height: 3.5rem;width: 9.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
                 </a>
                 </div>
 
             </div>
         </div>
     </div>
-    <div class="col-xl-6 col-md-6">
+    <div class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
                 <h4 class="mt-0 header-title" style="color: white;">Enable Fedo Score for Mobile App    </h4>
@@ -388,7 +388,7 @@
                            Date <i class="mdi mdi-chevron-down"></i>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                            <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker>
+                            
     
                         </div>
                     </div>
