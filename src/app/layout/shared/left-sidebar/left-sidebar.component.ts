@@ -137,6 +137,12 @@ export class LeftSidebarComponent implements OnInit {
                       url: `/${this.loggedInUser.org_data[0].id}/pilotdashboard/${product.product_id}`,
                       parentKey: 'apps-tasks',
                   },
+                  {
+                      key: 'task-kanban',
+                      label: 'User List',
+                      url: `/${this.loggedInUser.org_data[0].id}/userlist/${product.product_id}`,
+                      parentKey: 'apps-tasks',
+                  },
               ],
             }))
             this.menuItems =  [
@@ -149,6 +155,7 @@ export class LeftSidebarComponent implements OnInit {
                   // badge: { variant: 'success', text: '9+' },
                   url: `/${this.loggedInUser.org_data[0].id}/dashboard`,
               },
+
               ...prod,
            
             ];

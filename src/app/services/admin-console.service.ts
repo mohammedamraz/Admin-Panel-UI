@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, } from 'rxjs';
-import { ADMIN_URL, API_URL } from '../constants';
+import { ADMIN_URL, API_PRODUCTS_TESTS, API_URL } from '../constants';
 import { NavigationEnd, NavigationError, NavigationStart, Event } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 @Injectable({
@@ -360,6 +360,15 @@ export class AdminConsoleService {
 
       return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&per_page=5`)
       // return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+    }
+    fetchUserOfOrgProd(orgId:any, prodId:any,deleted:any){
+
+      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}`)
+    }
+
+    fetchDailyScan(orgId:any, prodId:any, date:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
     }
 
 

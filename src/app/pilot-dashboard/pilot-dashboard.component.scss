@@ -86,3 +86,31 @@
         width: 100%;
     }
   }
+
+  .graph-container{
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 800px) {
+    .graph-container{
+        grid-template-columns: auto;
+
+    }
+} 
+.BarGraph-container{
+    display: grid;
+    grid-template-columns:  max-content 1fr;
+    margin-bottom: 1rem;
+    grid-gap:1rem;
+}
+
+@media (max-width: 800px) {
+    .BarGraph-container{
+        grid-template-columns: auto;
+
+    }
+    
+
+}

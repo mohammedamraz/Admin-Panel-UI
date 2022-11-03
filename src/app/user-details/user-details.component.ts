@@ -44,6 +44,7 @@ export class UserDetailsComponent implements OnInit {
   ) { }
 
   snapshotParam:any = "initial value";
+  prod:any = '';
   userList:any[]=[];
   userForm!: FormGroup;
   userWizard1:number =1;
@@ -81,43 +82,51 @@ export class UserDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users']
-  activeStatusValue: any= this.activeStatusOptions[0]
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      activeStatusValue: any= this.activeStatusOptions[0]
   changeButton:boolean=false
 
   ngOnInit(): void {
-    this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
-    this.adminService.fetchVitalsCount('vitals').subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-    this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
-
-    // this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
-    //  next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
-    // })
-
-// pagination function starts
-
-     // console.log("entries",this.entries)
-    // console.log("optionsss",this.pageSizeOptions.values())
-    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-    ((doc:any) =>{ 
-      this.total_user=doc.total
-      this.currentPage=doc.page
-      this.total_pages=doc.total_pages
-
-      // console.log('doc.......................',doc.data)
-      this.userList=doc.data; console.log('you are the one ', this.userList)
-      this.length=this.userList.length
-      console.log("hello00000",this.length);
-      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      // this.length=this.tabDAta.length
-      // console.log("hello00000",this.length);
-
-      return doc});
-
-
-// pagination ends
-    
-
+    this.route.params.subscribe((val:any) =>{ 
+      this.prod = val.prodId;
+      this.snapshotParam = val.orgId;
+      const temp = this.prod === null ? 'vitals': (this.prod === '1' ? 'hsa' : (this.prod === '2' ? 'vitals': 'ruw') )
+      this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
+      this.adminService.fetchVitalsCount(temp).subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
+      this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
+      if(this.prod == undefined) {
+        
+        this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+        ((doc:any) =>{ 
+          this.total_user=doc.total
+            this.currentPage=doc.page
+            this.total_pages=doc.total_pages
+            
+            // console.log('doc.......................',doc.data)
+            this.userList=doc.data; console.log('you are the one ', this.userList)
+            this.length=this.userList.length
+            console.log("hello00000",this.length);
+            this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+            // this.length=this.tabDAta.length
+            // console.log("hello00000",this.length);
+      
+            return doc});
+      }
+      else {
+      
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        ((doc:any) =>{ 
+          this.total_user=doc.total
+          this.currentPage=doc.page
+          this.total_pages=doc.total_pages
+      
+          this.userList=doc.data;
+          this.length=this.userList.length
+          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      
+      
+          return doc});
+      }
+      
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
         this.tableData=res
@@ -125,11 +134,6 @@ export class UserDetailsComponent implements OnInit {
       }})
 
       this.list=4;
-      // this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
-      // this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-      // this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-     
-      
 
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
@@ -158,6 +162,34 @@ export class UserDetailsComponent implements OnInit {
       });
 
 
+    });
+
+    // this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
+    //  next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
+    // })
+
+// pagination function starts
+
+     // console.log("entries",this.entries)
+    // console.log("optionsss",this.pageSizeOptions.values())
+
+
+ 
+
+
+// pagination ends
+    
+
+
+      // this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
+      // this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
+      // this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
+     
+      
+
+      
+
+
   }
 
 // pagination function starts
@@ -168,18 +200,40 @@ export class UserDetailsComponent implements OnInit {
     // console.log("fjhgvjgfjd",this.pagenumber);
     // console.log("entries",this.entries);
 
-    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+    if(this.prod == undefined) {
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
-      this.total_user=doc.total
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
+      this.total_user=doc.total
       // console.log('doc.......................',doc)
-      this.userList=doc.data
-      
-      // this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      this.userList=doc.data; console.log('you are the one ', this.userList)
       this.length=this.userList.length
-     
-      return doc});
+      // console.log("hello00000",this.length);
+      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.length=this.tabDAta.length
+      // console.log("hello00000",this.length);
+      
+      return doc
+    });}
+      else{
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        ((doc:any) =>{ 
+          this.total_pages=doc.total_pages
+          this.currentPage=doc.page
+          this.total_user=doc.total
+          // console.log('doc.......................',doc)
+          this.userList=doc.data; console.log('you are the one ', this.userList)
+          this.length=this.userList.length
+          // console.log("hello00000",this.length);
+          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.length=this.tabDAta.length
+          // console.log("hello00000",this.length);
+          
+          return doc
+
+
+      })}
       // this.columns = this.tabDAta;
       // console.log("heloooo",this.tabDAta);
       // this.onFilter(this.item)
@@ -216,20 +270,40 @@ export class UserDetailsComponent implements OnInit {
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
 
-      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-    ((doc:any) =>{ 
-      this.total_pages=doc.total_pages
-      this.currentPage=doc.page
-      this.total_user=doc.total
-      // console.log('doc.......................',doc)
-      this.userList=doc.data; console.log('you are the one ', this.userList)
-      this.length=this.userList.length
-      // console.log("hello00000",this.length);
-      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      // this.length=this.tabDAta.length
-      // console.log("hello00000",this.length);
-      
-      return doc});
+      if(this.prod == undefined) {
+        this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+      ((doc:any) =>{ 
+        this.total_pages=doc.total_pages
+        this.currentPage=doc.page
+        this.total_user=doc.total
+        // console.log('doc.......................',doc)
+        this.userList=doc.data; console.log('you are the one ', this.userList)
+        this.length=this.userList.length
+        // console.log("hello00000",this.length);
+        this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        // this.length=this.tabDAta.length
+        // console.log("hello00000",this.length);
+        
+        return doc
+      });}
+        else{
+          this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+          ((doc:any) =>{ 
+            this.total_pages=doc.total_pages
+            this.currentPage=doc.page
+            this.total_user=doc.total
+            // console.log('doc.......................',doc)
+            this.userList=doc.data; console.log('you are the one ', this.userList)
+            this.length=this.userList.length
+            // console.log("hello00000",this.length);
+            this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+            // this.length=this.tabDAta.length
+            // console.log("hello00000",this.length);
+            
+            return doc
+  
+  
+        })}
 
     //  return data.value
      
@@ -241,7 +315,7 @@ export class UserDetailsComponent implements OnInit {
       
       // console.log("jhgfdhfh",this.entries);
       // console.log("page number",this.pagenumber)
-
+      if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
@@ -255,7 +329,26 @@ export class UserDetailsComponent implements OnInit {
       // this.length=this.tabDAta.length
       // console.log("hello00000",this.length);
       
-      return doc});
+      return doc
+    });}
+      else{
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        ((doc:any) =>{ 
+          this.total_pages=doc.total_pages
+          this.currentPage=doc.page
+          this.total_user=doc.total
+          // console.log('doc.......................',doc)
+          this.userList=doc.data; console.log('you are the one ', this.userList)
+          this.length=this.userList.length
+          // console.log("hello00000",this.length);
+          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.length=this.tabDAta.length
+          // console.log("hello00000",this.length);
+          
+          return doc
+
+
+      })}
 
   }
 

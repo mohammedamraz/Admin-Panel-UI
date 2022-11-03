@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAlertModule, NgbDatepickerModule, NgbDropdownModule, NgbModalModule, NgbNavModule, NgbPaginationModule, NgbProgressbarModule, NgbTimepickerModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { Select2Module } from 'ng-select2-component';
+import { NgChartsModule } from 'ng2-charts';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill';
 import { HomeComponent } from 'src/app/home/home.component';
@@ -65,6 +67,8 @@ import { TablesRoutingModule } from './tables-routing.module';
     NgbDropdownModule,
     NgxSliderModule,
     NgbAlertModule,
+    NgApexchartsModule,
+    NgChartsModule
   ]
 })
 export class TablesModule { }
