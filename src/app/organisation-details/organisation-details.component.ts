@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
@@ -34,6 +34,7 @@ export class OrganisationDetailsComponent implements OnInit {
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
   srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
+  dateSelected:any=new Date().toISOString().substring(0, 10);;
 
   //details
   organization_name:any='';
@@ -72,6 +73,9 @@ export class OrganisationDetailsComponent implements OnInit {
   next:boolean=false;
   created:boolean = false;
   showLiveAlertNextButton=false;
+  model!: NgbDateStruct;
+date!: { year: number; month: number; };
+  graphArray:any[]=[];
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -93,24 +97,27 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
    barChartOptions : ChartDataset = {
+    
     type: 'bar',
     data: {
-        labels: ["January", "February", "March"],
+        labels: ["previous day", "yesterday", "today"],
         datasets: [
             {
-                label: "Sales Analytics",
-                backgroundColor: "RGBA(3,149,253,0.3)",
-                borderColor: "#0388FD",
+                backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                borderColor: "#ADB5BD",
                 borderWidth: 1,
-                hoverBackgroundColor: "RGBA(3,149,253,0.6)",
-                hoverBorderColor: "#0388FD",
-                data: [65,89 , 80,]
-            }
+                hoverBackgroundColor: "#ADB5BD",
+                hoverBorderColor: "#ADB5BD",
+                data: [5, 8 , 7,],
+                
+            },
         ],
     },
     chartOptions: {
         maintainAspectRatio: false,
-    }
+        
+        
+    },
 }
 chartOptions: Partial<ApexChartOptions> = {
   series: [
@@ -264,6 +271,7 @@ chartOptions: Partial<ApexChartOptions> = {
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
+        this.createGraphArrayItems(this.product);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
           }
@@ -330,6 +338,78 @@ chartOptions: Partial<ApexChartOptions> = {
     // })
    
   }
+
+  createGraphArrayItems(products:any){
+
+    console.log('aksjdfhlkjasdhflkashdf =>', this.dateSelected)
+
+    // this.graphArray = products.map((doc:any) => ({
+    //    name: doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
+    // }));
+
+    this.graphArray = products.map((doc:any) => {
+      let graphdetails:any = {}; 
+      // this.adminService.fetchDailyScan(this.snapshotParam,doc.product_id,this.dateSelected).subscribe((doc:any)=>{
+      //   graphdetails['today'] = doc[0].total_org_tests;
+      //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+      //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+      //   graphdetails['totalScans'] = doc[0].total_org_tests;
+      //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+      //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+      //   graphdetails['name'] =  doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
+      // })
+      graphdetails['today'] = 3;
+        graphdetails['yesterday'] = 4
+        graphdetails['previousDay'] = 2;
+        graphdetails['totalScans'] = 5;
+        graphdetails['standardModeScans'] =6;
+        graphdetails['eventModeScans'] =3;
+        graphdetails['name'] =doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' );
+        graphdetails['graph'] = {
+          type: 'bar',
+          data: {
+            labels: ["previous day", "yesterday", "today"],
+            datasets: [
+                {
+                    backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                    borderColor: "#ADB5BD",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#ADB5BD",
+                    hoverBorderColor: "#ADB5BD",
+                    data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                    
+                },
+            ],
+        },
+        chartOptions: {
+            maintainAspectRatio: false,
+            
+            
+        },}
+
+      return graphdetails
+
+    })
+
+
+
+  }
+
+  fetchGraphDetails(date:any, orgId:any, prodId:any  ){
+
+    this.adminService.fetchDailyScan(orgId,prodId,date).subscribe((doc:any)=>{
+
+    })
+  }
+
+  checkdate(event:any){
+    console.log('hello date =>', this.dateSelected);
+    console.log('date selected => ', event)
+  }
+
+
+
+
 
   createEditproc(products:any,OrgProducts:any){
 
@@ -404,6 +484,26 @@ chartOptions: Partial<ApexChartOptions> = {
     this.activeWizard2 = 1;
 
  }
+
+ updateStatus(data:any,userData:any){
+  // console.log("datat",data)
+  this.adminService.patchUserStatus(userData.id, data).subscribe({
+    next: (res) => {
+      console.log('the success=>',data);
+      if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+      this.reloadCurrentPage();
+      // this.activeWizard2=this.activeWizard2+1;
+      // this.created=true;
+    }
+  })
+
+}
+
+resendInvitationMail(data:any){
+  console.log("ersdfzdx",data);
+  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+
+  }
 
   orgEdit(content: TemplateRef<NgbModal>): void {
     this.createEditproc(this.products,this.product);

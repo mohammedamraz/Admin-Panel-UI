@@ -96,6 +96,11 @@ const routes: Routes = [
         component: UserDetailsComponent
       },
       {
+        path: ':orgId/userlist/:prodId',
+        canActivate: [OrgGuard],
+        component: UserDetailsComponent
+      },
+      {
         path: ':orgId/pilotdashboard/:Id',
         canActivate: [OrgGuard],
         component: PilotDashboardComponent
