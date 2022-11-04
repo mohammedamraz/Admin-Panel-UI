@@ -39,7 +39,9 @@
         </div>
     </div>
     
-    <div class="row"  >
+    <ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
+
+        <div class="row"  >
         <div class="col-xl-6 "  >
             <div class="card layout-style" style="background: #313844; border-radius:10px">
                 
@@ -49,22 +51,15 @@
                         <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
-                        <!-- <div ngbDropdownMenu> -->
-                            <!-- item-->
-                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Action</a> -->
-                            <!-- item-->
-                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Another action</a> -->
-                            <!-- item-->
-                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
-                            <!-- item-->
-                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
-                        <!-- </div> -->
+    
                     </div>
     
-                    <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{'vital'}}: Daily Scan Report</h4>
+                    <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{season.name}}: Daily Scan Report</h4>
     
                     <div class="col-sm-6">
-                        <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
+                        <input class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
+    
+                        <!-- <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
                             <a style="background: #383E4A;
                             color: #9BA6AC;
                             border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
@@ -72,34 +67,52 @@
                                Date <i class="mdi mdi-chevron-down"></i>
                             </a>
                             <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                                <!-- <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker> -->
-        
+                                <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker>
                             </div>
-                        </div>
+                        </div> -->
                     </div> <!-- end col -->
     
                     <div class="BarGraph-container" style="display: grid;" >
-    
-                    <div style=" align-self: center; color:#F5F5F5">
-                        <p>Total Scans:</p>
-                        <p>Standard Mode Scans:</p>
-                        <p>Event Mode Scans:</p>
-                        <p>Download Excel Report</p>
+                    <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                        <div style=" align-self: center; color:#F5F5F5;display: grid;
+                        grid-gap: 1rem;">
+                            <p style="font-size: 1.5rem;margin: 0;">Total Scans</p>
+                            <p style="font-size: 1.5rem;margin: 0;">Standard Mode Scans</p>
+                            <p style="font-size: 1.5rem;margin: 0;">Event Mode Scans</p>
+                        </div>
+                        <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                        grid-gap: .45rem;">
+                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.totalScans}}</p></div>
+                            <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.standardModeScans}}</p></div>
+                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
+                        </div>
+                      
+                        <!-- <div>
+                            <button>Download Excel Report</button>
+                        </div> -->
                         
     
                     </div>
                     
     
                     <div class="chartjs-chart" style="height: 300px;width:75%">
-                        <canvas id="bar-chart" #barChart baseChart [data]="barChartOptions.data!"
-                            [type]="barChartOptions.type!" [options]="barChartOptions.chartOptions!"></canvas>
+                        <canvas id="bar-chart" #barChart baseChart [data]="season.graph.data!" [legend]="false"
+                            [type]="season.graph.type!" [options]="season.graph.chartOptions!"></canvas>
                     </div>
+                    <div>
+                            <!-- <button>Download Excel Report</button> -->
+                        </div>
+                    <div style="    display: inline-flex;
+                gap: inherit;justify-self: center;    place-items: baseline;">
+                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p>Previous</p>
+                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p>Current</p>
+                </div>
                     </div>
                 </div>
             </div>
     
         </div>
-        <div class="col-xl-6" >
+        <!-- <div class="col-xl-6" >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             <div class="card-body">
                 <div class="float-end" ngbDropdown placement="bottom-end">
@@ -107,18 +120,11 @@
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <!-- item-->
-                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Action</a> -->
-                        <!-- item-->
-                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Another action</a> -->
-                        <!-- item-->
-                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
-                        <!-- item-->
-                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
+
                     </div>
                 </div>
         
-                <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo {{'vital'}}: Performance Chart</h4>
+                <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo {{season.name}}: Performance Chart</h4>
                 <div class="col-sm-6">
                     <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
                         <a style="background: #383E4A;
@@ -135,8 +141,7 @@
     
                         </div>
                     </div>
-                </div> <!-- end col -->
-                
+                </div> 
     
                 <div class="graph-container" style="display: grid ">
                 <div style=" align-self: center; color:#F5F5F5">
@@ -160,10 +165,10 @@
             </div>
         </div>
         </div>
-    
-    
+     -->
     
         </div>
+    </ng-template>
 </div>
 
 <div *ngIf="show" class="overlay">

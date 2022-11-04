@@ -12,7 +12,7 @@ import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
   styleUrls: ['./pilot-dashboard.component.scss']
 })
 export class PilotDashboardComponent implements OnInit {
-
+  products:any
   orgId:any=0;
   productId:any=0;
   product:any={};
@@ -38,6 +38,10 @@ export class PilotDashboardComponent implements OnInit {
   formSubmitted=false
   changeButton:boolean=false
   dateSelected:any=new Date().toISOString().substring(0, 10);
+  graphArray:any[]=[];
+  monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
@@ -160,6 +164,9 @@ chartOptions: Partial<ApexChartOptions> = {
         next:(res:any) =>{
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
+          console.log("manaaaaf",this.product);
+          this.createGraphArrayItems(this.products,this.dateSelected);
+          
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
           this.show = false;
           if(this.product.status == "Expired"){
@@ -185,14 +192,88 @@ chartOptions: Partial<ApexChartOptions> = {
 
 
 
-
+  
     
 
   }
-  checkdate(event:any){
-    console.log('hello date =>', this.dateSelected);
-    console.log('date selected => ', event)
+  createGraphArrayItems(product:any,date:any){
+
+    console.log('m cominggggg =>',  this.productId)
+
+
+    // if(this.prodId==undefined)
+      this.graphArray = 
+         [this.fetchgraphdetails(this.productId.toString(),date)]
+      
+    // else{
+    //   this.graphArray = [this.fetchgraphdetails(this.prodId.toString(),date)]
+    // }
+
+
+
   }
+  fetchgraphdetails(prodId:any,date:any,){
+    let graphdetails:any = {}; 
+    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+    //   graphdetails['today'] = doc[0].total_org_tests;
+    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+    //   graphdetails['totalScans'] = doc[0].total_org_tests;
+    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    // })
+    graphdetails['today'] = 3;
+      graphdetails['yesterday'] = 4
+      graphdetails['previousDay'] = 2;
+      graphdetails['totalScans'] = 5;
+      graphdetails['standardModeScans'] =6;
+      graphdetails['eventModeScans'] =3;
+      graphdetails['prodId'] = prodId;
+      graphdetails['date'] = date
+      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      graphdetails['graph'] = {
+        type: 'bar',
+        data: {
+          labels: this.fetchDates(date),
+          datasets: [
+              {
+                  backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                  borderColor: "#ADB5BD",
+                  borderWidth: 1,
+                  hoverBackgroundColor: "#ADB5BD",
+                  hoverBorderColor: "#ADB5BD",
+                  data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                  
+              },
+          ],
+      },
+      chartOptions: {
+          maintainAspectRatio: false,
+          
+          
+      },}
+
+    return graphdetails
+  }
+  checkdate(event:any,prodId:any,date:any){
+    console.log('hello date =>', date);
+    console.log('date selected => ', event);
+    const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
+    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+  }
+  fetchDates(date:any){
+
+    const datechecked = new Date(date);
+    const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
+    const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
+
+    console.log('oyul =>', datechecked)
+    return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
+  }
+  getDate(date:any){
+    return  this.monthNames[new Date(date).getMonth()].slice(0,3) +' ' +new Date(date).getDate()
+   }
 
 
 
