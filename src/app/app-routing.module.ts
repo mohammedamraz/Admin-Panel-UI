@@ -19,6 +19,7 @@ import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.co
 import { PilotDashboardComponent } from './pilot-dashboard/pilot-dashboard.component';
 import { UserdashboardComponent } from './userdashboard/userdashboard.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const routes: Routes = [
@@ -109,7 +110,16 @@ const routes: Routes = [
         canActivate: [OrgGuard],
         component: UserdashboardComponent
       },
-      
+      {
+        path: 'profile',
+        // canActivate: [OrgGuard],
+        component: ProfileComponent
+      },{
+        path: ':orgId/home',
+        canActivate: [OrgGuard],
+        component: UserdashboardComponent
+      }
+    
     ]
   },
 
@@ -123,6 +133,7 @@ const routes: Routes = [
     canActivate: [OrgGuard],
     component: UserDetailsComponent
   },
+  
   
   {
     path: '',

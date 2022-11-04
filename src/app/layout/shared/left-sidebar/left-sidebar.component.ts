@@ -75,6 +75,14 @@ export class LeftSidebarComponent implements OnInit {
             }))
             this.menuItems =  [
               { key: 'navigation', label: 'Navigation', isTitle: true },
+              {
+                key: 'dashboard',
+                label: 'Home',
+                isTitle: false,
+                icon: 'mdi mdi-home',
+                // badge: { variant: 'success', text: '9+' },
+                url: `/${this.loggedInUser.user_data[0].org_id}/home`,
+            },
               ...prod
            
             ];

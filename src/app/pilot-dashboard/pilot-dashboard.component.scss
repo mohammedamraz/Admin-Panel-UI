@@ -3,10 +3,10 @@
 @media screen and (min-width: 1400px) and (max-width: 2000px) {
     .download-style{
         display: grid;
-                    grid-auto-flow: column;
-                    grid-gap: 1rem;
-                    padding-top: 1rem;
-                    grid-template-columns: min-content;
+    grid-auto-flow: dense;
+    grid-gap: 0.5rem;
+    padding-top: 1rem;
+    grid-template-columns: auto auto;
     }
 }
 
@@ -113,4 +113,11 @@
     }
     
 
+}
+.grid-class{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-items: center;
+    align-items: center;
+    align-items: end;
 }

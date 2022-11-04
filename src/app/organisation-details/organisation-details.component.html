@@ -884,6 +884,8 @@
         </div>
     </div>
 
+    
+    
 
 <ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
@@ -933,9 +935,10 @@
                         <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
                     </div>
                   
-                    <div>
+                    <!-- <div>
                         <button>Download Excel Report</button>
-                    </div>
+                    </div> -->
+                    
 
                 </div>
                 
@@ -944,12 +947,20 @@
                     <canvas id="bar-chart" #barChart baseChart [data]="season.graph.data!" [legend]="false"
                         [type]="season.graph.type!" [options]="season.graph.chartOptions!"></canvas>
                 </div>
+                <div>
+                            <!-- <button>Download Excel Report</button> -->
+                        </div>
+                <div style="    display: inline-flex;
+                gap: inherit;justify-self: center;    place-items: baseline;">
+                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p>Previous</p>
+                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p>Current</p>
+                </div>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-xl-6" >
+    <!-- <div class="col-xl-6" >
     <div class="card layout-style" style="background: #313844; border-radius:10px">
         <div class="card-body">
             <div class="float-end" ngbDropdown placement="bottom-end">
@@ -957,14 +968,6 @@
                     <i class="mdi mdi-dots-vertical"></i>
                 </a>
                 <div ngbDropdownMenu>
-                    <!-- item-->
-                    <!-- <a href="javascript:void(0);" ngbDropdownItem>Action</a> -->
-                    <!-- item-->
-                    <!-- <a href="javascript:void(0);" ngbDropdownItem>Another action</a> -->
-                    <!-- item-->
-                    <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
-                    <!-- item-->
-                    <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
                 </div>
             </div>
     
@@ -985,7 +988,7 @@
 
                     </div>
                 </div>
-            </div> <!-- end col -->
+            </div> 
             
 
             <div class="graph-container" style="display: grid ">
@@ -1009,7 +1012,7 @@
     
         </div>
     </div>
-    </div>
+    </div> -->
 
 
     </div>
