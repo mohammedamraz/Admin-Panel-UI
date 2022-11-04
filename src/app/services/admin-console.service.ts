@@ -361,9 +361,9 @@ export class AdminConsoleService {
       return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&per_page=5`)
       // return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
     }
-    fetchUserOfOrgProd(orgId:any, prodId:any,deleted:any){
+    fetchUserOfOrgProd(orgId:any, prodId:any,entries:any,pagenumber:any,deleted:any){
 
-      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}`)
+      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}&page=${pagenumber}&per_page=${entries}`)
     }
 
     fetchDailyScan(orgId:any, prodId:any, date:any){

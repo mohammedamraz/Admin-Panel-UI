@@ -112,8 +112,7 @@ export class UserDetailsComponent implements OnInit {
             return doc});
       }
       else {
-      
-        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
         ((doc:any) =>{ 
           this.total_user=doc.total
           this.currentPage=doc.page
@@ -121,7 +120,7 @@ export class UserDetailsComponent implements OnInit {
       
           this.userList=doc.data;
           this.length=this.userList.length
-          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       
       
           return doc});
@@ -217,7 +216,7 @@ export class UserDetailsComponent implements OnInit {
       return doc
     });}
       else{
-        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
         ((doc:any) =>{ 
           this.total_pages=doc.total_pages
           this.currentPage=doc.page
@@ -226,7 +225,7 @@ export class UserDetailsComponent implements OnInit {
           this.userList=doc.data; console.log('you are the one ', this.userList)
           this.length=this.userList.length
           // console.log("hello00000",this.length);
-          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
           // this.length=this.tabDAta.length
           // console.log("hello00000",this.length);
           
@@ -287,7 +286,7 @@ export class UserDetailsComponent implements OnInit {
         return doc
       });}
         else{
-          this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+          this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
           ((doc:any) =>{ 
             this.total_pages=doc.total_pages
             this.currentPage=doc.page
@@ -296,7 +295,7 @@ export class UserDetailsComponent implements OnInit {
             this.userList=doc.data; console.log('you are the one ', this.userList)
             this.length=this.userList.length
             // console.log("hello00000",this.length);
-            this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+            // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
             // this.length=this.tabDAta.length
             // console.log("hello00000",this.length);
             
@@ -332,7 +331,7 @@ export class UserDetailsComponent implements OnInit {
       return doc
     });}
       else{
-        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,ACTIVE[this.activeStatusValue]).subscribe
+        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
         ((doc:any) =>{ 
           this.total_pages=doc.total_pages
           this.currentPage=doc.page
@@ -341,7 +340,7 @@ export class UserDetailsComponent implements OnInit {
           this.userList=doc.data; console.log('you are the one ', this.userList)
           this.length=this.userList.length
           // console.log("hello00000",this.length);
-          this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
           // this.length=this.tabDAta.length
           // console.log("hello00000",this.length);
           
