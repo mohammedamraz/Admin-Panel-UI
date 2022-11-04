@@ -54,6 +54,7 @@ export class HomeComponent implements OnInit {
   notThirdParty: boolean =false;
   codeList: any[] = [];
   showButton: boolean = true;
+  widgetCounts:any[] = [];
   userProduct:any[]=[];
   selectedUserProducts:any[]=[];
   organaization_id:any;
@@ -94,11 +95,8 @@ export class HomeComponent implements OnInit {
     this.list=4;
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount('vitals').subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data;return doc});
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-    // let org_id = this.organaization_id
- 
-    
+    this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data});
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;doc.forEach( (prod:any) =>{this.fetchCounts(prod)})});    
 
 
     this.validationGroup1 = this.fb.group({
@@ -152,6 +150,18 @@ export class HomeComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
     this.srcImage = './assets/images/fedo-logo-white.png';
 
+  }
+
+  fetchCounts(prod:any){
+ 
+     this.adminService.fetchVitalsCount(prod.product_name).subscribe(
+      (doc:any) =>{
+          this.widgetCounts.push ({
+          id: prod.id,
+          name: prod.id === 1 ? 'HSA' :(prod.id === 2 ? 'Vitals':'RUW'),
+          count:   doc[`total_${prod.product_name}_pilot_count`],
+          color:  prod.id === 1 ? '#F08FC9' :(prod.id === 2 ? '#F2CA65':'#FF9632')
+        })});
   }
 
   daysLefts(date:any){
