@@ -140,9 +140,21 @@ chartOptions: Partial<ApexChartOptions> = {
     private authenticationService: AuthenticationService,
 
   ) { }
+  user_name:any
+  email:any
+  mobile:any
+  designation:any
 
   
   ngOnInit(): void {
+    let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
+    console.log('userdata',data.user_data);
+    if(data.user_data){
+      this.user_name = data.user_data[0].user_name;
+        this.email = data.user_data[0].email;
+        this.mobile = data.user_data[0].mobile;
+        this.designation = data.user_data[0].designation;
+    }
     this.loggedInUser = <any>this.authService.currentUser();
     // this.orgId = this.route.snapshot.paramMap.get("orgId");
     // this.prodId = this.route.snapshot.paramMap.get("Id");

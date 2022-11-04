@@ -2,9 +2,9 @@
 
 <div class="row">
     <div style="color: #FFFFFF;text-align-last: center;    line-height: 5px; margin-top:0.5rem"  *ngIf="prodId==undefined">
-        <p style="font-weight: bold;">John Doe</p>
-        <p style="color: #ADB5BD;">john.doe@sample.com</p>
-        <p style="color: #ADB5BD;">984701234</p>
+        <p style="font-weight: bold;">{{user_name}}</p>
+        <p style="color: #ADB5BD;">{{email}}</p>
+        <p style="color: #ADB5BD;">{{mobile}}</p>
     </div>
    
     <div class="col-xl-6 col-md-6" style="display: inline-grid;" *ngIf="prodId!=undefined">
