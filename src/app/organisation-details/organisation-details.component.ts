@@ -34,7 +34,10 @@ export class OrganisationDetailsComponent implements OnInit {
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
   srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
-  dateSelected:any=new Date().toISOString().substring(0, 10);;
+  dateSelected:any=new Date().toISOString().substring(0, 10);
+  monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
   //details
   organization_name:any='';
@@ -271,7 +274,7 @@ chartOptions: Partial<ApexChartOptions> = {
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
-        this.createGraphArrayItems(this.product);
+        this.createGraphArrayItems(this.product,this.dateSelected);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
           }
@@ -339,55 +342,57 @@ chartOptions: Partial<ApexChartOptions> = {
    
   }
 
-  createGraphArrayItems(products:any){
+  createGraphArrayItems(products:any,date:any){
 
-    console.log('aksjdfhlkjasdhflkashdf =>', this.dateSelected)
+    console.log('aksjdfhlkjasdhflkashdf =>', date)
 
     // this.graphArray = products.map((doc:any) => ({
     //    name: doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
     // }));
 
     this.graphArray = products.map((doc:any) => {
-      let graphdetails:any = {}; 
-      // this.adminService.fetchDailyScan(this.snapshotParam,doc.product_id,this.dateSelected).subscribe((doc:any)=>{
-      //   graphdetails['today'] = doc[0].total_org_tests;
-      //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-      //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-      //   graphdetails['totalScans'] = doc[0].total_org_tests;
-      //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
-      //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
-      //   graphdetails['name'] =  doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
-      // })
-      graphdetails['today'] = 3;
-        graphdetails['yesterday'] = 4
-        graphdetails['previousDay'] = 2;
-        graphdetails['totalScans'] = 5;
-        graphdetails['standardModeScans'] =6;
-        graphdetails['eventModeScans'] =3;
-        graphdetails['name'] =doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' );
-        graphdetails['graph'] = {
-          type: 'bar',
-          data: {
-            labels: ["previous day", "yesterday", "today"],
-            datasets: [
-                {
-                    backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                    borderColor: "#ADB5BD",
-                    borderWidth: 1,
-                    hoverBackgroundColor: "#ADB5BD",
-                    hoverBorderColor: "#ADB5BD",
-                    data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+      // let graphdetails:any = {}; 
+      // // this.adminService.fetchDailyScan(this.snapshotParam,doc.product_id,date).subscribe((doc:any)=>{
+      // //   graphdetails['today'] = doc[0].total_org_tests;
+      // //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+      // //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+      // //   graphdetails['totalScans'] = doc[0].total_org_tests;
+      // //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+      // //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+      // //   graphdetails['name'] =  doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
+      // // })
+      // graphdetails['today'] = 3;
+      //   graphdetails['yesterday'] = 4
+      //   graphdetails['previousDay'] = 2;
+      //   graphdetails['totalScans'] = 5;
+      //   graphdetails['standardModeScans'] =6;
+      //   graphdetails['eventModeScans'] =3;
+      //   graphdetails['name'] =doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' );
+      //   graphdetails['graph'] = {
+      //     type: 'bar',
+      //     data: {
+      //       labels: this.fetchDates(date),
+      //       datasets: [
+      //           {
+      //               backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+      //               borderColor: "#ADB5BD",
+      //               borderWidth: 1,
+      //               hoverBackgroundColor: "#ADB5BD",
+      //               hoverBorderColor: "#ADB5BD",
+      //               data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
                     
-                },
-            ],
-        },
-        chartOptions: {
-            maintainAspectRatio: false,
+      //           },
+      //       ],
+      //   },
+      //   chartOptions: {
+      //       maintainAspectRatio: false,
             
             
-        },}
+      //   },}
 
-      return graphdetails
+      // return graphdetails
+
+      return this.fetchgraphdetails(doc.product_id,date)
 
     })
 
@@ -395,16 +400,71 @@ chartOptions: Partial<ApexChartOptions> = {
 
   }
 
-  fetchGraphDetails(date:any, orgId:any, prodId:any  ){
+  fetchgraphdetails(prodId:any,date:any,){
+    let graphdetails:any = {}; 
+    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+    //   graphdetails['today'] = doc[0].total_org_tests;
+    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+    //   graphdetails['totalScans'] = doc[0].total_org_tests;
+    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    // })
+    graphdetails['today'] = 3;
+      graphdetails['yesterday'] = 4
+      graphdetails['previousDay'] = 2;
+      graphdetails['totalScans'] = 5;
+      graphdetails['standardModeScans'] =6;
+      graphdetails['eventModeScans'] =3;
+      graphdetails['prodId'] = prodId;
+      graphdetails['date'] = date
+      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      graphdetails['graph'] = {
+        type: 'bar',
+        data: {
+          labels: this.fetchDates(date),
+          datasets: [
+              {
+                  backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                  borderColor: "#ADB5BD",
+                  borderWidth: 1,
+                  hoverBackgroundColor: "#ADB5BD",
+                  hoverBorderColor: "#ADB5BD",
+                  data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                  
+              },
+          ],
+      },
+      chartOptions: {
+          maintainAspectRatio: false,
+          
+          
+      },}
 
-    this.adminService.fetchDailyScan(orgId,prodId,date).subscribe((doc:any)=>{
-
-    })
+    return graphdetails
   }
 
-  checkdate(event:any){
-    console.log('hello date =>', this.dateSelected);
-    console.log('date selected => ', event)
+  fetchDates(date:any){
+
+    const datechecked = new Date(date);
+    const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
+    const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
+
+    console.log('oyul =>', datechecked)
+    return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
+  }
+
+
+  getDate(date:any){
+   return  this.monthNames[new Date(date).getMonth()].slice(0,3) +' ' +new Date(date).getDate()
+  }
+
+  checkdate(event:any,prodId:any,date:any){
+    console.log('hello date =>', date);
+    console.log('date selected => ', event);
+    const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
+    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
   }
 
 
