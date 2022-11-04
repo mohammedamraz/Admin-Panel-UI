@@ -37,18 +37,19 @@ export class PilotDashboardComponent implements OnInit {
   @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   formSubmitted=false
   changeButton:boolean=false
+  dateSelected:any=new Date().toISOString().substring(0, 10);
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
   barChartOptions : ChartDataset = {
     type: 'bar',
     data: {
-        labels: ["January", "February", "March"],
+        labels: ["previous day", "yesterday", "today"],
         datasets: [
             {
-                label: "Sales Analytics",
-                backgroundColor: "RGBA(3,149,253,0.3)",
-                borderColor: "#0388FD",
+                
+                backgroundColor:  ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                borderColor: "#ADB5BD",
                 borderWidth: 1,
                 hoverBackgroundColor: "RGBA(3,149,253,0.6)",
                 hoverBorderColor: "#0388FD",
@@ -184,9 +185,15 @@ chartOptions: Partial<ApexChartOptions> = {
 
 
 
+
     
 
   }
+  checkdate(event:any){
+    console.log('hello date =>', this.dateSelected);
+    console.log('date selected => ', event)
+  }
+
 
 
 

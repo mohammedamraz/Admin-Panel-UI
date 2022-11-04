@@ -114,3 +114,10 @@
     
 
 }
+.grid-class{
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-items: center;
+    align-items: center;
+    align-items: end;
+}

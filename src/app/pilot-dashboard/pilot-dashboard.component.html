@@ -380,22 +380,12 @@
                 <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo Vitals: Daily Scan Report</h4>
 
                 <div class="col-sm-6">
-                    <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
-                        <a style="background: #383E4A;
-                        color: #9BA6AC;
-                        border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
-                            ngbDropdownToggle>
-                           Date <i class="mdi mdi-chevron-down"></i>
-                        </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                            
-    
-                        </div>
-                    </div>
+                    <input class="form-control" id="example-date" [(ngModel)]='dateSelected' (change)="checkdate($event)" type="date" name="date" style="width: auto;">
+
                 </div> <!-- end col -->
 
                 <div class="BarGraph-container" style="display: grid;" >
-
+<!-- 
                 <div style=" color:#F5F5F5; ">
                     <p>Total Scans:</p>
                     <p>Standard Mode Scans:</p>
@@ -403,12 +393,37 @@
                     <p>Download Excel Report</p>
                     
 
+                </div> -->
+                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                    <div style=" align-self: center;     color: #ADB5BD;display: grid;
+                    grid-gap: 1rem;">
+                        <p style="font-size: 1.5rem;margin: 0;">Total Scans</p>
+                        <p style="font-size: 1.5rem;margin: 0;">Standard Mode Scans</p>
+                        <p style="font-size: 1.5rem;margin: 0;">Event Mode Scans</p>
+                    </div>
+                    <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                    grid-gap: .45rem;">
+                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 2rem; font-weight: 500; margin: 0;"> {{'2'}}</p></div>
+                        <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 2rem; font-weight: 500; margin: 0;"> {{'1'}}</p></div>
+                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 2rem; font-weight: 500; margin: 0;"> {{'5'}}</p></div>
+                    </div>
+                  
+
                 </div>
                 
 
                 <div class="chartjs-chart"  style="height: 300px;width:75%">
-                    <canvas id="bar-chart" #barChart baseChart [data]="barChartOptions.data!"
+                    <canvas id="bar-chart" #barChart baseChart [data]="barChartOptions.data!"[legend]="false"
                         [type]="barChartOptions.type!" [options]="barChartOptions.chartOptions!"></canvas>
+                </div>
+                <div>
+                    <!-- <button>Download Excel Report</button> -->
+                </div>
+
+                <div style="    display: inline-flex;
+                gap: inherit;justify-self: center;">
+                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p>Previous</p>
+                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p>Current</p>
                 </div>
                 </div>
             </div>
