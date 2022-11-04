@@ -803,7 +803,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <!-- <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="text-center">
@@ -812,7 +812,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    <ng-template ngFor let-season [ngForOf]="widgetCounts" let-i=index> 
     <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
@@ -822,17 +823,18 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="'/vitalsList/'+season.id" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #F2CA65;">{{vitalsCount}}</h2>
-                    <h5 style="color: #ADB5BD;">Vitals Pilots</h5>
+                    <h2 class="fw-normal" [ngStyle]="{'color': season.color}" >{{season.count}}</h2>
+                    <h5 style="color: #ADB5BD;">{{season.name}} Pilots</h5>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+</ng-template>
+    <!-- <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="float-end" ngbDropdown placement="bottom-end">
@@ -840,7 +842,6 @@
                         <i *ngIf="false" class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <!-- item-->
                         <a href="javascript:void(0);" ngbDropdownItem>View List</a>
                     </div>
                 </div>
@@ -850,7 +851,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
     <div class="card" style="background: #313844;">
