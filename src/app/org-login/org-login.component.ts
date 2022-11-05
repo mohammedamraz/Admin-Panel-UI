@@ -72,7 +72,7 @@ export class OrgLoginComponent implements OnInit {
           this.adminConsoleService.httpLoading$.next(true);
           this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
             next:(res:any) =>{
-              this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
+              this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].id+'/home' : data.org_data[0].id+'/dashboard' }`]);
             }})
         }
         else if(data.org_data[0].type != 'admin'){

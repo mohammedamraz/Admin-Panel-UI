@@ -1,0 +1,291 @@
+<ng-template #toggleModal1 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0; ">
+        <div class="card-body" style="background-color: #282E38 ;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');list=3" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Organisation</h4>
+    
+            <form [formGroup]="OrgForm" #basicForm="ngForm">
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                                <span class=" d-sm-inline">Org Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <div class="col-md">
+                                                <div class="form-floating ">
+
+                                                <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid}" 
+                                                name="userName" minlength="3" placeholder="Organisation Name" formControlName="organization_name" oninput=" this.value = this.value.replace(/[0-9]/g,'')" >
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
+                                                            Enter full Organisation Name
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid}" 
+                                                name="userName" placeholder="Org Admin Full Name" required formControlName="admin_name">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['admin_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['admin_name'].errors?.['pattern']" i18n>
+                                                            Invalid name format. Please enter your full name
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['designation'].invalid}" 
+                                                name="userName" placeholder="Designation" formControlName="designation" minlength="3">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['designation'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['designation'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['designation'].errors?.['minlength']" i18n>
+                                                            Enter full designation
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                    name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
+                                                    <!-- <div *ngIf="OrgDetailsEditForm && form1['organization_email'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
+                                                            Enter full Organisation Name
+                                                          </div>
+                                                    </div> -->
+                                            </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC" 
+                                                    name="userName" placeholder="Mobile Number" formControlName="organization_mobile"
+                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid}" >
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['pattern']" i18n>
+                                                            Invalid format. Please enter valid format
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+    
+                                      
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none   ;">
+                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div> 
+                                <div style="text-align: center; margin: 5rem 5rem 1rem 5rem;">
+                                <button style="width: 100px;" type="button" class="btn btn-info" (click)="reloadCurrentPage()"
+                                >Close</button>
+                            </div>
+                            </ng-template>
+                            
+                        </li>
+                        
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" *ngIf="activeWizard2 == 1" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
+                        </div>
+                        <li class="previous list-inline-item" >
+                            <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('')" 
+                                >Close</button>
+                        </li>
+
+                        <li class="next list-inline-item float-end" >
+
+                            <button type="button" style="width: 100px;" class="btn btn-info"  (click)="checkingOrgForm()"
+                                >Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
+
+<div class="row" >
+    <!-- <div class="col-xl-3 col-md-6"></div> -->
+        <div class="col-xl-8 col-md-8" style="display:inline-grid" >
+            <div class="card layout-style" style="background: #313844; border-radius:10px">
+                    <div style="margin:1.5rem" >
+                    <h4 style="color: white;">Personal Details</h4>
+
+                        <!-- <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                        align-self: center;" >
+                            <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                <i class="mdi mdi-pencil"></i>
+                            </a>
+                        </div> -->
+                    </div>
+                    <!-- <div class="card-body">
+
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 1.2rem;">Organisation Name</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;font-weight: 500;
+                        font-size: 1.2rem;
+                        line-height: 22px;
+                        ">{{organization_name}}</p>
+                    </div> -->
+                    <div class="card-body" style="grid-auto-flow: column;
+                    display: grid; grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="color: #98a6ad;font-weight: 100;
+                            font-size:1.2rem ;">Name</h4>
+                            <p class="sub-header" style=" color: #fff;
+                            margin-bottom: 0;
+                            font-weight: 500;
+                            font-size: 1.2rem;
+                            line-height: 22px;">{{admin_name}}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #98a6ad;font-weight: 100;
+                            font-size: 1.2rem;">Designation</h4>
+                            <p class="sub-header" style=" color: #fff;
+                            margin-bottom: 0;
+                            font-weight: 500;
+                            font-size: 1.2rem;
+                            line-height: 22px;">{{designation}}</p>
+                        </div>
+                    </div>
+                    <div class="card-body" style="grid-auto-flow: column;
+                    display: grid;grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="color: #98a6ad;font-weight: 100;
+                            font-size: 1.2rem;">Mobile</h4>
+                            <p class="sub-header" style=" color: #fff;
+                            margin-bottom: 0;
+                            font-weight: 500;
+                            font-size: 1.2rem;
+                            line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #98a6ad;font-weight: 100;
+                            font-size: 1.2rem;">Email</h4>
+                            <p class="sub-header" style=" color: #fff;
+                            margin-bottom: 0;
+                            font-weight: 500;
+                            font-size: 1.2rem;
+                            line-height: 22px;">{{organization_email}}</p>
+                        </div>
+                    </div>
+    
+            </div>
+        </div>
+        <div class="col-xl-4 col-md-4"  >
+            <div  class="card" style="background: #313844; border-radius:10px;padding-bottom: 2.5rem;">
+                <h4   style="color: white; margin: 2rem 0 0 2rem">Profile Pic</h4>
+                
+                <div class="card-body mt-1 mb-0 shadow-none border"  >
+                    <div  style="align-self: center;">
+                        <div class="row align-items-center" style="    place-content: center; margin-bottom:1.3rem">
+                        <img [src]="srcImage" alt="update an image" class="rounded-circle"  style="width: 90%; height: 160px;border-radius: 5px;  margin-bottom: 1rem;">
+                    </div>
+                    </div>
+                    
+    
+    
+                    <div style="    display: flex;
+                    place-content: center;
+                    column-gap: 1rem;">
+                 <div class="col-xl-4 col-lg-5 col-md-5 col-sm-3"style="background: #3C424F; align-self: center;border-radius: 6px !important; height:5rem">
+                        <ngx-dropzone  class="dropzone" style="background: #3C424F; border: none; height: 0;   margin:0;
+                        border-radius: 5px; overflow: hidden;padding-top: 1rem;"
+                        accept="image/jpeg,image/jpg,image/png,image/gif">
+                        <ngx-dropzone-label >
+                            <i class="h1 text-muted dripicons-cloud-upload" style="font-size: x-large;"></i>
+                            <p style="text-align: center; font-size: 13px; color: #9BA6AC;">Upload Another</p>
+           
+                        </ngx-dropzone-label>
+                    </ngx-dropzone>
+                </div>
+    
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-2" style="background: #3C424F;    align-self: center; border-radius: 6px !important; height:5rem;padding-top: 0.3rem">
+           
+                            <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit;    margin-bottom: 0.3rem;"
+                            (click)="onRemove($event)">
+                            <img src="./assets/images/Vector.png"  style="font-size: x-large;">
+                            <!-- <p>Delete Logo</p> -->
+                        </a>
+                        <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
+    
+                    </div>
+                </div>
+                    
+    
+                    </div>
+            </div>
+    
+    
+        </div>
+    
+        
+    </div>

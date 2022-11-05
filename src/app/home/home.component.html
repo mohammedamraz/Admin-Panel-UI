@@ -307,9 +307,15 @@
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
-                                                            floor: 1,
+                                                            floor: 0,
                                                             ceil: 90
                                                         }"></ngx-slider>
+
+                                                        <div *ngIf="season.pilot_duration==0&&season.pressed" style="color:  #F08F8F;">
+                                                            Mandatory field
+                                                          </div>
+
+
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
                                             <div style="padding-bottom:1rem">
@@ -337,6 +343,11 @@
                                               <label class="form-check-label" for="customRadio1"
                                                 >&nbsp;Vitals Dashboard</label>
                                             </div>
+                                            <div *ngIf="season.pressed&&validation" style="color:  #F08F8F;">
+                                                Mandatory field
+                                              </div>
+
+
                                                     </div>
                                       </div>
                                             </div>
@@ -353,13 +364,26 @@
                                                 <h4 class="header-title" style="color: #AEB5BC;">Define Web App Vitals URL:</h4>
                                                 <div class="row" style="display: grid;
                                                 margin-bottom: 1rem;">
-                                                <div style="place-self: center;padding-right: 0;    color: #9BA6AC;">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;  margin-left:1rem;  color: #9BA6AC;
+                                                <div style="place-self: center;padding-right: 0;    color: #9BA6AC;">https://www.fedo.ai/products/vitals/</div>
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;  margin-left:1rem;  color: #9BA6AC;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
-                                                    name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
-                                                    <div *ngIf="form1['url'].invalid&&basicForm.touched" class="invalid-feedback">
+                                                    name="userName" placeholder=""required="" [(ngModel)]="season.web_url" (blur)="checkInputValue(season.web_url)" [ngModelOptions]="{standalone: true}"  minlength="3" maxlength="50" pattern="[A-Za-z]+">
+                                                    <div *ngIf="season.pressed">
+                                                    <div *ngIf="season.web_url==''&&season.pressed" style="color: #F08F8F">
                                                         Mandatory field. Enter custom name for the URL
                                                     </div>
+                                                    
+                                                    <div *ngIf="season.web_url.length<3&&season.pressed" style="color: #F08F8F">
+                                                        Please Enter Minimum 3 Characters
+                                                       
+                                                    </div>
+                                                    <div *ngIf="web_url_error_token" style="color: #F08F8F">
+                                                        Cannot contain spaces special characters
+                                                       
+                                                    </div>
+                                                </div>
+    
     
                                                 </div>
     
@@ -425,7 +449,7 @@
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard1 == list)">
                             <button style="width: 100px;" type="submit" (click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard1<list-1">Next</button>
-                            <button style="width: 100px;" type="button" class="btn btn-info" (click)="checkingForm()"
+                            <button style="width: 100px;" type="button" class="btn btn-info" (click)="fetchData()"
                                 *ngIf="activeWizard1!=3&&activeWizard1 == list-1">Submit</button>
                         </li>
                     </ul>
@@ -779,7 +803,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <!-- <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="text-center">
@@ -788,7 +812,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    <ng-template ngFor let-season [ngForOf]="widgetCounts" let-i=index> 
     <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
@@ -798,17 +823,18 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="['/vitalsList']" ngbDropdownItem>View List</a>
+                        <a href="javascript:void(0);" [routerLink]="'/vitalsList/'+season.id" ngbDropdownItem>View List</a>
                     </div>
                 </div>
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #F2CA65;">{{vitalsCount}}</h2>
-                    <h5 style="color: #ADB5BD;">Vitals Pilots</h5>
+                    <h2 class="fw-normal" [ngStyle]="{'color': season.color}" >{{season.count}}</h2>
+                    <h5 style="color: #ADB5BD;">{{season.name}} Pilots</h5>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+</ng-template>
+    <!-- <div class="col-xl-3 col-md-6">
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="float-end" ngbDropdown placement="bottom-end">
@@ -816,7 +842,6 @@
                         <i *ngIf="false" class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <!-- item-->
                         <a href="javascript:void(0);" ngbDropdownItem>View List</a>
                     </div>
                 </div>
@@ -826,7 +851,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
     <div class="card" style="background: #313844;">
@@ -858,6 +883,7 @@
                     <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                         <tr  style="border-color: #49565d;" >
                             <th>#</th>
+                            <th></th>
                             <th>Org Name</th>
                             <th>Pilots</th>
                             <th style="    text-align: -webkit-center;">Total Users</th>
@@ -868,6 +894,8 @@
                     <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                         <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tabDAta;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
+                            <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
+                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
                             <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">{{person.organization_name}}</td>
                             <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
                                 <div style="    display: grid;
@@ -896,7 +924,21 @@
                                     <a  [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <a href="javascript:void(0);" (click)="openUserForm(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                    <div style="display: flex;
+                                    align-items: center;"><div style="display: flex;" *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)
+                                        
                                 </div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)
+                                    </div>
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+                                </div>
+                                
                             </div></td>
                         </tr>
 

@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
+import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
+import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 
 
 @Component({
@@ -32,6 +34,10 @@ export class OrganisationDetailsComponent implements OnInit {
   snapshotParam:any = "initial value";
   subscribedParam:any = "initial value";
   srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
+  dateSelected:any=new Date().toISOString().substring(0, 10);
+  monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
   //details
   organization_name:any='';
@@ -70,6 +76,9 @@ export class OrganisationDetailsComponent implements OnInit {
   next:boolean=false;
   created:boolean = false;
   showLiveAlertNextButton=false;
+  model!: NgbDateStruct;
+date!: { year: number; month: number; };
+  graphArray:any[]=[];
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -90,6 +99,107 @@ export class OrganisationDetailsComponent implements OnInit {
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
+   barChartOptions : ChartDataset = {
+    
+    type: 'bar',
+    data: {
+        labels: ["previous day", "yesterday", "today"],
+        datasets: [
+            {
+                backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                borderColor: "#ADB5BD",
+                borderWidth: 1,
+                hoverBackgroundColor: "#ADB5BD",
+                hoverBorderColor: "#ADB5BD",
+                data: [5, 8 , 7,],
+                
+            },
+        ],
+    },
+    chartOptions: {
+        maintainAspectRatio: false,
+        
+        
+    },
+}
+chartOptions: Partial<ApexChartOptions> = {
+  series: [
+    {
+      name: 'Series A',
+      type: 'area',
+      data: [50, 75, 30,],
+    },
+    {
+      name: 'Series B',
+      type: 'line',
+      data: [0, 40, 80, ],
+    },
+  ],
+  chart: {
+    height: 268,
+    type: 'line',
+    toolbar: {
+      show: false,
+    },
+    stacked: false,
+    zoom: {
+      enabled: false,
+    },
+  },
+  stroke: {
+    curve: 'smooth',
+    width: [3, 3],
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    show: false,
+  },
+  fill: {
+    type: 'solid',
+    opacity: [0, 1],
+  },
+  colors: ['#3cc469', '#188ae2'],
+  xaxis: {
+    categories: ['W1', 'W2', 'W3', ],
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      style: {
+        colors: '#adb5bd',
+      },
+    },
+  },
+  yaxis: {
+    tickAmount: 4,
+    min: 0,
+    max: 100,
+    labels: {
+      style: {
+        colors: '#adb5bd',
+      },
+    },
+  },
+  grid: {
+    show: false,
+    padding: {
+      top: 0,
+      bottom: 0,
+    },
+  },
+  tooltip: {
+    theme: 'dark',
+  },
+
+};
+
+ 
+
 
 
 
@@ -164,6 +274,7 @@ export class OrganisationDetailsComponent implements OnInit {
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
+        this.createGraphArrayItems(this.product,this.dateSelected);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
           }
@@ -228,8 +339,137 @@ export class OrganisationDetailsComponent implements OnInit {
    
     //     ; return doc;
     // })
+   
+  }
+
+  createGraphArrayItems(products:any,date:any){
+
+    console.log('aksjdfhlkjasdhflkashdf =>', date)
+
+    // this.graphArray = products.map((doc:any) => ({
+    //    name: doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
+    // }));
+
+    this.graphArray = products.map((doc:any) => {
+      // let graphdetails:any = {}; 
+      // // this.adminService.fetchDailyScan(this.snapshotParam,doc.product_id,date).subscribe((doc:any)=>{
+      // //   graphdetails['today'] = doc[0].total_org_tests;
+      // //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+      // //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+      // //   graphdetails['totalScans'] = doc[0].total_org_tests;
+      // //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+      // //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+      // //   graphdetails['name'] =  doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
+      // // })
+      // graphdetails['today'] = 3;
+      //   graphdetails['yesterday'] = 4
+      //   graphdetails['previousDay'] = 2;
+      //   graphdetails['totalScans'] = 5;
+      //   graphdetails['standardModeScans'] =6;
+      //   graphdetails['eventModeScans'] =3;
+      //   graphdetails['name'] =doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' );
+      //   graphdetails['graph'] = {
+      //     type: 'bar',
+      //     data: {
+      //       labels: this.fetchDates(date),
+      //       datasets: [
+      //           {
+      //               backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+      //               borderColor: "#ADB5BD",
+      //               borderWidth: 1,
+      //               hoverBackgroundColor: "#ADB5BD",
+      //               hoverBorderColor: "#ADB5BD",
+      //               data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                    
+      //           },
+      //       ],
+      //   },
+      //   chartOptions: {
+      //       maintainAspectRatio: false,
+            
+            
+      //   },}
+
+      // return graphdetails
+
+      return this.fetchgraphdetails(doc.product_id,date)
+
+    })
+
+
 
   }
+
+  fetchgraphdetails(prodId:any,date:any,){
+    let graphdetails:any = {}; 
+    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+    //   graphdetails['today'] = doc[0].total_org_tests;
+    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+    //   graphdetails['totalScans'] = doc[0].total_org_tests;
+    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
+    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
+    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    // })
+    graphdetails['today'] = 3;
+      graphdetails['yesterday'] = 4
+      graphdetails['previousDay'] = 2;
+      graphdetails['totalScans'] = 5;
+      graphdetails['standardModeScans'] =6;
+      graphdetails['eventModeScans'] =3;
+      graphdetails['prodId'] = prodId;
+      graphdetails['date'] = date
+      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      graphdetails['graph'] = {
+        type: 'bar',
+        data: {
+          labels: this.fetchDates(date),
+          datasets: [
+              {
+                  backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                  borderColor: "#ADB5BD",
+                  borderWidth: 1,
+                  hoverBackgroundColor: "#ADB5BD",
+                  hoverBorderColor: "#ADB5BD",
+                  data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                  
+              },
+          ],
+      },
+      chartOptions: {
+          maintainAspectRatio: false,
+          
+          
+      },}
+
+    return graphdetails
+  }
+
+  fetchDates(date:any){
+
+    const datechecked = new Date(date);
+    const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
+    const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
+
+    console.log('oyul =>', datechecked)
+    return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
+  }
+
+
+  getDate(date:any){
+   return  this.monthNames[new Date(date).getMonth()].slice(0,3) +' ' +new Date(date).getDate()
+  }
+
+  checkdate(event:any,prodId:any,date:any){
+    console.log('hello date =>', date);
+    console.log('date selected => ', event);
+    const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
+    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+  }
+
+
+
+
 
   createEditproc(products:any,OrgProducts:any){
 
@@ -304,6 +544,26 @@ export class OrganisationDetailsComponent implements OnInit {
     this.activeWizard2 = 1;
 
  }
+
+ updateStatus(data:any,userData:any){
+  // console.log("datat",data)
+  this.adminService.patchUserStatus(userData.id, data).subscribe({
+    next: (res) => {
+      console.log('the success=>',data);
+      if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+      this.reloadCurrentPage();
+      // this.activeWizard2=this.activeWizard2+1;
+      // this.created=true;
+    }
+  })
+
+}
+
+resendInvitationMail(data:any){
+  console.log("ersdfzdx",data);
+  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+
+  }
 
   orgEdit(content: TemplateRef<NgbModal>): void {
     this.createEditproc(this.products,this.product);

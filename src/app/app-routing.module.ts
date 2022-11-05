@@ -18,6 +18,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { VitalsDashboardComponent } from './vitals-dashboard/vitals-dashboard.component';
 import { PilotDashboardComponent } from './pilot-dashboard/pilot-dashboard.component';
 import { UserdashboardComponent } from './userdashboard/userdashboard.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const routes: Routes = [
@@ -54,12 +56,12 @@ const routes: Routes = [
         component: CreateOrganizationComponent
       },
       {
-        path:'vitals-dashboard',
+        path:'vitals-dashboard/:id',
         canActivate: [AuthGuard],
         component: VitalsDashboardComponent
       },
       {
-        path:'vitalsList',
+        path:'vitalsList/:id',
         canActivate: [AuthGuard],
         component: PilotsListComponent
       },
@@ -84,7 +86,17 @@ const routes: Routes = [
         component: OrganisationDetailsComponent
       },
       {
+        path:':orgId/settings',
+        canActivate: [OrgGuard],
+        component: SettingsComponent
+      },
+      {
         path: ':orgId/userdetails',
+        canActivate: [OrgGuard],
+        component: UserDetailsComponent
+      },
+      {
+        path: ':orgId/userlist/:prodId',
         canActivate: [OrgGuard],
         component: UserDetailsComponent
       },
@@ -98,7 +110,16 @@ const routes: Routes = [
         canActivate: [OrgGuard],
         component: UserdashboardComponent
       },
-      
+      {
+        path: 'profile',
+        // canActivate: [OrgGuard],
+        component: ProfileComponent
+      },{
+        path: ':orgId/home',
+        canActivate: [OrgGuard],
+        component: UserdashboardComponent
+      }
+    
     ]
   },
 
@@ -112,6 +133,7 @@ const routes: Routes = [
     canActivate: [OrgGuard],
     component: UserDetailsComponent
   },
+  
   
   {
     path: '',

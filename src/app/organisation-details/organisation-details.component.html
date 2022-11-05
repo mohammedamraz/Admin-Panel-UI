@@ -1,4 +1,4 @@
-<h4 *ngIf="orglogin==true" style="color: white;">Organisation Details</h4>
+<h4 *ngIf="orglogin==false" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
@@ -738,7 +738,7 @@
     </div> <!-- end card-->
 </ng-template>
 
-<div class="row" >
+<div class="row" *ngIf="orglogin==false" >
 <!-- <div class="col-xl-3 col-md-6"></div> -->
     <div class="col-xl-8 col-md-8" style="display:inline-grid" >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
@@ -854,7 +854,7 @@
 
     
 </div>
-<h4 style="color: white;">Your Fedo Products</h4>
+<h4 *ngIf="orglogin === true" style="color: white;">Your Fedo Products</h4>
     <div class="row mb-2" *ngIf="orglogin" >
         <div class="col-xl-3 col-md-4" *ngFor="let product of orgProd;let indexOfelement=index;">
             <div class="card" style="background: #313844;border-radius:10px"  >
@@ -883,6 +883,141 @@
             </div>
         </div>
     </div>
+
+    
+    
+
+<ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
+
+    <div class="row"  >
+    <div class="col-xl-6 "  >
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+            
+                <div class="card-body">
+
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+
+                </div>
+
+                <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{season.name}}: Daily Scan Report</h4>
+
+                <div class="col-sm-6">
+                    <input class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
+
+                    <!-- <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
+                        <a style="background: #383E4A;
+                        color: #9BA6AC;
+                        border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
+                            ngbDropdownToggle>
+                           Date <i class="mdi mdi-chevron-down"></i>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownLink">
+                            <ngb-datepicker #dp [(ngModel)]="model" (navigate)="date = $event.next"></ngb-datepicker>
+                        </div>
+                    </div> -->
+                </div> <!-- end col -->
+
+                <div class="BarGraph-container" style="display: grid;" >
+                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                    <div style=" align-self: center; color:#F5F5F5;display: grid;
+                    grid-gap: 1rem;">
+                        <p style="font-size: 1.5rem;margin: 0;">Total Scans</p>
+                        <p style="font-size: 1.5rem;margin: 0;">Standard Mode Scans</p>
+                        <p style="font-size: 1.5rem;margin: 0;">Event Mode Scans</p>
+                    </div>
+                    <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                    grid-gap: .45rem;">
+                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.totalScans}}</p></div>
+                        <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.standardModeScans}}</p></div>
+                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
+                    </div>
+                  
+                    <!-- <div>
+                        <button>Download Excel Report</button>
+                    </div> -->
+                    
+
+                </div>
+                
+
+                <div class="chartjs-chart" style="height: 300px;width:75%">
+                    <canvas id="bar-chart" #barChart baseChart [data]="season.graph.data!" [legend]="false"
+                        [type]="season.graph.type!" [options]="season.graph.chartOptions!"></canvas>
+                </div>
+                <div>
+                            <!-- <button>Download Excel Report</button> -->
+                        </div>
+                <div style="    display: inline-flex;
+                gap: inherit;justify-self: center;    place-items: baseline;">
+                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p>Previous</p>
+                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p>Current</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- <div class="col-xl-6" >
+    <div class="card layout-style" style="background: #313844; border-radius:10px">
+        <div class="card-body">
+            <div class="float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                    <i class="mdi mdi-dots-vertical"></i>
+                </a>
+                <div ngbDropdownMenu>
+                </div>
+            </div>
+    
+            <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo {{season.name}}: Performance Chart</h4>
+            <div class="col-sm-6">
+                <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
+                    <a style="background: #383E4A;
+                    color: #9BA6AC;
+                    border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
+                        ngbDropdownToggle>
+                        Current vs Previous Month <i class="mdi mdi-chevron-down"></i>
+                    </a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownLink">
+                        <a ngbDropdownItem>Current vs Previous Day</a>
+                        <a ngbDropdownItem>Current vs Previous Week</a>
+                        <a ngbDropdownItem>Current vs Previous Quater</a>
+                        <a ngbDropdownItem>Current vs Previous Year</a>
+
+                    </div>
+                </div>
+            </div> 
+            
+
+            <div class="graph-container" style="display: grid ">
+            <div style=" align-self: center; color:#F5F5F5">
+                <p>Current Month:</p>
+                <p>Previous Month:</p>
+                <p>Variance:</p>
+                <p>Top Performer (User):</p>
+                <p style="color: #5FB5DC;">Milind Soman<br>
+                    milind.soman@sample.com</p>
+            </div>
+    
+            <div dir="ltr" style="padding: 0.5rem;">
+                <apx-chart class="apex-charts mt-2" [series]="chartOptions.series!" [chart]="chartOptions.chart!"
+                    [dataLabels]="chartOptions.dataLabels!" [legend]="chartOptions.legend!" [fill]="chartOptions.fill!"
+                    [grid]="chartOptions.grid!" [xaxis]="chartOptions.xaxis!" [yaxis]="chartOptions.yaxis!"
+                    [stroke]="chartOptions.stroke!" [tooltip]="chartOptions.tooltip!" [colors]="chartOptions.colors!">
+                </apx-chart>
+            </div>
+            </div>
+    
+        </div>
+    </div>
+    </div> -->
+
+
+    </div>
+</ng-template>
+  
 
 
 
@@ -987,23 +1122,53 @@
             </div>            
         </div>            
             <h4 class="mt-0 header-title" style="color: white;">Recent 5 Users</h4>
-            <div class="table-responsive" style="    overflow-x: inherit;">
+            <div class="table-responsive" >
                 <table class="table mb-0">
                     <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                         <tr style="border-color: #49565d;">
                             <th>#</th>
+                        <th></th>
                             <th>Org User Name</th>
                             <th >Mobile</th>
                             <th style="text-align: -webkit-center;">Total Tests</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                         <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tableData;let indexOfelement=index;">
                             <th scope="row">{{indexOfelement+1}}</th>
-                            <td>{{person.user_name}}</td>
+                            <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
+                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                            <td>{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
                             <td >{{person.mobile.slice(3,14)}}</td>
                             <td style="text-align: -webkit-center;color: #82B4F3;">{{person.total_test}}</td>
-                            
+                            <td class="option">
+                                <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                    <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </a>
+                                    <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                        <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a> -->
+                                        <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
+                                        <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
+    
+                                        <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
+                                    <div style="display: flex;
+                                        align-items: center;">
+                                        <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
+                                        <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div>
+                                        
+                                        <div class="form-check form-switch" >
+                                            <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                    </div>
+                                </div>
+                                <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+    
+                                </div>
+                            </div>
+    
+                                </div> 
+                            </td>
                             
                         </tr>
 
@@ -1059,23 +1224,54 @@
                 <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                     <tr  style="border-color: #49565d;" >
                         <th>#</th>
+                        <th></th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Employee Of</th>
                         <th style="    text-align: -webkit-center;">Created Date</th>
                         <th style="    text-align: -webkit-center;">Total Tests</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tableData;let indexOfelement=index;">
                         <td scope="row">{{indexOfelement+1}}</td>
-                        <td>{{person.user_name}}</td>
+                        <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
+                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                        <td>{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
                         <td>{{person.email}}</td>
                         <td >{{person.mobile.slice(3,14)}}</td>
                         <td>{{person.third_party_org_name != null ? (person.third_party_org_name==''? 'Direct':person.third_party_org_name+ '(TPA)') :'Direct'}}</td>
                         <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
                         <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
+                        <td class="option">
+                            <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                    <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a> -->
+                                    <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
+
+                                    <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
+                                <div style="display: flex;
+                                    align-items: center;">
+                                    <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div>
+                                    
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+                        </div>
+
+                            </div> 
+                        </td>
                     </tr>
                 </tbody>
             </table>
