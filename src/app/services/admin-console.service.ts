@@ -370,6 +370,10 @@ export class AdminConsoleService {
 
       return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
     }
+    fetchUsersDailyScan(userId:any, prodId:any, date:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
+    }
 
 
 
