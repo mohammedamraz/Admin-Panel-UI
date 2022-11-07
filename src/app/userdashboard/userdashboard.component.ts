@@ -14,6 +14,7 @@ import { AdminConsoleService } from '../services/admin-console.service';
 export class UserdashboardComponent implements OnInit {
 
   orgId:any=0;
+  userId:any=undefined;
   product:any={};
   loggedInUser: any={};
   prodId:any=0;
@@ -148,60 +149,73 @@ chartOptions: Partial<ApexChartOptions> = {
   
   ngOnInit(): void {
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-    console.log('userdata',data.user_data);
-    if(data.user_data){
-      this.user_name = data.user_data[0].user_name;
-        this.email = data.user_data[0].email;
-        this.mobile = data.user_data[0].mobile;
-        this.designation = data.user_data[0].designation;
-    }
+    // if(data.user_data){
     this.loggedInUser = <any>this.authService.currentUser();
-    // this.orgId = this.route.snapshot.paramMap.get("orgId");
-    // this.prodId = this.route.snapshot.paramMap.get("Id");
-    console.log('asdf',!this.loggedInUser.user_data)
-    // if(this.loggedInUser.user_data[0].is_deleted){
-    //   this.open(<TemplateRef<NgbModal>><unknown>this.input);
-    // }
-    console.log("rwsgdfzhxgfxg")
 
-    this.route.params.subscribe((val:any) =>{
-      console.log("rwsgdfzhxgfxg",val)
-      this.show=false;
-      this.orgId = val.orgId;
-      console.log("org id",this.orgId );
-      
-      this.prodId = val.Id;    
-      console.log("org id",this.prodId ); 
-      this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
+      if(this.loggedInUser.user_data){
+        this.route.params.subscribe((val:any) =>{
+          this.show=false;
+          this.orgId = val.orgId;
+          this.userId = this.loggedInUser.user_data[0].id;
+          
+          this.prodId = val.Id;    
+        }) 
+
+        if(this.loggedInUser.user_data[0].is_deleted){
+          this.open(<TemplateRef<NgbModal>><unknown>this.input);
+        }
+        
+
+      }
+      else { 
+        this.route.params.subscribe((val:any) =>{
+          this.show=false;
+          this.orgId = val.orgId;
+          this.userId = val.userId;
+          
+          this.prodId = val.Id;    
+        })
+
+      }
+
+    
+      this.adminService.fetchUserListById(this.userId).subscribe({
+        next:(data:any)=>{
+          console.log("data",data)
+          this.user_name = data[0].user_name;
+        this.email = data[0].email;
+        this.mobile = data[0].mobile;
+        this.designation = data[0].designation;
+
+        }
+      })
+      this.adminService.fetchUserProdById(this.userId).subscribe({
         next:(res:any) =>{
-          console.log('rsgdvefd', res);
           this.products = res;
-          console.log('products',this.products);
           
           this.createGraphArrayItems(this.products,this.dateSelected);
          
 
           const selected =res.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
           this.product= res[selected];
-          console.log("product",this.product);
-          
-          console.log('asdw',this.product);
           this.adminService.fetchOrgById(this.product.org_id).subscribe({
             next:(res:any) =>{  
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
               this.days = res[0].product[spotted].pilot_duration
               if(res[0].product[spotted].status =="Expired"){
                 this.days = res[0].product[spotted].pilot_duration
+                // here there should be change for the pilot expired error thats coming while switching the dashboard
                 this.show=true
               }
                   }});
           
         }});
-        this.adminService.fetchUserScan(this.loggedInUser.user_data[0].id,this.prodId).subscribe({
+        this.adminService.fetchUserScan(this.userId,this.prodId).subscribe({
           next:(res:any) =>{
             this.testScan = res.total_tests 
           }});
-    })
+    // })
+    
     
 
     
@@ -226,7 +240,7 @@ chartOptions: Partial<ApexChartOptions> = {
   }
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    this.adminService.fetchUsersDailyScan(this.loggedInUser.user_data[0].id,prodId,date).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,prodId,date).subscribe((doc:any)=>{
       console.log('usergraph',doc);
       
       graphdetails['today'] = doc[0].total_user_tests;
@@ -300,6 +314,7 @@ chartOptions: Partial<ApexChartOptions> = {
   }
 
   open(content: TemplateRef<NgbModal>): void {
+
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 
