@@ -904,8 +904,8 @@
 
                 <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{season.name}}: Daily Scan Report</h4>
 
-                <div class="col-sm-6">
-                    <input class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
+                <div class="col-sm-6" >
+                    <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
 
                     <!-- <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
                         <a style="background: #383E4A;
@@ -922,11 +922,11 @@
 
                 <div class="BarGraph-container" style="display: grid;" >
                 <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
-                    <div style=" align-self: center; color:#F5F5F5;display: grid;
+                    <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
-                        <p style="font-size: 1.5rem;margin: 0;">Total Scans</p>
-                        <p style="font-size: 1.5rem;margin: 0;">Standard Mode Scans</p>
-                        <p style="font-size: 1.5rem;margin: 0;">Event Mode Scans</p>
+                        <p style="font-size: 1.3rem;margin: 0;">Total Scans</p>
+                        <p style="font-size: 1.3rem;margin: 0;">Standard Mode Scans</p>
+                        <p style="font-size: 1.3rem;margin: 0;">Event Mode Scans</p>
                     </div>
                     <div  style=" align-self: center; color:#F5F5F5;display: grid;
                     grid-gap: .45rem;">
@@ -952,8 +952,8 @@
                         </div>
                 <div style="    display: inline-flex;
                 gap: inherit;justify-self: center;    place-items: baseline;">
-                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p>Previous</p>
-                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p>Current</p>
+                    <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
+                    <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                 </div>
                 </div>
             </div>
@@ -1148,7 +1148,7 @@
                                         <i class="mdi mdi-dots-vertical"></i>
                                     </a>
                                     <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                        <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a> -->
+                                        <a  href="javascript:void(0);" ngbDropdownItem>User Info</a>
                                         <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                         <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
     

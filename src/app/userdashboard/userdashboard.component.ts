@@ -158,18 +158,23 @@ chartOptions: Partial<ApexChartOptions> = {
     this.loggedInUser = <any>this.authService.currentUser();
     // this.orgId = this.route.snapshot.paramMap.get("orgId");
     // this.prodId = this.route.snapshot.paramMap.get("Id");
-    // console.log('asdf',this.prodId)
-    if(this.loggedInUser.user_data[0].is_deleted){
-      this.open(<TemplateRef<NgbModal>><unknown>this.input);
-    }
+    console.log('asdf',!this.loggedInUser.user_data)
+    // if(this.loggedInUser.user_data[0].is_deleted){
+    //   this.open(<TemplateRef<NgbModal>><unknown>this.input);
+    // }
+    console.log("rwsgdfzhxgfxg")
 
     this.route.params.subscribe((val:any) =>{
+      console.log("rwsgdfzhxgfxg",val)
       this.show=false;
       this.orgId = val.orgId;
-      this.prodId = val.Id;     
+      console.log("org id",this.orgId );
+      
+      this.prodId = val.Id;    
+      console.log("org id",this.prodId ); 
       this.adminService.fetchUserProdById(this.loggedInUser.user_data[0].id).subscribe({
         next:(res:any) =>{
-          console.log('hi girls', res);
+          console.log('rsgdvefd', res);
           this.products = res;
           console.log('products',this.products);
           
@@ -221,24 +226,26 @@ chartOptions: Partial<ApexChartOptions> = {
   }
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
-    //   graphdetails['today'] = doc[0].total_org_tests;
-    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-    //   graphdetails['totalScans'] = doc[0].total_org_tests;
-    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
-    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
-    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
-    // })
-    graphdetails['today'] = 3;
-      graphdetails['yesterday'] = 4
-      graphdetails['previousDay'] = 2;
-      graphdetails['totalScans'] = 5;
-      graphdetails['standardModeScans'] =6;
-      graphdetails['eventModeScans'] =3;
+    this.adminService.fetchUsersDailyScan(this.loggedInUser.user_data[0].id,prodId,date).subscribe((doc:any)=>{
+      console.log('usergraph',doc);
+      
+      graphdetails['today'] = doc[0].total_user_tests;
+      graphdetails['yesterday'] = doc[0].total_user_tests_onedaybefore;
+      graphdetails['previousDay'] = doc[0].total_user_tests_twodaybefore;
+      graphdetails['totalScans'] = doc[0].total_user_tests;
+      graphdetails['standardModeScans'] = doc[0].total_user_tests_standard?doc[0].total_user_tests_standard:0;
+      graphdetails['eventModeScans'] = doc[0].total_user_tests_event?doc[0].total_user_tests_event:0;
+      graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    })
+    // graphdetails['today'] = 3;
+      // graphdetails['yesterday'] = 4
+      // graphdetails['previousDay'] = 2;
+      // graphdetails['totalScans'] = 5;
+      // graphdetails['standardModeScans'] =6;
+      // graphdetails['eventModeScans'] =3;
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
-      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
       graphdetails['graph'] = {
         type: 'bar',
         data: {

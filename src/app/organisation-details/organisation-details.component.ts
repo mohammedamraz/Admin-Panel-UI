@@ -99,29 +99,6 @@ date!: { year: number; month: number; };
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
-   barChartOptions : ChartDataset = {
-    
-    type: 'bar',
-    data: {
-        labels: ["previous day", "yesterday", "today"],
-        datasets: [
-            {
-                backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                borderColor: "#ADB5BD",
-                borderWidth: 1,
-                hoverBackgroundColor: "#ADB5BD",
-                hoverBorderColor: "#ADB5BD",
-                data: [5, 8 , 7,],
-                
-            },
-        ],
-    },
-    chartOptions: {
-        maintainAspectRatio: false,
-        
-        
-    },
-}
 chartOptions: Partial<ApexChartOptions> = {
   series: [
     {
@@ -402,24 +379,25 @@ chartOptions: Partial<ApexChartOptions> = {
 
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
-    //   graphdetails['today'] = doc[0].total_org_tests;
-    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-    //   graphdetails['totalScans'] = doc[0].total_org_tests;
-    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
-    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
-    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
-    // })
-    graphdetails['today'] = 3;
-      graphdetails['yesterday'] = 4
-      graphdetails['previousDay'] = 2;
-      graphdetails['totalScans'] = 5;
-      graphdetails['standardModeScans'] =6;
-      graphdetails['eventModeScans'] =3;
+    this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+      console.log('asdffweafdszv => ',doc)
+      graphdetails['today'] = doc[0].total_org_tests;
+      graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+      graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+      graphdetails['totalScans'] = doc[0].total_org_tests;
+      graphdetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+      graphdetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+      graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    })
+    // graphdetails['today'] = 3;
+    //   graphdetails['yesterday'] = 4
+    //   graphdetails['previousDay'] = 2;
+    //   graphdetails['totalScans'] = 5;
+    //   graphdetails['standardModeScans'] =6;
+    //   graphdetails['eventModeScans'] =3;
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
-      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
       graphdetails['graph'] = {
         type: 'bar',
         data: {
