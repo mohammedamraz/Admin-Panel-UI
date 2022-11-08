@@ -468,6 +468,7 @@ chartOptions: Partial<ApexChartOptions> = {
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
       pilot_duration: el.pilot_duration,
+      // pilot_duration: this.calculateRemainingDays(el.start_date,el.pilot_duration),
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -509,6 +510,20 @@ chartOptions: Partial<ApexChartOptions> = {
     const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
     return days_difference;
   }
+
+  calculateRemainingDays(date:any,pilotDuration:any){
+    return pilotDuration - this.fetchRemainingDays(date)
+  }
+
+  fetchRemainingDays(date:any){
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return Math.round((this.treatAsUTC(new Date())-this.treatAsUTC(new Date(date)))/millisecondsPerDay)
+  }
+  treatAsUTC(date:any) {
+    const result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return <any>result;
+}
   
 
   prepopulateOrgFormforEdit(){
