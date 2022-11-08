@@ -435,7 +435,7 @@
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
                                                         [options]="{
-                                                            floor: 1,
+                                                            floor: 0,
                                                             ceil: 90    
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
@@ -486,7 +486,7 @@
                                                     border: 1px solid #444C5B;
                                                     border-radius: 4px;
                                                     width: 40%;
-                                                    "    [readonly]="true"
+                                                    "    
                                                         name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" >
                                                     </p>
                                                 <!-- </div> -->

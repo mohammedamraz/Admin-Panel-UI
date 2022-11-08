@@ -467,8 +467,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration,
-      // pilot_duration: this.calculateRemainingDays(el.start_date,el.pilot_duration),
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -477,8 +476,7 @@ chartOptions: Partial<ApexChartOptions> = {
       product_id: el.product_id,
       event_mode:el.event_mode
     }})
-    this.list=this.list+list.length
-    console.log('asdfq',list)
+    this.list=2+OrgProducts.length
     this.products = product;
     this.listdetails = list;
 
