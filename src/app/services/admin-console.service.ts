@@ -241,8 +241,6 @@ export class AdminConsoleService {
     const loggedInUser = <any>this.authService.currentUser();
     // let name = loggedInUser.org_data[0].organization_name;
 
-
-
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
         { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
@@ -420,6 +418,16 @@ export class AdminConsoleService {
     fetchUsersDailyScan(userId:any, prodId:any, date:any){
 
       return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
+    }
+
+    fetchPerformanceChart(orgId:any, prodId:any, period:any){
+      
+      return this.http.get(`${API_PRODUCTS_TESTS}tests/org?org_id=${orgId}&product_id=${prodId}&period=${period}`)
+    }
+
+    fetchUserPerformanceChart(userId:any, prodId:any, period:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}tests/users?user_id=${userId}&product_id=${prodId}&period=${period}`)
     }
 
 
