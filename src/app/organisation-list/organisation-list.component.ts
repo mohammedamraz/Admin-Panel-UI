@@ -545,7 +545,48 @@ export class OrganisationListComponent implements OnInit {
     // console.log("datat",data,orgData)
     this.adminService.patchOrgStatus(orgData.id, data).subscribe({
       next: (res) => {
-        if(data) this.adminService.sendEmailOnceOrgIsBackActive({name:orgData.admin_name,email:orgData.organization_email})
+        if(data) {
+          //exectus if true
+          //just pass the pilot duration
+          //example code below
+
+          const prod:any = orgData.product.map((el:any)=>{
+            return {
+              fedo_score:el.fedoscore,
+              pilot_duration: el.pilot_duration,
+              product_junction_id:el.id,
+              product_id: el.product_id,
+              web_access: el.web_access,
+              web_url: el.web_access ? el.web_url :'',
+              web_fedoscore: el.web_access ? el.web_fedoscore:false,
+              event_mode: el.event_mode
+            }
+          });
+
+          this.updatePilotDuration(orgData.id,data,prod);
+
+          this.adminService.sendEmailOnceOrgIsBackActive({name:orgData.admin_name,email:orgData.organization_email})
+        }
+        else{
+          //executes if false
+          //calculate remaining pilot duration using start date
+          const prod:any = orgData.product.map((el:any)=>{
+            return {
+              fedo_score:el.fedoscore,
+              pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
+              product_junction_id:el.id,
+              product_id: el.product_id,
+              web_access: el.web_access,
+              web_url: el.web_access ? el.web_url :'',
+              web_fedoscore: el.web_access ? el.web_fedoscore:false,
+              event_mode: el.event_mode
+            }
+          });
+          // const product = orgData.product.map((value:any) =>({ pilot_duration: this.calculateRemainingDays(value.start_date,value.pilot_duration)
+          // }))
+          this.updatePilotDuration(orgData.id,data,prod);
+
+        }
         // console.log('the success=>',res);
         this.reloadCurrentPage();
         // this.activeWizard2=this.activeWizard2+1;
@@ -553,8 +594,49 @@ export class OrganisationListComponent implements OnInit {
       },
     })
     
+    
 
   }
+
+  calculateRemainingDays(date:any,pilotDuration:any){
+    return pilotDuration - this.fetchRemainingDays(date)
+  }
+
+  fetchRemainingDays(date:any){
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return Math.round((this.treatAsUTC(new Date())-this.treatAsUTC(new Date(date)))/millisecondsPerDay)
+  }
+  treatAsUTC(date:any) {
+    const result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return <any>result;
+}
+
+  updatePilotDuration(id:any, data:any,prod:any){
+    let datachunk = new FormData();
+    datachunk.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
+
+    datachunk.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
+    datachunk.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
+    datachunk.append('product_id',prod.map((value:any) => value.product_id).toString());
+    datachunk.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
+    datachunk.append('web_url',prod.map((value:any) => value.web_url).toString());
+    datachunk.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+    datachunk.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+
+    this.adminService.patchOrgDetails(id, datachunk).subscribe({
+      next: (res) => {
+        console.log('the success=>',res);
+
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+
+      },
+      complete: () => { }
+    });
+  }
+
 
   eventmode(event:any, product:any){
     console.log("asd",event.target.checked)

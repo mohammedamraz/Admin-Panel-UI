@@ -14,4 +14,8 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  playstore(){let redirectWindow = window.open('https://www.fedo.ai');
+    // else {let redirectWindow = window.open("https://www.google.com");}   
+  }
+
 }

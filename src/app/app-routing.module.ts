@@ -115,7 +115,7 @@ const routes: Routes = [
         // canActivate: [OrgGuard],
         component: ProfileComponent
       },{
-        path: ':orgId/home',
+        path: ':orgId/home/:userId',
         canActivate: [OrgGuard],
         component: UserdashboardComponent
       }

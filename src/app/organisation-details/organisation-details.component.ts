@@ -99,29 +99,6 @@ date!: { year: number; month: number; };
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
-   barChartOptions : ChartDataset = {
-    
-    type: 'bar',
-    data: {
-        labels: ["previous day", "yesterday", "today"],
-        datasets: [
-            {
-                backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                borderColor: "#ADB5BD",
-                borderWidth: 1,
-                hoverBackgroundColor: "#ADB5BD",
-                hoverBorderColor: "#ADB5BD",
-                data: [5, 8 , 7,],
-                
-            },
-        ],
-    },
-    chartOptions: {
-        maintainAspectRatio: false,
-        
-        
-    },
-}
 chartOptions: Partial<ApexChartOptions> = {
   series: [
     {
@@ -402,24 +379,25 @@ chartOptions: Partial<ApexChartOptions> = {
 
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    // this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
-    //   graphdetails['today'] = doc[0].total_org_tests;
-    //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-    //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-    //   graphdetails['totalScans'] = doc[0].total_org_tests;
-    //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
-    //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
-    //   graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
-    // })
-    graphdetails['today'] = 3;
-      graphdetails['yesterday'] = 4
-      graphdetails['previousDay'] = 2;
-      graphdetails['totalScans'] = 5;
-      graphdetails['standardModeScans'] =6;
-      graphdetails['eventModeScans'] =3;
+    this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+      console.log('asdffweafdszv => ',doc)
+      graphdetails['today'] = doc[0].total_org_tests;
+      graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+      graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+      graphdetails['totalScans'] = doc[0].total_org_tests;
+      graphdetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+      graphdetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+      graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+    })
+    // graphdetails['today'] = 3;
+    //   graphdetails['yesterday'] = 4
+    //   graphdetails['previousDay'] = 2;
+    //   graphdetails['totalScans'] = 5;
+    //   graphdetails['standardModeScans'] =6;
+    //   graphdetails['eventModeScans'] =3;
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
-      graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
+      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
       graphdetails['graph'] = {
         type: 'bar',
         data: {
@@ -489,7 +467,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration,
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -498,8 +476,7 @@ chartOptions: Partial<ApexChartOptions> = {
       product_id: el.product_id,
       event_mode:el.event_mode
     }})
-    this.list=this.list+list.length
-    console.log('asdfq',list)
+    this.list=2+OrgProducts.length
     this.products = product;
     this.listdetails = list;
 
@@ -531,6 +508,20 @@ chartOptions: Partial<ApexChartOptions> = {
     const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
     return days_difference;
   }
+
+  calculateRemainingDays(date:any,pilotDuration:any){
+    return pilotDuration - this.fetchRemainingDays(date)
+  }
+
+  fetchRemainingDays(date:any){
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return Math.round((this.treatAsUTC(new Date())-this.treatAsUTC(new Date(date)))/millisecondsPerDay)
+  }
+  treatAsUTC(date:any) {
+    const result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return <any>result;
+}
   
 
   prepopulateOrgFormforEdit(){

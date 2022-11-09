@@ -81,7 +81,7 @@ export class LeftSidebarComponent implements OnInit {
                 isTitle: false,
                 icon: 'mdi mdi-home',
                 // badge: { variant: 'success', text: '9+' },
-                url: `/${this.loggedInUser.user_data[0].org_id}/home`,
+                url: `/${this.loggedInUser.user_data[0].org_id}/home/${this.loggedInUser.user_data[0].id}`,
             },
               ...prod
            

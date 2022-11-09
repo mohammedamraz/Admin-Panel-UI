@@ -241,6 +241,8 @@ export class AdminConsoleService {
     const loggedInUser = <any>this.authService.currentUser();
     // let name = loggedInUser.org_data[0].organization_name;
 
+
+
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
         { label: 'Vitals Dashboard', path: '/vitals-dashboard', active:true },
@@ -308,7 +310,7 @@ export class AdminConsoleService {
     if(event.url?.split('/')[2]=='pilotdashboard'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
-        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Pilot`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
+        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
     ])
     }
 
@@ -319,6 +321,51 @@ export class AdminConsoleService {
     ])
     }
 
+    console.log('event.url.slic(4,) === home =>',event.url)
+    console.log('event.url.slic(4,) === home =>',event.url)
+
+
+    if(event.url?.split('/')[1] == 'vitals-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home' },
+        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `event.url`, active: true}
+    ])
+  }
+    if(event.url?.split('/')[1] == 'vitalsList'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home' },
+        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `/vitals-dashboard/${event.url?.split('/')[2]}`},
+        {label: `Pilot List`, path: `/vitalsList/${event.url?.split('/')[2]}`, active: true}
+    ])
+    }
+
+    
+    if(event.url?.split('?')[0] =='/profile'){
+      this.breadCrumbs.next([
+        {label: `Profile`, path: `event.url`, active: true}
+      ])
+    }
+    if(event.url?.split('/')[2] == 'userlist'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
+        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`},
+        { label: `User List`, path: `${event.url}`, active: true},
+      ])
+    }
+    
+    console.log('the safd', event.url)
+
+    if(event.url?.split('/')[2] =='home'){
+      this.breadCrumbs.next([
+        {label: `Home`, path: event.url, active: true}
+      ])
+    }
+    if(event.url?.split('/')[2] =='userdashboard'){
+      this.breadCrumbs.next([
+        {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
+        {label: `${event.url?.split('/')[3]== '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url, active: true}
+      ])
+    }
 
   }
 
@@ -369,6 +416,10 @@ export class AdminConsoleService {
     fetchDailyScan(orgId:any, prodId:any, date:any){
 
       return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
+    }
+    fetchUsersDailyScan(userId:any, prodId:any, date:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
     }
 
 
