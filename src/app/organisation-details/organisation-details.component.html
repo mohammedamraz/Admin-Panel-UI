@@ -960,7 +960,7 @@
         </div>
 
     </div>
-    <!-- <div class="col-xl-6" >
+    <div class="col-xl-6" >
     <div class="card layout-style" style="background: #313844; border-radius:10px">
         <div class="card-body">
             <div class="float-end" ngbDropdown placement="bottom-end">
@@ -978,13 +978,13 @@
                     color: #9BA6AC;
                     border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
                         ngbDropdownToggle>
-                        Current vs Previous Month <i class="mdi mdi-chevron-down"></i>
+                        Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}} <i class="mdi mdi-chevron-down"></i>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                        <a ngbDropdownItem>Current vs Previous Day</a>
-                        <a ngbDropdownItem>Current vs Previous Week</a>
-                        <a ngbDropdownItem>Current vs Previous Quater</a>
-                        <a ngbDropdownItem>Current vs Previous Year</a>
+                        <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
+                        <a (click)="fetchTimely(season.prodId,'monthly')" ngbDropdownItem>Current vs Previous Month</a>
+                        <a  (click)="fetchTimely(season.prodId,'quaterly')"ngbDropdownItem>Current vs Previous Quater</a>
+                        <a (click)="fetchTimely(season.prodId,'yearly')" ngbDropdownItem>Current vs Previous Year</a>
 
                     </div>
                 </div>
@@ -1002,17 +1002,17 @@
             </div>
     
             <div dir="ltr" style="padding: 0.5rem;">
-                <apx-chart class="apex-charts mt-2" [series]="chartOptions.series!" [chart]="chartOptions.chart!"
-                    [dataLabels]="chartOptions.dataLabels!" [legend]="chartOptions.legend!" [fill]="chartOptions.fill!"
-                    [grid]="chartOptions.grid!" [xaxis]="chartOptions.xaxis!" [yaxis]="chartOptions.yaxis!"
-                    [stroke]="chartOptions.stroke!" [tooltip]="chartOptions.tooltip!" [colors]="chartOptions.colors!">
+                <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"
+                    [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
+                    [grid]="season.performance.graph.grid!" [xaxis]="season.performance.graph.xaxis!" [yaxis]="season.performance.graph.yaxis!"
+                    [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
             </div>
             </div>
     
         </div>
     </div>
-    </div> -->
+    </div>
 
 
     </div>
