@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, } from 'rxjs';
-import { ADMIN_URL, API_URL } from '../constants';
+import { ADMIN_URL, API_PRODUCTS_TESTS, API_URL } from '../constants';
 import { NavigationEnd, NavigationError, NavigationStart, Event } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 @Injectable({
@@ -21,14 +21,14 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}org/count`);
   }
 
-  fetchVitalsCount(){
-    return this.http.get(`${API_URL}count?product=vitals`) ;
+  fetchVitalsCount(productName:any){
+    return this.http.get(`${API_URL}count?product=${productName}`) ;
   }
-  fetchActiveVitalsCount(){
-    return this.http.get(`${API_URL}count?product=vitals&status=active`) ;
+  fetchActiveVitalsCount(productName:any){
+    return this.http.get(`${API_URL}count?product=${productName}&status=active`) ;
   }
-  fetchLatestVitals(){
-    return this.http.get(`${API_URL}2?type=latest`) ;
+  fetchLatestVitals(id:any){
+    return this.http.get(`${API_URL}${id}?type=latest`) ;
   }
   
   fetchVitals(){
@@ -39,8 +39,8 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}2?type=active`) ;
   }
 
-  fetchTotalTestVitals(){
-    return this.http.get(`${API_URL}tests/2`) ;
+  fetchTotalTestVitals(id:any){
+    return this.http.get(`${API_URL}tests/${id}`) ;
   }
   fetchAllOrg(){
     return this.http.get(`${API_URL}/org`) ;
@@ -187,12 +187,12 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
   }
 
-  fetchVitalsByPage(num:any,item:any){
-    return this.http.get(`${API_URL}2?page=${num}&per_page=${item}`) ;
+  fetchVitalsByPage(id:any,num:any,item:any){
+    return this.http.get(`${API_URL}${id}?page=${num}&per_page=${item}`) ;
   }
 
-  fetchVitalsActiveByPage(num:any,item:any){
-    return this.http.get(`${API_URL}2?type=active&page=${num}&per_page=${item}`) ;
+  fetchVitalsActiveByPage(id:any,num:any,item:any){
+    return this.http.get(`${API_URL}${id}?type=active&page=${num}&per_page=${item}`) ;
   }
   sendEmailNotification(data:any){  
     return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
@@ -208,6 +208,30 @@ export class AdminConsoleService {
     return this.http.post(`${ADMIN_URL}notification/signup/user/email`,content);
       }
 
+  ResendInvitationMailForOrg(content:any){
+    console.log("daya",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/resend/email/org`,content);
+      }
+
+  ResendInvitationMailForUser(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/resend/email/users`,content);
+      }
+
+  sendEmailOnceUserIsBackActive(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/email/user/active`,content);
+  }
+
+  sendEmailOnceOrgIsBackActive(content:any){
+    console.log("datat",content);
+    
+    return this.http.post(`${ADMIN_URL}notification/email/org/active`,content);
+  }
+
 
 
 
@@ -216,6 +240,8 @@ export class AdminConsoleService {
     let name ='';
     const loggedInUser = <any>this.authService.currentUser();
     // let name = loggedInUser.org_data[0].organization_name;
+
+
 
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
@@ -284,10 +310,62 @@ export class AdminConsoleService {
     if(event.url?.split('/')[2]=='pilotdashboard'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
-        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Pilot`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
+        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
     ])
     }
 
+    if(event.url?.slice(3,)=='/settings'){
+      this.breadCrumbs.next([
+        { label: 'Settings', path: `${event.url.split('/')[1]}/settings`},
+        { label: 'Org Details', path: `${event.url.split('/')[1]}/settings`, active: true},
+    ])
+    }
+
+    console.log('event.url.slic(4,) === home =>',event.url)
+    console.log('event.url.slic(4,) === home =>',event.url)
+
+
+    if(event.url?.split('/')[1] == 'vitals-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home' },
+        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `event.url`, active: true}
+    ])
+  }
+    if(event.url?.split('/')[1] == 'vitalsList'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home' },
+        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `/vitals-dashboard/${event.url?.split('/')[2]}`},
+        {label: `Pilot List`, path: `/vitalsList/${event.url?.split('/')[2]}`, active: true}
+    ])
+    }
+
+    
+    if(event.url?.split('?')[0] =='/profile'){
+      this.breadCrumbs.next([
+        {label: `Profile`, path: `event.url`, active: true}
+      ])
+    }
+    if(event.url?.split('/')[2] == 'userlist'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
+        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`},
+        { label: `User List`, path: `${event.url}`, active: true},
+      ])
+    }
+    
+    console.log('the safd', event.url)
+
+    if(event.url?.split('/')[2] =='home'){
+      this.breadCrumbs.next([
+        {label: `Home`, path: event.url, active: true}
+      ])
+    }
+    if(event.url?.split('/')[2] =='userdashboard'){
+      this.breadCrumbs.next([
+        {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
+        {label: `${event.url?.split('/')[3]== '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url, active: true}
+      ])
+    }
 
   }
 
@@ -329,6 +407,19 @@ export class AdminConsoleService {
 
       return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&per_page=5`)
       // return this.http.get(`${ADMIN_URL}junction/tests?org_id=${orgId}&product_id=${prodId}`);
+    }
+    fetchUserOfOrgProd(orgId:any, prodId:any,entries:any,pagenumber:any,deleted:any){
+
+      return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}&page=${pagenumber}&per_page=${entries}`)
+    }
+
+    fetchDailyScan(orgId:any, prodId:any, date:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
+    }
+    fetchUsersDailyScan(userId:any, prodId:any, date:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
     }
 
 

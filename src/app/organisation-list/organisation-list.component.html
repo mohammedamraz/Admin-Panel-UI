@@ -303,9 +303,12 @@
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
-                                                            floor: 1,
+                                                            floor: 0,
                                                             ceil: 90
                                                         }"></ngx-slider>
+                                                        <div *ngIf="season.pilot_duration==0&&season.pressed" style="color:  #F08F8F;">
+                                                            Mandatory field
+                                                          </div>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
                                             <div style="margin-bottom:1rem ;">
@@ -332,6 +335,9 @@
                                               <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
                                               <label class="form-check-label" for="customRadio1">&nbsp;Vitals Dashboard</label>
                                             </div>
+                                            <div *ngIf="season.pressed&&validation==true" style="color:  #F08F8F;">
+                                                Mandatory field
+                                              </div>
                                                     </div>
                                       </div>
                                             </div>
@@ -348,13 +354,25 @@
                                             <div >
                                                 <h4 class="header-title" style="color: #AEB5BC;    margin-top: 1rem;">Define Web App Vitals URL:</h4>
                                                 <div class="row" style="display: grid;margin-bottom:1rem">
-                                                <div style="place-self: center;padding-right: 0;color: #9BA6AC">https://www.fedo.ai/products/vitals/</div><input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;margin-left:1rem;
+                                                <div style="place-self: center;padding-right: 0;color: #9BA6AC">https://www.fedo.ai/products/vitals/</div>
+                                                <input type="text" class="form-control" id="userName1" style="background: #383E4A;color: #9BA6AC;margin-left:1rem;
                                                 border: 1px solid #444C5B;    width: 50%;
                                                 border-radius: 4px;"    
-                                                name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" [ngClass]="{'is-valid':form1['url'].valid , 'is-invalid':form1['url'].invalid}">
-                                                    <div *ngIf="form1['url'].invalid&&basicForm.touched" class="invalid-feedback">
+                                                name="userName" placeholder=""required="" [(ngModel)]="season.web_url"(blur)="checkInputValue(season.web_url)" [ngModelOptions]="{standalone: true}"  minlength="3" maxlength="50" pattern="[A-Za-z]+">
+                                                <div *ngIf="season.pressed">
+                                                    <div *ngIf="season.web_url==''&&season.pressed" style="color: #F08F8F">
                                                         Mandatory field. Enter custom name for the URL
                                                     </div>
+                                                    
+                                                    <div *ngIf="season.web_url.length<3&&season.pressed" style="color: #F08F8F">
+                                                        Please Enter Minimum 3 Characters
+                                                       
+                                                    </div>
+                                                    <div *ngIf="web_url_error_token" style="color: #F08F8F">
+                                                        Cannot contain spaces special characters
+                                                       
+                                                    </div>
+                                                </div>
     
                                                 </div>
     
@@ -421,7 +439,7 @@
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
                             <button  style="width: 100px;" type="submit"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
-                            <button type="button" class="btn btn-info"style="width: 100px;" (click)="checkingForm();"
+                            <button type="button" class="btn btn-info"style="width: 100px;" (click)="fetchData();"
                                 *ngIf="activeWizard2!=3&&activeWizard2 == list-1">Submit</button>
                         </li>
                     </ul>
@@ -821,6 +839,10 @@
                                         <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
                                 </div>
                             </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+
 
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
                                 </div>

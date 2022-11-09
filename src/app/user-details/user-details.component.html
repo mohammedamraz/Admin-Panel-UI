@@ -323,7 +323,7 @@
 
         <div class="row">
             <div class="col-xl-4 col-md-4" *ngIf="pageSizeOptions.length">
-            <div class="text--start">
+            <div  class="text--start">
                 <label class="form-label me-1">Show
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
@@ -333,7 +333,7 @@
                     entries</label>
             </div>
         </div>
-        <div class="col-xl-4 col-md-4" *ngIf="activeStatusOptions.length">
+        <div class="col-xl-4 col-md-4">
             <div class="text--start">
                 <!-- <label class="form-label me-1">Show -->
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
@@ -374,7 +374,7 @@
                         <td scope="row">{{entries *(page-1)+i+1}}</td>
                         <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
                         <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
-                        <td>{{person.user_name}}</td>
+                        <td>{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
                         <td>{{person.email}}</td>
                         <td>{{person.mobile.slice(3,14)}}</td>
                         <td>{{person.third_party_org_name != null ? (person.third_party_org_name==''? 'Direct':person.third_party_org_name+ '(TPA)') :'Direct'}}</td>
@@ -386,18 +386,23 @@
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                    <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a> -->
+                                    <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>User Info Info</a> -->
                                     <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                     <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
+                                    <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
                                 <div style="display: flex;
                                     align-items: center;">
                                     <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                     <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div>
+                                    
                                     <div class="form-check form-switch" >
                                         <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
                                 </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
                             </div>
                         </div>
 
