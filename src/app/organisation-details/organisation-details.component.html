@@ -890,7 +890,7 @@
 <ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
     <div class="row"  >
-    <div class="col-xl-6 "  >
+    <div class="col-xl-6 " style="display: inline-grid;"   >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             
                 <div class="card-body">
@@ -960,7 +960,7 @@
         </div>
 
     </div>
-    <div class="col-xl-6" >
+    <div class="col-xl-6" style="display: inline-grid;" >
     <div class="card layout-style" style="background: #313844; border-radius:10px">
         <div class="card-body">
             <div class="float-end" ngbDropdown placement="bottom-end">
@@ -992,23 +992,65 @@
             
 
             <div class="graph-container" style="display: grid ">
-            <div style=" align-self: center; color:#F5F5F5">
+            <!-- <div style=" align-self: center; color:#F5F5F5">
                 <p>Current Month:</p>
                 <p>Previous Month:</p>
                 <p>Variance:</p>
                 <p>Top Performer (User):</p>
                 <p style="color: #5FB5DC;">Milind Soman<br>
                     milind.soman@sample.com</p>
-            </div>
+            </div> -->
     
             <div dir="ltr" style="padding: 0.5rem;">
-                <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"
+                <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"  [plotOptions]="season.performance.graph.plotOptions!"
                     [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
                     [grid]="season.performance.graph.grid!" [xaxis]="season.performance.graph.xaxis!" [yaxis]="season.performance.graph.yaxis!"
                     [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
+                <div style="    display: inline-flex;
+                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                    <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
+                    <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
+                </div>
             </div>
+            
+            <div>
+            <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                <div style=" align-self: center; color:#ADB5BD;display: grid;
+                grid-gap: 1rem;">
+                    <p style="font-size: 1.2rem;margin: 0;">Current Month</p>
+                    <p style="font-size: 1.2rem;margin: 0;">Previous Month</p>
+                    <p style="font-size: 1.2rem;margin: 0;">Variance</p>
+                </div>
+                <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                grid-gap: .45rem;">
+                    <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
+                    <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
+                    <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}</p></div>
+                </div>
+              
+                <!-- <div>
+                    <button>Download Excel Report</button>
+                </div> -->
             </div>
+                <div>
+                    <p style="font-size: 1.2rem;margin: 0;color:#ADB5BD;margin-top: 2rem;">Top Performer (User):</p>
+                    <p style="font-size: 1.2rem;margin: 0;color:#82B4F3;min-width: max-content;">Current &nbsp; &nbsp;&nbsp;&nbsp;<span style="color:#FFFFFF">:&nbsp;{{season.performance.currentUserNmae}}</span></p> 
+                    <p style="font-size: 1.2rem;margin: 0;color:#F08FC9;min-width: max-content;">Previous &nbsp; &nbsp;<span style="color:#FFFFFF">:&nbsp;{{season.performance.PreviouseUserName}}</span>   </p>
+            </div>
+                
+
+            </div>
+            
+            <!-- <div>
+                    <p>Top Performer (User):</p>
+                    <p>Current:<span>{{season.performance.currentUserNmae}}</span></p> 
+                    <p>Previous:<span>{{season.performance.PreviouseUserName}}</span>   </p>
+            </div> -->
+            </div>
+            <!-- <div style="display: grid;"> -->
+            
+            <!-- </div> -->
     
         </div>
     </div>
