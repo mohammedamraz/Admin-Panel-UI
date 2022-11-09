@@ -57,6 +57,9 @@ export class OrganisationListComponent implements OnInit {
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
   activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org']
   activeStatusValue: any= this.activeStatusOptions[0]
+  errorMessageResendInvitation = ' '
+  showLiveAlertResendInvitation =false
+
   
   entries:any=this.pageSizeOptions[0]
   pagenumber:any=1;
@@ -502,10 +505,21 @@ export class OrganisationListComponent implements OnInit {
   // }
 
   resendInvitationMail(data:any){
-  console.log("ersdfzdx",data.admin_name);
-  this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url})
+    console.log("ersdfzdx",data.admin_name);
+    this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+    this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url}).subscribe({
+      next: (res) =>{
+        console.log("dsasyfjewbsd",res)
+        
+      },
+      error : (err)=>{
+        console.log("ewdfsxc",err)
 
-  }
+      }
+    })
+  
+    }
     
   onActiveStatus(data :any){
     this.activeStatusValue=data.value

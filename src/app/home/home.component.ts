@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   created:boolean=false;
   showLiveAlertNextButton=false;
   formSubmitted=false
+  showLiveAlertResendInvitation =false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -70,6 +71,7 @@ export class HomeComponent implements OnInit {
 
   validation:boolean=false
   web_url_error=''
+  errorMessageResendInvitation = ' '
 
 
 
@@ -267,9 +269,12 @@ export class HomeComponent implements OnInit {
 
   resendInvitationMail(data:any){
     console.log("ersdfzdx",data.admin_name);
+    this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
     this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url}).subscribe({
       next: (res) =>{
         console.log("dsasyfjewbsd",res)
+        
       },
       error : (err)=>{
         console.log("ewdfsxc",err)

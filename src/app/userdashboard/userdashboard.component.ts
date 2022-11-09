@@ -161,6 +161,8 @@ chartOptions: Partial<ApexChartOptions> = {
           this.prodId = val.Id;    
         }) 
 
+        //here we should be calling the fetchorgbyid and giving the condition and calling the popup once org is inactive 
+
         if(this.loggedInUser.user_data[0].is_deleted){
           this.open(<TemplateRef<NgbModal>><unknown>this.input);
         }

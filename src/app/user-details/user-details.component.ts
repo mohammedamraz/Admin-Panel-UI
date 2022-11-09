@@ -77,6 +77,8 @@ export class UserDetailsComponent implements OnInit {
   pagenumber:any=1;
   total_pages:any;
   total_user:any;
+  errorMessageResendInvitation = ' '
+  showLiveAlertResendInvitation =false
   
   currentPage:any;
   showLiveAlertAPI=false;
@@ -259,7 +261,18 @@ export class UserDetailsComponent implements OnInit {
 
   resendInvitationMail(data:any){
     console.log("ersdfzdx",data);
-    this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+    this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+    this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
+      next: (res) =>{
+        console.log("dsasyfjewbsd",res)
+        
+      },
+      error : (err)=>{
+        console.log("ewdfsxc",err)
+  
+      }
+    })
   
     }
 

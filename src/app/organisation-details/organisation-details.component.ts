@@ -80,6 +80,8 @@ export class OrganisationDetailsComponent implements OnInit {
   model!: NgbDateStruct;
 date!: { year: number; month: number; };
   graphArray:any[]=[];
+  errorMessageResendInvitation = ' '
+  showLiveAlertResendInvitation =false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -662,7 +664,18 @@ chartOptions: Partial<ApexChartOptions> = {
 
 resendInvitationMail(data:any){
   console.log("ersdfzdx",data);
-  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+  this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
+    next: (res) =>{
+      console.log("dsasyfjewbsd",res)
+      
+    },
+    error : (err)=>{
+      console.log("ewdfsxc",err)
+
+    }
+  })
 
   }
 
