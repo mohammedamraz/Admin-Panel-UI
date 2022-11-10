@@ -1194,6 +1194,8 @@
                                     </a>
                                     <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                         <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
+                                        <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit Info</a>
+
                                         <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                         <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
     
@@ -1301,8 +1303,7 @@
                                     <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
-                                    <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
-
+                                    <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit Info</a>
                                 <div style="display: flex;
                                     align-items: center;">
                                     <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
@@ -1391,4 +1392,176 @@
         </div>
 
     </div> 
+</ng-template>
+
+<ng-template #toggleModal6 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;">
+        <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit User</h4>
+    
+            <form [formGroup]="userEditForm" #basicForm="ngForm">
+                <div id="basicwizard">
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard1"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard1>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                                <span class=" d-sm-inline">User Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row ">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC"
+                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['user_name'].touched && userEditForm.controls['user_name'].invalid || formSubmitted && userEditForm.controls['user_name'].invalid}"
+                                                    
+                                                        name="userName" placeholder="User Full Name" required formControlName="user_name">
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
+                                                       
+                                                    <div *ngIf="userEditForm.controls['user_name'].touched && userEditForm.controls['user_name'].invalid || formSubmitted && userEditForm.controls['user_name'].invalid" class="invalid-feedback">
+
+                                                        <div *ngIf="userEditForm.controls['user_name'].errors?.['required']" i18n>
+                                                          Mandatory field
+                                                        </div>
+                                                        <div *ngIf="userEditForm.controls['user_name'].errors?.['pattern']" i18n>
+                                                          Invalid name format. Please enter your full name
+                                                        </div>
+                                                      </div>
+                                                
+                                                      </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="  height: 3rem;
+                                                    color: #9BA6AC" formControlName="designation" minlength="3"
+                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['designation'].touched && userEditForm.controls['designation'].invalid || formSubmitted && userEditForm.controls['designation'].invalid}"
+
+                                                        name="userName" placeholder="Designation" required>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
+                                                <div *ngIf="userEditForm.controls['designation'].touched && userEditForm.controls['designation'].invalid || formSubmitted && userEditForm.controls['designation'].invalid" class="invalid-feedback">
+
+                                                    <div *ngIf="userEditForm.controls['designation'].errors?.['required']" i18n>
+                                                      Mandatory field
+                                                    </div>
+                                                    <div *ngIf="userEditForm.controls['designation'].errors?.['minlength']" i18n>
+                                                      Enter full designation
+                                                    </div>
+                                                  </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                        name="userName" placeholder="Email Address" required formControlName="email" [readonly]="true"
+                                                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['email'].touched && userEditForm.controls['email'].invalid || formSubmitted && userEditForm.controls['email'].invalid}">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
+                                                    
+                                                <div *ngIf="userEditForm.controls['email'].touched && userEditForm.controls['email'].invalid || formSubmitted && userEditForm.controls['email'].invalid" class="invalid-feedback">
+
+                                                    <div *ngIf="userEditForm.controls['email'].errors?.['required']" i18n>
+                                                      Mandatory field
+                                                    </div>
+                                                    <div *ngIf="userEditForm.controls['email'].errors?.['pattern']" i18n>
+                                                      Invalid email format. Please enter valid email format
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                        name="userName" placeholder="Mobile Number" formControlName="mobile"  
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['mobile'].touched && userEditForm.controls['mobile'].invalid || formSubmitted && userEditForm.controls['mobile'].invalid}">
+                                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
+                                                 
+                                            <div *ngIf="userEditForm.controls['mobile'].touched && userEditForm.controls['mobile'].invalid || formSubmitted && userEditForm.controls['mobile'].invalid" class="invalid-feedback">
+
+                                                <div *ngIf="userEditForm.controls['mobile'].errors?.['required']" i18n>
+                                                  Mandatory field
+                                                </div>
+                                                <div *ngIf="userEditForm.controls['mobile'].errors?.['pattern']" i18n>
+                                                  Invalid format. Please enter valid format
+                                                </div>
+                                              </div>
+
+                                                    </div>
+                                            </div>
+                                        </div>                       
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+         
+                            </ng-template>
+                        </li>
+
+
+                        <li [ngbNavItem]="2">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+
+    
+                                            <p style="color: #AEB5BC;" class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
+                        </div>
+                        <!-- <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard1=1" *ngIf="activeWizard1 !== 3"
+                                [disabled]="activeWizard1===1">Previous</button>
+                        </li> -->
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 2">
+                            <div style="    display: grid;
+                            grid-template-columns: min-content max-content;
+                            justify-content: center;
+                            grid-gap: 0.5rem;">
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage();"
+                                    >Close</button>
+                                <!-- <button type="button" class="btn btn-info" (click)="created=false;activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false; formSubmitted=false; notThirdParty=false; thirdParty=false; addTpafunc=false; showLiveAlertNextButton=false;showLiveAlertAPI=false"
+                                    >Add Another User</button> -->
+                            </div>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 1">
+                            <!-- <button type="button" style="width: 100px;" (click)="  checkUserFirstForm()" class="btn btn-info" 
+                                *ngIf=" activeWizard1==1">Next</button> -->
+                            <button type="button" style="width: 100px;" class="btn btn-info" (click)="editUser()">Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
 </ng-template>

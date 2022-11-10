@@ -21,6 +21,7 @@ export class OrganisationDetailsComponent implements OnInit {
   files: File[] = [];
   tabDAta:any[]=[];
   OrgForm!: FormGroup;
+  userEditForm!: FormGroup;
   basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
@@ -89,6 +90,7 @@ date!: { year: number; month: number; };
   OrgDetailsEditForm = false;
   @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
+  @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
   loggedInUser: any={};
 
   
@@ -177,6 +179,7 @@ chartOptions: Partial<ApexChartOptions> = {
   },
 
 };
+  userId: any;
 
  
 
@@ -1188,6 +1191,38 @@ clearform(){
 
 
   }
+  editUserForm(data:any){
 
+    console.log('user data =>', data);
+    this.userEditForm = this.fb.group({
+      email:[data.email,[Validators.email]],
+      mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
+      user_name:[data.user_name,[Validators.required]],
+      designation:[data.designation,[Validators.required]]
+    })
+    this.userId = data.id
+    this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+
+  }
+
+  editUser(){ 
+    this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
+    this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
+      next: (res:any) => {
+        console.log('the success=>',res);
+
+        this.activeWizard1=this.activeWizard1+1;
+
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
+
+      },
+      complete: () => { }
+    });
+
+  }
 
 }
