@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -46,6 +46,7 @@ export class UserDetailsComponent implements OnInit {
   snapshotParam:any = "initial value";
   prod:any = '';
   userList:any[]=[];
+  userEditForm!: FormGroup;
   userForm!: FormGroup;
   userWizard1:number =1;
   list: number = 3;
@@ -65,6 +66,8 @@ export class UserDetailsComponent implements OnInit {
   created:boolean=false;
   showLiveAlertNextButton=false;
   addTpafunc:boolean=false;
+  @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
+  userId: any;
 
   errorMessageNextButton='';
 
@@ -617,6 +620,45 @@ export class UserDetailsComponent implements OnInit {
   reloadCurrentPage() {
     window. location. reload();
     }
+
+    editUserForm(data:any){
+
+      console.log('user data =>', data);
+      this.userEditForm = this.fb.group({
+        email:[data.email,[Validators.email]],
+        mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
+        user_name:[data.user_name,[Validators.required]],
+        designation:[data.designation,[Validators.required]]
+      })
+      this.userId = data.id
+      this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+  
+    }
+  
+    editUser(){ 
+      console.log("easzfcersdzfxc");
+      
+      if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
+        console.log("easzfcersdzfxc");
+        this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
+      this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
+        next: (res:any) => {
+          console.log('the success=>',res);
+  
+          this.activeWizard2=this.activeWizard2+1;
+  
+        },
+        error: (err) => {
+          console.log('the failure=>',err);
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
+  
+        },
+        complete: () => { }
+      });
+    }
+    }
+  
 
 }
 

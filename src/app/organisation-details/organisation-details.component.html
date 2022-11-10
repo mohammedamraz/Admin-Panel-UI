@@ -1194,7 +1194,7 @@
                                     </a>
                                     <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                         <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
-                                        <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit Info</a>
+                                        <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
 
                                         <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                         <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
@@ -1303,7 +1303,8 @@
                                     <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
-                                    <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit Info</a>
+                                    <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
+                                    <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
                                 <div style="display: flex;
                                     align-items: center;">
                                     <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>

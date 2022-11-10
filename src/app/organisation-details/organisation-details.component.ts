@@ -1206,6 +1206,7 @@ clearform(){
   }
 
   editUser(){ 
+    if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
     this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
     this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
       next: (res:any) => {
@@ -1224,5 +1225,6 @@ clearform(){
     });
 
   }
+}
 
 }
