@@ -132,7 +132,7 @@
                         color: #9BA6AC;
                         border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
                             ngbDropdownToggle>
-                            Current vs Previous Month <i class="mdi mdi-chevron-down"></i>
+                            Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}} <i class="mdi mdi-chevron-down"></i>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLink">
                             <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
@@ -180,6 +180,7 @@
                             <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
                             <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-up"></i></p>
                                 <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-down"></i></p>
+                                <p  style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
                             </div>
                         </div>
                       

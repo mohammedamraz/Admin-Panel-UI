@@ -147,12 +147,18 @@ chartOptions: Partial<ApexChartOptions> = {
   designation:any
 
   
-  ngOnInit(): void {
+  ngOnInit(): void {        
+    
+    this.route.params.subscribe((val:any) =>{
+      this.graphArray = [];
+    console.log("erthtdhfhgdgdgdthhg hielmdall");
+    
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
-    console.log("wrsdfxycfwegsjgzdhgxsfdzdfxc");
+    this.loggedInUser = <any>this.authService.currentUser();
+
+    //check which id is 
     
     // if(data.user_data){
-    this.loggedInUser = <any>this.authService.currentUser();
 
       if(this.loggedInUser.user_data){
         this.route.params.subscribe((val:any) =>{
@@ -210,6 +216,14 @@ chartOptions: Partial<ApexChartOptions> = {
 
               if(this.prodId==undefined){
                 this.createGraphArrayItems(this.products,this.dateSelected);
+                      if(this.loggedInUser.user_data){
+                        if(res[0].is_deleted){
+                          this.open(<TemplateRef<NgbModal>><unknown>this.input);
+                        }
+                
+          
+        }
+                
 
               }
               else{
@@ -224,6 +238,7 @@ chartOptions: Partial<ApexChartOptions> = {
                 // here there should be change for the pilot expired error thats coming while switching the dashboard
                 this.show=true
               }
+        
                   }});
           
         }});
@@ -237,7 +252,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
     
 
-
+  });
   }
   async createGraphArrayItems(products:any,date:any){
 
