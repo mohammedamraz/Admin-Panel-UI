@@ -404,7 +404,7 @@ chartOptions: Partial<ApexChartOptions> = {
           toolbar: {
             show: false,
           },
-          stacked: false,
+          stacked: true,
           zoom: {
             enabled: false,
           },
@@ -419,6 +419,11 @@ chartOptions: Partial<ApexChartOptions> = {
         legend: {
           show: false,
         },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+          },
+        },
         fill: {
           type: 'solid',
           opacity: [0, 1],
@@ -427,7 +432,8 @@ chartOptions: Partial<ApexChartOptions> = {
         xaxis: {
           categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
           axisBorder: {
-            show: false,
+            show: true,
+            color: '#f7f7f7'
           },
           axisTicks: {
             show: false,
@@ -437,6 +443,8 @@ chartOptions: Partial<ApexChartOptions> = {
               colors: '#adb5bd',
             },
           },
+
+          
         },
         yaxis: {
           tickAmount: 4,
@@ -447,13 +455,19 @@ chartOptions: Partial<ApexChartOptions> = {
               colors: '#adb5bd',
             },
          },
+         axisBorder: {
+          show: true,
+          color: '#f7f7f7'
+         }
         },
         grid: {
-          show: false,
-          padding: {
-            top: 0,
-            bottom: 0,
-          },
+          show: true,
+          borderColor: '#f7f7f7',
+
+          // padding: {
+          //   top: 0,
+          //   bottom: 0,
+          // },
         },
         tooltip: {
           theme: 'dark',
