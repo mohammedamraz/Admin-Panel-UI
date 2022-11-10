@@ -85,6 +85,11 @@ export class AdminConsoleService {
 
   }
 
+  patchuser(id:number,data:any){
+
+    return this.http.patch(`${API_URL}users/${id}`, data);
+  }
+
   patchOrgDetails(id:number,data:any){
     
     return this.http.patch(`${API_URL}${id}`,data);
