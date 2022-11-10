@@ -89,8 +89,9 @@
 
   .graph-container{
     display: grid;
-    grid-template-columns:  1fr 1fr;
-    margin-bottom: 1rem;
+    grid-template-columns:  2fr 1fr;
+    // margin-bottom: 1rem;
+    grid-gap:1rem;
 }
 
 @media (max-width: 800px) {
