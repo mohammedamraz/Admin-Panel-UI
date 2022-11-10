@@ -354,9 +354,45 @@ export class AdminConsoleService {
     console.log('the safd', event.url)
 
     if(event.url?.split('/')[2] =='home'){
-      this.breadCrumbs.next([
-        {label: `Home`, path: event.url, active: true}
-      ])
+      if(loggedInUser.hasOwnProperty('user_data')){
+        //user
+        console.log('im an user')
+        this.breadCrumbs.next([
+          {label: `Home`, path: event.url, active: true}
+        ])
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
+        //orgAdmin
+        let userName = '';
+        this.fetchUserListById(event.url?.split('/')[3]).subscribe((doc:any) =>{
+          console.log('the resposn => ', doc)
+          userName = doc[0].user_name
+          this.breadCrumbs.next([
+            {label: `Home`, path: `/${event.url?.split('/')[1]}/dashboard` },
+            {label: `Users List`, path:  `/${event.url?.split('/')[1]}/userdetails`, },
+            {label: userName, path: `/${event.url?.split('/')[1]}/userdetails`, active: true}
+  
+          ])
+        })
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type == 'admin'){
+        //superadmin
+        this.fetchOrgById(event.url?.split('/')[1]).subscribe({
+          next: (res:any) => {
+            name=res[0].organization_name;
+            this.fetchUserListById(event.url?.split('/')[3]).subscribe((doc:any) =>{
+              let userName = doc[0].user_name;
+              this.breadCrumbs.next([
+                { label: 'Home', path: 'home' },
+                { label: 'Organisations List', path: 'orgList' },
+                { label: name, path: `/orgdetails/${event.url?.split('/')[1]}` },
+                { label: 'Users List', path: `/userdetails/${event.url?.split('/')[1]}` },
+                { label: userName, path: event.url, active: true },
+            ])
+            });
+          },
+        });
+      }
     }
     if(event.url?.split('/')[2] =='userdashboard'){
       this.breadCrumbs.next([
