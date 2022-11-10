@@ -431,7 +431,7 @@ chartOptions: Partial<ApexChartOptions> = {
           type: 'solid',
           opacity: [0, 1],
         },
-        colors: ['#3cc469', '#188ae2'],
+        colors: ['#188ae2', '#F08FC9'],
         xaxis: {
           categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
           axisBorder: {

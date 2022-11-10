@@ -1012,8 +1012,8 @@
                 </apx-chart>
                 <div style="    display: inline-flex;
                 gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
-                    <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
-                    <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
+                    <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
+                    <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                 </div>
             </div>
             
@@ -1029,7 +1029,11 @@
                 grid-gap: .45rem;">
                     <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
                     <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
-                    <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}</p></div>
+                    <!-- <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}</p></div> -->
+                    <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-up"></i></p>
+                        <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-down"></i></p>
+                        <p  style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
+                    </div>
                 </div>
               
                 <!-- <div>
