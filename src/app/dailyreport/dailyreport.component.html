@@ -1,0 +1,121 @@
+<p>dailyreport works!</p>
+<div class="card" style="background: #313844;">
+    <div class="card-body">
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-dots-vertical"></i>
+            </a>
+            <div ngbDropdownMenu>
+                <a href="javascript:void(0);"ngbDropdownItem>Create Org</a>
+            </div>
+        </div>            
+        <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-plus"></i>
+            </a>
+        </div>            
+        <h4 class="mt-0 header-title" style="color: white;">Organisation List</h4>
+        
+        <div class="row">
+
+    
+        <!-- <div class="col-md-6" *ngIf="pageSizeOptions.length"> -->
+            
+        </div>
+        <!-- <p class="text-muted font-14 mb-3">
+            For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
+            to any <code>&lt;table&gt;</code>.
+        </p> -->
+
+        <div class="table-responsive">
+            <table class="table advanced-table table-nowrap mb-0">
+                <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
+                    <tr style="border-color: #49565d;">
+                        <th>#</th>
+                        <th></th>
+                        <th>Org Name</th>
+                        <th>Pilots</th>
+                        <th style="    text-align: -webkit-center;">Total Users</th>
+                        <th style="    text-align: -webkit-center;">Total Tests</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
+                    <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tableData ;let i=index;">
+                        <th scope="row">{{entries *(page-1)+i+1}}</th>
+                        <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
+                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;"  >{{person.organization_name}}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
+                            <div style="    display: grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                            grid-gap: 1rem;">
+                                <ng-template ngFor let-season [ngForOf]="person.product" let-i=index>      
+                                    <div class="">
+                                        <div class=" ">
+                                            Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.status =='Expired'" style="color: #F08F8F;">{{season.status}}</span><span *ngIf="season.status =='Active'" style="color: green;">{{season.status}}</span>)
+                                            <ngb-progressbar style="margin-top: 0;" [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="(season.status =='Expired' ) ? 100 :(season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date))" [max]=" (season.status =='Expired' ) ? 100:season.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+
+                        </td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;    text-align: -webkit-center;">{{person.total_users !== null ? person.total_users:0 }}</td>
+                        <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style=" cursor: pointer;   text-align: -webkit-center;  color:#82B4F3;">{{person.total_tests !==null ? person.total_tests:0}}</td>
+                        <td class="option">
+                            <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                    <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
+                                    <div style="display: flex;
+                                    align-items: center;"><div style="display: flex;" *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)
+                                        
+                                </div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)
+                                    </div>
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input"  id="customSwitch1">
+                                </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;"   ngbDropdownItem>Resend Invitation
+
+                            </div>
+
+
+                                    <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>
+                                </div>
+                            </div> 
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
+                <div *ngIf="(currentPage*entries)<=total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_org}} entries
+                </div>
+                <div *ngIf="(currentPage*entries)>total_org">
+                    Showing {{entries *(page-1)+1}} to
+                    {{total_org}} of {{total_org}} entries
+                </div>
+                <ngb-pagination class="d-flex justify-content-end mt-2" 
+                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true"  [(page)]="page">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+            </div>
+            <!-- <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
+            *ngIf="true">
+            <div>   
+                Showing  entries
+            </div>
+        </div> -->
+        </div>
+    </div>
+
+</div>

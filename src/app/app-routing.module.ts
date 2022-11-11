@@ -20,6 +20,7 @@ import { PilotDashboardComponent } from './pilot-dashboard/pilot-dashboard.compo
 import { UserdashboardComponent } from './userdashboard/userdashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DailyreportComponent } from './dailyreport/dailyreport.component';
 
 
 const routes: Routes = [
@@ -118,6 +119,12 @@ const routes: Routes = [
         path: ':orgId/home/:userId',
         canActivate: [OrgGuard],
         component: UserdashboardComponent
+      },
+      {
+        path:':orgId/report/:prodId',
+        canActivate: [OrgGuard],
+        component: DailyreportComponent
+
       }
     
     ]
