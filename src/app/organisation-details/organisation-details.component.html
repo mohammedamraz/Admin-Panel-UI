@@ -902,6 +902,16 @@
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>View Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" (click)="exportexcel()" ngbDropdownItem>Download Excel Report</a>
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
+                    </div>
 
                 </div>
 
@@ -924,6 +934,8 @@
                 </div> <!-- end col -->
 
                 <div class="BarGraph-container" style="display: grid;" >
+                    <div>
+
                 <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
@@ -941,6 +953,28 @@
                     <!-- <div>
                         <button>Download Excel Report</button>
                     </div> -->
+                </div>
+                    <div style="    margin-top: 4rem;">
+                        <img src="./assets/images/excel-icone.png"> &nbsp;
+                        <a style="font-size: 1.2rem;
+                        margin: 0;
+                        color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel()">Download Excel Report</a>
+                       
+                        <table style="display: none;" id="excel-table">
+                          <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                          </tr>
+                          <tr *ngFor="let item of userList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.username}}</td>
+                            <td>{{item.email}}</td>
+                          </tr>
+                        </table>
+                      </div>
                     
 
                 </div>

@@ -8,6 +8,7 @@ import { AuthenticationService } from '../core/service/auth.service';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 import { map , take} from 'rxjs';
+import * as XLSX from 'xlsx'; 
 
 
 @Component({
@@ -40,6 +41,22 @@ export class OrganisationDetailsComponent implements OnInit {
   monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
+userList = [
+  {
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz" 
+  },
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz" 
+    },
+  
+]
+
 
   //details
   organization_name:any='';
@@ -92,6 +109,8 @@ date!: { year: number; month: number; };
   @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
   @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
   loggedInUser: any={};
+
+  fileName='ExcelSheet.xlsx';
 
   
 
@@ -324,6 +343,23 @@ chartOptions: Partial<ApexChartOptions> = {
     // })
    
   }
+  exportexcel() {
+    
+       /* table id is passed over here */   
+       let element = document.getElementById('excel-table'); 
+       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+       /* generate workbook and add the worksheet */
+       const wb: XLSX.WorkBook = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+       /* save to file */
+       XLSX.writeFile(wb, this.fileName);
+			
+    
+}
+
+  
 
   async createGraphArrayItems(products:any,date:any){
 
