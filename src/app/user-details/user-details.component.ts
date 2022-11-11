@@ -78,7 +78,9 @@ export class UserDetailsComponent implements OnInit {
   total_pages:any;
   total_user:any;
   errorMessageResendInvitation = ' '
-  showLiveAlertResendInvitation =false
+  showLiveAlertResendInvitation =false 
+  productsData : any
+  show=false
   
   currentPage:any;
   showLiveAlertAPI=false;
@@ -88,7 +90,7 @@ export class UserDetailsComponent implements OnInit {
   changeButton:boolean=false
 
   ngOnInit(): void {
-    this.route.params.subscribe((val:any) =>{ 
+    this.route.params.subscribe((val:any) =>{   
       this.prod = val.prodId;
       this.snapshotParam = val.orgId;
       const temp = this.prod === null ? 'vitals': (this.prod === '1' ? 'hsa' : (this.prod === '2' ? 'vitals': 'ruw') )
@@ -132,6 +134,12 @@ export class UserDetailsComponent implements OnInit {
       next:(res:any) =>{
         this.tableData=res
         this.userOrganisationName= res[0].organization_name;
+        const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.prod);
+          this.productsData= res[0].product[selected];
+          this.show = false;
+        if(res[0].type!='admin'&&this.productsData.status == "Expired"){
+          this.show = true;
+        }
       }})
 
       this.list=4;
