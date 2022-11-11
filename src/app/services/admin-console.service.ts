@@ -222,7 +222,7 @@ export class AdminConsoleService {
   ResendInvitationMailForUser(content:any){
     console.log("datat",content);
     
-    return this.http.post(`${ADMIN_URL}notification/resend/email/users`,content);
+    return this.http.post(`${ADMIN_URL}notification/resend/email/user`,content);
       }
 
   sendEmailOnceUserIsBackActive(content:any){

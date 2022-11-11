@@ -615,5 +615,35 @@
     </div> <!-- end card-->
 </ng-template>
 
+<div *ngIf="show" class="overlay">
+    <div class="card" style="background-color: #EC6661;margin-bottom: 0;">
+        <div class="card-body" style="   min-width: min-content;border-radius: 4px;    background-color: #EC6661;  display: grid;
+        grid-gap: 2rem;">
+                <div style="text-align:center">
+                    <img src="./assets/images/Alert.png" style="width:8%">
+                </div>
+   
+            <h3 class="mt-0" style="color: #fff;    text-align-last: center;">Alert!</h3>
+
+            <p style="text-align: center;
+            font-size: 1rem;
+            line-height: 1.3rem ;">
+                The {{productsData.pilot_duration +" days" }} Pilot of your organisation has expired.<br/>
+            You will not be able to perform any activities from your account now.<br/>
+                                    <br/>
+            We hope you were able to do enough scans and compare app data with physical data?<br/>
+                                    <br/>
+            We will get in touch with you shortly to discuss how we can continue the association going forward.<br/>
+                                    <br/>
+                    Good day!
+            </p>
+            
+                    <!-- <div style="text-align-last:center">
+                        <button type="button" style="width: 100px;border-radius: 4px;" class="btn btn-info" >Close</button>
+                    </div> -->
+        </div>
+
+    </div> 
+</div>
 
 

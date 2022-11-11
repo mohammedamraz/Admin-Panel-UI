@@ -158,6 +158,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
   ngOnInit(): void {
     this.route.params.subscribe((val:any) =>{
+      this.graphArray = [];
       this.orgId = val.orgId;
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
