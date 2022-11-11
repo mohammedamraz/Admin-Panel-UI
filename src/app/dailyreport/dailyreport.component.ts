@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
+import * as XLSX from 'xlsx'; 
+
 
 @Component({
   selector: 'app-dailyreport',
@@ -20,6 +22,8 @@ export class DailyreportComponent implements OnInit {
   total_pages:any;
   total_org:any;
   currentPage:any;
+  fileName='ExcelSheet.xlsx';
+
 
 
   constructor(
@@ -28,44 +32,49 @@ export class DailyreportComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("hey manaff");
     this.route.params.subscribe((val:any) =>{
-      val.orgId = this.orgId;
-      val.prodId = this.prodId;
+      this.orgId = val.orgId;
+      this.prodId = val.prodId;
+  
+      
 
       this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date).subscribe((doc:any)=>{
         this.tableData = doc[0].data;
+        console.log("datasets",this.tableData);
+        
         //for development
         this.tableData =  [
 
           {
   
-              "id": 7,
-  
-              "product_id": 2,
-  
-              "event_mode": false,
-  
-              "tests": 1,
-  
-              "test_date": "2022-10-31T18:30:00.000Z"
+              id: 7,
+
+              product_id: 2,
+
+              event_mode: false,
+
+              tests: 1,
+
+              test_date: "2022-10-31T18:30:00.000Z"
   
           },
   
           {
   
-              "id": 8,
-  
-              "product_id": 2,
-  
-              "event_mode": false,
-  
-              "tests": 1,
-  
-              "test_date": "2022-10-31T18:30:00.000Z"
+              id: 8,
+
+              product_id: 2,
+
+              event_mode: false,
+
+              tests: 1,
+
+              test_date: "2022-10-31T18:30:00.000Z"
   
           }
   
-      ]
+      ];
       })
 
 
@@ -80,5 +89,32 @@ export class DailyreportComponent implements OnInit {
     const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
     return days_difference;
   }
+  exportexcel() {
+    
+   
+    const worksheet = XLSX.utils.json_to_sheet(this.tableData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileName);
+    
+   
+ 
+}
+onFilter(){
 
 }
+
+checkDate(date:any){
+
+  this.adminService.fetchDailyScan(this.orgId,this.prodId,new Date(date).toISOString().substring(0, 10)).subscribe((doc:any)=>{
+    this.tableData = doc[0].data;
+    console.log("date",date);
+    
+
+  })
+
+}
+
+}
+

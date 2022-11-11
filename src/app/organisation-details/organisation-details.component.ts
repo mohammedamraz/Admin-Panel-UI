@@ -345,17 +345,11 @@ chartOptions: Partial<ApexChartOptions> = {
   }
   exportexcel() {
     
-       /* table id is passed over here */   
-       let element = document.getElementById('excel-table'); 
-       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    const worksheet = XLSX.utils.json_to_sheet(this.userList);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
 
-       /* generate workbook and add the worksheet */
-       const wb: XLSX.WorkBook = XLSX.utils.book_new();
-       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-       /* save to file */
-       XLSX.writeFile(wb, this.fileName);
-			
+    XLSX.writeFile(wb, this.fileName);
     
 }
 

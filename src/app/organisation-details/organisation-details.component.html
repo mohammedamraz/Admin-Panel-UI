@@ -960,20 +960,7 @@
                         margin: 0;
                         color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel()">Download Excel Report</a>
                        
-                        <table style="display: none;" id="excel-table">
-                          <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                          </tr>
-                          <tr *ngFor="let item of userList">
-                            <td>{{item.id}}</td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.email}}</td>
-                          </tr>
-                        </table>
+                       
                       </div>
                     
 
