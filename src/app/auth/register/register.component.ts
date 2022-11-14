@@ -124,6 +124,9 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
             from(lastValueFrom(this.adminService.sendEmailOnceUserIsCreated({email:data.user_data[0].email,name:data.user_data[0].user_name.split(' ')[0]})))
               .subscribe({next:(data:any)=>{
                 },
+                error:(error:string) =>{
+                  console.log('web access error =>',error)
+                }
               })
           // }})
         
@@ -151,6 +154,9 @@ this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this
                 from(lastValueFrom(this.adminService.sendEmailOnceOrgIsCreated({email:data[0].organization_email,organisation_admin_name:data[0].admin_name.split(' ')[0],pilot_duration:data[0].product[0].pilot_duration})))
                   .subscribe({next:(data:any)=>{
                     },
+                    error:(error:string) =>{
+                      console.log('web access error =>',error)
+                    }
                   })
                 if(doc.web_access === true){
                   
