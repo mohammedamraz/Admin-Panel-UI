@@ -261,7 +261,16 @@ export class UserDetailsComponent implements OnInit {
     this.adminService.patchUserStatus(userData.id, data).subscribe({
       next: (res) => {
         console.log('the success=>',data);
-        if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+        if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
+          next: (res) =>{
+            console.log("dsasyfjewbsd",res)
+            this.reloadCurrentPage();
+          },
+          error : (err)=>{
+            console.log("ewdfsxc",err)
+            this.reloadCurrentPage();
+          }
+        })
         this.reloadCurrentPage();
         // this.activeWizard2=this.activeWizard2+1;
         // this.created=true;

@@ -534,4 +534,9 @@ chartOptions: Partial<ApexChartOptions> = {
     this.reloadCurrentPage();
   }
 
+  closeInactiveUser(){
+    this.authenticationService.logout();
+    this.reloadCurrentPage();
+  }
+
 }

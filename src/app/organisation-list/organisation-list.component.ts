@@ -579,7 +579,16 @@ export class OrganisationListComponent implements OnInit {
 
           this.updatePilotDuration(orgData.id,data,prod);
 
-          this.adminService.sendEmailOnceOrgIsBackActive({name:orgData.admin_name,email:orgData.organization_email})
+          this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
+            next: (res) =>{
+              console.log("dsasyfjewbsd",res)
+              this.reloadCurrentPage();
+            },
+            error : (err)=>{
+              console.log("ewdfsxc",err)
+              this.reloadCurrentPage();
+            }
+          })
         }
         else{
           //executes if false

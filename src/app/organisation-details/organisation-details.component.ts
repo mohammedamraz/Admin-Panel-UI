@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
-import { map , take} from 'rxjs';
+import { lastValueFrom, map , take} from 'rxjs';
 
 
 @Component({
@@ -668,9 +668,18 @@ chartOptions: Partial<ApexChartOptions> = {
  updateStatus(data:any,userData:any){
   // console.log("datat",data)
   this.adminService.patchUserStatus(userData.id, data).subscribe({
-    next: (res) => {
+    next: async (res) => {
       console.log('the success=>',data);
-      if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+      if(data) await this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
+        next: (res) =>{
+          console.log("dsasyfjewbsd",res)
+          this.reloadCurrentPage();
+        },
+        error : (err)=>{
+          console.log("ewdfsxc",err)
+          this.reloadCurrentPage();
+        }
+      })
       this.reloadCurrentPage();
       // this.activeWizard2=this.activeWizard2+1;
       // this.created=true;
@@ -1197,6 +1206,32 @@ clearform(){
 
 
   }
+
+  closeInactiveUser(){
+    
+    
+    let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name}
+  console.log("hello",data);
+  
+
+    this.adminService.sendInactiveOrgEmailNotification(data).subscribe({
+      next: (res:any) => {
+       console.log('sweet person',res);
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }   ,
+       error : (err:any)=>{
+        console.log('sweet person',err);
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }
+      
+    });
+
+
+  }
+
   editUserForm(data:any){
 
     console.log('user data =>', data);

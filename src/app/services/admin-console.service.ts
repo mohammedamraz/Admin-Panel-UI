@@ -203,6 +203,10 @@ export class AdminConsoleService {
     return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
   }
 
+  sendInactiveOrgEmailNotification(data:any){  
+    return this.http.post(`${ADMIN_URL}notification/logout/inactive/notification`,data);
+  }
+
   sendEmailOnceOrgIsCreated(content:any){
 
     return this.http.post(`${ADMIN_URL}notification/signup/org/email`,content);

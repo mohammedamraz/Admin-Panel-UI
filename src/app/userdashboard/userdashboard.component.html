@@ -230,8 +230,8 @@
                     Good day!
             </p>
             
-                    <div style="text-align-last:center;">
-                        <button type="button" style="width: 100px;border-radius: 4px;background: #3C424F;
+                    <div *ngIf="prodId==undefined" style="text-align-last:center;">
+                        <button  type="button" style="width: 100px;border-radius: 4px;background: #3C424F;
                         border: 1px solid #FFFFFF;
                         border-radius: 4px;" class="btn btn-info" (click)="closeUser()" >Close</button>
                     </div>
@@ -265,7 +265,7 @@
                     <div style="text-align-last:center;">
                         <button type="button" style="width: 100px;border-radius: 4px;background: #3C424F;
                         border: 1px solid #FFFFFF;
-                        border-radius: 4px;" class="btn btn-info" (click)="closeUser()" >Close</button>
+                        border-radius: 4px;" class="btn btn-info" (click)="closeInactiveUser()" >Close</button>
                     </div>
         </div>
 
