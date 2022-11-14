@@ -85,6 +85,11 @@ export class AdminConsoleService {
 
   }
 
+  patchuser(id:number,data:any){
+
+    return this.http.patch(`${API_URL}users/${id}`, data);
+  }
+
   patchOrgDetails(id:number,data:any){
     
     return this.http.patch(`${API_URL}${id}`,data);
@@ -198,6 +203,10 @@ export class AdminConsoleService {
     return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
   }
 
+  sendInactiveOrgEmailNotification(data:any){  
+    return this.http.post(`${ADMIN_URL}notification/logout/inactive/notification`,data);
+  }
+
   sendEmailOnceOrgIsCreated(content:any){
 
     return this.http.post(`${ADMIN_URL}notification/signup/org/email`,content);
@@ -217,7 +226,7 @@ export class AdminConsoleService {
   ResendInvitationMailForUser(content:any){
     console.log("datat",content);
     
-    return this.http.post(`${ADMIN_URL}notification/resend/email/users`,content);
+    return this.http.post(`${ADMIN_URL}notification/resend/email/user`,content);
       }
 
   sendEmailOnceUserIsBackActive(content:any){
@@ -240,8 +249,6 @@ export class AdminConsoleService {
     let name ='';
     const loggedInUser = <any>this.authService.currentUser();
     // let name = loggedInUser.org_data[0].organization_name;
-
-
 
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
@@ -356,9 +363,45 @@ export class AdminConsoleService {
     console.log('the safd', event.url)
 
     if(event.url?.split('/')[2] =='home'){
-      this.breadCrumbs.next([
-        {label: `Home`, path: event.url, active: true}
-      ])
+      if(loggedInUser.hasOwnProperty('user_data')){
+        //user
+        console.log('im an user')
+        this.breadCrumbs.next([
+          {label: `Home`, path: event.url, active: true}
+        ])
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
+        //orgAdmin
+        let userName = '';
+        this.fetchUserListById(event.url?.split('/')[3]).subscribe((doc:any) =>{
+          console.log('the resposn => ', doc)
+          userName = doc[0].user_name
+          this.breadCrumbs.next([
+            {label: `Home`, path: `/${event.url?.split('/')[1]}/dashboard` },
+            {label: `Users List`, path:  `/${event.url?.split('/')[1]}/userdetails`, },
+            {label: userName, path: `/${event.url?.split('/')[1]}/userdetails`, active: true}
+  
+          ])
+        })
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type == 'admin'){
+        //superadmin
+        this.fetchOrgById(event.url?.split('/')[1]).subscribe({
+          next: (res:any) => {
+            name=res[0].organization_name;
+            this.fetchUserListById(event.url?.split('/')[3]).subscribe((doc:any) =>{
+              let userName = doc[0].user_name;
+              this.breadCrumbs.next([
+                { label: 'Home', path: 'home' },
+                { label: 'Organisations List', path: 'orgList' },
+                { label: name, path: `/orgdetails/${event.url?.split('/')[1]}` },
+                { label: 'Users List', path: `/userdetails/${event.url?.split('/')[1]}` },
+                { label: userName, path: event.url, active: true },
+            ])
+            });
+          },
+        });
+      }
     }
     if(event.url?.split('/')[2] =='userdashboard'){
       this.breadCrumbs.next([
@@ -420,6 +463,16 @@ export class AdminConsoleService {
     fetchUsersDailyScan(userId:any, prodId:any, date:any){
 
       return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
+    }
+
+    fetchPerformanceChart(orgId:any, prodId:any, period:any){
+      
+      return this.http.get(`${API_PRODUCTS_TESTS}tests/org?org_id=${orgId}&product_id=${prodId}&period=${period}`)
+    }
+
+    fetchUserPerformanceChart(userId:any, prodId:any, period:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}tests/users?user_id=${userId}&product_id=${prodId}&period=${period}`)
     }
 
 

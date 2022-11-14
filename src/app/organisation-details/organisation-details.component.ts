@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
+import { lastValueFrom, map , take} from 'rxjs';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class OrganisationDetailsComponent implements OnInit {
   files: File[] = [];
   tabDAta:any[]=[];
   OrgForm!: FormGroup;
+  userEditForm!: FormGroup;
   basicWizardForm!: FormGroup;
   activeWizard1: number = 1;
   activeWizard2: number = 1;
@@ -79,6 +81,8 @@ export class OrganisationDetailsComponent implements OnInit {
   model!: NgbDateStruct;
 date!: { year: number; month: number; };
   graphArray:any[]=[];
+  errorMessageResendInvitation = ' '
+  showLiveAlertResendInvitation =false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -86,6 +90,7 @@ date!: { year: number; month: number; };
   OrgDetailsEditForm = false;
   @ViewChild('toggleModal4', { static: true }) input!: ElementRef;
   @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
+  @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
   loggedInUser: any={};
 
   
@@ -174,6 +179,7 @@ chartOptions: Partial<ApexChartOptions> = {
   },
 
 };
+  userId: any;
 
  
 
@@ -319,109 +325,225 @@ chartOptions: Partial<ApexChartOptions> = {
    
   }
 
-  createGraphArrayItems(products:any,date:any){
+  async createGraphArrayItems(products:any,date:any){
 
-    console.log('aksjdfhlkjasdhflkashdf =>', date)
+    const requests = products.map((doc:any) => this.fetchGraphs(doc.product_id,date));
+    Promise.all(requests).then(body => { 
+        body.forEach(res => {
+          console.log('higeass =>',res)
+        this.graphArray.push(res)
+        })
+     });
 
-    // this.graphArray = products.map((doc:any) => ({
-    //    name: doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
-    // }));
 
-    this.graphArray = products.map((doc:any) => {
-      // let graphdetails:any = {}; 
-      // // this.adminService.fetchDailyScan(this.snapshotParam,doc.product_id,date).subscribe((doc:any)=>{
-      // //   graphdetails['today'] = doc[0].total_org_tests;
-      // //   graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-      // //   graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-      // //   graphdetails['totalScans'] = doc[0].total_org_tests;
-      // //   graphdetails['standardModeScans'] = doc[0].total_org_tests_standard;
-      // //   graphdetails['eventModeScans'] = doc[0].total_org_tests_event;
-      // //   graphdetails['name'] =  doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' )
-      // // })
-      // graphdetails['today'] = 3;
-      //   graphdetails['yesterday'] = 4
-      //   graphdetails['previousDay'] = 2;
-      //   graphdetails['totalScans'] = 5;
-      //   graphdetails['standardModeScans'] =6;
-      //   graphdetails['eventModeScans'] =3;
-      //   graphdetails['name'] =doc.product_id === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' );
-      //   graphdetails['graph'] = {
-      //     type: 'bar',
-      //     data: {
-      //       labels: this.fetchDates(date),
-      //       datasets: [
-      //           {
-      //               backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-      //               borderColor: "#ADB5BD",
-      //               borderWidth: 1,
-      //               hoverBackgroundColor: "#ADB5BD",
-      //               hoverBorderColor: "#ADB5BD",
-      //               data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
-                    
-      //           },
-      //       ],
-      //   },
-      //   chartOptions: {
-      //       maintainAspectRatio: false,
-            
-            
-      //   },}
-
-      // return graphdetails
-
-      return this.fetchgraphdetails(doc.product_id,date)
-
-    })
 
 
 
   }
+
+  fetchGraphs(prodId:any,date:any){
+
+    return new Promise((resolve, reject) => {
+      const graph = this.fetchgraphdetails(prodId,date);
+      const performance = this.fetchPerformanceDetails(prodId,'monthly')
+      let details:any ={}
+      Promise.all([graph]).then(bodyGraph => { 
+        bodyGraph.forEach(res => {
+          details = res;
+          Promise.all([performance]).then(body => { 
+            body.forEach(pergormanceDetails => {
+              details['performance'] = pergormanceDetails
+            })
+         })
+        })
+        console.log('why this kolaveri =>',details)
+        resolve(details)
+     })
+    })
+
+  }
+
+  fetchPerformanceDetails(prodId:any,period:any){
+    
+    return new Promise((resolve, reject) => {
+      this.adminService.fetchPerformanceChart(this.snapshotParam,prodId,period).subscribe((doc:any)=>{
+      let performaceDetails:any={}
+      console.log('performance items',doc);
+      performaceDetails['currentMonth'] = doc[0].total_org_tests ? doc[0].total_org_tests : 0;
+      performaceDetails['previousMonth'] = doc[1].total_org_tests ? doc[1].total_org_tests : 0;
+      performaceDetails['varience'] = doc[2].variance ? doc[2].variance : 0;
+      performaceDetails['quaterOne'] = doc[0].quarter_one_tests ? doc[0].quarter_one_tests : 0;
+      performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
+      performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
+      performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
+      performaceDetails['PreviousQuaterOne'] = doc[1].quarter_one_tests ? doc[1].quarter_one_tests: 0 ;
+      performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
+      performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
+      performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
+      performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+      performaceDetails['currentUserEmail'] = doc[0].user_email;
+      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NaN':doc[0].user_name;
+      performaceDetails['PreviouseUserEmail'] = doc[1].user_email;
+      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NaN':doc[1].user_name;
+      performaceDetails['prodId']=prodId;
+      performaceDetails['period']=period;
+
+      performaceDetails['graph']={
+        series: [
+          {
+            name: 'Series A',
+            type: 'area',
+            data: [performaceDetails['quaterOne'],performaceDetails['quaterTwo'], performaceDetails['quaterThree'], performaceDetails['quaterFour']],
+          },
+          {
+            name: 'Series B',
+            type: 'line',
+            data: [performaceDetails['PreviousQuaterOne'],performaceDetails['PreviousQuaterTwo'], performaceDetails['PreviousQuaterThree'],performaceDetails['PreviousQuaterFour']],
+          },
+        ],
+        chart: {
+          height: 268,
+          type: 'line',
+          toolbar: {
+            show: false,
+          },
+          stacked: true,
+          zoom: {
+            enabled: false,
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          width: [3, 3],
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        legend: {
+          show: false,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+          },
+        },
+        fill: {
+          type: 'solid',
+          opacity: [0, 1],
+        },
+        colors: ['#188ae2', '#F08FC9'],
+        xaxis: {
+          categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
+          axisBorder: {
+            show: true,
+            color: '#f7f7f7'
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            style: {
+              colors: '#adb5bd',
+            },
+          },
+
+          
+        },
+        yaxis: {
+          tickAmount: 4,
+          // min: 0,
+          // max: 100,
+          labels: {
+            style: {
+              colors: '#adb5bd',
+            },
+         },
+         axisBorder: {
+          show: true,
+          color: '#f7f7f7'
+         }
+        },
+        grid: {
+          show: true,
+          borderColor: '#f7f7f7',
+
+          // padding: {
+          //   top: 0,
+          //   bottom: 0,
+          // },
+        },
+        tooltip: {
+          theme: 'dark',
+        },
+      }
+      resolve(performaceDetails)
+       // performaceDetails['totalScans'] = doc[0].total_org_tests;
+      // performaceDetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+      // performaceDetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+      // performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )   
+    })
+    })
+  }
+
 
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
-      console.log('asdffweafdszv => ',doc)
-      graphdetails['today'] = doc[0].total_org_tests;
-      graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-      graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-      graphdetails['totalScans'] = doc[0].total_org_tests;
-      graphdetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
-      graphdetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
-      graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
-    })
-    // graphdetails['today'] = 3;
-    //   graphdetails['yesterday'] = 4
-    //   graphdetails['previousDay'] = 2;
-    //   graphdetails['totalScans'] = 5;
-    //   graphdetails['standardModeScans'] =6;
-    //   graphdetails['eventModeScans'] =3;
-      graphdetails['prodId'] = prodId;
-      graphdetails['date'] = date
-      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
-      graphdetails['graph'] = {
-        type: 'bar',
-        data: {
-          labels: this.fetchDates(date),
-          datasets: [
-              {
-                  backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                  borderColor: "#ADB5BD",
-                  borderWidth: 1,
-                  hoverBackgroundColor: "#ADB5BD",
-                  hoverBorderColor: "#ADB5BD",
-                  data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
-                  
-              },
-          ],
-      },
-      chartOptions: {
-          maintainAspectRatio: false,
-          
-          
-      },}
+    return new Promise((resolve, reject) => {
+      this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+        console.log('asdffweafdszv => ',doc)
+        graphdetails['today'] = doc[0].total_org_tests;
+        graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+        graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+        graphdetails['totalScans'] = doc[0].total_org_tests;
+        graphdetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+        graphdetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+        graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+        graphdetails['prodId'] = prodId;
+        graphdetails['date'] = date;
 
-    return graphdetails
+        graphdetails['graph'] = {
+          type: 'bar',
+          data: {
+            labels: this.fetchDates(date),
+            datasets: [
+                {
+                    backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                    borderColor: "#ADB5BD",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#ADB5BD",
+                    hoverBorderColor: "#ADB5BD",
+                    data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                    
+                },
+            ],
+        },
+        chartOptions: {
+            maintainAspectRatio: false,
+            
+            
+        },}
+
+        return resolve(graphdetails)
+  
+      })
+    })
+
   }
+
+  fetchTimely(prodId:any,data:any){
+    console.log('hello musicians', data);
+    const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
+    this.graphArray[index].performance.period = data
+    const performance = this.fetchPerformanceDetails(prodId,data)
+    Promise.all([performance]).then(body => { 
+      body.forEach(pergormanceDetails => {
+        this.graphArray[index].performance = pergormanceDetails
+      })
+   })
+  }
+
+
+
 
   fetchDates(date:any){
 
@@ -442,7 +564,14 @@ chartOptions: Partial<ApexChartOptions> = {
     console.log('hello date =>', date);
     console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
-    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+    const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
+    Promise.all(promise).then(body => { 
+      body.forEach(res => {
+        const performance = this.graphArray[index].performance
+        this.graphArray[index] = res;
+        this.graphArray[index]['performance'] =  performance
+      }) 
+    })
   }
 
 
@@ -539,9 +668,18 @@ chartOptions: Partial<ApexChartOptions> = {
  updateStatus(data:any,userData:any){
   // console.log("datat",data)
   this.adminService.patchUserStatus(userData.id, data).subscribe({
-    next: (res) => {
+    next: async (res) => {
       console.log('the success=>',data);
-      if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email})
+      if(data) await this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
+        next: (res) =>{
+          console.log("dsasyfjewbsd",res)
+          this.reloadCurrentPage();
+        },
+        error : (err)=>{
+          console.log("ewdfsxc",err)
+          this.reloadCurrentPage();
+        }
+      })
       this.reloadCurrentPage();
       // this.activeWizard2=this.activeWizard2+1;
       // this.created=true;
@@ -552,7 +690,18 @@ chartOptions: Partial<ApexChartOptions> = {
 
 resendInvitationMail(data:any){
   console.log("ersdfzdx",data);
-  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name})
+  this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+  this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
+    next: (res) =>{
+      console.log("dsasyfjewbsd",res)
+      
+    },
+    error : (err)=>{
+      console.log("ewdfsxc",err)
+
+    }
+  })
 
   }
 
@@ -1034,8 +1183,7 @@ clearform(){
   }
 
   closeUser(){
-    this.authenticationService.logout();
-    this.reloadCurrentPage();
+    
     
     let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
       organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
@@ -1045,12 +1193,79 @@ clearform(){
     this.adminService.sendEmailNotification(data).subscribe({
       next: (res:any) => {
        console.log('sweet person',res);
-       }   
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }   ,
+       error : (err:any)=>{
+        console.log('sweet person',err);
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }
       
     });
 
 
   }
 
+  closeInactiveUser(){
+    
+    
+    let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name}
+  console.log("hello",data);
+  
+
+    this.adminService.sendInactiveOrgEmailNotification(data).subscribe({
+      next: (res:any) => {
+       console.log('sweet person',res);
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }   ,
+       error : (err:any)=>{
+        console.log('sweet person',err);
+       this.authenticationService.logout();
+    this.reloadCurrentPage();
+       }
+      
+    });
+
+
+  }
+
+  editUserForm(data:any){
+
+    console.log('user data =>', data);
+    this.userEditForm = this.fb.group({
+      email:[data.email,[Validators.email]],
+      mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
+      user_name:[data.user_name,[Validators.required]],
+      designation:[data.designation,[Validators.required]]
+    })
+    this.userId = data.id
+    this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+
+  }
+
+  editUser(){ 
+    if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
+    this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
+    this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
+      next: (res:any) => {
+        console.log('the success=>',res);
+
+        this.activeWizard1=this.activeWizard1+1;
+
+      },
+      error: (err) => {
+        console.log('the failure=>',err);
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
+
+      },
+      complete: () => { }
+    });
+
+  }
+}
 
 }

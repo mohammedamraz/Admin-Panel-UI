@@ -1,3 +1,6 @@
+<div id="liveAlertPlaceholder">
+    <ngb-alert type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
+</div>
 <ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="background-color: #282E38 ;min-width: min-content;">

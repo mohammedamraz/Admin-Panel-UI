@@ -1,3 +1,6 @@
+<div id="liveAlertPlaceholder">
+    <ngb-alert type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
+</div>
 <h4 *ngIf="orglogin==false" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
@@ -890,7 +893,7 @@
 <ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
     <div class="row"  >
-    <div class="col-xl-6 "  >
+    <div class="col-xl-6 " style="display: inline-grid;"   >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             
                 <div class="card-body">
@@ -960,7 +963,7 @@
         </div>
 
     </div>
-    <!-- <div class="col-xl-6" >
+    <div class="col-xl-6" style="display: inline-grid;" >
     <div class="card layout-style" style="background: #313844; border-radius:10px">
         <div class="card-body">
             <div class="float-end" ngbDropdown placement="bottom-end">
@@ -978,13 +981,13 @@
                     color: #9BA6AC;
                     border-color: #444C5B;" class="btn btn-light" href="javascript:void(0)" role="button" id="dropdownLink"
                         ngbDropdownToggle>
-                        Current vs Previous Month <i class="mdi mdi-chevron-down"></i>
+                        Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}} <i class="mdi mdi-chevron-down"></i>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                        <a ngbDropdownItem>Current vs Previous Day</a>
-                        <a ngbDropdownItem>Current vs Previous Week</a>
-                        <a ngbDropdownItem>Current vs Previous Quater</a>
-                        <a ngbDropdownItem>Current vs Previous Year</a>
+                        <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
+                        <a (click)="fetchTimely(season.prodId,'monthly')" ngbDropdownItem>Current vs Previous Month</a>
+                        <a  (click)="fetchTimely(season.prodId,'quaterly')"ngbDropdownItem>Current vs Previous Quater</a>
+                        <a (click)="fetchTimely(season.prodId,'yearly')" ngbDropdownItem>Current vs Previous Year</a>
 
                     </div>
                 </div>
@@ -992,27 +995,73 @@
             
 
             <div class="graph-container" style="display: grid ">
-            <div style=" align-self: center; color:#F5F5F5">
+            <!-- <div style=" align-self: center; color:#F5F5F5">
                 <p>Current Month:</p>
                 <p>Previous Month:</p>
                 <p>Variance:</p>
                 <p>Top Performer (User):</p>
                 <p style="color: #5FB5DC;">Milind Soman<br>
                     milind.soman@sample.com</p>
-            </div>
+            </div> -->
     
             <div dir="ltr" style="padding: 0.5rem;">
-                <apx-chart class="apex-charts mt-2" [series]="chartOptions.series!" [chart]="chartOptions.chart!"
-                    [dataLabels]="chartOptions.dataLabels!" [legend]="chartOptions.legend!" [fill]="chartOptions.fill!"
-                    [grid]="chartOptions.grid!" [xaxis]="chartOptions.xaxis!" [yaxis]="chartOptions.yaxis!"
-                    [stroke]="chartOptions.stroke!" [tooltip]="chartOptions.tooltip!" [colors]="chartOptions.colors!">
+                <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"  [plotOptions]="season.performance.graph.plotOptions!"
+                    [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
+                    [grid]="season.performance.graph.grid!" [xaxis]="season.performance.graph.xaxis!" [yaxis]="season.performance.graph.yaxis!"
+                    [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
+                <div style="    display: inline-flex;
+                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                    <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
+                    <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
+                </div>
             </div>
+            
+            <div>
+            <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                <div style=" align-self: center; color:#ADB5BD;display: grid;
+                grid-gap: 1rem;">
+                    <p style="font-size: 1.2rem;margin: 0;">Current Month</p>
+                    <p style="font-size: 1.2rem;margin: 0;">Previous Month</p>
+                    <p style="font-size: 1.2rem;margin: 0;">Variance</p>
+                </div>
+                <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                grid-gap: .45rem;">
+                    <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
+                    <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
+                    <!-- <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}</p></div> -->
+                    <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-up"></i></p>
+                        <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-down"></i></p>
+                        <p  *ngIf="season.performance.varience==0 || season.performance.varience=='' "  style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
+                    </div>
+                </div>
+              
+                <!-- <div>
+                    <button>Download Excel Report</button>
+                </div> -->
             </div>
+                <div>
+                    <p style="font-size: 1.2rem;margin: 0;color:#ADB5BD;margin-top: 2rem;">Top Performer (User):</p>
+                    <p style="font-size: 1.2rem;margin: 0;color:#82B4F3;min-width: max-content;">Current &nbsp; &nbsp;&nbsp;&nbsp;<span style="color:#FFFFFF">:&nbsp;{{season.performance.currentUserNmae}}</span></p> 
+                    <p style="font-size: 1.2rem;margin: 0;color:#F08FC9;min-width: max-content;">Previous &nbsp; &nbsp;<span style="color:#FFFFFF">:&nbsp;{{season.performance.PreviouseUserName}}</span>   </p>
+            </div>
+                
+
+            </div>
+            
+            <!-- <div>
+                    <p>Top Performer (User):</p>
+                    <p>Current:<span>{{season.performance.currentUserNmae}}</span></p> 
+                    <p>Previous:<span>{{season.performance.PreviouseUserName}}</span>   </p>
+            </div> -->
+            </div>
+            <!-- <div style="display: grid;"> -->
+            
+            <!-- </div> -->
     
         </div>
     </div>
-    </div> -->
+    </div>
 
 
     </div>
@@ -1149,6 +1198,8 @@
                                     </a>
                                     <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                         <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
+                                        <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
+
                                         <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
                                         <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
     
@@ -1256,6 +1307,8 @@
                                     <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
+                                    <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
+                                    <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
                                 <div style="display: flex;
                                     align-items: center;">
                                     <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
@@ -1307,7 +1360,7 @@
                     <div style="text-align-last:center">
                         <button type="button" style="width: 100px;background: #3C424F;
                         border: 1px solid #FFFFFF;
-                        border-radius: 4px;" (click)="closeUser()" class="btn btn-info" >Close</button>
+                        border-radius: 4px;" (click)="closeUser()" class="btn btn-info" >Notify Fedo</button>
                     </div>
         </div>
 
@@ -1339,9 +1392,181 @@
                     <div style="text-align-last:center;">
                         <button type="button" style="width: 100px;border-radius: 4px;background: #3C424F;
                         border: 1px solid #FFFFFF;
-                        border-radius: 4px;" class="btn btn-info" (click)="closeUser()" >Close</button>
+                        border-radius: 4px;" class="btn btn-info" (click)="closeInactiveUser()" >Notify Fedo</button>
                     </div>
         </div>
 
     </div> 
+</ng-template>
+
+<ng-template #toggleModal6 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;">
+        <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3;reloadCurrentPage()" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit User</h4>
+    
+            <form [formGroup]="userEditForm" #basicForm="ngForm">
+                <div id="basicwizard">
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard1"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard1>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
+                                <span class=" d-sm-inline">User Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row ">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC"
+                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['user_name'].touched && userEditForm.controls['user_name'].invalid || formSubmitted && userEditForm.controls['user_name'].invalid}"
+                                                    
+                                                        name="userName" placeholder="User Full Name" required formControlName="user_name">
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
+                                                       
+                                                    <div *ngIf="userEditForm.controls['user_name'].touched && userEditForm.controls['user_name'].invalid || formSubmitted && userEditForm.controls['user_name'].invalid" class="invalid-feedback">
+
+                                                        <div *ngIf="userEditForm.controls['user_name'].errors?.['required']" i18n>
+                                                          Mandatory field
+                                                        </div>
+                                                        <div *ngIf="userEditForm.controls['user_name'].errors?.['pattern']" i18n>
+                                                          Invalid name format. Please enter your full name
+                                                        </div>
+                                                      </div>
+                                                
+                                                      </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style="  height: 3rem;
+                                                    color: #9BA6AC" formControlName="designation" minlength="3"
+                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['designation'].touched && userEditForm.controls['designation'].invalid || formSubmitted && userEditForm.controls['designation'].invalid}"
+
+                                                        name="userName" placeholder="Designation" required>
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Designation</label>
+                                                <div *ngIf="userEditForm.controls['designation'].touched && userEditForm.controls['designation'].invalid || formSubmitted && userEditForm.controls['designation'].invalid" class="invalid-feedback">
+
+                                                    <div *ngIf="userEditForm.controls['designation'].errors?.['required']" i18n>
+                                                      Mandatory field
+                                                    </div>
+                                                    <div *ngIf="userEditForm.controls['designation'].errors?.['minlength']" i18n>
+                                                      Enter full designation
+                                                    </div>
+                                                  </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                        name="userName" placeholder="Email Address" required formControlName="email" [readonly]="true"
+                                                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['email'].touched && userEditForm.controls['email'].invalid || formSubmitted && userEditForm.controls['email'].invalid}">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
+                                                    
+                                                <div *ngIf="userEditForm.controls['email'].touched && userEditForm.controls['email'].invalid || formSubmitted && userEditForm.controls['email'].invalid" class="invalid-feedback">
+
+                                                    <div *ngIf="userEditForm.controls['email'].errors?.['required']" i18n>
+                                                      Mandatory field
+                                                    </div>
+                                                    <div *ngIf="userEditForm.controls['email'].errors?.['pattern']" i18n>
+                                                      Invalid email format. Please enter valid email format
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10"  type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                        name="userName" placeholder="Mobile Number" formControlName="mobile"  
+                                                    [ngClass]="{'is-invalid':userEditForm.controls['mobile'].touched && userEditForm.controls['mobile'].invalid || formSubmitted && userEditForm.controls['mobile'].invalid}">
+                                                 <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
+                                                 
+                                            <div *ngIf="userEditForm.controls['mobile'].touched && userEditForm.controls['mobile'].invalid || formSubmitted && userEditForm.controls['mobile'].invalid" class="invalid-feedback">
+
+                                                <div *ngIf="userEditForm.controls['mobile'].errors?.['required']" i18n>
+                                                  Mandatory field
+                                                </div>
+                                                <div *ngIf="userEditForm.controls['mobile'].errors?.['pattern']" i18n>
+                                                  Invalid format. Please enter valid format
+                                                </div>
+                                              </div>
+
+                                                    </div>
+                                            </div>
+                                        </div>                       
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+         
+                            </ng-template>
+                        </li>
+
+
+                        <li [ngbNavItem]="2">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+
+    
+                                            <p style="color: #AEB5BC;" class="w-75 mb-2 mx-auto">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
+                        </div>
+                        <!-- <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard1=1" *ngIf="activeWizard1 !== 3"
+                                [disabled]="activeWizard1===1">Previous</button>
+                        </li> -->
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 2">
+                            <div style="    display: grid;
+                            grid-template-columns: min-content max-content;
+                            justify-content: center;
+                            grid-gap: 0.5rem;">
+                                <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage();"
+                                    >Close</button>
+                                <!-- <button type="button" class="btn btn-info" (click)="created=false;activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false; formSubmitted=false; notThirdParty=false; thirdParty=false; addTpafunc=false; showLiveAlertNextButton=false;showLiveAlertAPI=false"
+                                    >Add Another User</button> -->
+                            </div>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 1">
+                            <!-- <button type="button" style="width: 100px;" (click)="  checkUserFirstForm()" class="btn btn-info" 
+                                *ngIf=" activeWizard1==1">Next</button> -->
+                            <button type="button" style="width: 100px;" class="btn btn-info" (click)="editUser()">Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
 </ng-template>

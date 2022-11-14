@@ -158,14 +158,14 @@ chartOptions: Partial<ApexChartOptions> = {
 
   ngOnInit(): void {
     this.route.params.subscribe((val:any) =>{
+      this.graphArray = [];
       this.orgId = val.orgId;
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
         next:(res:any) =>{
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
-          console.log("manaaaaf",this.product);
-          this.createGraphArrayItems(this.products,this.dateSelected);
+          this.createGraphArrayItems([this.product],this.dateSelected);
           
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
           this.show = false;
@@ -196,74 +196,231 @@ chartOptions: Partial<ApexChartOptions> = {
     
 
   }
-  createGraphArrayItems(product:any,date:any){
+  async createGraphArrayItems(product:any,date:any){
 
-    console.log('m cominggggg =>',  this.productId)
-
-
-    // if(this.prodId==undefined)
-      this.graphArray = 
-         [this.fetchgraphdetails(this.productId.toString(),date)]
-      
-    // else{
-    //   this.graphArray = [this.fetchgraphdetails(this.prodId.toString(),date)]
-    // }
-
+    const requests = product.map((doc:any) => this.fetchGraphs(doc.product_id,date));
+    Promise.all(requests).then(body => { 
+        body.forEach(res => {
+          console.log('higeass =>',res)
+        this.graphArray.push(res)
+        })
+     });
 
 
   }
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    this.adminService.fetchDailyScan(this.orgId,prodId,date).subscribe((doc:any)=>{
-      console.log("graaphhhh",doc);
-      
-      graphdetails['today'] = doc[0].total_org_tests;
-      graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
-      graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
-      graphdetails['totalScans'] = doc[0].total_org_tests;
-      graphdetails['standardModeScans'] = doc[0].total_org_tests_standard?doc[0].total_org_tests_standard : 0 ;
-      graphdetails['eventModeScans'] = doc[0].total_org_tests_event?doc[0].total_org_tests_event:0;
-      graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
-    })
-    // graphdetails['today'] = 3;
-    //   graphdetails['yesterday'] = 4
-    //   graphdetails['previousDay'] = 2;
-    //   graphdetails['totalScans'] = 5;
-    //   graphdetails['standardModeScans'] =6;
-    //   graphdetails['eventModeScans'] =3;
-      graphdetails['prodId'] = prodId;
-      graphdetails['date'] = date
-      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
-      graphdetails['graph'] = {
-        type: 'bar',
-        data: {
-          labels: this.fetchDates(date),
-          datasets: [
-              {
-                  backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                  borderColor: "#ADB5BD",
-                  borderWidth: 1,
-                  hoverBackgroundColor: "#ADB5BD",
-                  hoverBorderColor: "#ADB5BD",
-                  data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
-                  
-              },
-          ],
-      },
-      chartOptions: {
-          maintainAspectRatio: false,
-          
-          
-      },}
+    return new Promise((resolve, reject) => {
+      this.adminService.fetchDailyScan(this.orgId,prodId,date).subscribe((doc:any)=>{
+        console.log('asdffweafdszv => ',doc)
+        graphdetails['today'] = doc[0].total_org_tests;
+        graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
+        graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
+        graphdetails['totalScans'] = doc[0].total_org_tests;
+        graphdetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+        graphdetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+        graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+        graphdetails['prodId'] = prodId;
+        graphdetails['date'] = date;
+        
 
-    return graphdetails
-    
+        graphdetails['graph'] = {
+          type: 'bar',
+          data: {
+            labels: this.fetchDates(date),
+            datasets: [
+                {
+                    backgroundColor: ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
+                    borderColor: "#ADB5BD",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "#ADB5BD",
+                    hoverBorderColor: "#ADB5BD",
+                    data: [graphdetails['previousDay'],  graphdetails['yesterday'] , graphdetails['today']],
+                    
+                },
+            ],
+        },
+        chartOptions: {
+            maintainAspectRatio: false,
+            
+            
+        },}
+
+        return resolve(graphdetails)
+  
+      })
+    })
+
   }
+
+  fetchGraphs(prodId:any,date:any){
+
+    return new Promise((resolve, reject) => {
+      const graph = this.fetchgraphdetails(prodId,date);
+      const performance = this.fetchPerformanceDetails(prodId,'monthly')
+      let details:any ={}
+      Promise.all([graph]).then(bodyGraph => { 
+        bodyGraph.forEach(res => {
+          details = res;
+          Promise.all([performance]).then(body => { 
+            body.forEach(pergormanceDetails => {
+              details['performance'] = pergormanceDetails
+            })
+         })
+        })
+        console.log('why this kolaveri =>',details)
+        resolve(details)
+     })
+    })
+
+  }
+
+  fetchTimely(prodId:any,data:any){
+    console.log('hello musicians', data);
+    const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
+    this.graphArray[index].performance.period = data
+    const performance = this.fetchPerformanceDetails(prodId,data)
+    Promise.all([performance]).then(body => { 
+      body.forEach(pergormanceDetails => {
+        this.graphArray[index].performance = pergormanceDetails
+      })
+   })
+  }
+
+  fetchPerformanceDetails(prodId:any,period:any){
+    
+    return new Promise((resolve, reject) => {
+      this.adminService.fetchPerformanceChart(this.orgId,prodId,period).subscribe((doc:any)=>{
+      let performaceDetails:any={}
+
+      performaceDetails['currentMonth'] = doc[0].total_org_tests ? doc[0].total_org_tests : 0;
+      performaceDetails['previousMonth'] = doc[1].total_org_tests ? doc[1].total_org_tests : 0;
+      performaceDetails['varience'] = doc[2].variance ? doc[2].variance : 0;
+      performaceDetails['quaterOne'] = doc[0].quarter_one_tests ? doc[0].quarter_one_tests : 0;
+      performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
+      performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
+      performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
+      performaceDetails['PreviousQuaterOne'] = doc[1].quarter_one_tests ? doc[1].quarter_one_tests: 0 ;
+      performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
+      performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
+      performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
+      performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
+      performaceDetails['currentUserEmail'] = doc[0].user_email;
+      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NaN':doc[0].user_name;
+      performaceDetails['PreviouseUserEmail'] = doc[1].user_email;
+      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NaN':doc[1].user_name;
+      performaceDetails['prodId']=prodId;
+      performaceDetails['period']=period;
+
+      performaceDetails['graph']={
+        series: [
+          {
+            name: 'Series A',
+            type: 'area',
+            data: [performaceDetails['quaterOne'],performaceDetails['quaterTwo'], performaceDetails['quaterThree'], performaceDetails['quaterFour']],
+          },
+          {
+            name: 'Series B',
+            type: 'line',
+            data: [performaceDetails['PreviousQuaterOne'],performaceDetails['PreviousQuaterTwo'], performaceDetails['PreviousQuaterThree'],performaceDetails['PreviousQuaterFour']],
+          },
+        ],
+        chart: {
+          height: 268,
+          type: 'line',
+          toolbar: {
+            show: false,
+          },
+          stacked: true,
+          zoom: {
+            enabled: false,
+          },
+        },
+        stroke: {
+          curve: 'smooth',
+          width: [3, 3],
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        legend: {
+          show: false,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+          },
+        },
+
+        fill: {
+          type: 'solid',
+          opacity: [0, 1],
+        },
+        colors: ['#188ae2', '#F08FC9'],
+        xaxis: {
+          categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
+          axisBorder: {
+            show: true,
+            color: '#f7f7f7'
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            style: {
+              colors: '#adb5bd',
+            },
+          },
+        },
+        yaxis: {
+          tickAmount: 4,
+          // min: 0,
+          // max: 100,
+          labels: {
+            style: {
+              colors: '#adb5bd',
+            },
+         },
+         axisBorder: {
+          show: true,
+          color: '#f7f7f7'
+         }
+        },
+        grid: {
+          show: true,
+          borderColor: '#f7f7f7',
+          // padding: {
+          //   top: 0,
+          //   bottom: 0,
+          // },
+        },
+        tooltip: {
+          theme: 'dark',
+        },
+      }
+      resolve(performaceDetails)
+       // performaceDetails['totalScans'] = doc[0].total_org_tests;
+      // performaceDetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
+      // performaceDetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
+      // performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )   
+    })
+    })
+  }
+
+
+
   checkdate(event:any,prodId:any,date:any){
     console.log('hello date =>', date);
     console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
-    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+    const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
+    Promise.all(promise).then(body => { 
+      body.forEach(res => {
+        const performance = this.graphArray[index].performance
+        this.graphArray[index] = res;
+        this.graphArray[index]['performance'] =  performance
+      }) 
+    })
   }
   fetchDates(date:any){
 

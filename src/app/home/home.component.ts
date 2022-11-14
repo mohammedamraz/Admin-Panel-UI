@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   created:boolean=false;
   showLiveAlertNextButton=false;
   formSubmitted=false
+  showLiveAlertResendInvitation =false
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -70,6 +71,7 @@ export class HomeComponent implements OnInit {
 
   validation:boolean=false
   web_url_error=''
+  errorMessageResendInvitation = ' '
 
 
 
@@ -267,7 +269,18 @@ export class HomeComponent implements OnInit {
 
   resendInvitationMail(data:any){
     console.log("ersdfzdx",data.admin_name);
-    this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url})
+    this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+    this.adminService.ResendInvitationMailForOrg({organisation_admin_name:data.admin_name,email:data.organization_email,org_id: data.id,url:data.url}).subscribe({
+      next: (res) =>{
+        console.log("dsasyfjewbsd",res)
+        
+      },
+      error : (err)=>{
+        console.log("ewdfsxc",err)
+
+      }
+    })
   
     }
 
@@ -295,7 +308,16 @@ export class HomeComponent implements OnInit {
   
             this.updatePilotDuration(orgData.id,data,prod);
   
-            this.adminService.sendEmailOnceOrgIsBackActive({name:orgData.admin_name,email:orgData.organization_email})
+            this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
+              next: (res) =>{
+                console.log("dsasyfjewbsd",res)
+                this.reloadCurrentPage();
+              },
+              error : (err)=>{
+                console.log("ewdfsxc",err)
+                this.reloadCurrentPage();
+              }
+            })
           }
           else{
             //executes if false
