@@ -344,8 +344,16 @@ chartOptions: Partial<ApexChartOptions> = {
    
   }
   exportexcel() {
+    const stepData = this.userList.map((doc:any) =>{
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      return doc
+    })
     
-    const worksheet = XLSX.utils.json_to_sheet(this.userList);
+    const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
 

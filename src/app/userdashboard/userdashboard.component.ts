@@ -5,6 +5,8 @@ import { AuthenticationService } from '../core/service/auth.service';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { AdminConsoleService } from '../services/admin-console.service';
+import * as XLSX from 'xlsx'; 
+
 
 @Component({
   selector: 'app-userdashboard',
@@ -28,6 +30,8 @@ export class UserdashboardComponent implements OnInit {
 ];
 dateSelected:any=new Date().toISOString().substring(0, 10);
 products:any=[];
+fileName='ExcelSheet.xlsx';
+
 
 
 
@@ -128,6 +132,7 @@ chartOptions: Partial<ApexChartOptions> = {
   },
 
 };
+
 
 
 
@@ -456,7 +461,9 @@ chartOptions: Partial<ApexChartOptions> = {
       graphdetails['totalScans'] = doc[0].total_user_tests;
       graphdetails['standardModeScans'] = doc[0].total_user_tests_standard?doc[0].total_user_tests_standard:0;
       graphdetails['eventModeScans'] = doc[0].total_user_tests_event?doc[0].total_user_tests_event:0;
-      graphdetails['name'] =  Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW' )
+      graphdetails['name'] =  Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW' );
+      graphdetails['data'] = doc[0].data.data;
+      this.userId = doc[0].user_id;
     })
     // graphdetails['today'] = 3;
       // graphdetails['yesterday'] = 4
@@ -533,5 +540,24 @@ chartOptions: Partial<ApexChartOptions> = {
     this.authenticationService.logout();
     this.reloadCurrentPage();
   }
+
+  exportexcel(data:any) {
+
+    const stepData = data.map((doc:any) =>{
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      return doc
+    })
+    
+    const worksheet = XLSX.utils.json_to_sheet(stepData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileName);
+    
+}
 
 }

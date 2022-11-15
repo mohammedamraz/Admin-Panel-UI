@@ -23,6 +23,7 @@ export class DailyreportComponent implements OnInit {
   total_org:any;
   currentPage:any;
   fileName='ExcelSheet.xlsx';
+  userId:any = '';
 
 
 
@@ -36,46 +37,93 @@ export class DailyreportComponent implements OnInit {
     this.route.params.subscribe((val:any) =>{
       this.orgId = val.orgId;
       this.prodId = val.prodId;
+      this.route.queryParams.subscribe((val:any) => {
+        console.log('the value from query params => ', val)
+        this.userId = val.userId;
+        console.log('the user Id => ', this.userId)
+      })
   
       
-
-      this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date).subscribe((doc:any)=>{
-        this.tableData = doc[0].data;
-        console.log("datasets",this.tableData);
-        
-        //for development
-        this.tableData =  [
-
-          {
+      if(this.userId == undefined){
+        this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date).subscribe((doc:any)=>{
+          this.tableData = doc[0].data.data;
+          console.log("datasets",this.tableData);
+          
+          //for development
+          this.tableData =  [
   
-              id: 7,
-
-              product_id: 2,
-
-              event_mode: false,
-
-              tests: 1,
-
-              test_date: "2022-10-31T18:30:00.000Z"
+            {
+    
+                id: 7,
   
-          },
+                product_id: 2,
   
-          {
+                event_mode: false,
   
-              id: 8,
-
-              product_id: 2,
-
-              event_mode: false,
-
-              tests: 1,
-
-              test_date: "2022-10-31T18:30:00.000Z"
+                tests: 1,
   
-          }
+                test_date: "2022-10-31T18:30:00.000Z"
+    
+            },
+    
+            {
+    
+                id: 8,
   
-      ];
-      })
+                product_id: 2,
+  
+                event_mode: false,
+  
+                tests: 1,
+  
+                test_date: "2022-10-31T18:30:00.000Z"
+    
+            }
+    
+        ];
+        })
+      }
+      else{
+        this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date).subscribe((doc:any)=>{
+          this.tableData = doc[0].data.data;
+          console.log("datasets",this.tableData);
+          
+          //for development
+          this.tableData =  [
+  
+            {
+    
+                id: 7,
+  
+                product_id: 2,
+  
+                event_mode: false,
+  
+                tests: 1,
+  
+                test_date: "2022-10-31T18:30:00.000Z"
+    
+            },
+    
+            {
+    
+                id: 8,
+  
+                product_id: 2,
+  
+                event_mode: false,
+  
+                tests: 1,
+  
+                test_date: "2022-10-31T18:30:00.000Z"
+    
+            }
+    
+        ];
+        })
+  
+      }
+
 
 
 
@@ -90,9 +138,17 @@ export class DailyreportComponent implements OnInit {
     return days_difference;
   }
   exportexcel() {
+    const stepData = this.tableData.map((doc:any) =>{
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      return doc
+    })
     
    
-    const worksheet = XLSX.utils.json_to_sheet(this.tableData);
+    const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
 
@@ -107,12 +163,21 @@ onFilter(){
 
 checkDate(date:any){
 
+        
+  if(this.userId == undefined){
+     
   this.adminService.fetchDailyScan(this.orgId,this.prodId,new Date(date).toISOString().substring(0, 10)).subscribe((doc:any)=>{
-    this.tableData = doc[0].data;
+    this.tableData = doc[0].data.data;
     console.log("date",date);
-    
 
   })
+}else{
+  this.adminService.fetchUsersDailyScan(this.userId,this.prodId,new Date(date).toISOString().substring(0, 10)).subscribe((doc:any)=>{
+    this.tableData = doc[0].data.data;
+    console.log("date",date);
+
+  })
+}
 
 }
 
