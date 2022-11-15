@@ -333,7 +333,7 @@
                 <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.web_url == null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
                     <button  style="height: 3.5rem;width: 9.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
                 </a>
                 </div>

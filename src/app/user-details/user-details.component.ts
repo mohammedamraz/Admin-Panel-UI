@@ -357,11 +357,13 @@ export class UserDetailsComponent implements OnInit {
       this.userList=doc.data; console.log('you are the one ', this.userList)
       this.length=this.userList.length
       // console.log("hello00000",this.length);
-      this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       // this.length=this.tabDAta.length
       // console.log("hello00000",this.length);
       
       return doc
+    },(error)=>{
+      this.userList=[];
     });}
       else{
         this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe

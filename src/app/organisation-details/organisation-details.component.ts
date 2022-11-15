@@ -1177,6 +1177,8 @@ clearform(){
 
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
+    if(url_type=="web") {let redirectWindow = window.open(data.web_url);}
+
     // else {let redirectWindow = window.open("https://www.google.com");}
    // redirectWindow.location;
     

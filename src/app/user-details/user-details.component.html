@@ -416,6 +416,7 @@
                     </tr>
                 </tbody>
             </table>
+            <div *ngIf="userList.length === 0"><p style="text-align: -webkit-center;">No records Found</p></div>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
                 <div *ngIf="(currentPage*entries)<=total_user">
                     Showing {{entries *(page-1)+1}} to
