@@ -40,6 +40,7 @@ export class OrganisationDetailsComponent implements OnInit {
   monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
+todayDate=new Date();
 
   //details
   organization_name:any='';
@@ -233,7 +234,10 @@ chartOptions: Partial<ApexChartOptions> = {
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;
-        this.created_date= res[0].created_date;
+        this.created_date= new Date(res[0].created_date);
+        console.log('the start date is  =>',res[0].created_date)
+        console.log('the start date is  =>', this.created_date)
+
         this.end_date= res[0].end_date;
         this.fedo_score= res[0].fedo_score;
         this.id= res[0].id;
