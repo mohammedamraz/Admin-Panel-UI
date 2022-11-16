@@ -31,7 +31,7 @@
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 10.3rem;">
                 </a>
                 <a *ngIf="product.web_url !== null"  class='cursor-pointer' (click)="playstore(product.web_url,'web')" >
-                    <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                    <button  style="height: 3.5rem;width: 10.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === 1 ? 'HSA' : (product.product_id === 2 ? 'Vitals':'RUW' )}} Web App</button>
                 </a>
                 </div>
 
@@ -58,7 +58,7 @@
                     <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{season.name}}: Daily Scan Report</h4>
     
                     <div class="col-sm-6">
-                        <input class="form-control" style="width: auto;" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
+                        <input class="form-control" style="width: auto;" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
     
                         <!-- <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
                             <a style="background: #383E4A;
