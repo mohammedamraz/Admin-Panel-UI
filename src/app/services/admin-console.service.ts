@@ -417,6 +417,11 @@ export class AdminConsoleService {
     return this.http.get(`${ADMIN_URL}product`);
   }
 
+  fetchGuests(prodId:any, page:any, perPage:any){
+
+    return this.http.get(`${ADMIN_URL}user/list/users?product_id=${prodId}&page=${page}&per_page=${perPage}`); 
+  }
+
   fetchTpa(org_id:any){
 
     return this.http.get(`${ADMIN_URL}/tpa/list/${org_id}`);
