@@ -452,13 +452,13 @@ export class AdminConsoleService {
       return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}&page=${pagenumber}&per_page=${entries}`)
     }
 
-    fetchDailyScan(orgId:any, prodId:any, date:any){
+    fetchDailyScan(orgId:any, prodId:any, date:any,pageNo:any,perPage:any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
+      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
-    fetchUsersDailyScan(userId:any, prodId:any, date:any){
+    fetchUsersDailyScan(userId:any, prodId:any, date:any,pageNo:any,perPage:any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
+      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
 
     fetchPerformanceChart(orgId:any, prodId:any, period:any){

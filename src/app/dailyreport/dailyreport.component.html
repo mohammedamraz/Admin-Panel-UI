@@ -8,7 +8,7 @@
                 <label class="form-label me-1" style="color: #9BA6AC;">Show
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
-                        id="event-category" required #idd [(ngModel)]="entries"   (change)="onFilter()">
+                        id="event-category" required #idd [(ngModel)]="entries"   (change)="onFilter($event.target)">
                         <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
                     </select>
                     entries</label>
@@ -87,16 +87,16 @@
             </table>
 
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
-                <div >
+                <div *ngIf="(currentPage*entries)<=total_user">
                     Showing {{entries *(page-1)+1}} to
-                    {{currentPage*entries}} of {{total_org}} entries
+                    {{currentPage*entries}} of {{total_user}} entries
                 </div>
-                <!-- <div >
+                <div *ngIf="(currentPage*entries)>total_user">
                     Showing {{entries *(page-1)+1}} to
-                    {{total_org}} of {{total_org}} entries
-                </div> -->
+                    {{total_user}} of {{total_user}} entries
+                </div>
                 <ngb-pagination class="d-flex justify-content-end mt-2" 
-                    [pageSize]="1" [collectionSize]="total_pages"[maxSize]="5"  [rotate]="true"  [(page)]="page">
+                    [pageSize]="1" [collectionSize]="totalPages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)"  [(page)]="page">
                         <ng-template ngbPaginationPrevious>Prev</ng-template>
                         <ng-template ngbPaginationNext>Next</ng-template>
                     </ngb-pagination>

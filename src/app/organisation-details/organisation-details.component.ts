@@ -100,6 +100,9 @@ date!: { year: number; month: number; };
   graphArray:any[]=[];
   errorMessageResendInvitation = ' '
   showLiveAlertResendInvitation =false
+  page:any=1;
+  perpage:any=1000
+
 
   errorMessageNextButton='';
   addTpafunc:boolean=false;
@@ -527,7 +530,7 @@ chartOptions: Partial<ApexChartOptions> = {
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
     return new Promise((resolve, reject) => {
-      this.adminService.fetchDailyScan(this.snapshotParam,prodId,date).subscribe((doc:any)=>{
+      this.adminService.fetchDailyScan(this.snapshotParam,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
         console.log('asdffweafdszv => ',doc)
         graphdetails['today'] = doc[0].total_org_tests;
         graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;

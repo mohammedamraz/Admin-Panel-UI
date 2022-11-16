@@ -5,6 +5,7 @@ import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
+import * as XLSX from 'xlsx'; 
 
 @Component({
   selector: 'app-pilot-dashboard',
@@ -42,6 +43,10 @@ export class PilotDashboardComponent implements OnInit {
   monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
+userList:any[]=[]
+fileName='ExcelSheet.xlsx';
+page:any=1;
+perpage:any=1000
 
   showLiveAlertAPI=false;
   errorMessageAPI='';
@@ -210,7 +215,7 @@ chartOptions: Partial<ApexChartOptions> = {
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
     return new Promise((resolve, reject) => {
-      this.adminService.fetchDailyScan(this.orgId,prodId,date).subscribe((doc:any)=>{
+      this.adminService.fetchDailyScan(this.orgId,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
         console.log('asdffweafdszv => ',doc)
         graphdetails['today'] = doc[0].total_org_tests;
         graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
@@ -251,6 +256,23 @@ chartOptions: Partial<ApexChartOptions> = {
     })
 
   }
+  exportexcel() {
+    const stepData = this.userList.map((doc:any) =>{
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      return doc
+    })
+    
+    const worksheet = XLSX.utils.json_to_sheet(stepData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileName);
+    
+}
 
   fetchGraphs(prodId:any,date:any){
 

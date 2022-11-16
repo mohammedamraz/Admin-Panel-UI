@@ -31,6 +31,8 @@ export class UserdashboardComponent implements OnInit {
 dateSelected:any=new Date().toISOString().substring(0, 10);
 products:any=[];
 fileName='ExcelSheet.xlsx';
+page:any=1;
+perpage:any=1000
 
 
 
@@ -452,7 +454,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    this.adminService.fetchUsersDailyScan(this.userId,prodId,date).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
       console.log('usergraph',doc,prodId);
       
       graphdetails['today'] = doc[0].total_user_tests;
