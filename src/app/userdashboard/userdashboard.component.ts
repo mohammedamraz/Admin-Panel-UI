@@ -28,7 +28,8 @@ export class UserdashboardComponent implements OnInit {
 ];
 dateSelected:any=new Date().toISOString().substring(0, 10);
 products:any=[];
-
+todayDate=new Date();
+created_date : any
 
 
   barChartOptions : ChartDataset = {
@@ -212,6 +213,7 @@ chartOptions: Partial<ApexChartOptions> = {
           
           this.adminService.fetchOrgById(this.orgId).subscribe({
             next:(res:any) =>{  
+              this.created_date= new Date(res[0].created_date);
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
 
               if(this.prodId==undefined){

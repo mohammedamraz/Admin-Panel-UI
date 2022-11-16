@@ -333,7 +333,7 @@
                 <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.web_url == null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
                     <button  style="height: 3.5rem;width: 9.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
                 </a>
                 </div>
@@ -373,7 +373,7 @@
                 <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo  {{season.name}}: Daily Scan Report</h4>
 
                 <div class="col-sm-6">
-                    <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" name="date">
+                    <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
 
                     <!-- <div ngbDropdown class="mt-sm-0 mt-2 mb-2">
                         <a style="background: #383E4A;
@@ -493,8 +493,8 @@
                     grid-gap: .45rem;">
                         <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
                         <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
-                        <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-up"></i></p>
-                            <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%<i class="fe-arrow-down"></i></p>
+                        <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-up"></i></p>
+                            <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-down"></i></p>
                             <p *ngIf="season.performance.varience==0 || season.performance.varience=='' " style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
                         </div>
                     </div>
