@@ -539,8 +539,10 @@ export class OrganisationListComponent implements OnInit {
       this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       // this.length=this.tabDAta.length
       // console.log("hello00000",this.length);
-      
-      return doc});
+      return doc},(err:any)=>{
+        this.tabDAta = [];
+
+      });
 
   }
 

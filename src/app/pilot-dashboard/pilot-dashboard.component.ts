@@ -39,6 +39,9 @@ export class PilotDashboardComponent implements OnInit {
   changeButton:boolean=false
   dateSelected:any=new Date().toISOString().substring(0, 10);
   graphArray:any[]=[];
+  todayDate=new Date();
+  created_date:any
+
   monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
@@ -163,6 +166,7 @@ chartOptions: Partial<ApexChartOptions> = {
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
         next:(res:any) =>{
+          this.created_date= new Date(res[0].created_date);
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
           this.createGraphArrayItems([this.product],this.dateSelected);
@@ -448,6 +452,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
+    if(url_type=="web") {let redirectWindow = window.open(data.web_url);}
     // else {let redirectWindow = window.open("https://www.google.com");}   
   }
 
