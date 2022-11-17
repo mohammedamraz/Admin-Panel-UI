@@ -1,8 +1,10 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
 import * as XLSX from 'xlsx'; 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -11,11 +13,35 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./guest-list.component.scss']
 })
 export class GuestListComponent implements OnInit {
-
+  fileName='ExcelSheet.xlsx';
   orgId='';
   prodId='';
   page = 1;
-  date = new Date().toISOString().substring(0, 10);
+  pageNumber:any=1;
+  template:boolean=true;
+  userList:any=[
+    {
+      "id": 1,
+      "name": "Leanne Graham",
+      "username": "Bret",
+      'data':[{
+        'relation':'sister',
+          'jgg':'hgfgf'
+      }],
+      "email": "Sincere@april.biz" 
+      },
+      {
+        "id": 1,
+        "name": "Leanne Graham",
+        "username": "Bret",
+        'data':[{
+          'relation':'sister',
+          'jgg':'hgfgf'
+      }],
+        "email": "Sincere@april.biz" 
+        },
+
+  ]
   tableData:any=[
     {
         "name": "amraz",
@@ -208,17 +234,26 @@ export class GuestListComponent implements OnInit {
   entries:any=this.pageSizeOptions[0]
   activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org'];
   total_pages:any;
-  total_org:any;
   currentPage:any;
-  fileName='ExcelSheet.xlsx';
+  total_user:any;
   userId:any = '';
+  activeWizard2: number = 1;
+  enableAdditionalScan!: FormGroup;
+  user_name : any = 'abdul manaf'
+  user_email : any = 'abdul@mail.com'
+  value=1;
+  selectedUniqueid:any=0;
 
-
-
+  created:boolean=false;
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
   ) { }
+
+  @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
+
 
   ngOnInit(): void {
     console.log("hey manaff");
@@ -234,6 +269,10 @@ export class GuestListComponent implements OnInit {
       
       this.adminService.fetchGuests(this.prodId,1,5).subscribe((doc:any)=>{
         this.tableData = doc.data;
+        console.log('the table data can be =>', this.tableData)
+        this.total_user=doc[0].data.total;
+        this.currentPage=doc[0].data.page
+        this.total_pages=doc[0].data.total_pages
           
     
         })
@@ -241,8 +280,106 @@ export class GuestListComponent implements OnInit {
 
     })
   }
+  enableScan(uniqueid:any){
+
+    this.selectedUniqueid =  uniqueid;
+    // this.enableAdditionalScan=this.fb.group({
 
 
+      
+    // })
+
+
+    this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+   
+    
+  
+
+  }
+
+
+
+  open(content: TemplateRef<NgbModal>): void {
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
+  }
+  
+  loadPage(val:any){
+    this.pageNumber=val
+    console.log("valueeeee", this.pageNumber);
+    
+
+    this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
+      this.tableData = doc.data;
+      this.total_user=doc[0].data.total;
+      this.currentPage=doc[0].data.page
+      this.total_pages=doc[0].data.total_pages
+    })
+
+  }
+
+  onFilter(data:any){
+    this.entries=data.value
+    console.log("lavueeeeee", this.entries);
+    this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
+      this.tableData = doc.data;
+      this.total_user=doc[0].data.total;
+      this.currentPage=doc[0].data.page
+      this.total_pages=doc[0].data.total_pages
+    })
+
+
+  }
+
+
+  ngstyle(){
+    const stone = {'background': '#3B4F5F',
+     'border': '1px solid #3E596D',
+     'color': '#5FB6DB',
+     'pointer-events': this.created ? 'none':'auto'
+    }
+ 
+   
+ 
+   return stone
+   }
+
+   exportexcel() {
+    const stepData = this.userList.map((doc:any) =>{
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      return doc
+    })
+    
+    const worksheet = XLSX.utils.json_to_sheet(stepData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
+    XLSX.writeFile(wb, this.fileName);
+    
+}
+
+guestUpdate(){
+  console.log('slider val',this.value);
+  
+  this.template=false
+  this.adminService.updateGuestUser({unique_id: this.selectedUniqueid,attempts: this.value}).subscribe((doc:any)=>
+  {
+    return doc
+  })
+
+}
+
+reloadCurrentPage() {
+  window. location. reload();
+  }
+
+// this.adminService.updateGuestUser(this.guestdata).subscribe((doc:any)=>
+// {
+//   return doc
+// })
   
 
 }

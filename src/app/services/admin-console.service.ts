@@ -479,6 +479,10 @@ export class AdminConsoleService {
 
       return this.http.get(`${API_PRODUCTS_TESTS}tests/users?user_id=${userId}&product_id=${prodId}&period=${period}`)
     }
+    updateGuestUser(data:any){
+      return this.http.patch(`${ADMIN_URL}user`,data)
+     
+    }
 
 
 
