@@ -71,7 +71,7 @@
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d; text-align: center;" *ngFor="let person of tableData ;let i=index;    ">
-                        <td >{{i+1}}</td> 
+                        <td >{{entries *(page-1)+i+1}}</td> 
                         <td>{{person.policy_number}}</td>
                         <td>{{person.name}}</td>
                         <td>{{person.for_whom}}</td>
