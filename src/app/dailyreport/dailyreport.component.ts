@@ -52,11 +52,14 @@ export class DailyreportComponent implements OnInit {
       if(this.userId == undefined){
         // console.log("orgid.............",this.prodId);
         this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
-          this.tableData = doc[0].data.data;
+          // this.tableData = doc[0].data.data;
           // console.log("reportdata", this.tableData)         
-          this.totalPages=doc[0].data.total_pages        
+          this.totalPages=doc[0].data.total_pages 
+          console.log('total pagessss',this.totalPages);
+                 
           this.currentPage=doc[0].data.page         
           this.total_user=doc[0].data.total
+          this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
           console.log("datasets",this.tableData);
           
           //for development
@@ -95,7 +98,8 @@ export class DailyreportComponent implements OnInit {
       }
       else{
         this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
-          this.tableData = doc[0].data.data;
+          // this.tableData = doc[0].data.data;
+          this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
           this.totalPages=doc[0].data.total_pages
           this.total_user=doc[0].data.total
           console.log("datasets",this.tableData);
@@ -177,7 +181,8 @@ loadPage(val:any){
   if(this.userId == undefined){
      
     this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
-      this.tableData = doc[0].data.data;
+      // this.tableData = doc[0].data.data;
+      this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total
@@ -186,7 +191,8 @@ loadPage(val:any){
     })
   }else{
     this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
-      this.tableData = doc[0].data.data;
+      // this.tableData = doc[0].data.data;
+      this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total
@@ -204,7 +210,8 @@ onFilter(data:any){
   if(this.userId == undefined){
      
     this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
-      this.tableData = doc[0].data.data;
+      // this.tableData = doc[0].data.data;
+      this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total
@@ -213,7 +220,8 @@ onFilter(data:any){
     })
   }else{
     this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.page,this.entries).subscribe((doc:any)=>{
-      this.tableData = doc[0].data.data;
+      // this.tableData = doc[0].data.data;
+      this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total
@@ -231,7 +239,8 @@ checkDate(date:any){
   if(this.userId == undefined){
      
   this.adminService.fetchDailyScan(this.orgId,this.prodId,new Date(date).toISOString().substring(0, 10),this.pageNumber,this.entries).subscribe((doc:any)=>{
-    this.tableData = doc[0].data.data;
+    // this.tableData = doc[0].data.data;
+    this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
     this.totalPages=doc[0].data.total_pages
     this.currentPage=doc[0].data.page
     this.total_user=doc[0].data.total
@@ -240,7 +249,8 @@ checkDate(date:any){
   })
 }else{
   this.adminService.fetchUsersDailyScan(this.userId,this.prodId,new Date(date).toISOString().substring(0, 10),this.page,this.entries).subscribe((doc:any)=>{
-    this.tableData = doc[0].data.data;
+    // this.tableData = doc[0].data.data;
+    this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
     this.totalPages=doc[0].data.total_pages
     this.currentPage=doc[0].data.page
     this.total_user=doc[0].data.total
