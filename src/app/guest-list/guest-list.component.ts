@@ -242,7 +242,8 @@ export class GuestListComponent implements OnInit {
   user_name : any = 'abdul manaf'
   user_email : any = 'abdul@mail.com'
   value=1;
-  selectedUniqueid:any=0;
+  totaltest:any=0;
+  // email:any=''
 
   created:boolean=false;
   constructor(
@@ -267,7 +268,7 @@ export class GuestListComponent implements OnInit {
       // })
   
       
-      this.adminService.fetchGuests(this.prodId,1,5).subscribe((doc:any)=>{
+      this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
         this.tableData = doc.data;
         console.log('the table data can be =>', this.tableData)
         this.total_user=doc[0].data.total;
@@ -280,9 +281,9 @@ export class GuestListComponent implements OnInit {
 
     })
   }
-  enableScan(uniqueid:any){
+  enableScan(email:any){
 
-    this.selectedUniqueid =  uniqueid;
+    this.user_email =  email;
     // this.enableAdditionalScan=this.fb.group({
 
 
@@ -344,7 +345,10 @@ export class GuestListComponent implements OnInit {
    }
 
    exportexcel() {
-    const stepData = this.userList.map((doc:any) =>{
+    
+    // const stepData = this.userList.map((doc:any) =>{
+      this.adminService.fetchGuests(this.prodId,1,1000).subscribe((doc:any)=>{
+        this.userList=doc[0].data
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
@@ -353,7 +357,7 @@ export class GuestListComponent implements OnInit {
       return doc
     })
     
-    const worksheet = XLSX.utils.json_to_sheet(stepData);
+    const worksheet = XLSX.utils.json_to_sheet(this.userList);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
 
@@ -365,7 +369,7 @@ guestUpdate(){
   console.log('slider val',this.value);
   
   this.template=false
-  this.adminService.updateGuestUser({unique_id: this.selectedUniqueid,attempts: this.value}).subscribe((doc:any)=>
+  this.adminService.updateGuestUser({email: this.user_email,attempts: this.value,total_tests:this.value}).subscribe((doc:any)=>
   {
     return doc
   })

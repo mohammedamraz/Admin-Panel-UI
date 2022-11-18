@@ -59,7 +59,7 @@
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                    <a (click)="enableScan(person.unique_id)"   href="javascript:void(0);" ngbDropdownItem>Enable Additional Scans</a>
+                                    <a (click)="enableScan(person.email)"   href="javascript:void(0);" ngbDropdownItem>Enable Additional Scans</a>
                                     <a (click)="exportexcel()"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
@@ -98,7 +98,7 @@
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
             <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');" ngbDropdownToggle>
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');reloadCurrentPage()" ngbDropdownToggle>
                     <i class="mdi mdi-close"></i>
                 </a>
             </div>      
@@ -118,7 +118,7 @@
         text-align-last: center;color:#FFFFFF">{{user_name}} ({{user_email}})</p>
         </div>
     
-            <form [formGroup]="enableAdditionalScan" #basicForm="ngForm">
+            <form>
                 <div id="basicwizard">
 
                     <div class="card">
