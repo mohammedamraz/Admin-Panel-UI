@@ -226,6 +226,7 @@ chartOptions: Partial<ApexChartOptions> = {
         graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
         graphdetails['prodId'] = prodId;
         graphdetails['date'] = date;
+        graphdetails['data'] = doc[0].data.data;
         
 
         graphdetails['graph'] = {
@@ -256,20 +257,22 @@ chartOptions: Partial<ApexChartOptions> = {
     })
 
   }
-  exportexcel() {
-    const stepData = this.userList.map((doc:any) =>{
+  exportexcel(data:any) {
+   
+    const stepData=data.map((doc:any)=>{
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
       delete doc.user_id;
-      delete doc.org_id;
+      delete doc.ecg_url;
       return doc
+
     })
     
     const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
+  
     XLSX.writeFile(wb, this.fileName);
     
 }

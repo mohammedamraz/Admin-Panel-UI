@@ -347,21 +347,41 @@ chartOptions: Partial<ApexChartOptions> = {
    
   }
   exportexcel() {
-    const stepData = this.userList.map((doc:any) =>{
+    // const stepData = this.userList.map((doc:any) =>{
+    //   delete doc.tests;
+    //   delete doc.event_mode;
+    //   delete doc.product_id;
+    //   delete doc.user_id;
+    //   delete doc.org_id;
+    //   return doc
+    // // });
+    // this.adminService.fetchPerformanceChart(this.snapshotParam,prodId,period).subscribe((doc:any)=>{
+
+
+    // })
+
+    // this.download(this.userList)
+    
+    
+  }
+  
+  download(data:any){
+
+    const stepData=data.map((doc:any)=>{
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
       delete doc.user_id;
-      delete doc.org_id;
+      delete doc.ecg_url;
       return doc
+
     })
     
     const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
+  
     XLSX.writeFile(wb, this.fileName);
-    
 }
 
   
@@ -373,6 +393,8 @@ chartOptions: Partial<ApexChartOptions> = {
         body.forEach(res => {
           console.log('higeass =>',res)
         this.graphArray.push(res)
+        console.log('graph arraayyyyy',this.graphArray[0].data);
+        
         })
      });
 
@@ -531,7 +553,7 @@ chartOptions: Partial<ApexChartOptions> = {
     let graphdetails:any = {}; 
     return new Promise((resolve, reject) => {
       this.adminService.fetchDailyScan(this.snapshotParam,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
-        console.log('asdffweafdszv => ',doc)
+        console.log('dataaaaaaaa => ',doc)
         graphdetails['today'] = doc[0].total_org_tests;
         graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
         graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
@@ -541,6 +563,7 @@ chartOptions: Partial<ApexChartOptions> = {
         graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
         graphdetails['prodId'] = prodId;
         graphdetails['date'] = date;
+        graphdetails['data'] = doc[0].data.data;
 
         graphdetails['graph'] = {
           type: 'bar',
