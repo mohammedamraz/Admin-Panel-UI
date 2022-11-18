@@ -50,45 +50,47 @@ export class DailyreportComponent implements OnInit {
   
       
       if(this.userId == undefined){
+        // console.log("orgid.............",this.prodId);
         this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
           this.tableData = doc[0].data.data;
-          this.totalPages=doc[0].data.total_pages
-          this.currentPage=doc[0].data.page
+          // console.log("reportdata", this.tableData)         
+          this.totalPages=doc[0].data.total_pages        
+          this.currentPage=doc[0].data.page         
           this.total_user=doc[0].data.total
           console.log("datasets",this.tableData);
           
           //for development
-          this.tableData =  [
+        //   this.tableData =  [
   
-            {
+        //     {
     
-                id: 7,
+        //         id: 7,
   
-                product_id: 2,
+        //         product_id: 2,
   
-                event_mode: false,
+        //         event_mode: false,
   
-                tests: 1,
+        //         tests: 1,
   
-                test_date: "2022-10-31T18:30:00.000Z"
+        //         test_date: "2022-10-31T18:30:00.000Z"
     
-            },
+        //     },
     
-            {
+        //     {
     
-                id: 8,
+        //         id: 8,
   
-                product_id: 2,
+        //         product_id: 2,
   
-                event_mode: false,
+        //         event_mode: false,
   
-                tests: 1,
+        //         tests: 1,
   
-                test_date: "2022-10-31T18:30:00.000Z"
+        //         test_date: "2022-10-31T18:30:00.000Z"
     
-            }
+        //     }
     
-        ];
+        // ];
         })
       }
       else{
@@ -99,37 +101,37 @@ export class DailyreportComponent implements OnInit {
           console.log("datasets",this.tableData);
           
           //for development
-          this.tableData =  [
+        //   this.tableData =  [
   
-            {
+        //     {
     
-                id: 7,
+        //         id: 7,
   
-                product_id: 2,
+        //         product_id: 2,
   
-                event_mode: false,
+        //         event_mode: false,
   
-                tests: 1,
+        //         tests: 1,
   
-                test_date: "2022-10-31T18:30:00.000Z"
+        //         test_date: "2022-10-31T18:30:00.000Z"
     
-            },
+        //     },
     
-            {
+        //     {
     
-                id: 8,
+        //         id: 8,
   
-                product_id: 2,
+        //         product_id: 2,
   
-                event_mode: false,
+        //         event_mode: false,
   
-                tests: 1,
+        //         tests: 1,
   
-                test_date: "2022-10-31T18:30:00.000Z"
+        //         test_date: "2022-10-31T18:30:00.000Z"
     
-            }
+        //     }
     
-        ];
+        // ];
         })
   
       }
@@ -154,6 +156,7 @@ export class DailyreportComponent implements OnInit {
       delete doc.product_id;
       delete doc.user_id;
       delete doc.org_id;
+      delete doc.ecg_url
       return doc
     })
     
@@ -182,7 +185,7 @@ loadPage(val:any){
   
     })
   }else{
-    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.page,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData = doc[0].data.data;
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
