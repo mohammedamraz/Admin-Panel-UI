@@ -193,6 +193,7 @@ chartOptions: Partial<ApexChartOptions> = {
       this.adminService.fetchUserListById(this.userId).subscribe({
         next:(data:any)=>{
           console.log("data",data)
+          this.created_date= new Date(data[0].created_date);
           this.user_name = data[0].user_name;
         this.email = data[0].email;
         this.mobile = data[0].mobile;
@@ -213,7 +214,7 @@ chartOptions: Partial<ApexChartOptions> = {
           
           this.adminService.fetchOrgById(this.orgId).subscribe({
             next:(res:any) =>{  
-              this.created_date= new Date(res[0].created_date);
+              
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
 
               if(this.prodId==undefined){
@@ -333,9 +334,9 @@ chartOptions: Partial<ApexChartOptions> = {
       performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
       performaceDetails['name'] =  prodId === 1 ? 'HSA' : (prodId === 2 ? 'Vitals':'RUW' )
       performaceDetails['currentUserEmail'] = doc[0].user_email;
-      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NaN':doc[0].user_name;
+      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NA':doc[0].user_name;
       performaceDetails['PreviouseUserEmail'] = doc[1].user_email;
-      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NaN':doc[1].user_name;
+      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NA':doc[1].user_name;
       performaceDetails['prodId']=prodId;
       performaceDetails['period']=period;
 

@@ -178,8 +178,8 @@
                         grid-gap: .45rem;">
                             <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
                             <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
-                            <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-up"></i></p>
-                                <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-down"></i></p>
+                            <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-up"></i></p>
+                                <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-down"></i></p>
                                 <p *ngIf="season.performance.varience==0 || season.performance.varience=='' " style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
                             </div>
                         </div>
