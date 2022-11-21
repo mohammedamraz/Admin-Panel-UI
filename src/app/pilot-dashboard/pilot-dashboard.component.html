@@ -367,6 +367,16 @@
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" ngbDropdownItem>View Report</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
+                        <!-- item-->
+                        <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
+                    </div>
 
                 </div>
 

@@ -348,7 +348,12 @@ chartOptions: Partial<ApexChartOptions> = {
   }
   exportexcel(data:any) {
     console.log('hello data from me =>',data)
-    const stepData = data.map((doc:any) =>{
+    const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+
+    const stepData = filteredDataMap.map((doc:any) =>{
+      
+      console.log("helooooooooo     docccccyyy",doc);
+      
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
@@ -357,17 +362,42 @@ chartOptions: Partial<ApexChartOptions> = {
       doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
       doc['smoker_rate'] = doc.smoker_accuracy;
       delete doc.smoker_accuracy;
-      return doc
+      return {
+        date:new Date(doc.test_date).toISOString().split("T")[0],
+        username:doc.username,
+        applicationNumber:doc.policy_number,
+        scanFor:doc.for_whom,
+        name:doc.name,
+        age:doc.age,
+        gender:doc.gender,
+        city:doc.city,
+        heartRate:doc.heart_reate,
+        systolic:doc.systolic,
+        diastolic:doc.diastolic,
+        stress:doc.stress,
+        respirationRate:doc.respiration,
+        spo2:doc.spo2,
+        hrv:doc.hrv,
+        bmi:doc.bmi,
+        smoker_rate :doc['smoker_rate'],
+        smoker_status : doc['smoker_status']
+        
+      
+
+
+
+
+      }
 
     })
 
-    const filteredData = stepData.filter((doc:any) => doc.policy_number!==null)
+    const filteredData = stepData
     console.log('your data excel =>', filteredData)
 
     // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
     // ]
     const Heading = [[
-      'id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'Blood Pressure',	'',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'smoker', '',
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
     
@@ -376,8 +406,8 @@ chartOptions: Partial<ApexChartOptions> = {
     XLSX.utils.sheet_add_aoa(ws, Heading);
     XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
     XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
-    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'X2'});
-    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Y2'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
     const merge = [
       { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
     ];
