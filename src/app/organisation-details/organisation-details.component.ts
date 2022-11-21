@@ -346,19 +346,48 @@ chartOptions: Partial<ApexChartOptions> = {
     // })
    
   }
-  exportexcel() {
-    const stepData = this.userList.map((doc:any) =>{
+  exportexcel(data:any) {
+    console.log('hello data from me =>',data)
+    const stepData = data.map((doc:any) =>{
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
       delete doc.user_id;
       delete doc.org_id;
+      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+      doc['smoker_rate'] = doc.smoker_accuracy;
+      delete doc.smoker_accuracy;
       return doc
     })
+
+    const filteredData = stepData.filter((doc:any) => doc.policy_number!==null)
+    console.log('your data excel =>', filteredData)
+
+    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
+    // ]
+    const Heading = [[
+      'id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'Blood Pressure',	'',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'smoker', '',
+    ]
+    ];
     
-    const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(ws, Heading);
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'X2'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Y2'});
+    const merge = [
+      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+    ];
+    ws["!merges"] = merge;
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
 
     XLSX.writeFile(wb, this.fileName);
     
@@ -541,6 +570,7 @@ chartOptions: Partial<ApexChartOptions> = {
         graphdetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
         graphdetails['prodId'] = prodId;
         graphdetails['date'] = date;
+        graphdetails['data'] = doc[0].data.data;
 
         graphdetails['graph'] = {
           type: 'bar',
