@@ -66,6 +66,14 @@
                         <th>Signed In User</th>
                         <th>Heart Rate</th>
                         <th>Blood Pressure</th>
+                        <th>Stress</th>
+                        <th>Heamoglobin</th>
+                        <th>Respiration Rate</th>
+                        <th>SPO2</th>
+                        <th>HRV - SDNN</th>
+                        <th>BMI</th>
+                        <th>Smoker</th>
+                        <th>Random Blood Sugar</th>
 
                     </tr>
                 </thead>
@@ -79,8 +87,16 @@
                         <td>{{person.gender}}</td>
                         <td>{{person.city}}</td>
                         <td>{{person.username}}</td>
-                        <td >{{person.heart_rate}}</td>
-                        <td >{{person.systolic+ ' / ' +person.diastolic}}</td>
+                        <td style="color: #82B4F3 ;">{{person.heart_rate + 'bpm'}}</td>
+                        <td style="color: #82B4F3 ;">{{person.systolic+ ' / ' +person.diastolic}}</td>
+                        <td style="color: #82B4F3 ;">{{person.stress}}</td>
+                        <td style="color: #82B4F3 ;">{{person.haemoglobin}}</td>
+                        <td style="color: #82B4F3 ;">{{person.respiration}}</td>
+                        <td style="color: #82B4F3 ;">{{person.spo2}}</td>
+                        <td style="color: #82B4F3 ;">{{person.hrv}}</td>
+                        <td style="color: #82B4F3 ;">{{person.bmi}}</td>
+                        <td style="color: #82B4F3 ;">{{person.smoker_accuracy}}{{person.smoker_accuracy > 50 ? ' (Smoker)':' (Non-Smoker)'}}</td>
+                        <td style="color: #82B4F3 ;">{{person.rbs  }}</td>  
 
                     </tr>
                 </tbody>

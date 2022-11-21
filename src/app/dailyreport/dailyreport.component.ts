@@ -58,6 +58,8 @@ export class DailyreportComponent implements OnInit {
           this.totalPages=doc[0].data.total_pages        
           this.currentPage=doc[0].data.page         
           this.total_user=doc[0].data.total
+      // this.currentPage=doc[0].data.page
+
           console.log("datasets",this.tableData);
           
           //for development
@@ -100,6 +102,10 @@ export class DailyreportComponent implements OnInit {
           this.totalPages=doc[0].data.total_pages
           this.total_user=doc[0].data.total
           console.log("datasets",this.tableData);
+          // this.totalPages=doc[0].data.total_pages
+      this.currentPage=doc[0].data.page
+      // this.total_user=doc[0].data.total
+          
           
           //for development
         //   this.tableData =  [

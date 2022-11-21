@@ -466,13 +466,8 @@ chartOptions: Partial<ApexChartOptions> = {
       graphdetails['name'] =  Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW' );
       graphdetails['data'] = doc[0].data.data;
       this.userId = doc[0].user_id;
-    })
-    // graphdetails['today'] = 3;
-      // graphdetails['yesterday'] = 4
-      // graphdetails['previousDay'] = 2;
-      // graphdetails['totalScans'] = 5;
-      // graphdetails['standardModeScans'] =6;
-      // graphdetails['eventModeScans'] =3;
+  
+    
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
       // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
@@ -497,7 +492,7 @@ chartOptions: Partial<ApexChartOptions> = {
           
           
       },}
-
+    })
     return graphdetails
   }
   fetchDates(date:any){
@@ -517,7 +512,14 @@ chartOptions: Partial<ApexChartOptions> = {
     console.log('hello date =>', date);
     console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
-    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+    const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
+    Promise.all(promise).then(body => { 
+      body.forEach(res => {
+        const performance = this.graphArray[index].performance
+        this.graphArray[index] = res;
+        this.graphArray[index]['performance'] =  performance
+      }) 
+    })
   }
 
 
@@ -545,21 +547,79 @@ chartOptions: Partial<ApexChartOptions> = {
 
   exportexcel(data:any) {
 
-    const stepData = data.map((doc:any) =>{
+    const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+
+    const stepData = filteredDataMap.map((doc:any) =>{
+      
+      console.log("helooooooooo     docccccyyy",doc);
+      
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
       delete doc.user_id;
       delete doc.org_id;
-      return doc
+      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+      doc['smoker_rate'] = doc.smoker_accuracy;
+      delete doc.smoker_accuracy;
+      return {
+        date:new Date(doc.test_date).toISOString().split("T")[0],
+        username:doc.username,
+        applicationNumber:doc.policy_number,
+        scanFor:doc.for_whom,
+        name:doc.name,
+        age:doc.age,
+        gender:doc.gender,
+        city:doc.city,
+        heartRate:doc.heart_rate,
+        systolic:doc.systolic,
+        diastolic:doc.diastolic,
+        stress:doc.stress,
+        respirationRate:doc.respiration,
+        spo2:doc.spo2,
+        hrv:doc.hrv,
+        bmi:doc.bmi,
+        smoker_rate :doc['smoker_rate'],
+        smoker_status : doc['smoker_status']
+        
+      
+
+
+
+
+      }
+
     })
+
+    const filteredData = stepData
+    console.log('your data excel =>', filteredData)
+
+    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
+    // ]
+    const Heading = [[
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+    ]
+    ];
     
-    const worksheet = XLSX.utils.json_to_sheet(stepData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(ws, Heading);
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
+    const merge = [
+      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+    ];
+    ws["!merges"] = merge;
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
 
     XLSX.writeFile(wb, this.fileName);
-    
 }
 
 }

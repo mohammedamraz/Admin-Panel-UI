@@ -371,7 +371,7 @@ chartOptions: Partial<ApexChartOptions> = {
         age:doc.age,
         gender:doc.gender,
         city:doc.city,
-        heartRate:doc.heart_reate,
+        heartRate:doc.heart_rate,
         systolic:doc.systolic,
         diastolic:doc.diastolic,
         stress:doc.stress,
