@@ -360,8 +360,7 @@ export class AdminConsoleService {
       ])
     }
     
-    console.log('the safd', event.url)
-
+    
     if(event.url?.split('/')[2] =='home'){
       if(loggedInUser.hasOwnProperty('user_data')){
         //user
@@ -398,7 +397,7 @@ export class AdminConsoleService {
                 { label: 'Users List', path: `/userdetails/${event.url?.split('/')[1]}` },
                 { label: userName, path: event.url, active: true },
             ])
-            });
+          });
           },
         });
       }
@@ -409,16 +408,49 @@ export class AdminConsoleService {
         {label: `${event.url?.split('/')[3]== '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url, active: true}
       ])
     }
+    
+    console.log('the url', event.url)
+    if(event.url?.split('/')[2] =='report'){
+      if(loggedInUser.hasOwnProperty('user_data')){
+        //user
+        
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
+        //orgAdmin
+        console.log('hi org')
+        this.breadCrumbs.next([
+          {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
+          {label: `${event.url?.split('/')[3]== '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url,},
+          {label: `Report`, path: event.url, active: true}
+        ])
+      }
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type == 'admin'){
+        //superadmin
+        this.fetchOrgById(event.url?.split('/')[1]).subscribe({
+          next: (res:any) => {
+            console.log('the response we have =>',res)
+            name=res[0].organization_name
+            this.breadCrumbs.next([
+              { label: 'Home', path: 'home' },
+              { label: 'Organisations List', path: 'orgList' },
+              { label: name, path: `/orgdetails/${event.url?.split('/')[1]}` },
+              { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Report`, path: event.url, active: true },
+          ])
+          },
+        });
 
+      }
+    }
+    
   }
-
+  
   fetchProducts(){
-
+    
     return this.http.get(`${ADMIN_URL}product`);
   }
-
+  
   fetchTpa(org_id:any){
-
+    
     return this.http.get(`${ADMIN_URL}/tpa/list/${org_id}`);
   }
   addTpa(data:any){
@@ -456,13 +488,13 @@ export class AdminConsoleService {
       return this.http.get(`${API_URL}users/${orgId}?product_id=${prodId}&is_deleted=${deleted}&page=${pagenumber}&per_page=${entries}`)
     }
 
-    fetchDailyScan(orgId:any, prodId:any, date:any){
+    fetchDailyScan(orgId:any, prodId:any, date:any,pageNo:any,perPage:any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}`)
+      return this.http.get(`${API_PRODUCTS_TESTS}org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
-    fetchUsersDailyScan(userId:any, prodId:any, date:any){
+    fetchUsersDailyScan(userId:any, prodId:any, date:any,pageNo:any,perPage:any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}`)
+      return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
 
     fetchPerformanceChart(orgId:any, prodId:any, period:any){

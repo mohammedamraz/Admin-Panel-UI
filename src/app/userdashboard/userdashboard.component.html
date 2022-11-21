@@ -52,6 +52,17 @@
                         <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
+                    
+                        <div ngbDropdownMenu>
+                            <!-- item-->
+                            <a href="javascript:void(0);" [routerLink]="'/'+userId+'/report/'+season.prodId" [queryParams]="{userId: userId }" ngbDropdownItem>View Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
+                            <!-- item-->
+                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
+                            <!-- item-->
+                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
+                        </div>
     
                     </div>
     
@@ -91,6 +102,14 @@
                         <!-- <div>
                             <button>Download Excel Report</button>
                         </div> -->
+                        <div style="    margin-top: 4rem;">
+                            <img src="./assets/images/excel-icone.png"> &nbsp;
+                            <a style="font-size: 1.2rem;
+                            margin: 0;
+                            color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data)">Download Excel Report</a>
+                           
+                           
+                          </div>
                         
     
                     </div>
@@ -116,14 +135,14 @@
         <div class="col-xl-6" style="display: inline-grid;">
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             <div class="card-body">
-                <div class="float-end" ngbDropdown placement="bottom-end">
+                <!-- <div class="float-end" ngbDropdown placement="bottom-end">
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
 
                     </div>
-                </div>
+                </div> -->
         
                 <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo {{season.name}}: Performance Chart</h4>
                 <div class="col-sm-6">
