@@ -906,7 +906,7 @@
                         <!-- item-->
                         <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/report/'+season.prodId" ngbDropdownItem>View Report</a>
                         <!-- item-->
-                        <a href="javascript:void(0);" (click)="download(season.data)" ngbDropdownItem>Download Excel Report</a>
+                        <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
                         <!-- item-->
                         <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
                         <!-- item-->
@@ -958,7 +958,7 @@
                         <img src="./assets/images/excel-icone.png"> &nbsp;
                         <a style="font-size: 1.2rem;
                         margin: 0;
-                        color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="download(season.data)">Download Excel Report</a>
+                        color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data)">Download Excel Report</a>
                        
                        
                       </div>
