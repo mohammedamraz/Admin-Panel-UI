@@ -21,6 +21,7 @@ import { UserdashboardComponent } from './userdashboard/userdashboard.component'
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
+import { GuestListComponent } from './guest-list/guest-list.component';
 
 
 const routes: Routes = [
@@ -125,6 +126,11 @@ const routes: Routes = [
         canActivate: [OrgGuard],
         component: DailyreportComponent
 
+      }
+      ,{
+        path: 'guestlist/:prodId',
+        canActivate: [OrgGuard],
+        component: GuestListComponent
       }
     
     ]

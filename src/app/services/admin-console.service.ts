@@ -448,7 +448,12 @@ export class AdminConsoleService {
     
     return this.http.get(`${ADMIN_URL}product`);
   }
-  
+
+  fetchGuests(prodId:any, page:any, perPage:any){
+
+    return this.http.get(`${ADMIN_URL}user/list/users?product_id=${prodId}&page=${page}&per_page=${perPage}`); 
+  }
+
   fetchTpa(org_id:any){
     
     return this.http.get(`${ADMIN_URL}/tpa/list/${org_id}`);
@@ -505,6 +510,10 @@ export class AdminConsoleService {
     fetchUserPerformanceChart(userId:any, prodId:any, period:any){
 
       return this.http.get(`${API_PRODUCTS_TESTS}tests/users?user_id=${userId}&product_id=${prodId}&period=${period}`)
+    }
+    updateGuestUser(data:any){
+      return this.http.patch(`${ADMIN_URL}user`,data)
+     
     }
 
 

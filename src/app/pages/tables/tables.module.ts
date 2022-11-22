@@ -9,6 +9,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill';
 import { DailyreportComponent } from 'src/app/dailyreport/dailyreport.component';
+import { GuestListComponent } from 'src/app/guest-list/guest-list.component';
 import { HomeComponent } from 'src/app/home/home.component';
 import { OrganisationDetailsComponent } from 'src/app/organisation-details/organisation-details.component';
 import { OrganisationListComponent } from 'src/app/organisation-list/organisation-list.component';
@@ -41,7 +42,8 @@ import { TablesRoutingModule } from './tables-routing.module';
     UserdashboardComponent,
     SettingsComponent,
     ProfileComponent,
-    DailyreportComponent
+    DailyreportComponent,
+    GuestListComponent
 
     
   ],

@@ -33,6 +33,7 @@ export class VitalsDashboardComponent implements OnInit {
   showLiveAlert=false;
   errorMessage='';
   snapshotParam:any = "initial value";
+  guestData:any=[];
 
 
 
@@ -54,8 +55,8 @@ export class VitalsDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.snapshotParam = this.route.snapshot.paramMap.get("id");
     console.log('the balance u got =>', this.snapshotParam)
-    
     this.route.params.subscribe((val:any) =>{
+      this.guestData=[];
       this.snapshotParam = val.id;
 
       this.adminService.fetchVitalsCount(this.snapshotParam == '1' ? 'hsa':(this.snapshotParam == '2' ? 'vitals':'ruw') ).subscribe((doc:any) =>{
@@ -109,6 +110,11 @@ export class VitalsDashboardComponent implements OnInit {
         pilot_duration:[''],
         product_name:[''],
       });
+      this.adminService.fetchGuests(this.snapshotParam,1,5).subscribe((doc:any)=>{   
+        this.guestData = doc.data;
+          
+    
+        })
     });
   }
 
