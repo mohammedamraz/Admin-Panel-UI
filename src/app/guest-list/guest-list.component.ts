@@ -37,9 +37,9 @@ export class GuestListComponent implements OnInit {
   enableAdditionalScan!: FormGroup;
   user_name : any = 'abdul manaf'
   user_email : any = 'abdul@mail.com'
-  value=1;
   totaltest:any=0;
   graphData:any=[]
+  attempts : any = 0;
   // email:any=''
 
   created:boolean=false;
@@ -70,6 +70,7 @@ export class GuestListComponent implements OnInit {
         this.currentPage=0
         this.total_pages=0
       this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        console.log("rwdsfxc",doc);
         
         this.tableData = doc.data;
         this.total_user=doc.total;
@@ -82,10 +83,12 @@ export class GuestListComponent implements OnInit {
 
     })
   }
-  enableScan(email:any,name:any){
+  enableScan(email:any,name:any,attempts:any){
+console.log("WRdcrwsdzfxcrsdx",attempts);
 
     this.user_email =  email;
     this.user_name=name
+    this.attempts = attempts
     
     // this.enableAdditionalScan=this.fb.group({
 
@@ -227,7 +230,7 @@ guestUpdate(){
   
   
   this.template=false
-  this.adminService.updateGuestUser({email: this.user_email,attempts: this.value,total_tests:this.value}).subscribe((doc:any)=>
+  this.adminService.updateGuestUser({email: this.user_email,attempts: this.attempts,total_tests:this.attempts}).subscribe((doc:any)=>
   {
     return doc
   })
