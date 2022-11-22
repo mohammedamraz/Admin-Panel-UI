@@ -369,7 +369,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <!-- item-->
-                        <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" ngbDropdownItem>View Report</a>
+                        <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date }" ngbDropdownItem>View Report</a>
                         <!-- item-->
                         <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
                         <!-- item-->

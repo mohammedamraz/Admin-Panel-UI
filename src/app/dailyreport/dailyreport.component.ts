@@ -27,6 +27,8 @@ export class DailyreportComponent implements OnInit {
   userId:any = ''; 
   tableDataForExcel : any=[];
   totalPages:any
+  created_date : any = ''
+  todayDate=new Date();
   // perpage:any=1000;
  
 
@@ -46,6 +48,7 @@ export class DailyreportComponent implements OnInit {
       this.route.queryParams.subscribe((val:any) => {
         console.log('the value from query params => ', val)
         this.userId = val.userId;
+        this.created_date = val.created_date
         console.log('the user Id => ', this.userId)
       })
   

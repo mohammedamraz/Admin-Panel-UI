@@ -14,7 +14,7 @@
                     entries</label>
             </div>   
                <div class="col-sm-6" >
-                <input style="width: auto;  background-color: #383E4A;" class="form-control" id="example-date" [(ngModel)]='date' (change)="checkDate(date)" type="date" name="date">
+                <input style="width: auto;  background-color: #383E4A;" class="form-control" id="example-date" [(ngModel)]='date' (change)="checkDate(date)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date">
             </div>
     
             
@@ -101,6 +101,7 @@
                     </tr>
                 </tbody>
             </table>
+            <div *ngIf="tableData.length === 0"><p style="text-align: -webkit-center;">No Records Found</p></div>
 
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
                 <div *ngIf="(currentPage*entries)<=total_user">
