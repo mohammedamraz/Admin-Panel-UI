@@ -47,20 +47,20 @@
                         <th scope="row">{{indexOfelement+1}}</th>
                         <!-- {{person.id}} -->
                         <td>{{person.name}}</td>
-                        <td>{{person.age}}</td>
-                        <td>{{person.gender}}</td>
+                        <td>{{person.age ? person.age:'NA'}}</td>
+                        <td>{{person.gender?person.gender:'NA'}}</td>
                         <td>{{person.email}}</td>
-                        <td>{{person.first_scan| date: 'dd/MM/yyyy'}}</td>
-                        <td>{{person.last_scan| date: 'dd/MM/yyyy'}}</td>
-                        <td style="cursor: pointer;    text-align: -webkit-center;color: #F2CA65;">{{person.total_tests}}</td>
+                        <td>{{(person.first_scan| date: 'dd/MM/yyyy')?person.first_scan:'NA'}}</td>
+                        <td>{{(person.last_scan| date: 'dd/MM/yyyy')?person.last_scan : 'NA'}}</td>
+                        <td style="cursor: pointer;    text-align: -webkit-center;color: #F2CA65;">{{person.total_tests_viu?person.total_tests_viu:'NA'}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                    <a (click)="enableScan(person.email)"   href="javascript:void(0);" ngbDropdownItem>Enable Additional Scans</a>
-                                    <a (click)="exportexcel()"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>
+                                    <a (click)="enableScan(person.email,person.name)"   href="javascript:void(0);" ngbDropdownItem>Enable Additional Scans</a>
+                                    <a *ngIf="person.data.length!=0" (click)="exportexcel(person.data)"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>
 
                                     <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
                             
@@ -73,6 +73,7 @@
                  
                 </tbody>
             </table>
+            <div *ngIf="tableData.length === 0"><p style="text-align: -webkit-center;">No Records Found</p></div>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2">
                 <div *ngIf="(currentPage*entries)<=total_user">
                     Showing {{entries *(page-1)+1}} to
@@ -126,7 +127,7 @@
                             <h4 class="header-title" style="color: #AEB5BC;">How many Additional Scans you want to enable?</h4>
                             <ngx-slider [value]="1" [(ngModel)]="value" [ngModelOptions]="{standalone: true}"
                                 [options]="{
-                                    floor: 1,
+                                    floor: 0,
                                     ceil: 10
                                 }"></ngx-slider>
                                 <!-- <div *ngIf="season.pilot_duration==0&&season.pressed" style="color:  #F08F8F;">

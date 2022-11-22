@@ -19,217 +19,13 @@ export class GuestListComponent implements OnInit {
   page = 1;
   pageNumber:any=1;
   template:boolean=true;
-  userList:any=[
-    {
-      "id": 1,
-      "name": "Leanne Graham",
-      "username": "Bret",
-      'data':[{
-        'relation':'sister',
-          'jgg':'hgfgf'
-      }],
-      "email": "Sincere@april.biz" 
-      },
-      {
-        "id": 1,
-        "name": "Leanne Graham",
-        "username": "Bret",
-        'data':[{
-          'relation':'sister',
-          'jgg':'hgfgf'
-      }],
-        "email": "Sincere@april.biz" 
-        },
+  userList:any=[];
+  tableData:any=[]
+     
+  
+  
 
-  ]
-  tableData:any=[
-    {
-        "name": "amraz",
-        "email": null,
-        "phone_number": null,
-        "gender": null,
-        "attempts": null,
-        "fedo_score": null,
-        "age": null,
-        "id": 2,
-        "is_verified": null,
-        "product_id": "2",
-        "unique_id": "9847814528",
-        "total_tests": 2,
-        "first_scan": "2022-07-23",
-        "last_scan": "2022-11-01",
-        "data": [
-            {
-                "id": 2,
-                "org_id": 171,
-                "user_id": 100,
-                "product_id": 2,
-                "event_mode": true,
-                "tests": 1,
-                "test_date": "2022-07-23T18:30:00.000Z",
-                "name": "MOhammeda aamraz",
-                "age": null,
-                "gender": null,
-                "city": null,
-                "username": null,
-                "for_whom": null,
-                "heart_rate": null,
-                "systolic": null,
-                "diastolic": null,
-                "stress": null,
-                "haemoglobin": null,
-                "respiration": null,
-                "spo2": null,
-                "hrv": null,
-                "bmi": null,
-                "smoker_accuracy": null,
-                "vitals_id": "9847814528",
-                "policy_number": null,
-                "bp_status": null,
-                "rbs": null,
-                "ecg_url": null
-            },
-            {
-                "id": 5,
-                "org_id": 276,
-                "user_id": 159,
-                "product_id": 2,
-                "event_mode": false,
-                "tests": 1,
-                "test_date": "2022-11-01T18:30:00.000Z",
-                "name": null,
-                "age": null,
-                "gender": null,
-                "city": null,
-                "username": null,
-                "for_whom": null,
-                "heart_rate": null,
-                "systolic": null,
-                "diastolic": null,
-                "stress": null,
-                "haemoglobin": null,
-                "respiration": null,
-                "spo2": null,
-                "hrv": null,
-                "bmi": null,
-                "smoker_accuracy": null,
-                "vitals_id": "9847814528",
-                "policy_number": null,
-                "bp_status": null,
-                "rbs": null,
-                "ecg_url": null
-            }
-        ]
-    },
-    {
-        "name": "amraz",
-        "email": "mohd",
-        "phone_number": null,
-        "gender": null,
-        "attempts": "10",
-        "fedo_score": null,
-        "age": null,
-        "id": 1,
-        "is_verified": null,
-        "product_id": "2",
-        "unique_id": "9847814527",
-        "total_tests": 3,
-        "first_scan": "2022-04-02",
-        "last_scan": "2022-11-03",
-        "data": [
-            {
-                "id": 1,
-                "org_id": 171,
-                "user_id": 100,
-                "product_id": 2,
-                "event_mode": false,
-                "tests": 1,
-                "test_date": "2022-04-02T18:30:00.000Z",
-                "name": "MOhammeda aamraz",
-                "age": null,
-                "gender": null,
-                "city": null,
-                "username": null,
-                "for_whom": null,
-                "heart_rate": null,
-                "systolic": null,
-                "diastolic": null,
-                "stress": null,
-                "haemoglobin": null,
-                "respiration": null,
-                "spo2": null,
-                "hrv": null,
-                "bmi": null,
-                "smoker_accuracy": null,
-                "vitals_id": "9847814527",
-                "policy_number": null,
-                "bp_status": null,
-                "rbs": null,
-                "ecg_url": null
-            },
-            {
-                "id": 3,
-                "org_id": 171,
-                "user_id": 100,
-                "product_id": 2,
-                "event_mode": false,
-                "tests": 1,
-                "test_date": "2022-07-28T18:30:00.000Z",
-                "name": null,
-                "age": null,
-                "gender": null,
-                "city": null,
-                "username": null,
-                "for_whom": null,
-                "heart_rate": null,
-                "systolic": null,
-                "diastolic": null,
-                "stress": null,
-                "haemoglobin": null,
-                "respiration": null,
-                "spo2": null,
-                "hrv": null,
-                "bmi": null,
-                "smoker_accuracy": null,
-                "vitals_id": "9847814527",
-                "policy_number": null,
-                "bp_status": null,
-                "rbs": null,
-                "ecg_url": null
-            },
-            {
-                "id": 4,
-                "org_id": 171,
-                "user_id": 100,
-                "product_id": 2,
-                "event_mode": null,
-                "tests": 1,
-                "test_date": "2022-11-03T18:30:00.000Z",
-                "name": "MOhammeda aamraz",
-                "age": null,
-                "gender": null,
-                "city": null,
-                "username": null,
-                "for_whom": null,
-                "heart_rate": null,
-                "systolic": null,
-                "diastolic": null,
-                "stress": null,
-                "haemoglobin": null,
-                "respiration": null,
-                "spo2": null,
-                "hrv": null,
-                "bmi": null,
-                "smoker_accuracy": null,
-                "vitals_id": "9847814527",
-                "policy_number": null,
-                "bp_status": null,
-                "rbs": null,
-                "ecg_url": null
-            }
-        ]
-    }
-];
+
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
   entries:any=this.pageSizeOptions[0]
   activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org'];
@@ -243,6 +39,7 @@ export class GuestListComponent implements OnInit {
   user_email : any = 'abdul@mail.com'
   value=1;
   totaltest:any=0;
+  graphData:any=[]
   // email:any=''
 
   created:boolean=false;
@@ -257,6 +54,7 @@ export class GuestListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
     console.log("hey manaff");
     this.route.params.subscribe((val:any) =>{
       // this.orgId = val.orgId;
@@ -267,13 +65,16 @@ export class GuestListComponent implements OnInit {
       //   console.log('the user Id => ', this.userId)
       // })
   
-      
+      this.tableData = []
+      this.total_user=0;
+        this.currentPage=0
+        this.total_pages=0
       this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        
         this.tableData = doc.data;
-        console.log('the table data can be =>', this.tableData)
-        this.total_user=doc[0].data.total;
-        this.currentPage=doc[0].data.page
-        this.total_pages=doc[0].data.total_pages
+        this.total_user=doc.total;
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
           
     
         })
@@ -281,9 +82,11 @@ export class GuestListComponent implements OnInit {
 
     })
   }
-  enableScan(email:any){
+  enableScan(email:any,name:any){
 
     this.user_email =  email;
+    this.user_name=name
+    
     // this.enableAdditionalScan=this.fb.group({
 
 
@@ -311,9 +114,9 @@ export class GuestListComponent implements OnInit {
 
     this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData = doc.data;
-      this.total_user=doc[0].data.total;
-      this.currentPage=doc[0].data.page
-      this.total_pages=doc[0].data.total_pages
+      this.total_user=doc.total;
+      this.currentPage=doc.page
+      this.total_pages=doc.total_pages
     })
 
   }
@@ -323,9 +126,9 @@ export class GuestListComponent implements OnInit {
     console.log("lavueeeeee", this.entries);
     this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData = doc.data;
-      this.total_user=doc[0].data.total;
-      this.currentPage=doc[0].data.page
-      this.total_pages=doc[0].data.total_pages
+      this.total_user=doc.total;
+      this.currentPage=doc.page
+      this.total_pages=doc.total_pages  
     })
 
 
@@ -344,29 +147,84 @@ export class GuestListComponent implements OnInit {
    return stone
    }
 
-   exportexcel() {
-    
-    // const stepData = this.userList.map((doc:any) =>{
-      this.adminService.fetchGuests(this.prodId,1,1000).subscribe((doc:any)=>{
-        this.userList=doc[0].data
+   exportexcel(data:any) {
+
+    const stepData = data.map((doc:any) =>{
+      
+      
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
       delete doc.user_id;
       delete doc.org_id;
-      return doc
+      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+      doc['smoker_rate'] = doc.smoker_accuracy;
+      delete doc.smoker_accuracy;
+      return {
+        date:new Date(doc.test_date).toISOString().split("T")[0],
+        username:doc.username,
+        applicationNumber:doc.policy_number,
+        scanFor:doc.for_whom,
+        name:doc.name,
+        age:doc.age,
+        gender:doc.gender,
+        city:doc.city,
+        heartRate:doc.heart_rate,
+        systolic:doc.systolic,
+        diastolic:doc.diastolic,
+        stress:doc.stress,
+        respirationRate:doc.respiration,
+        spo2:doc.spo2,
+        hrv:doc.hrv,
+        bmi:doc.bmi,
+        smoker_rate :doc['smoker_rate'],
+        smoker_status : doc['smoker_status']
+        
+      
+
+
+
+
+      }
+
     })
+
+    const filteredData = stepData
+    console.log('your data excel =>', filteredData)
+
+    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
+    // ]
+    const Heading = [[
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+    ]
+    ];
     
-    const worksheet = XLSX.utils.json_to_sheet(this.userList);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(ws, Heading);
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
+    const merge = [
+      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+    ];
+    ws["!merges"] = merge;
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
 
     XLSX.writeFile(wb, this.fileName);
-    
 }
 
+    
+
 guestUpdate(){
-  console.log('slider val',this.value);
+  
   
   this.template=false
   this.adminService.updateGuestUser({email: this.user_email,attempts: this.value,total_tests:this.value}).subscribe((doc:any)=>
