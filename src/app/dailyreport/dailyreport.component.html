@@ -1,0 +1,130 @@
+<!-- <p>dailyreport works!</p> -->
+<div class="card" style="background: #313844;">
+    <div ngbDropdown placement="bottom-end">
+        <h4 class="mt-0 header-title" style="color: white;padding: 1rem;">Daily Scan Report of {{date | date}}</h4>
+        <div style="    grid-template-columns:  max-content max-content;grid-gap:2rem;display: grid;">
+
+            <div style="padding-left: 1rem;">
+                <label class="form-label me-1" style="color: #9BA6AC;">Show
+                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
+                    border-color: #49565d;"
+                        id="event-category" required #idd [(ngModel)]="entries"   (change)="onFilter($event.target)">
+                        <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
+                    </select>
+                    entries</label>
+            </div>   
+               <div class="col-sm-6" >
+                <input style="width: auto;  background-color: #383E4A;" class="form-control" id="example-date" [(ngModel)]='date' (change)="checkDate(date)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date">
+            </div>
+    
+            
+
+        </div>
+        
+    <!-- <div class="card-body">
+        
+            <div ngbDropdownMenu>
+                <a href="javascript:void(0);"ngbDropdownItem>Create Org</a>
+            </div>
+        </div>             -->
+        <!-- <div class=" float-end" ngbDropdown placement="bottom-end">
+            <a href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                <i class="mdi mdi-plus"></i>
+            </a>
+        </div>             -->
+        
+        <div class="row">
+
+    
+        <!-- <div class="col-md-6" *ngIf="pageSizeOptions.length"> -->
+            
+        </div>
+        <!-- <p class="text-muted font-14 mb-3">
+            For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
+            to any <code>&lt;table&gt;</code>.
+        </p> -->
+
+        <div class="table-responsive">
+            <div    style=" 
+            float:right;    margin-right: 1rem;">
+                <img src="./assets/images/excel-icone.png"> &nbsp;
+                <a style="font-size: 1rem;
+                margin: 0;
+                color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel()">Download Excel Report</a>
+               
+              </div>
+            <table class="table advanced-table table-nowrap mb-0">
+                <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
+                    <tr style="border-color: #49565d;text-align: center;">
+                        <th>#</th>
+                        <th>Application No.</th>
+                        <th>Applicant Name</th>
+                        <th>Scan For</th>
+                        <th style="    text-align: -webkit-center;">Age</th>
+                        <th style="    text-align: -webkit-center;">Gender</th>
+                        <th>City</th>
+                        <th>Signed In User</th>
+                        <th>Heart Rate</th>
+                        <th>Blood Pressure</th>
+                        <th>Stress</th>
+                        <th>Heamoglobin</th>
+                        <th>Respiration Rate</th>
+                        <th>SPO2</th>
+                        <th>HRV - SDNN</th>
+                        <th>BMI</th>
+                        <th>Smoker</th>
+                        <th>Random Blood Sugar</th>
+
+                    </tr>
+                </thead>
+                <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
+                    <tr class="over-hover" style="border-color: #49565d; text-align: center;" *ngFor="let person of tableData ;let i=index;    ">
+                        <td >{{entries *(page-1)+i+1}}</td> 
+                        <td>{{person.policy_number}}</td>
+                        <td>{{person.name}}</td>
+                        <td>{{person.for_whom}}</td>
+                        <td>{{person.age}}</td>
+                        <td>{{person.gender}}</td>
+                        <td>{{person.city}}</td>
+                        <td>{{person.username}}</td>
+                        <td style="color: #82B4F3 ;">{{person.heart_rate + 'bpm'}}</td>
+                        <td style="color: #82B4F3 ;">{{person.systolic+ ' / ' +person.diastolic}}</td>
+                        <td style="color: #82B4F3 ;">{{person.stress}}</td>
+                        <td style="color: #82B4F3 ;">{{person.haemoglobin}}</td>
+                        <td style="color: #82B4F3 ;">{{person.respiration}}</td>
+                        <td style="color: #82B4F3 ;">{{person.spo2}}</td>
+                        <td style="color: #82B4F3 ;">{{person.hrv}}</td>
+                        <td style="color: #82B4F3 ;">{{person.bmi}}</td>
+                        <td style="color: #82B4F3 ;">{{person.smoker_accuracy}}{{person.smoker_accuracy > 50 ? ' (Smoker)':' (Non-Smoker)'}}</td>
+                        <td style="color: #82B4F3 ;">{{person.rbs  }}</td>  
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="tableData.length === 0"><p style="text-align: -webkit-center;">No Records Found</p></div>
+
+            <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
+                <div *ngIf="(currentPage*entries)<=total_user">
+                    Showing {{entries *(page-1)+1}} to
+                    {{currentPage*entries}} of {{total_user}} entries
+                </div>
+                <div *ngIf="(currentPage*entries)>total_user">
+                    Showing {{entries *(page-1)+1}} to
+                    {{total_user}} of {{total_user}} entries
+                </div>
+                <ngb-pagination class="d-flex justify-content-end mt-2" 
+                    [pageSize]="1" [collectionSize]="totalPages"[maxSize]="5"  [rotate]="true" (pageChange)="loadPage($event)"  [(page)]="page">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+            </div>
+            <!-- <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
+            *ngIf="true">
+            <div>   
+                Showing  entries
+            </div>
+        </div> -->
+        </div>
+    </div>
+
+</div>

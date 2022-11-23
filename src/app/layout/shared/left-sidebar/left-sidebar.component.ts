@@ -117,6 +117,12 @@ export class LeftSidebarComponent implements OnInit {
                       url: `vitalsList/${product.id}`,
                       parentKey: 'apps-tasks',
                   },
+                  {
+                      key: 'task-details',
+                      label: 'Guest Scans List',
+                      url: `guestlist/${product.id}`,
+                      parentKey: 'apps-tasks',
+                  },
               ],  
           }));
           this.menuItems = [...tempProd,...prod]
