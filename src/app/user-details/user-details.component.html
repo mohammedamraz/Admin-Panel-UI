@@ -1,5 +1,21 @@
-<div id="liveAlertPlaceholder">
-    <ngb-alert type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
+<div id="liveAlertPlaceholder" style="           position: fixed;
+
+z-index: 9999;
+
+display: block;
+
+/* background-color: #2069e8; */
+
+width: -webkit-fill-available;
+
+padding: 10px;
+
+margin-top: 15px;
+
+padding-top:10px">
+
+    <ngb-alert style = 'background: #0fba64;'type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
+
 </div>
 <ng-template #toggleModal1 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
@@ -416,7 +432,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div *ngIf="userList.length === 0"><p style="text-align: -webkit-center;">No records Found</p></div>
+            <div *ngIf="userList.length === 0"><p style="text-align: -webkit-center;">No Records Found</p></div>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
                 <div *ngIf="(currentPage*entries)<=total_user">
                     Showing {{entries *(page-1)+1}} to
