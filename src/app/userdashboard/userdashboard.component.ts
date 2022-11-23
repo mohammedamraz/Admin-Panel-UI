@@ -5,6 +5,8 @@ import { AuthenticationService } from '../core/service/auth.service';
 import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
 import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { AdminConsoleService } from '../services/admin-console.service';
+import * as XLSX from 'xlsx'; 
+
 
 @Component({
   selector: 'app-userdashboard',
@@ -30,6 +32,11 @@ dateSelected:any=new Date().toISOString().substring(0, 10);
 products:any=[];
 todayDate=new Date();
 created_date : any
+fileName='ExcelSheet.xlsx';
+page:any=1;
+perpage:any=1000
+
+
 
 
   barChartOptions : ChartDataset = {
@@ -134,6 +141,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
 
 
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
@@ -193,6 +201,7 @@ chartOptions: Partial<ApexChartOptions> = {
       this.adminService.fetchUserListById(this.userId).subscribe({
         next:(data:any)=>{
           console.log("data",data)
+          this.created_date= new Date(data[0].created_date);
           this.user_name = data[0].user_name;
         this.email = data[0].email;
         this.mobile = data[0].mobile;
@@ -213,7 +222,7 @@ chartOptions: Partial<ApexChartOptions> = {
           
           this.adminService.fetchOrgById(this.orgId).subscribe({
             next:(res:any) =>{  
-              this.created_date= new Date(res[0].created_date);
+              
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
 
               if(this.prodId==undefined){
@@ -333,9 +342,9 @@ chartOptions: Partial<ApexChartOptions> = {
       performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
       performaceDetails['name'] =  prodId === 1 ? 'HSA' : (prodId === 2 ? 'Vitals':'RUW' )
       performaceDetails['currentUserEmail'] = doc[0].user_email;
-      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NaN':doc[0].user_name;
+      performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NA':doc[0].user_name;
       performaceDetails['PreviouseUserEmail'] = doc[1].user_email;
-      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NaN':doc[1].user_name;
+      performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NA':doc[1].user_name;
       performaceDetails['prodId']=prodId;
       performaceDetails['period']=period;
 
@@ -449,7 +458,7 @@ chartOptions: Partial<ApexChartOptions> = {
 
   fetchgraphdetails(prodId:any,date:any,){
     let graphdetails:any = {}; 
-    this.adminService.fetchUsersDailyScan(this.userId,prodId,date).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
       console.log('usergraph',doc,prodId);
       
       graphdetails['today'] = doc[0].total_user_tests;
@@ -458,14 +467,11 @@ chartOptions: Partial<ApexChartOptions> = {
       graphdetails['totalScans'] = doc[0].total_user_tests;
       graphdetails['standardModeScans'] = doc[0].total_user_tests_standard?doc[0].total_user_tests_standard:0;
       graphdetails['eventModeScans'] = doc[0].total_user_tests_event?doc[0].total_user_tests_event:0;
-      graphdetails['name'] =  Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW' )
-    })
-    // graphdetails['today'] = 3;
-      // graphdetails['yesterday'] = 4
-      // graphdetails['previousDay'] = 2;
-      // graphdetails['totalScans'] = 5;
-      // graphdetails['standardModeScans'] =6;
-      // graphdetails['eventModeScans'] =3;
+      graphdetails['name'] =  Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW' );
+      graphdetails['data'] = doc[0].data.data;
+      this.userId = doc[0].user_id;
+  
+    
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
       // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
@@ -490,7 +496,7 @@ chartOptions: Partial<ApexChartOptions> = {
           
           
       },}
-
+    })
     return graphdetails
   }
   fetchDates(date:any){
@@ -510,7 +516,14 @@ chartOptions: Partial<ApexChartOptions> = {
     console.log('hello date =>', date);
     console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
-    this.graphArray[index] = this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10));
+    const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
+    Promise.all(promise).then(body => { 
+      body.forEach(res => {
+        const performance = this.graphArray[index].performance
+        this.graphArray[index] = res;
+        this.graphArray[index]['performance'] =  performance
+      }) 
+    })
   }
 
 
@@ -540,5 +553,81 @@ chartOptions: Partial<ApexChartOptions> = {
     this.authenticationService.logout();
     this.reloadCurrentPage();
   }
+  exportexcel(data:any) {
+
+    const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+
+    const stepData = filteredDataMap.map((doc:any) =>{
+      
+      console.log("helooooooooo     docccccyyy",doc);
+      
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+      doc['smoker_rate'] = doc.smoker_accuracy;
+      delete doc.smoker_accuracy;
+      return {
+        date:new Date(doc.test_date).toISOString().split("T")[0],
+        username:doc.username,
+        applicationNumber:doc.policy_number,
+        scanFor:doc.for_whom,
+        name:doc.name,
+        age:doc.age,
+        gender:doc.gender,
+        city:doc.city,
+        heartRate:doc.heart_rate,
+        systolic:doc.systolic,
+        diastolic:doc.diastolic,
+        stress:doc.stress,
+        respirationRate:doc.respiration,
+        spo2:doc.spo2,
+        hrv:doc.hrv,
+        bmi:doc.bmi,
+        smoker_rate :doc['smoker_rate'],
+        smoker_status : doc['smoker_status']
+        
+      
+
+
+
+
+      }
+
+    })
+
+    const filteredData = stepData
+    console.log('your data excel =>', filteredData)
+
+    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
+    // ]
+    const Heading = [[
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+    ]
+    ];
+    
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(ws, Heading);
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
+    const merge = [
+      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+    ];
+    ws["!merges"] = merge;
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
+
+
+    XLSX.writeFile(wb, this.fileName);
+}
 
 }

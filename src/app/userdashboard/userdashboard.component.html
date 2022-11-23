@@ -52,6 +52,17 @@
                         <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
+                    
+                        <div ngbDropdownMenu>
+                            <!-- item-->
+                            <a href="javascript:void(0);" [routerLink]="'/'+userId+'/report/'+season.prodId" [queryParams]="{userId: userId , created_date : created_date }" ngbDropdownItem>View Report</a>
+                            <!-- item-->
+                            <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
+                            <!-- item-->
+                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Something else</a> -->
+                            <!-- item-->
+                            <!-- <a href="javascript:void(0);" ngbDropdownItem>Separated link</a> -->
+                        </div>
     
                     </div>
     
@@ -74,23 +85,31 @@
                     </div> <!-- end col -->
     
                     <div class="BarGraph-container" style="display: grid;" >
-                    <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
+                    <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;  margin-top: 3rem;">
                         <div style=" align-self: center; color:#ADB5BD;display: grid;
                         grid-gap: 1rem;">
-                            <p style="font-size: 1.3rem;margin: 0;">Total Scans</p>
-                            <p style="font-size: 1.3rem;margin: 0;">Standard Mode Scans</p>
-                            <p style="font-size: 1.3rem;margin: 0;">Event Mode Scans</p>
+                            <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
+                            <p style="font-size: 1.2rem;margin: 0;">Standard Mode Scans</p>
+                            <p style="font-size: 1.2rem;margin: 0;">Event Mode Scans</p>
                         </div>
                         <div  style=" align-self: center; color:#F5F5F5;display: grid;
                         grid-gap: .45rem;">
-                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.totalScans}}</p></div>
-                            <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.standardModeScans}}</p></div>
-                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 2rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
+                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.totalScans}}</p></div>
+                            <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.standardModeScans}}</p></div>
+                            <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
                         </div>
                       
                         <!-- <div>
                             <button>Download Excel Report</button>
                         </div> -->
+                        <div style="    margin-top: 4rem;">
+                            <img src="./assets/images/excel-icone.png"> &nbsp;
+                            <a style="font-size: 1.2rem;
+                            margin: 0;
+                            color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data)">Download Excel Report</a>
+                           
+                           
+                          </div>
                         
     
                     </div>
@@ -116,14 +135,14 @@
         <div class="col-xl-6" style="display: inline-grid;">
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             <div class="card-body">
-                <div class="float-end" ngbDropdown placement="bottom-end">
+                <!-- <div class="float-end" ngbDropdown placement="bottom-end">
                     <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
 
                     </div>
-                </div>
+                </div> -->
         
                 <h4 class="header-title mt-0 mb-3" style="color: white;">Fedo {{season.name}}: Performance Chart</h4>
                 <div class="col-sm-6">
@@ -178,8 +197,8 @@
                         grid-gap: .45rem;">
                             <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
                             <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
-                            <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-up"></i></p>
-                                <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(2)}}%<i class="fe-arrow-down"></i></p>
+                            <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-up"></i></p>
+                                <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-down"></i></p>
                                 <p *ngIf="season.performance.varience==0 || season.performance.varience=='' " style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
                             </div>
                         </div>
