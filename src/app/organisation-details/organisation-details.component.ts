@@ -1,14 +1,10 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AdminConsoleService } from '../services/admin-console.service';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
-import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
-import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
-import { lastValueFrom, map , take} from 'rxjs';
-// import { map , take} from 'rxjs';
 import * as XLSX from 'xlsx'; 
 
 
@@ -18,8 +14,6 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./organisation-details.component.scss']
 })
 export class OrganisationDetailsComponent implements OnInit {
-  
-
   files: File[] = [];
   tabDAta:any[]=[];
   OrgForm!: FormGroup;
@@ -42,9 +36,7 @@ export class OrganisationDetailsComponent implements OnInit {
   monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-todayDate=new Date();
-
-  //details
+  todayDate=new Date();
   organization_name:any='';
   admin_name:any='';
   application_id:any='';
@@ -81,15 +73,12 @@ todayDate=new Date();
   next:boolean=false;
   created:boolean = false;
   showLiveAlertNextButton=false;
-  model!: NgbDateStruct;
-date!: { year: number; month: number; };
+  date!: { year: number; month: number; };
   graphArray:any[]=[];
   errorMessageResendInvitation = ' '
   showLiveAlertResendInvitation =false
   page:any=1;
   perpage:any=1000
-
-
   errorMessageNextButton='';
   addTpafunc:boolean=false;
   orgProd:any=[];
@@ -98,101 +87,13 @@ date!: { year: number; month: number; };
   @ViewChild('toggleModal5', { static: true }) input2!: ElementRef;
   @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
   loggedInUser: any={};
-
   fileName='ExcelSheet.xlsx';
-
-  
-
-  // thirdParty=false;
   tableData:any[]=[];
-
   formSubmitted=false
-
   changeButton:boolean=false
-
   showLiveAlertAPI=false;
   errorMessageAPI='';
-chartOptions: Partial<ApexChartOptions> = {
-  series: [
-    {
-      name: 'Series A',
-      type: 'area',
-      data: [50, 75, 30,],
-    },
-    {
-      name: 'Series B',
-      type: 'line',
-      data: [0, 40, 80, ],
-    },
-  ],
-  chart: {
-    height: 268,
-    type: 'line',
-    toolbar: {
-      show: false,
-    },
-    stacked: false,
-    zoom: {
-      enabled: false,
-    },
-  },
-  stroke: {
-    curve: 'smooth',
-    width: [3, 3],
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    show: false,
-  },
-  fill: {
-    type: 'solid',
-    opacity: [0, 1],
-  },
-  colors: ['#3cc469', '#188ae2'],
-  xaxis: {
-    categories: ['W1', 'W2', 'W3', ],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  yaxis: {
-    tickAmount: 4,
-    min: 0,
-    max: 100,
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  grid: {
-    show: false,
-    padding: {
-      top: 0,
-      bottom: 0,
-    },
-  },
-  tooltip: {
-    theme: 'dark',
-  },
-
-};
   userId: any;
-
- 
-
-
-
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -205,11 +106,9 @@ chartOptions: Partial<ApexChartOptions> = {
   ) { }
 
   ngOnInit(): void {
-    this.loggedInUser = <any>this.authenticationService.currentUser();
-    // this.loggedInUser.org_data[0].is_deleted = true;
 
+    this.loggedInUser = <any>this.authenticationService.currentUser();
     if(this.loggedInUser.org_data[0].is_deleted&&this.loggedInUser.org_data[0].type=='orgAdmin'){
-   
       this.open(<TemplateRef<NgbModal>><unknown>this.input2);
     }
 
@@ -228,22 +127,17 @@ chartOptions: Partial<ApexChartOptions> = {
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
-        // res[0].product[1].status="Expired"
         if(res[0].product.every((v:any)=>v.status==="Expired") && this.orglogin ){
           this.open(<TemplateRef<NgbModal>><unknown>this.input);
         }
 
-
         this.tabDAta=res
-        console.log('the file', res);
         this.designation= res[0].designation;
         this.organization_name= res[0].organization_name;
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;
         this.created_date= new Date(res[0].created_date);
-        console.log('the start date is  =>',res[0].created_date)
-        console.log('the start date is  =>', this.created_date)
 
         this.end_date= res[0].end_date;
         this.fedo_score= res[0].fedo_score;
@@ -264,13 +158,12 @@ chartOptions: Partial<ApexChartOptions> = {
         const secondDate = new Date(this.end_date);
         const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
         const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
-        console.log('the days left', days_difference)
         this.daysLeft = days_difference;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
         this.createEditproc(this.products,this.product);
         this.createGraphArrayItems(this.product,this.dateSelected);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-          (doc:any) => {this.tableData=doc.data;console.log("ghf",doc);
+          (doc:any) => {this.tableData=doc.data;
           }
         )
         },
@@ -278,13 +171,6 @@ chartOptions: Partial<ApexChartOptions> = {
         console.log('the error', err);
       }
     })
-
-
-
-
-
-    // this.adminService.fetchLatestOrg().subscribe
-    // ((doc:any) =>{ this.tabDAta=doc;return doc})
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
       (doc:any) => {this.tableData=doc.data;}
@@ -323,26 +209,14 @@ chartOptions: Partial<ApexChartOptions> = {
         third_party_org_name: ['',Validators.required],
 
     });
-    // this.adminService.fetchTpa(1).subscribe((doc: any) => {
-    //   for (let i = 0; i <= doc.length - 1; i++) {
-    //     if (doc[i].tpa_name != null) {
-    //       this.codeList.push(doc[i].tpa_name)
-    //     }
-
-    //   }
-   
-    //     ; return doc;
-    // })
    
   }
   exportexcel(data:any) {
-    console.log('hello data from me =>',data)
+
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
 
     const stepData = filteredDataMap.map((doc:any) =>{
-      
-      console.log("helooooooooo     docccccyyy",doc);
-      
+            
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
@@ -371,11 +245,6 @@ chartOptions: Partial<ApexChartOptions> = {
         smoker_rate :doc['smoker_rate'],
         smoker_status : doc['smoker_status']
         
-      
-
-
-
-
       }
 
     })
@@ -403,12 +272,6 @@ chartOptions: Partial<ApexChartOptions> = {
     ws["!merges"] = merge;
     XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-
-    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
-    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
-
     XLSX.writeFile(wb, this.fileName);
 }
 
@@ -419,16 +282,10 @@ chartOptions: Partial<ApexChartOptions> = {
     const requests = products.map((doc:any) => this.fetchGraphs(doc.product_id,date));
     Promise.all(requests).then(body => { 
         body.forEach(res => {
-          console.log('higeass =>',res)
         this.graphArray.push(res)
-        console.log('graph arraayyyyy',this.graphArray[0].data);
         
         })
      });
-
-
-
-
 
   }
 
@@ -447,7 +304,6 @@ chartOptions: Partial<ApexChartOptions> = {
             })
          })
         })
-        console.log('why this kolaveri =>',details)
         resolve(details)
      })
     })
@@ -542,8 +398,6 @@ chartOptions: Partial<ApexChartOptions> = {
         },
         yaxis: {
           tickAmount: 4,
-          // min: 0,
-          // max: 100,
           labels: {
             style: {
               colors: '#adb5bd',
@@ -557,21 +411,12 @@ chartOptions: Partial<ApexChartOptions> = {
         grid: {
           show: true,
           borderColor: '#f7f7f7',
-
-          // padding: {
-          //   top: 0,
-          //   bottom: 0,
-          // },
         },
         tooltip: {
           theme: 'dark',
         },
       }
       resolve(performaceDetails)
-       // performaceDetails['totalScans'] = doc[0].total_org_tests;
-      // performaceDetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
-      // performaceDetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
-      // performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )   
     })
     })
   }
@@ -623,7 +468,6 @@ chartOptions: Partial<ApexChartOptions> = {
   }
 
   fetchTimely(prodId:any,data:any){
-    console.log('hello musicians', data);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     this.graphArray[index].performance.period = data
     const performance = this.fetchPerformanceDetails(prodId,data)
@@ -642,8 +486,6 @@ chartOptions: Partial<ApexChartOptions> = {
     const datechecked = new Date(date);
     const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
     const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
-
-    console.log('oyul =>', datechecked)
     return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
   }
 
@@ -653,8 +495,6 @@ chartOptions: Partial<ApexChartOptions> = {
   }
 
   checkdate(event:any,prodId:any,date:any){
-    console.log('hello date =>', date);
-    console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
     Promise.all(promise).then(body => { 
@@ -665,10 +505,6 @@ chartOptions: Partial<ApexChartOptions> = {
       }) 
     })
   }
-
-
-
-
 
   createEditproc(products:any,OrgProducts:any){
 
@@ -715,7 +551,6 @@ chartOptions: Partial<ApexChartOptions> = {
             pilot_duration:doc.pilot_duration
           }
       })
-      console.log('sewer',this.orgProd)
     }
   }
 
@@ -758,7 +593,6 @@ chartOptions: Partial<ApexChartOptions> = {
  }
 
  updateStatus(data:any,userData:any){
-  // console.log("datat",data)
   this.adminService.patchUserStatus(userData.id, data).subscribe({
     next: async (res) => {
       console.log('the success=>',data);
@@ -773,17 +607,14 @@ chartOptions: Partial<ApexChartOptions> = {
         }
       })
       this.reloadCurrentPage();
-      // this.activeWizard2=this.activeWizard2+1;
-      // this.created=true;
     }
   })
 
 }
 
 resendInvitationMail(data:any){
-  console.log("ersdfzdx",data);
   this.showLiveAlertResendInvitation = true;
-    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+  this.errorMessageResendInvitation = 'Invitation Successfully resent!'
   this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
     next: (res) =>{
       console.log("dsasyfjewbsd",res)
@@ -835,7 +666,6 @@ resendInvitationMail(data:any){
   onSelect(event: any) {
 
     this.files =[...event.addedFiles];
-    console.log('the iage',event.addedFiles);
     this.srcImage = this.getPreviewUrl(event.addedFiles[0]);
 
     var data = new FormData();
@@ -858,6 +688,7 @@ resendInvitationMail(data:any){
   open(content: TemplateRef<NgbModal>): void {
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
+
   demoFunction(event:any, product:string){
     if(product==='hsa'){
       this.OrgForm.controls['ruw'].setValue(false);
@@ -888,8 +719,9 @@ resendInvitationMail(data:any){
       this.listdetails.splice(selected,1);
     }
   }
+
+
   updateProduct(event:any, productId:string){
-    console.log('the products',this.products)
     if(event.target.checked){
       const data = {
         fedoscore: false,
@@ -913,10 +745,9 @@ resendInvitationMail(data:any){
       const selected =this.listdetails.findIndex(obj=>obj.product_id===productId);
       this.listdetails.splice(selected,1);
       this.list--;
-
-
     }
   }
+
   demoPrgFunction(event:any, product:string){
     if(product==='hsa'){
       this.OrgForm.controls['ruw'].setValue(false);
@@ -952,25 +783,17 @@ resendInvitationMail(data:any){
     this.basicWizardForm.removeControl('ruw');
     this.basicWizardForm.removeControl('hsa');
     this.basicWizardForm.removeControl('vitals');
-    // this.basicWizardForm.controls['product_name'].setValue(this.product);
     this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
-    console.log('the patch detaisl',this.basicWizardForm)
     this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res:any) => {
-        console.log('the success=>',res.user_name);
         this.user_name=res[0].user_name
 
         this.activeWizard1=this.activeWizard1+1;
-        // {this.snackBar.open("Pilot Created Successfully",'X', { duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'green'})}
-        // this.formGroupDirective?.resetForm();
       },
       error: (err) => {
         console.log('the failure=>',err);
         this.errorMessage=err;
         this.showLiveAlert=true;
-      //    { this.snackBar.open(err.error.message,'', {
-      //   duration: 5000, verticalPosition: 'bottom', horizontalPosition: 'center', panelClass: 'red'
-      // }); }
       },
       complete: () => { }
     });
@@ -978,26 +801,19 @@ resendInvitationMail(data:any){
   change() {
     this.thirdParty = this.notThirdParty;
     this.notThirdParty = !this.notThirdParty;
-
-
   }
 
   
   inputTpa() {
     this.userForm.get('third_party_org_name')?.value
-    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
-    console.log("code", this.codeList);
-    console.log("code",);
     if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
       this.showButton = false;
-      console.log("hello", this.showButton);
     }
 
     else {
       this.showButton = true;
     }
     this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
-      // console.log('manafmannnu');
       this.changeButton=true
       this.addTpafunc=false
       console.log(x)
@@ -1009,10 +825,9 @@ resendInvitationMail(data:any){
     let input = this.userForm.get('third_party_org_name')?.value
     let org_id = this.organaization_id
     this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {
-      // console.log("jhfgdjgj", typeof (input));
 
-      // console.log("", doc);
-      ; return doc;
+       return doc;
+
     })
   }
 
@@ -1022,13 +837,10 @@ resendInvitationMail(data:any){
     this.errorMessage = '';
     this.showLiveAlert = false;
     this.userForm.controls['org_id'].setValue(doc.id);
-    console.log('hey manaf =>',doc);
     this.activeWizard1 = 1;
     this.organaization_id=doc.id
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
-    console.log('see manaf', this.userProduct)
-
     this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {  
       for (let i = 0; i <= doc.length - 1; i++) {
         if (doc[i].tpa_name != null) {
@@ -1045,7 +857,6 @@ resendInvitationMail(data:any){
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
-        console.log("insode")
         this.user_name = res.user_name
         console.log('the success=>', res);
         this.activeWizard1 = this.activeWizard1 + 1;
@@ -1062,8 +873,6 @@ resendInvitationMail(data:any){
   }
 
   setEventMode(event: any,product:any,value:any){
-    console.log('the value => ',event);
-
     const selected = this.listdetails.findIndex(obj=>obj.name===product);
     this.listdetails[selected].event_mode = value ;
   }
@@ -1139,7 +948,6 @@ resendInvitationMail(data:any){
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
-        console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
         this.created = true;
       },
@@ -1150,14 +958,10 @@ resendInvitationMail(data:any){
       },
       complete: () => { }
     });
+  } 
   }
-    
-
-  }
-
 
   // the functions below are written to change or upload an image and also to delete the image
-
   uploadImageForOrganization(id:any,file:any){
 
   this.adminService.updateImageLogoInOrgDb(id,file).subscribe({
@@ -1210,47 +1014,31 @@ clearform(){
 
       if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
         this.errorMessageNextButton='Mandatory field';
-
-          this.showLiveAlertNextButton=true;
-
+        this.showLiveAlertNextButton=true;
       }
       else{
+
       let data ={
 
-        // organization_name: this.userForm.controls['user_name'],
-
         email: this.userForm.value['email'],
-
         mobile: '+91'+ this.userForm.value['mobile']
-
-
 
     };
 
       this.adminService.fetchUserDataIfExists(data).subscribe({
 
         next: (data:any)=>{    
-
           this.activeWizard1=this.activeWizard1+1;
           this.showLiveAlertNextButton=false;
-
-
         },
 
         error: (err) => {
-
-          console.log('the failure=>',err);
           this.errorMessageAPI=err;
-
           this.showLiveAlertAPI=true;
-
           this.errorMessageNextButton='';
-
           this.showLiveAlertNextButton=false;
 
         },
-
-     
 
     })
   }
@@ -1270,28 +1058,18 @@ clearform(){
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
     if(url_type=="web") {let redirectWindow = window.open(data.web_url);}
-
-    // else {let redirectWindow = window.open("https://www.google.com");}
-   // redirectWindow.location;
-    
   }
 
   closeUser(){
     
-    
     let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
       organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
-  console.log("hello",data);
-  
-
     this.adminService.sendEmailNotification(data).subscribe({
       next: (res:any) => {
-       console.log('sweet person',res);
        this.authenticationService.logout();
     this.reloadCurrentPage();
        }   ,
        error : (err:any)=>{
-        console.log('sweet person',err);
        this.authenticationService.logout();
     this.reloadCurrentPage();
        }
@@ -1303,22 +1081,17 @@ clearform(){
 
   closeInactiveUser(){
     
-    
     let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
       organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name}
-  console.log("hello",data);
-  
 
     this.adminService.sendInactiveOrgEmailNotification(data).subscribe({
       next: (res:any) => {
-       console.log('sweet person',res);
        this.authenticationService.logout();
-    this.reloadCurrentPage();
+       this.reloadCurrentPage();
        }   ,
        error : (err:any)=>{
-        console.log('sweet person',err);
        this.authenticationService.logout();
-    this.reloadCurrentPage();
+       this.reloadCurrentPage();
        }
       
     });
@@ -1327,8 +1100,6 @@ clearform(){
   }
 
   editUserForm(data:any){
-
-    console.log('user data =>', data);
     this.userEditForm = this.fb.group({
       email:[data.email,[Validators.email]],
       mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
@@ -1345,13 +1116,10 @@ clearform(){
     this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
     this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
       next: (res:any) => {
-        console.log('the success=>',res);
-
         this.activeWizard1=this.activeWizard1+1;
 
       },
       error: (err) => {
-        console.log('the failure=>',err);
         this.errorMessageAPI=err;
         this.showLiveAlertAPI=true;
 
