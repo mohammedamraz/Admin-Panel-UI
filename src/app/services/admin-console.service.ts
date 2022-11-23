@@ -441,6 +441,20 @@ export class AdminConsoleService {
 
       }
     }
+
+    if(event.url?.split('/')[1] =='guestlist'){
+
+      this.breadCrumbs.next([
+
+        {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
+
+        {label: `${event.url?.split('/')[2]== '1' ? 'HSA' : (event.url.split('/')[2] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `/vitals-dashboard/${event.url.split('/')[2]}`,},
+
+        {label: `Guest List`, path: event.url, active: true}
+
+      ])
+
+    }
     
   }
   
