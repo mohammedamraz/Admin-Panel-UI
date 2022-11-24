@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdminConsoleService } from '../services/admin-console.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx-js-style'; 
 
 
 @Component({
@@ -29,6 +29,7 @@ export class DailyreportComponent implements OnInit {
   totalPages:any
   created_date : any = ''
   todayDate=new Date();
+  organization_name:any=''
   // perpage:any=1000;
  
 
@@ -49,7 +50,9 @@ export class DailyreportComponent implements OnInit {
         console.log('the value from query params => ', val)
         this.userId = val.userId;
         this.created_date = val.created_date
-        console.log('the user Id => ', this.userId)
+        this.organization_name=val.organization_name;
+        console.log('routinglink ',this.organization_name);
+         
       })
   
       
@@ -170,6 +173,7 @@ export class DailyreportComponent implements OnInit {
 
 
         console.log( "org table data",this.tableDataForExcel);
+        this.newExport()
         
         // this.totalPages=doc[0].data.total_pages
         // this.total_user=doc[0].data.total
@@ -185,9 +189,12 @@ export class DailyreportComponent implements OnInit {
       // this.totalPages=doc[0].data.total_pages
       // this.total_user=doc[0].data.total
       // console.log("datasets",this.tableData);
+      this.newExport()
     });
   }
- 
+}
+  newExport(){
+
     console.log("rsgDversfxdxfcerfx",this.tableDataForExcel);
     
     const filteredDataMap = this.tableDataForExcel.filter((doc:any) => doc.policy_number!==null)
@@ -213,7 +220,7 @@ export class DailyreportComponent implements OnInit {
         age:doc.age,
         gender:doc.gender,
         city:doc.city,
-        heartRate:doc.heart_reate,
+        heartRate:doc.heart_rate,
         systolic:doc.systolic,
         diastolic:doc.diastolic,
         stress:doc.stress,
@@ -234,34 +241,112 @@ export class DailyreportComponent implements OnInit {
     })
 
     const filteredData = stepData
-    console.log('your data excel =>', filteredData)
-
-    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
-    // ]
-    const Heading = [[
+    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
     
+    
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
     XLSX.utils.sheet_add_aoa(ws, Heading);
-    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
-    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
-    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
-    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J3'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K3'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R3'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q3'});
     const merge = [
-      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+      { s: { r: 1, c: 9 }, e: { r: 1, c: 10 } }, { s: { r: 1, c: 23 }, e: { r: 1, c: 24 } } 
     ];
+  
+    ws["A1"].s = {
+  font: {
+    name: "Calibri",
+    sz: 24,
+    bold: true,
+  },
+  };
+    for(let i=1;i<=Heading[1].length;i++){
+      console.log('char =>', String.fromCharCode(64+i)+1)
+      ws[String.fromCharCode(64+i)+2].s = {
+        font: {
+          color: { rgb: "FFFFFF" },
+        },
+        fill:{
+          fgColor:{rgb: "8B0000"},
+          patternType:'solid'
+        },
+        border:{
+          top:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          bottom:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          left:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          right:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+        }
+      };
+  
+      if(ws[String.fromCharCode(64+i)+3]){
+        ws[String.fromCharCode(64+i)+3].s= {
+          font: {
+            color: { rgb: "FFFFFF" },
+          },
+          fill:{
+            fgColor:{rgb: "808080"},
+            patternType:'solid'
+          },
+          border:{
+            left:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+            right:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+          }
+  
+        };
+      }
+      else{
+        ws[String.fromCharCode(64+i)+3]= {
+          t:'n',
+          s:{
+            font: {
+              color: { rgb: "FFFFFF" },
+            },
+            fill:{
+              fgColor:{rgb: "808080"},
+              patternType:'solid'
+            },
+            border:{
+              left:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+              right:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+            }
+          },
+          v:'',
+        };
+      }
+    }
     ws["!merges"] = merge;
-    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    console.log('ws =>', ws)
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-
-    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
-    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
-
     XLSX.writeFile(wb, this.fileName);
 }
 loadPage(val:any){
