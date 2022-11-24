@@ -538,22 +538,34 @@ export class OrganisationDetailsComponent implements OnInit {
     this.listdetails = list;
 
     if(this.orglogin){
-      this.orgProd = OrgProducts.map((doc:any) =>{
-        let count = 0;
-        this.adminService.fetchScan(this.snapshotParam,doc.product_id).subscribe(
-          (doc:any) => {count=doc.total_tests;})
-          return {
-            product_id:doc.product_id,
-            productName:doc.product_id  === '1' ? 'HSA' : (doc.product_id === '2' ? 'Vitals':'RUW' ),
-            status:doc.status,
-            count:count,
-            end_date: doc.end_date,
-            pilot_duration:doc.pilot_duration
-          }
+
+      const requests =  OrgProducts.map((doc:any) =>this.fetchScansResolver(doc))
+      Promise.all(requests).then(body => {
+        body.forEach(res => {
+          this.orgProd.push(res)
+        })
       })
     }
   }
 
+  fetchScansResolver(data:any){
+
+    return new Promise((resolve,reject) => {
+      this.adminService.fetchScan(this.snapshotParam,data.product_id).subscribe(
+        (doc:any) => {
+          const result = {
+            product_id:data.product_id,
+            productName:data.product_id  === '1' ? 'HSA' : (data.product_id === '2' ? 'Vitals':'RUW' ),
+            status:data.status,
+            count:doc.total_tests,
+            end_date: data.end_date,
+            pilot_duration:data.pilot_duration
+          }
+          return resolve(result)
+    })})
+
+  }
+  
   
   
 
