@@ -420,7 +420,7 @@ export class AdminConsoleService {
         console.log('hi org')
         this.breadCrumbs.next([
           {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
-          {label: `${event.url?.split('/')[3]== '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url,},
+          {label: `${event.url?.split('/')[3][0]== '1' ? 'HSA' : (event.url.split('/')[3][0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url,},
           {label: `Report`, path: event.url, active: true}
         ])
       }
@@ -428,13 +428,13 @@ export class AdminConsoleService {
         //superadmin
         this.fetchOrgById(event.url?.split('/')[1]).subscribe({
           next: (res:any) => {
-            console.log('the response we have =>',res)
+            console.log('the response we have =>',event.url.split('/')[3][1])
             name=res[0].organization_name
             this.breadCrumbs.next([
               { label: 'Home', path: 'home' },
               { label: 'Organisations List', path: 'orgList' },
               { label: name, path: `/orgdetails/${event.url?.split('/')[1]}` },
-              { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Report`, path: event.url, active: true },
+              { label: `${event.url.split('/')[3][0]== '1' ? 'HSA' : (event.url.split('/')[3][0] === '2' ? 'Vitals':'RUW' )} Report`, path: event.url, active: true },
           ])
           },
         });

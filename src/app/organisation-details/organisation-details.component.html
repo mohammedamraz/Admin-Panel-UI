@@ -965,7 +965,7 @@ padding-top:10px">
                         <div class="col-xl-5 card-body" style="padding-left:0">
                             <p style="
                             margin-bottom: 0.5rem;
-                        ">Pilot Duration({{season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date)}} of {{season.pilot_duration}} days)</p>
+                            ">Pilot Duration({{ daysLefts(season.end_date) < 0 ? season.pilot_duration:  season.pilot_duration - daysLefts(season.end_date)  }} of {{season.pilot_duration}} days)</p>
                             <ngb-progressbar style="margin-top: 0;" [type]="season.status =='Expired' ? 'danger':'warning'" [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="(season.status =='Expired' ) ? 100 :(season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date))" [max]=" (season.status =='Expired' ) ? 100:season.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                         </div>
                         <div>

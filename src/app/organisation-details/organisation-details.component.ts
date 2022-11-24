@@ -524,7 +524,7 @@ export class OrganisationDetailsComponent implements OnInit {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -571,10 +571,11 @@ export class OrganisationDetailsComponent implements OnInit {
 
   daysLefts(date:any){
     const firstDate = new Date();
+
     const secondDate = new Date(date);
-    const total_seconds = Math.abs(secondDate.valueOf() - firstDate.valueOf()) / 1000;  
-    const days_difference = Math.floor (total_seconds / (60 * 60 * 24)); 
-    return days_difference;
+    const total_seconds = (secondDate.valueOf() - firstDate.valueOf()) / 1000;  
+    const days_difference = (total_seconds / (60 * 60 * 24));
+    return Math.round(days_difference);
   }
 
   calculateRemainingDays(date:any,pilotDuration:any){
