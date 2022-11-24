@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
        next: (data: any) => {
+        this.authenticationService.logout();
          console.log('there is a ssuucesesdf',data)
          if(data.org_data[0].type === 'admin'){
           if(this.formValues['rememberMe'].value){

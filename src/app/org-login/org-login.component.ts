@@ -59,6 +59,7 @@ export class OrgLoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
        next: (data: any) => {
+        this.authenticationService.logout();
          console.log('there is a ssuucesesdf',data);
         if(data.hasOwnProperty('user_data')){
           data['orglogin']=false;

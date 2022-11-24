@@ -769,7 +769,7 @@ padding-top:10px">
     
     
 
-<ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
+<ng-template *ngIf="orglogin==false" ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
     <div class="row"  >
     <div class="col-xl-6 " style="display: inline-grid;"   >
