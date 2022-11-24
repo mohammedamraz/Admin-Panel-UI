@@ -5,7 +5,7 @@ import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx-js-style'; 
 
 
 @Component({
@@ -211,68 +211,152 @@ export class OrganisationDetailsComponent implements OnInit {
     });
    
   }
-  exportexcel(data:any) {
+  
 
-    const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+exportexcel(data:any) {
 
-    const stepData = filteredDataMap.map((doc:any) =>{
-            
-      delete doc.tests;
-      delete doc.event_mode;
-      delete doc.product_id;
-      delete doc.user_id;
-      delete doc.org_id;
-      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
-      doc['smoker_rate'] = doc.smoker_accuracy;
-      delete doc.smoker_accuracy;
-      return {
-        date:new Date(doc.test_date).toISOString().split("T")[0],
-        username:doc.username,
-        applicationNumber:doc.policy_number,
-        scanFor:doc.for_whom,
-        name:doc.name,
-        age:doc.age,
-        gender:doc.gender,
-        city:doc.city,
-        heartRate:doc.heart_rate,
-        systolic:doc.systolic,
-        diastolic:doc.diastolic,
-        stress:doc.stress,
-        respirationRate:doc.respiration,
-        spo2:doc.spo2,
-        hrv:doc.hrv,
-        bmi:doc.bmi,
-        smoker_rate :doc['smoker_rate'],
-        smoker_status : doc['smoker_status']
-        
+  const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+  const stepData = filteredDataMap.map((doc:any) =>{
+
+    delete doc.tests;
+    delete doc.event_mode;
+    delete doc.product_id;
+    delete doc.user_id;
+    delete doc.org_id;
+    doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+    doc['smoker_rate'] = doc.smoker_accuracy;
+    delete doc.smoker_accuracy;
+    return {
+      date:new Date(doc.test_date).toISOString().split("T")[0],
+      username:doc.username,
+      applicationNumber:doc.policy_number,
+      scanFor:doc.for_whom,
+      name:doc.name,
+      age:doc.age,
+      gender:doc.gender,
+      city:doc.city,
+      heartRate:doc.heart_rate,
+      systolic:doc.systolic,
+      diastolic:doc.diastolic,
+      stress:doc.stress,
+      respirationRate:doc.respiration,
+      spo2:doc.spo2,
+      hrv:doc.hrv,
+      bmi:doc.bmi,
+      smoker_rate :doc['smoker_rate'],
+      smoker_status : doc['smoker_status']
+      
+    }
+
+  })
+
+  const filteredData = stepData
+  const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+  ]
+  ];
+  
+  
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+  XLSX.utils.sheet_add_aoa(ws, Heading);
+  XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J3'});
+  XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K3'});
+  XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R3'});
+  XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q3'});
+  const merge = [
+    { s: { r: 1, c: 9 }, e: { r: 1, c: 10 } }, { s: { r: 1, c: 23 }, e: { r: 1, c: 24 } } 
+  ];
+
+  ws["A1"].s = {
+font: {
+  name: "Calibri",
+  sz: 24,
+  bold: true,
+},
+};
+  for(let i=1;i<=Heading[1].length;i++){
+    console.log('char =>', String.fromCharCode(64+i)+1)
+    ws[String.fromCharCode(64+i)+2].s = {
+      font: {
+        color: { rgb: "FFFFFF" },
+      },
+      fill:{
+        fgColor:{rgb: "8B0000"},
+        patternType:'solid'
+      },
+      border:{
+        top:{
+          style:'thin',
+          color:{rgb:'000000'}
+        },
+        bottom:{
+          style:'thin',
+          color:{rgb:'000000'}
+        },
+        left:{
+          style:'thin',
+          color:{rgb:'000000'}
+        },
+        right:{
+          style:'thin',
+          color:{rgb:'000000'}
+        },
       }
+    };
 
-    })
+    if(ws[String.fromCharCode(64+i)+3]){
+      ws[String.fromCharCode(64+i)+3].s= {
+        font: {
+          color: { rgb: "FFFFFF" },
+        },
+        fill:{
+          fgColor:{rgb: "808080"},
+          patternType:'solid'
+        },
+        border:{
+          left:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          right:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+        }
 
-    const filteredData = stepData
-    console.log('your data excel =>', filteredData)
-
-    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
-    // ]
-    const Heading = [[
-      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
-    ]
-    ];
-    
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
-    XLSX.utils.sheet_add_aoa(ws, Heading);
-    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
-    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
-    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
-    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
-    const merge = [
-      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
-    ];
-    ws["!merges"] = merge;
-    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb, this.fileName);
+      };
+    }
+    else{
+      ws[String.fromCharCode(64+i)+3]= {
+        t:'n',
+        s:{
+          font: {
+            color: { rgb: "FFFFFF" },
+          },
+          fill:{
+            fgColor:{rgb: "808080"},
+            patternType:'solid'
+          },
+          border:{
+            left:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+            right:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+          }
+        },
+        v:'',
+      };
+    }
+  }
+  ws["!merges"] = merge;
+  XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  XLSX.writeFile(wb, this.fileName);
 }
 
   

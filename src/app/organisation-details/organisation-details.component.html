@@ -782,7 +782,7 @@ padding-top:10px">
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/report/'+season.prodId" [queryParams]="{ created_date : created_date }" ngbDropdownItem>View Report</a>
+                        <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/report/'+season.prodId" [queryParams]="{ created_date : created_date , organization_name : organization_name }" ngbDropdownItem>View Report</a>
                         <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
                     </div>
 
