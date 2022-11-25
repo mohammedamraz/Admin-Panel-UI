@@ -245,7 +245,7 @@ export class HomeComponent implements OnInit {
             const prod:any = orgData.product.map((el:any)=>{
               return {
                 fedo_score:el.fedoscore,
-                pilot_duration: this.calculateRemainingDays(el.start_date,el.pilot_duration),
+                pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
                 product_junction_id:el.id,
                 product_id: el.product_id,
                 web_access: el.web_access,
@@ -265,19 +265,6 @@ export class HomeComponent implements OnInit {
   
     }
   
-    calculateRemainingDays(date:any,pilotDuration:any){
-      return pilotDuration - this.fetchRemainingDays(date)
-    }
-  
-    fetchRemainingDays(date:any){
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      return Math.round((this.treatAsUTC(new Date())-this.treatAsUTC(new Date(date)))/millisecondsPerDay)
-    }
-    treatAsUTC(date:any) {
-      const result = new Date(date);
-      result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-      return <any>result;
-  }
   
     updatePilotDuration(id:any, data:any,prod:any){
       let datachunk = new FormData();

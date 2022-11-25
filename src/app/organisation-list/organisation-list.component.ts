@@ -429,7 +429,7 @@ export class OrganisationListComponent implements OnInit {
           const prod:any = orgData.product.map((el:any)=>{
             return {
               fedo_score:el.fedoscore,
-              pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
+              pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
               product_junction_id:el.id,
               product_id: el.product_id,
               web_access: el.web_access,
