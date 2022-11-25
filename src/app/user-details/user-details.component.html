@@ -1,17 +1,9 @@
-<div id="liveAlertPlaceholder" style="           position: fixed;
-
+<div id="liveAlertPlaceholder" style=" position: fixed;
 z-index: 9999;
-
 display: block;
-
-/* background-color: #2069e8; */
-
 width: -webkit-fill-available;
-
 padding: 10px;
-
 margin-top: 15px;
-
 padding-top:10px">
 
     <ngb-alert style = 'background: #0fba64;'type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
@@ -34,7 +26,6 @@ padding-top:10px">
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class=" d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -51,19 +42,16 @@ padding-top:10px">
                                                         name="userName" placeholder="User Full Name" required formControlName="user_name">
                                                         <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>User Full Name</label>
                                                        
-                                                    <div *ngIf="userForm.controls['user_name'].touched && userForm.controls['user_name'].invalid || formSubmitted && userForm.controls['user_name'].invalid" class="invalid-feedback">
-
-                                                        <div *ngIf="userForm.controls['user_name'].errors?.['required']" i18n>
-                                                          Mandatory field
+                                                        <div *ngIf="userForm.controls['user_name'].touched && userForm.controls['user_name'].invalid || formSubmitted && userForm.controls['user_name'].invalid" class="invalid-feedback">
+                                                            <div *ngIf="userForm.controls['user_name'].errors?.['required']" i18n>
+                                                              Mandatory field
+                                                            </div>
+                                                            <div *ngIf="userForm.controls['user_name'].errors?.['pattern']" i18n>
+                                                              Invalid name format. Please enter your full name
+                                                            </div>
                                                         </div>
-                                                        <div *ngIf="userForm.controls['user_name'].errors?.['pattern']" i18n>
-                                                          Invalid name format. Please enter your full name
-                                                        </div>
-                                                      </div>
                                                 
                                                       </div>
-                                                    <!-- </div>
-                                                    </div> -->
                                                   
                                             </div>
                                             <div class="col-md-6">
@@ -128,47 +116,36 @@ padding-top:10px">
                                             </div>
                                         </div>
                                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
+
                                         <div class="form-check">
                                           <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
                                           <label class="form-check-label" for="customRadio1">Own Employee</label>
                                         </div>
+
                                         <div class="form-check">
                                           <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
-                                          <label class="form-check-label" for="customRadio1"
-                                            >Employee of TPA</label
-                                          >
+                                          <label class="form-check-label" for="customRadio1">Employee of TPA</label>
                                         </div>
-                                        <div *ngIf="formSubmitted && thirdParty==false&& notThirdParty==false" style="width: 100%;
-                                        margin-top: 0.25rem;
-                                        font-size: 0.75rem;
-                                        color: #F08F8F;">
 
-                                                  Mandatory field
-                                                
-                                              </div>
+                                            <div *ngIf="formSubmitted && thirdParty==false&& notThirdParty==false" 
+                                            style="width: 100%;
+                                            margin-top: 0.25rem;
+                                            font-size: 0.75rem;
+                                            color: #F08F8F;">
+                                                      Mandatory field
+                                            </div>
 
-                                             
-
-                                              
-
-                                                    <!-- </div>
-                                            </div> -->
                                       </div>
                                       <div class="form-floating " style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
-                                        <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="
-                                            background: #383e4a;
-                                            border: 1px solid #444c5b;
-                                            border-radius: 4px;color: #9BA6AC" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" minlength="3" />
-                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" required class="form-label" i18n>Select third-party Company or Add New</label>
-                                        
+                                        <input type="text" class="form-control" (input)="inputTpa()" id="userName1" style="background: #383e4a; border: 1px solid #444c5b;border-radius: 4px;color: #9BA6AC" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" minlength="3" />
+                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" required class="form-label" i18n>Select third-party Company or Add New</label>  
 
-                  
                                         <datalist id="codes" style="background: white">
                                           <option *ngFor="let c of codeList" >
                                             {{ c }}
                                           </option>
                                         </datalist>
-                                        <!-- <div > -->
+
                                         <button *ngIf="showButton&&addTpafunc==false&&changeButton && userForm.controls['third_party_org_name'].value.length>=3" (click)="addTpa()" id="erase" style="
                                             background: #383e4a;
                                             height: 3..6rem;
@@ -177,60 +154,45 @@ padding-top:10px">
                                             color: grey;
                                             padding-right: 0.5rem;
                                             padding-left: 0.5rem;">+</button>
-                                        <!-- </div> -->
 
                                         <button *ngIf="addTpafunc" class="mdi mdi-check-all" id="erase" style="
-                                        background: #084b23;
-                                        height: 3..6rem;
-                                        border: 1px solid #444c5b;
-                                        border-radius: 4px;
-                                        color: grey;
-                                        padding-right: 0.5rem;
-                                        padding-left: 0.5rem;"></button>
-
-                                        
+                                            background: #084b23;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;"></button>
 
                                       </div>
 
-                                      <div class="mb-3" *ngIf="userForm.controls['third_party_org_name'].touched && thirdParty==true" style="width: 100%;
+                                    <div class="mb-3" *ngIf="userForm.controls['third_party_org_name'].touched && thirdParty==true"
+                                       style="width: 100%;
                                         font-size: 0.75rem;
                                         color: #F08F8F;">
 
-                                                <!-- <div *ngIf="thirdParty==false && notThirdParty==false" i18n> -->
-                                                  
-                                                  <!-- <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['required']" i18n>
-                                                    Mandatory field
-                                                  </div> -->
-
-                                                  <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['minlength']" i18n>
+                                            <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['minlength']" i18n>
                                                     Enter full Third Party Name
-                                                  </div>
+                                            </div>
                                                   
-                                              </div>
-                                              <div class="mb-3" *ngIf="showLiveAlertNextButton" style="width: 100%;
-                                              font-size: 0.75rem;
-                                              color: #F08F8F;">
+                                    </div>
+                                            <div class="mb-3" *ngIf="showLiveAlertNextButton" style="width: 100%;font-size: 0.75rem;color: #F08F8F;">
       
-                                                        {{errorMessageNextButton}}
+                                                {{errorMessageNextButton}}
                                                       
-                                                    </div>
-
-                                              
-                                              
-    
-                                      
+                                            </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
                                 
 
                             </ng-template>
                         </li>
+
                         <li [ngbNavItem]="2">
+
                             <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class="d-sm-inline">Products</span>
                             </a>
-
                                           <ng-template ngbNavContent>
                                             <div style="display: grid;
                                             grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
@@ -265,10 +227,11 @@ padding-top:10px">
                         </li>
 
                         <li [ngbNavItem]="3">
+
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
+
                             <ng-template ngbNavContent>
                                 <div class="row">
                                     <div class="col-12">
@@ -291,11 +254,13 @@ padding-top:10px">
                         <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
                         </div>
+
                         <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
                             <button class="btn btn-secondary" (click)="activeWizard2=1" *ngIf="activeWizard2 !== 3"
                                 [disabled]="activeWizard2===1">Previous</button>
                         </li>
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == 3">
+
                             <div style="    display: grid;
                             grid-template-columns: min-content max-content;
                             justify-content: center;
@@ -305,6 +270,7 @@ padding-top:10px">
                                 <button type="button" class="btn btn-info" (click)="created=false;activeWizard2=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false;userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false; formSubmitted=false; notThirdParty=false; thirdParty=false; addTpafunc=false; showLiveAlertNextButton=false;showLiveAlertAPI=false"
                                     >Add Another User</button>
                             </div>
+
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == 3)">
                             <button type="button" style="width: 100px;" (click)=" checkUserFirstForm();" class="btn btn-info" 
@@ -312,10 +278,9 @@ padding-top:10px">
                             <button type="button" style="width: 100px;" class="btn btn-info" (click)="checkingUserForm()" 
                                 *ngIf="activeWizard2==2&&selectedUserProducts.length!==0">Submit</button>
                         </li>
+
                     </ul>
-    
-    
-    
+
                 </div> <!-- end #basicwizard-->
             </form>
     
@@ -333,11 +298,6 @@ padding-top:10px">
                 <a href="javascript:void(0);" (click)="open(toggleModal1);setValue(person); "  ngbDropdownItem>Create User</a>
             </div>
         </div>            
-        <!-- <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)" (click)="open(toggleModal1)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                <i class="mdi mdi-plus"></i>
-            </a>
-        </div>             -->
         <h4 class="mt-0 header-title" style="color: white;">User List</h4>
 
         <div class="row">
@@ -354,23 +314,14 @@ padding-top:10px">
         </div>
         <div class="col-xl-4 col-md-4">
             <div class="text--start">
-                <!-- <label class="form-label me-1">Show -->
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
                         id="event-category" required #idd [(ngModel)]="activeStatusValue"  (change)="onActiveStatus($event.target)">
                         <option *ngFor="let option of activeStatusOptions" #id [value]="option"  >{{option}}</option>
                     </select>
-                    <!-- entries</label> -->
             </div>
         </div>
-    
-        <!-- <div class="col-md-6" *ngIf="pageSizeOptions.length"> -->
-            
         </div>
-        <!-- <p class="text-muted font-14 mb-3">
-            For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code>
-            to any <code>&lt;table&gt;</code>.
-        </p> -->
 
         <div class="table-responsive" >
             <table class="table advanced-table table-nowrap mb-0">
@@ -405,13 +356,8 @@ padding-top:10px">
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                    <!-- <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>User Info Info</a> -->
-                                    <!-- <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
-                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div> -->
                                     <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
                                     <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
-
-                                    <!-- <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a> -->
                                 <div style="display: flex;
                                     align-items: center;">
                                     <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
@@ -451,9 +397,6 @@ padding-top:10px">
 
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2"
             *ngIf="true">
-            <!-- <div>   
-                Showing  entries
-            </div> -->
         </div>
         </div>
     </div>
@@ -477,7 +420,6 @@ padding-top:10px">
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class=" d-sm-inline">User Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -487,7 +429,7 @@ padding-top:10px">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC"
-                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    oninput=" this.value = this.value.replace(/[0-9]/,'')" 
                                                     pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
                                                     [ngClass]="{'is-invalid':userEditForm.controls['user_name'].touched && userEditForm.controls['user_name'].invalid || formSubmitted && userEditForm.controls['user_name'].invalid}"
                                                     
@@ -576,7 +518,6 @@ padding-top:10px">
 
                         <li [ngbNavItem]="2">
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -601,10 +542,6 @@ padding-top:10px">
                         <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
                         </div>
-                        <!-- <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list)">
-                            <button class="btn btn-secondary" (click)="activeWizard1=1" *ngIf="activeWizard1 !== 3"
-                                [disabled]="activeWizard1===1">Previous</button>
-                        </li> -->
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == 2">
                             <div style="    display: grid;
                             grid-template-columns: min-content max-content;
@@ -612,13 +549,9 @@ padding-top:10px">
                             grid-gap: 0.5rem;">
                                 <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('');userForm.reset();reloadCurrentPage();"
                                     >Close</button>
-                                <!-- <button type="button" class="btn btn-info" (click)="created=false;activeWizard1=1;selectedUserProducts=[];userForm.reset();showLiveAlert=false; userForm.controls['org_id'].setValue(organaization_id);showLiveAlertNextButton=false; formSubmitted=false; notThirdParty=false; thirdParty=false; addTpafunc=false; showLiveAlertNextButton=false;showLiveAlertAPI=false"
-                                    >Add Another User</button> -->
                             </div>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="activeWizard2 == 1">
-                            <!-- <button type="button" style="width: 100px;" (click)="  checkUserFirstForm()" class="btn btn-info" 
-                                *ngIf=" activeWizard1==1">Next</button> -->
                             <button type="button" style="width: 100px;" class="btn btn-info" (click)="editUser()">Submit</button>
                         </li>
                     </ul>
@@ -654,10 +587,6 @@ padding-top:10px">
                                     <br/>
                     Good day!
             </p>
-            
-                    <!-- <div style="text-align-last:center">
-                        <button type="button" style="width: 100px;border-radius: 4px;" class="btn btn-info" >Close</button>
-                    </div> -->
         </div>
 
     </div> 
