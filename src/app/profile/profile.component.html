@@ -16,7 +16,6 @@
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class=" d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -84,14 +83,6 @@
                                                 <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
-                                                    <!-- <div *ngIf="OrgDetailsEditForm && form1['organization_email'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
-                                                            Mandatory field
-                                                          </div>
-                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
-                                                            Enter full Organisation Name
-                                                          </div>
-                                                    </div> -->
                                             </div>
                                         </div>
                                             <div class="col-md-6">
@@ -114,13 +105,12 @@
                                         </div>
     
                                       
-                                    </div> <!-- end col -->
-                                </div> <!-- end row -->
+                                    </div> 
+                                </div> 
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none   ;">
-                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -164,37 +154,19 @@
     
     
     
-                </div> <!-- end #basicwizard-->
+                </div> 
             </form>
     
-        </div> <!-- end card-body -->
-    </div> <!-- end card-->
+        </div> 
+    </div> 
 </ng-template>
 
 <div class="row" >
-    <!-- <div class="col-xl-3 col-md-6"></div> -->
         <div class="col-xl-8 col-md-8" style="display:inline-grid" >
             <div class="card layout-style" style="background: #313844; border-radius:10px">
                     <div style="margin:1.5rem" >
                     <h4 style="color: white;">Personal Details</h4>
-
-                        <!-- <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
-                        align-self: center;" >
-                            <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                                <i class="mdi mdi-pencil"></i>
-                            </a>
-                        </div> -->
                     </div>
-                    <!-- <div class="card-body">
-
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Organisation Name</h4>
-                        <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;font-weight: 500;
-                        font-size: 1.2rem;
-                        line-height: 22px;
-                        ">{{organization_name}}</p>
-                    </div> -->
                     <div class="card-body" style="grid-auto-flow: column;
                     display: grid; grid-template-columns: 1fr 1fr;">
                         <div>
@@ -273,7 +245,6 @@
                             <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit;    margin-bottom: 0.3rem;"
                             (click)="onRemove($event)">
                             <img src="./assets/images/Vector.png"  style="font-size: x-large;">
-                            <!-- <p>Delete Logo</p> -->
                         </a>
                         <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
     

@@ -58,7 +58,6 @@ export class RecoverPasswordComponent implements OnInit {
    * On form submit
    */
   onSubmit(): void {
-    console.log('the for valid', this.formValues['email'].invalid)
     this.formSubmitted = true;
     if(this.orgLogin == false){
       this.adminService.forgotPassword({username: this.resetForm.value.email})
@@ -69,16 +68,9 @@ export class RecoverPasswordComponent implements OnInit {
           this.successMessage = "We have sent you an email containing an OTP to reset your password";
           this.titleString =''
           this.errorMessage = ''
-        //  this.router.navigate(['/home']);
         },
         error: (error: string) => {
-          // this.orgLogin = true;
-          // this.formSubmitted = true;
-          console.log('the error =>',error);
-          this.errorMessage = 'Email does not exist. Please check for typos and try again';
-          // this.titleString =''
-
-  
+          this.errorMessage = 'Email does not exist. Please check for typos and try again';  
         }});
     }
     else{
@@ -92,14 +84,8 @@ export class RecoverPasswordComponent implements OnInit {
 
         },
         error: (error: string) => {
-          // this.orgLogin = true;
-          // this.formSubmitted = true;
-          console.log('the error =>',error);
           this.errorMessage = 'Wrong OTP. Please check and enter correct OTP';
-          this.titleString =''
-          // this.router.navigate(['./auth/orgLogin'], );
-
-  
+          this.titleString =''  
         }});
       }
 

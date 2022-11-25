@@ -35,25 +35,6 @@ export class SettingsComponent implements OnInit {
   srcImage:any='https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
   files: File[] = [];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   constructor(
     private readonly route: ActivatedRoute,
     private authenticationService: AuthenticationService,
@@ -61,23 +42,15 @@ export class SettingsComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private sanitizer: DomSanitizer, 
-
-
-
-
   ) { }
 
   ngOnInit(): void {
 
     this.loggedInUser = <any>this.authenticationService.currentUser();
     this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
-
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
-
-
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
-      next:(res:any) =>{
-        
+      next:(res:any) =>{        
         this.organization_name= res[0].organization_name;
         this.admin_name = res[0].admin_name;
         this.organization_email = res[0].organization_email;
@@ -88,11 +61,6 @@ export class SettingsComponent implements OnInit {
         this.id= res[0].id;
         this.product= res[0].product;
         this.srcImage=res[0].logo === ''||!res[0].logo ? "https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png": res[0].logo ;
-
-
-
-
-
       }});
     this.OrgForm = this.fb.group({
         organization_name:[this.organization_name,[Validators.required]],
@@ -126,12 +94,10 @@ export class SettingsComponent implements OnInit {
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
-        console.log('the success=>',res);
         this.activeWizard2=this.activeWizard2+1;
         this.created=true;
       },
       error: (err) => {
-        console.log('the failure=>',err);
         this.errorOrgMessage=err;
         this.showOrgLiveAlert=true;
       },
@@ -173,7 +139,6 @@ createEditproc(products:any,OrgProducts:any){
      event_mode:el.event_mode
    }})
    this.list=this.list+list.length
-   console.log('asdfq',list)
    this.products = product;
    this.listdetails = list;
  }
@@ -193,18 +158,13 @@ createEditproc(products:any,OrgProducts:any){
 onSelect(event: any) {
 
   this.files =[...event.addedFiles];
-  console.log('the iage',event.addedFiles);
   this.srcImage = this.getPreviewUrl(event.addedFiles[0]);
 
   var data = new FormData();
   data.append('file', event.addedFiles[0], event.addedFiles[0].name)
   this.adminService.updateImageLogoInOrgDb(this.id,data).subscribe({
-    next: (res) => {
-      console.log('the success=>',res);
-    },
-    error: (err) => {
-      console.log('the failure=>',err);
-    },
+    next: (res) => {},
+    error: (err) => {},
     complete: () => { }
   });
 }
@@ -217,13 +177,10 @@ onRemove(event: any) {
   this.files.splice(this.files.indexOf(event), 1);
   this.adminService.deleteImageLogoFromOrgDb(this.id).subscribe({
     next: (res) => {
-      console.log('the success=>',res);
       this.srcImage = 'https://fedo-vitals.s3.ap-south-1.amazonaws.com/MicrosoftTeams-image%20%282%29.png';
 
     },
-    error: (err) => {
-      console.log('the failure=>',err);
-    },
+    error: (err) => { },
     complete: () => { }
   });
 }

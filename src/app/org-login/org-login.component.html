@@ -7,9 +7,6 @@
             
               <form name="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <app-ui-preloader [display]="loading"></app-ui-preloader>
-                <!-- <ngb-alert [dismissible]="false" type="danger" *ngIf="error">
-                  {{ error }}
-                </ngb-alert> -->
                 <div class="mb-3">
       <div class="form-floating ">
 
@@ -80,10 +77,6 @@
                     <a routerLink="../recover-password" class="text-muted ms-1" i18n><i class="fa fa-lock me-1"></i>Forgot your
                       password?</a>
                   </p>
-                  <!-- <p class="text-muted" i18n>
-                    Don't have an account?
-                    <a routerLink="../register" class="text-dark ms-1"><b>Sign Up</b></a>
-                  </p> -->
                 </div>
               </div>
           

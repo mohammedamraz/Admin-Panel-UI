@@ -130,15 +130,11 @@ export class AdminConsoleService {
 
   //this api service is calling but we have to use this api in the next button when user is calling
   fetchUserDataIfExists(data:any){
-
-   
-
     return this.http.get(`${API_URL}users/${data.email}/${data.mobile}`)
 
   }
   
   //delete image logo from the organization db
-
   deleteImageLogoFromOrgDb(id:any){
     
     return this.http.delete(`${API_URL}org/logo/${id}`)
@@ -218,25 +214,21 @@ export class AdminConsoleService {
       }
 
   ResendInvitationMailForOrg(content:any){
-    console.log("daya",content);
     
     return this.http.post(`${ADMIN_URL}notification/resend/email/org`,content);
       }
 
   ResendInvitationMailForUser(content:any){
-    console.log("datat",content);
     
     return this.http.post(`${ADMIN_URL}notification/resend/email/user`,content);
       }
 
   sendEmailOnceUserIsBackActive(content:any){
-    console.log("datat",content);
     
     return this.http.post(`${ADMIN_URL}notification/email/user/active`,content);
   }
 
   sendEmailOnceOrgIsBackActive(content:any){
-    console.log("datat",content);
     
     return this.http.post(`${ADMIN_URL}notification/email/org/active`,content);
   }
@@ -248,7 +240,6 @@ export class AdminConsoleService {
   breadcrumbs(event:any){
     let name ='';
     const loggedInUser = <any>this.authService.currentUser();
-    // let name = loggedInUser.org_data[0].organization_name;
 
     if(event.url == '/vitals-dashboard'){
       this.breadCrumbs.next([
@@ -328,8 +319,7 @@ export class AdminConsoleService {
     ])
     }
 
-    console.log('event.url.slic(4,) === home =>',event.url)
-    console.log('event.url.slic(4,) === home =>',event.url)
+
 
 
     if(event.url?.split('/')[1] == 'vitals-dashboard'){
@@ -364,7 +354,6 @@ export class AdminConsoleService {
     if(event.url?.split('/')[2] =='home'){
       if(loggedInUser.hasOwnProperty('user_data')){
         //user
-        console.log('im an user')
         this.breadCrumbs.next([
           {label: `Home`, path: event.url, active: true}
         ])
@@ -373,7 +362,6 @@ export class AdminConsoleService {
         //orgAdmin
         let userName = '';
         this.fetchUserListById(event.url?.split('/')[3]).subscribe((doc:any) =>{
-          console.log('the resposn => ', doc)
           userName = doc[0].user_name
           this.breadCrumbs.next([
             {label: `Home`, path: `/${event.url?.split('/')[1]}/dashboard` },
@@ -409,7 +397,6 @@ export class AdminConsoleService {
       ])
     }
     
-    console.log('the url', event.url)
     if(event.url?.split('/')[2] =='report'){
       if(loggedInUser.hasOwnProperty('user_data')){
         //user
@@ -417,7 +404,6 @@ export class AdminConsoleService {
       }
       if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
         //orgAdmin
-        console.log('hi org')
         this.breadCrumbs.next([
           {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
           {label: `${event.url?.split('/')[3][0]== '1' ? 'HSA' : (event.url.split('/')[3][0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url,},
@@ -428,7 +414,6 @@ export class AdminConsoleService {
         //superadmin
         this.fetchOrgById(event.url?.split('/')[1]).subscribe({
           next: (res:any) => {
-            console.log('the response we have =>',event.url.split('/')[3][1])
             name=res[0].organization_name
             this.breadCrumbs.next([
               { label: 'Home', path: 'home' },

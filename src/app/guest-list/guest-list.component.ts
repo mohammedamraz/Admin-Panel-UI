@@ -40,8 +40,6 @@ export class GuestListComponent implements OnInit {
   totaltest:any=0;
   graphData:any=[]
   attempts : any = 0;
-  // email:any=''
-
   created:boolean=false;
   constructor(
     private readonly route: ActivatedRoute,
@@ -54,54 +52,25 @@ export class GuestListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
-    console.log("hey manaff");
-    this.route.params.subscribe((val:any) =>{
-      // this.orgId = val.orgId;
-      this.prodId = val.prodId;
-      // this.route.queryParams.subscribe((val:any) => {
-      //   console.log('the value from query params => ', val)
-      //   this.userId = val.userId;
-      //   console.log('the user Id => ', this.userId)
-      // })
-  
+      this.route.params.subscribe((val:any) =>{
+      this.prodId = val.prodId;  
       this.tableData = []
       this.total_user=0;
         this.currentPage=0
         this.total_pages=0
-      this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
-        console.log("rwdsfxc",doc);
-        
+      this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{   
         this.tableData = doc.data;
         this.total_user=doc.total;
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
-          
-    
         })
-
-
     })
   }
   enableScan(email:any,name:any,attempts:any){
-console.log("WRdcrwsdzfxcrsdx",attempts);
-
     this.user_email =  email;
     this.user_name=name
     this.attempts = attempts
-    
-    // this.enableAdditionalScan=this.fb.group({
-
-
-      
-    // })
-
-
     this.open(<TemplateRef<NgbModal>><unknown>this.input3);
-   
-    
-  
-
   }
 
 
@@ -112,9 +81,6 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
   
   loadPage(val:any){
     this.pageNumber=val
-    console.log("valueeeee", this.pageNumber);
-    
-
     this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData = doc.data;
       this.total_user=doc.total;
@@ -126,15 +92,12 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
 
   onFilter(data:any){
     this.entries=data.value
-    console.log("lavueeeeee", this.entries);
     this.adminService.fetchGuests(this.prodId,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData = doc.data;
       this.total_user=doc.total;
       this.currentPage=doc.page
       this.total_pages=doc.total_pages  
     })
-
-
   }
 
 
@@ -144,17 +107,12 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
      'color': '#5FB6DB',
      'pointer-events': this.created ? 'none':'auto'
     }
- 
-   
- 
    return stone
    }
 
    exportexcel(data:any) {
 
     const stepData = data.map((doc:any) =>{
-      
-      
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
@@ -182,12 +140,6 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
         bmi:doc.bmi,
         smoker_rate :doc['smoker_rate'],
         smoker_status : doc['smoker_status']
-        
-      
-
-
-
-
       }
 
     })
@@ -218,7 +170,6 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
   },
   };
     for(let i=1;i<=Heading[1].length;i++){
-      console.log('char =>', String.fromCharCode(64+i)+1)
       ws[String.fromCharCode(64+i)+2].s = {
         font: {
           color: { rgb: "FFFFFF" },
@@ -296,7 +247,6 @@ console.log("WRdcrwsdzfxcrsdx",attempts);
       }
     }
     ws["!merges"] = merge;
-    console.log('ws =>', ws)
     XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
@@ -318,12 +268,5 @@ guestUpdate(){
 reloadCurrentPage() {
   window. location. reload();
   }
-
-// this.adminService.updateGuestUser(this.guestdata).subscribe((doc:any)=>
-// {
-//   return doc
-// })
-  
-
 }
 
