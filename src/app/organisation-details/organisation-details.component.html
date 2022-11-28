@@ -7,7 +7,6 @@ margin-top: 15px;
 padding-top:10px">
     <ngb-alert style = 'background: #0fba64;'type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
 </div>
-<h4 *ngIf="orglogin==false" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
@@ -624,74 +623,144 @@ padding-top:10px">
 </ng-template>
 
 <div class="row" *ngIf="orglogin==false" >
-    <div class="col-xl-8 col-md-8" style="display:inline-grid" >
+    <div class="col-xl-4 col-md-4" style="display:inline-grid" >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Organisation Name</h4>
-                        <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;font-weight: 500;
-                        font-size: 1.2rem;
-                        line-height: 22px;
-                        ">{{organization_name}}</p>
-                    </div>
-                    <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
-                    align-self: center;" *ngIf="userlogin">
+            <div class="card-body">
+                    <div style="grid-auto-flow: column;
+                    display: grid; grid-template-columns: auto auto;">
+                        <div>
+                            <h4 *ngIf="orglogin==false" style="color: white;font-weight:400">Organisation Details</h4>
+    
+                        </div>
+                        <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                        align-self: center;" *ngIf="userlogin">
                         <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
                 </div>
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size:1.2rem ;">Org Admin Full Name</h4>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                    font-size: 0.9rem;">Organisation Name</h4>
+                    <p class="sub-header" style=" color: #fff;
+                    margin-bottom: 0;font-weight: 400;
+                    font-size: 1.2rem;
+                    line-height: 22px;
+                    ">{{organization_name}}</p>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size:0.9rem ;">Org Admin Full Name</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
                         font-size: 1.2rem;
                         line-height: 22px;">{{admin_name}}</p>
-                    </div>
-                    <div>
+                    <!-- </div>
+                    <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Designation</h4>
+                        font-size: 0.9rem;">Designation</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{designation}}</p>
+                    <!-- </div>
+                </div> -->
+                <!-- <div class="card-body" > -->
+                    <!-- <div> -->
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Mobile Number</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
+                    <!-- </div>
+                    <div> -->
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Email Address</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{organization_email}}</p>
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Designation</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
                         font-size: 1.2rem;
                         line-height: 22px;">{{designation}}</p>
                     </div>
-                </div>
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid;grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Mobile Number</h4>
-                        <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;
-                        font-weight: 500;
-                        font-size: 1.2rem;
-                        line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
-                    </div>
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Email Address</h4>
-                        <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;
-                        font-weight: 500;
-                        font-size: 1.2rem;
-                        line-height: 22px;">{{organization_email}}</p>
-                    </div>
-                </div>
 
         </div>
     </div>
-    <div class="col-xl-4 col-md-4"  >
+    <div class="col-xl-4 col-md-4" style="display:inline-grid" >
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+            <div class="card-body">
+                    <div style="grid-auto-flow: column;
+                    display: grid; grid-template-columns: auto auto;">
+                        <div>
+                            <h4 *ngIf="orglogin==false" style="color: white;font-weight:400">Org Admin Details</h4>
+    
+                        </div>
+                        <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                        align-self: center;" *ngIf="userlogin">
+                        <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                            <i class="mdi mdi-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                    font-size: 0.9rem;">Name</h4>
+                    <p class="sub-header" style=" color: #fff;
+                    margin-bottom: 0;font-weight: 400;
+                    font-size: 1.2rem;
+                    line-height: 22px;
+                    ">{{organization_name}}</p>
+                    <!-- <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size:0.9rem ;">Org Admin Full Name</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{admin_name}}</p> -->
+                    <!-- </div>
+                    <div> -->
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Designation</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{designation}}</p>
+                    <!-- </div>
+                </div> -->
+                <!-- <div class="card-body" > -->
+                    <!-- <div> -->
+                        <!-- </div>
+                            <div> -->
+                                <h4 style="color: #98a6ad;font-weight: 100;
+                                font-size: 0.9rem;">Email</h4>
+                                <p class="sub-header" style=" color: #fff;
+                                margin-bottom: 0;
+                                font-weight: 400;
+                                font-size: 1.2rem;
+                                line-height: 22px;">{{organization_email}}</p>
+                                
+                                <h4 style="color: #98a6ad;font-weight: 100;
+                                font-size: 0.9rem;">Mobile</h4>
+                                <p class="sub-header" style=" color: #fff;
+                                margin-bottom: 0;
+                                font-weight: 400;
+                                font-size: 1.2rem;
+                                line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
+                                
+                            </div>
+                            
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-4 " style="display:inline-grid" >
         <div  class="card" style="background: #313844; border-radius:10px">
-            <h4 *ngIf="orglogin"  style="color: white; margin: 2rem 0 0 2rem">Manage Logo</h4>
+            <h4   style="color: white; margin: 2rem 0 0 2rem">Manage Logo</h4>
             
             <div class="card-body mt-1 mb-0 shadow-none border"  >
                 <div  style="align-self: center;">

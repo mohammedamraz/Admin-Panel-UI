@@ -287,10 +287,22 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-4 col-md-6" style="display: grid">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <h4 class="mt-0 header-title" style="color: white;">Fedo Score</h4>
+                <div class="form-check form-switch mt-3" style=" display: block;">
+                    <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
+                    <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
+                    <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-xl-4 col-md-6 " style="display: grid">
         <div class="card pt-2  " style="background: #313844;border-radius: 10px;"  >
             <div class="card-body widget-user ">
-                <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
+                <h4 class="mt-0 header-title " style="color: white;">Apps Available</h4>
                 <div class="download-style " >
                 <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
@@ -299,22 +311,10 @@
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
                 <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
-                    <button  style="height: 3.5rem;width: 9.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                    <button  style="height: 3.5rem;width: auto; background-color: black;  border-radius: 11px;"> <img src="./assets/images/Button - WebApp.png" style="height: 3rem;"></button>
                 </a>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-md-6" style="display: grid">
-        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
-            <div class="card-body widget-user">
-                <h4 class="mt-0 header-title" style="color: white;">Enable Fedo Score for Mobile App    </h4>
-                <div class="form-check form-switch mt-3" style=" display: block;">
-                    <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
-                    <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
-                    <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
-                </div>
             </div>
         </div>
     </div>
