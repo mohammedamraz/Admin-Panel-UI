@@ -16,7 +16,6 @@
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <!-- <i class="mdi mdi-account-circle me-1"></i> -->
                                 <span class=" d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -84,14 +83,6 @@
                                                 <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
                                                     name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
-                                                    <!-- <div *ngIf="OrgDetailsEditForm && form1['organization_email'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
-                                                            Mandatory field
-                                                          </div>
-                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
-                                                            Enter full Organisation Name
-                                                          </div>
-                                                    </div> -->
                                             </div>
                                         </div>
                                             <div class="col-md-6">
@@ -112,15 +103,12 @@
                                             </div>
                                         </div>
                                         </div>
-    
-                                      
-                                    </div> <!-- end col -->
-                                </div> <!-- end row -->
+                                    </div>
+                                </div>
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
                             <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none   ;">
-                                <!-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> -->
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -164,15 +152,14 @@
     
     
     
-                </div> <!-- end #basicwizard-->
+                </div> 
             </form>
     
-        </div> <!-- end card-body -->
-    </div> <!-- end card-->
+        </div> 
+    </div>
 </ng-template>
 
 <div class="row" >
-    <!-- <div class="col-xl-3 col-md-6"></div> -->
         <div class="col-xl-8 col-md-8" style="display:inline-grid" >
             <div class="card layout-style" style="background: #313844; border-radius:10px">
                     <div class="card-body" style="grid-auto-flow: column;padding-bottom: 0;
@@ -273,14 +260,11 @@
                             <a href="javascript:void(0)" class="btn btn-link btn-lg text-muted" style="padding: 0;display:inherit;    margin-bottom: 0.3rem;"
                             (click)="onRemove($event)">
                             <img src="./assets/images/Vector.png"  style="font-size: x-large;">
-                            <!-- <p>Delete Logo</p> -->
                         </a>
                         <p style="text-align: center; font-size: 13px;    margin-bottom: 18px; color: #9BA6AC;">Delete Logo</p>
     
                     </div>
                 </div>
-                    
-    
                     </div>
             </div>
     

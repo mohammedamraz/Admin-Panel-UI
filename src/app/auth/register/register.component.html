@@ -1,70 +1,40 @@
 <app-default-layout>
-
     <div class="text-center mb-4">
         <h4 *ngIf="verify==false" class="text-uppercase mt-0" style="color: #fff ;" i18n>Sign Up</h4>
-        <!-- <h4 *ngIf="verify==true" class=" mt-0" style="color: #fff ;" i18n>Verify Email</h4> -->
     </div>
-
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
         <app-ui-preloader [display]="loading"></app-ui-preloader>
-        <!-- <ngb-alert [dismissible]="false" type="danger" *ngIf="error">
-            {{ error }}
-        </ngb-alert> -->
         <div class="mb-3">
-            <!-- <label for="fullname" class="form-label" i18n>Full Name</label> -->
-            <!-- <input class="form-control" type="text" id="fullname" i18n-placeholder placeholder="Enter your name"
-                formControlName="name" required style="    background: #383E4A;
-                border: 1px solid #444C5B;
-                border-radius: 4px;"
-                [ngClass]="{'is-invalid':formSubmitted && formValues['name'].invalid}" /> -->
-            <!-- <div *ngIf="formSubmitted && formValues['name'].invalid" class="invalid-feedback">
-
-                <div *ngIf="formValues['name'].errors?.['required']" i18n>
-                    Name is required.
-                </div>
-
-            </div> -->
         </div>
         <div class="mb-3" *ngIf="signUp === false">
       <div class="form-floating ">
-
             <input class="form-control" type="email" id="emailaddress" i18n-placeholder placeholder="Enter your email"
                 formControlName="email" required style="height: 3rem;"  readonly="readonly"
                 [ngClass]="{'is-invalid':formSubmitted && formValues['email'].invalid}"/>
             <label for="floatingInput" class="form-label" i18n>Email Address</label>
-
-            <!-- <label for="floatingInput" class="form-label" i18n>Email Address</label> -->
-
             <div *ngIf="formSubmitted && formValues['email'].invalid" class="invalid-feedback">
-
                 <div *ngIf="formValues['email'].errors?.['required']" i18n>
                     Mandatory field
                 </div>
                 <div *ngIf="formValues['email'].errors?.['email']" i18n>
                     Email must be a valid Email Address
                 </div>
-
             </div>
         </div>
         </div>
         <div class="mb-3" *ngIf="signUp === false">
       <div class="form-floating ">
-
             <input class="form-control" type="password" id="password" i18n-placeholder placeholder="Enter your password"
                 formControlName="password" [ngClass]="{'is-invalid':formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid}" style="height: 3rem;" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                 required />
             <label for="floatingInput" class="form-label" i18n>New Password</label>
-
-
             <div *ngIf="formValues['password'].touched && formValues['password'].invalid ||formSubmitted && formValues['password'].invalid " class="invalid-feedback">
-
                 <div *ngIf="formValues['password'].errors?.['required']" i18n>
                     Mandatory field
                 </div>
                 <div *ngIf="formValues['password'].errors?.['pattern']">
                     Invalid Password format. Please enter valid Password format
                </div>
-
             </div>
         </div>
         </div>
@@ -100,45 +70,8 @@
                </div>
         </div>
         </div>
-        <!-- <div class="mb-3" *ngIf="signUp === true">
-      <div class="form-floating ">
-
-            <input class="form-control" type="password" id="ConfirmationCode" i18n-placeholder placeholder="Enter your Confirmation Code" minlength="6" 
-            oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="6" 
-                formControlName="ConfirmationCode" [ngClass]="{'is-invalid':formValues['ConfirmationCode'].touched && formValues['ConfirmationCode'].invalid}" style="height: 3rem;"
-                required />
-            <label for="floatingInput" class="form-label" i18n>Enter OTP</label>
-            <small id="emailHelp" class="form-text text-muted">Check email for OTP</small>
-
-            <div *ngIf="formValues['ConfirmationCode'].touched " class="invalid-feedback">
-
-                <div *ngIf="formValues['ConfirmationCode'].errors?.['required']" i18n>
-                    Mandatory field
-                </div>
-                <div *ngIf="formValues['ConfirmationCode'].errors?.['minlength']">
-                    Invalid OTP format. Please enter valid OTP format
-               </div>
-               
-
-            </div>
-            <div *ngIf="error" class="mt-1" style="width: 100%;
-            font-size: 0.75rem;
-            color: #F08F8F;">
-                {{error}}
-           </div>
-            
-        </div>
-        </div> -->
-        <!-- <div class="mb-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="checkbox-signup">
-                <label class="form-check-label" for="checkbox-signup" i18n>I accept <a href="javascript: void(0);"
-                        class="text-dark">Terms and Conditions</a></label>
-            </div>
-        </div> -->
         <div class="mb-3 text-center d-grid">
             <button *ngIf="verify==false" class="btn btn-primary" type="submit" i18n> Sign Up </button>
-            <!-- <button *ngIf="verify==true" class="btn btn-primary" (click)="onVerify()" i18n> Verify</button> -->
         </div>
 
     </form>

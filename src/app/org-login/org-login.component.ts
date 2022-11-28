@@ -35,7 +35,6 @@ export class OrgLoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this.returnUrl;
   }
 
@@ -48,18 +47,13 @@ export class OrgLoginComponent implements OnInit {
   * On submit form
   */
   onSubmit(): void {
-    // this.router.navigate([`${1}/dashboard`]);
-
-    // this.error='';
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      // this.loading = true;
-
       this.adminService.orgAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
       .pipe(first())
       .subscribe({
        next: (data: any) => {
-         console.log('there is a ssuucesesdf',data);
+        this.authenticationService.logout();
         if(data.hasOwnProperty('user_data')){
           data['orglogin']=false;
           if(this.formValues['rememberMe'].value){
@@ -72,7 +66,7 @@ export class OrgLoginComponent implements OnInit {
           this.adminConsoleService.httpLoading$.next(true);
           this.adminService.fetchUserProdById(data.user_data[0].id).subscribe({
             next:(res:any) =>{
-              this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/home/'+data.user_data[0].id : data.org_data[0].id+'/dashboard' }`]);
+              this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id+'/userdashboard/'+res[0].product_id : data.org_data[0].id+'/dashboard' }`]);
             }})
         }
         else if(data.org_data[0].type != 'admin'){
@@ -87,8 +81,7 @@ export class OrgLoginComponent implements OnInit {
           this.adminConsoleService.httpLoading$.next(true);
           this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
         } 
-        else { console.log("super admin");
-                  this.error = 'Invalid email or password';}
+        else { this.error = 'Invalid email or password';}
 
         
         },

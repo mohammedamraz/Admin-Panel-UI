@@ -2,10 +2,8 @@ import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from '../core/service/auth.service';
-import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
-import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
 import { AdminConsoleService } from '../services/admin-console.service';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx-js-style'; 
 
 
 @Component({
@@ -34,113 +32,8 @@ todayDate=new Date();
 created_date : any
 fileName='ExcelSheet.xlsx';
 page:any=1;
-perpage:any=1000
-
-
-
-
-  barChartOptions : ChartDataset = {
-    type: 'bar',
-    data: {
-        labels: ["January", "February", "March"],
-        datasets: [
-            {
-                label: "Sales Analytics",
-                backgroundColor: "RGBA(3,149,253,0.3)",
-                borderColor: "#0388FD",
-                borderWidth: 1,
-                hoverBackgroundColor: "RGBA(3,149,253,0.6)",
-                hoverBorderColor: "#0388FD",
-                data: [65,89 , 80,]
-            },
-            
-        ],
-        
-    },
-    chartOptions: {
-        maintainAspectRatio: false,
-    }
-}
-chartOptions: Partial<ApexChartOptions> = {
-  series: [
-    {
-      name: 'Series A',
-      type: 'area',
-      data: [50, 75, 30,],
-    },
-    {
-      name: 'Series B',
-      type: 'line',
-      data: [0, 40, 80, ],
-    },
-  ],
-  chart: {
-    height: 268,
-    type: 'line',
-    toolbar: {
-      show: false,
-    },
-    stacked: false,
-    zoom: {
-      enabled: false,
-    },
-  },
-  stroke: {
-    curve: 'smooth',
-    width: [3, 3],
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    show: false,
-  },
-  fill: {
-    type: 'solid',
-    opacity: [0, 1],
-  },
-  colors: ['#3cc469', '#188ae2'],
-  xaxis: {
-    categories: ['W1', 'W2', 'W3', ],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  yaxis: {
-    tickAmount: 4,
-    min: 0,
-    max: 100,
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  grid: {
-    show: false,
-    padding: {
-      top: 0,
-      bottom: 0,
-    },
-  },
-  tooltip: {
-    theme: 'dark',
-  },
-
-};
-
-
-
-
-
+perpage:any=1000;
+organization_name:any=''
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -159,15 +52,9 @@ chartOptions: Partial<ApexChartOptions> = {
   ngOnInit(): void {        
     
     this.route.params.subscribe((val:any) =>{
-      this.graphArray = [];
-    console.log("erthtdhfhgdgdgdthhg hielmdall");
-    
+      this.graphArray = [];    
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
     this.loggedInUser = <any>this.authService.currentUser();
-
-    //check which id is 
-    
-    // if(data.user_data){
 
       if(this.loggedInUser.user_data){
         this.route.params.subscribe((val:any) =>{
@@ -177,52 +64,40 @@ chartOptions: Partial<ApexChartOptions> = {
           
           this.prodId = val.Id;    
         }) 
-
-        //here we should be calling the fetchorgbyid and giving the condition and calling the popup once org is inactive 
-
         if(this.loggedInUser.user_data[0].is_deleted){
           this.open(<TemplateRef<NgbModal>><unknown>this.input);
         }
         
-
       }
       else { 
         this.route.params.subscribe((val:any) =>{
           this.show=false;
           this.orgId = val.orgId;
           this.userId = val.userId;
-          
           this.prodId = val.Id;    
         })
 
       }
 
-      console.log("org_id",this.product.org_id);
       this.adminService.fetchUserListById(this.userId).subscribe({
         next:(data:any)=>{
-          console.log("data",data)
           this.created_date= new Date(data[0].created_date);
           this.user_name = data[0].user_name;
-        this.email = data[0].email;
-        this.mobile = data[0].mobile;
-        this.designation = data[0].designation;
+          this.email = data[0].email;
+          this.mobile = data[0].mobile;
+          this.designation = data[0].designation;
 
         }
       })
-      console.log("org_id",this.product.org_id);
       this.adminService.fetchUserProdById(this.userId).subscribe({
         next:(res:any) =>{
           this.products = res;
-          
-         
-
+      
           const selected =res.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
-          this.product= res[selected];
-          // console.log("org_id",this.product.org_id);
-          
+          this.product= res[selected];          
           this.adminService.fetchOrgById(this.orgId).subscribe({
             next:(res:any) =>{  
-              
+              this.organization_name=res[0].organization_name
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
 
               if(this.prodId==undefined){
@@ -231,8 +106,6 @@ chartOptions: Partial<ApexChartOptions> = {
                         if(res[0].is_deleted){
                           this.open(<TemplateRef<NgbModal>><unknown>this.input);
                         }
-                
-          
         }
                 
 
@@ -246,7 +119,6 @@ chartOptions: Partial<ApexChartOptions> = {
           this.days = res[0].product[spotted].pilot_duration
               if(res[0].product[spotted].status =="Expired"){
                 this.days = res[0].product[spotted].pilot_duration
-                // here there should be change for the pilot expired error thats coming while switching the dashboard
                 this.show=true
               }
         
@@ -257,41 +129,25 @@ chartOptions: Partial<ApexChartOptions> = {
           next:(res:any) =>{
             this.testScan = res.total_tests 
           }});
-    // })
-    
-    
-
-    
 
   });
   }
   async createGraphArrayItems(products:any,date:any){
 
-    console.log('where is id =>',  this.prodId)
-
-
     if(this.prodId==undefined){
-      console.log("products",products);
       const requests = products.map((doc:any) =>
       this.fetchGraphs(doc.product_id,date));
-    Promise.all(requests).then(body => { 
+      Promise.all(requests).then(body => { 
         body.forEach(res => {
-          console.log('higeass =>',res)
         this.graphArray.push(res)
         })
      });
-      //  {
-      //   return this.fetchgraphdetails(doc.product_id,date)
-      // });
     }
-    else{
-      console.log("products",products);
-      
+    else{      
       const requests = products.map((doc:any) =>
       this.fetchGraphs(doc.product_id,date));
-    Promise.all(requests).then(body => { 
+      Promise.all(requests).then(body => { 
         body.forEach(res => {
-          console.log('higeass =>',res)
         this.graphArray.push(res)
         })
      });
@@ -316,7 +172,6 @@ chartOptions: Partial<ApexChartOptions> = {
             })
          })
         })
-        console.log('why this kolaveri =>',details)
         resolve(details)
      })
     })
@@ -347,7 +202,6 @@ chartOptions: Partial<ApexChartOptions> = {
       performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NA':doc[1].user_name;
       performaceDetails['prodId']=prodId;
       performaceDetails['period']=period;
-
       performaceDetails['graph']={
         series: [
           {
@@ -410,8 +264,6 @@ chartOptions: Partial<ApexChartOptions> = {
         },
         yaxis: {
           tickAmount: 4,
-          // min: 0,
-          // max: 100,
           labels: {
             style: {
               colors: '#adb5bd',
@@ -425,20 +277,13 @@ chartOptions: Partial<ApexChartOptions> = {
         grid: {
           show: true,
           borderColor: '#f7f7f7',
-          // padding: {
-          //   top: 0,
-          //   bottom: 0,
-          // },
+        
         },
         tooltip: {
           theme: 'dark',
         },
       }
       resolve(performaceDetails)
-       // performaceDetails['totalScans'] = doc[0].total_org_tests;
-      // performaceDetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
-      // performaceDetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
-      // performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )   
     })
     })
   }
@@ -474,7 +319,6 @@ chartOptions: Partial<ApexChartOptions> = {
     
       graphdetails['prodId'] = prodId;
       graphdetails['date'] = date
-      // graphdetails['name'] =prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' );
       graphdetails['graph'] = {
         type: 'bar',
         data: {
@@ -505,7 +349,6 @@ chartOptions: Partial<ApexChartOptions> = {
     const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
     const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
 
-    console.log('oyul =>', datechecked)
     return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
   }
   getDate(date:any){
@@ -513,8 +356,6 @@ chartOptions: Partial<ApexChartOptions> = {
    }
 
   checkdate(event:any,prodId:any,date:any){
-    console.log('hello date =>', date);
-    console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
     Promise.all(promise).then(body => { 
@@ -528,10 +369,8 @@ chartOptions: Partial<ApexChartOptions> = {
 
 
   playstore(data:any,url_type:string){
+
     if(url_type=="mobile") {let redirectWindow = window.open(data);}
-    // else {
-    //   let redirectWindow = window.open("https://www.google.com");}
-   // redirectWindow.location;
     
   }
 
@@ -558,9 +397,7 @@ chartOptions: Partial<ApexChartOptions> = {
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
 
     const stepData = filteredDataMap.map((doc:any) =>{
-      
-      console.log("helooooooooo     docccccyyy",doc);
-      
+            
       delete doc.tests;
       delete doc.event_mode;
       delete doc.product_id;
@@ -588,45 +425,115 @@ chartOptions: Partial<ApexChartOptions> = {
         bmi:doc.bmi,
         smoker_rate :doc['smoker_rate'],
         smoker_status : doc['smoker_status']
-        
-      
-
-
-
 
       }
 
     })
 
     const filteredData = stepData
-    console.log('your data excel =>', filteredData)
-
-    // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
-    // ]
-    const Heading = [[
+    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
-    
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
     XLSX.utils.sheet_add_aoa(ws, Heading);
-    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
-    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
-    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
-    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J3'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K3'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R3'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q3'});
     const merge = [
-      { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
+      { s: { r: 1, c: 9 }, e: { r: 1, c: 10 } }, { s: { r: 1, c: 23 }, e: { r: 1, c: 24 } } 
     ];
+  
+    ws["A1"].s = {
+  font: {
+    name: "Calibri",
+    sz: 24,
+    bold: true,
+  },
+  };
+    for(let i=1;i<=Heading[1].length;i++){
+      console.log('char =>', String.fromCharCode(64+i)+1)
+      ws[String.fromCharCode(64+i)+2].s = {
+        font: {
+          color: { rgb: "FFFFFF" },
+        },
+        fill:{
+          fgColor:{rgb: "8B0000"},
+          patternType:'solid'
+        },
+        border:{
+          top:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          bottom:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          left:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          right:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+        }
+      };
+  
+      if(ws[String.fromCharCode(64+i)+3]){
+        ws[String.fromCharCode(64+i)+3].s= {
+          font: {
+            color: { rgb: "FFFFFF" },
+          },
+          fill:{
+            fgColor:{rgb: "808080"},
+            patternType:'solid'
+          },
+          border:{
+            left:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+            right:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+          }
+  
+        };
+      }
+      else{
+        ws[String.fromCharCode(64+i)+3]= {
+          t:'n',
+          s:{
+            font: {
+              color: { rgb: "FFFFFF" },
+            },
+            fill:{
+              fgColor:{rgb: "808080"},
+              patternType:'solid'
+            },
+            border:{
+              left:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+              right:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+            }
+          },
+          v:'',
+        };
+      }
+    }
     ws["!merges"] = merge;
-    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-
-    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
-    // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
-
     XLSX.writeFile(wb, this.fileName);
 }
 

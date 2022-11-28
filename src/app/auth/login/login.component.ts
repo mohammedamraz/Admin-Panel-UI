@@ -7,7 +7,6 @@ import { first } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/service/auth.service';
 
 // types
-import { User } from 'src/app/core/models/auth.models';
 import { AdminConsoleService } from 'src/app/services/admin-console.service';
 
 @Component({
@@ -37,7 +36,6 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this.returnUrl;
   }
 
@@ -52,16 +50,11 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.loginForm.valid) {
-      // this.loading = true;
-
-// check if this is the url we are saving for the org login
-// this.adminService.orgUserAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
-
       this.adminService.orgAdmin({username: this.formValues['email'].value, password: this.formValues['password'].value })
       .pipe(first())
       .subscribe({
        next: (data: any) => {
-         console.log('there is a ssuucesesdf',data)
+        this.authenticationService.logout();
          if(data.org_data[0].type === 'admin'){
           if(this.formValues['rememberMe'].value){
           localStorage.setItem("currentUser", JSON.stringify(data))

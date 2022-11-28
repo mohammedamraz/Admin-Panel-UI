@@ -3,9 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
-import { ApexChartOptions } from '../pages/charts/apex/apex-chart.model';
-import { ChartDataset } from '../pages/charts/chartjs/chartjs.model';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx-js-style'; 
 
 @Component({
   selector: 'app-pilot-dashboard',
@@ -42,119 +40,15 @@ export class PilotDashboardComponent implements OnInit {
   graphArray:any[]=[];
   todayDate=new Date();
   created_date:any
-
+  organization_name:any=''
   monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-userList:any[]=[]
-fileName='ExcelSheet.xlsx';
-page:any=1;
-perpage:any=1000
-
+  "July", "August", "September", "October", "November", "December"];
+  userList:any[]=[]
+  fileName='ExcelSheet.xlsx';
+  page:any=1;
+  perpage:any=1000
   showLiveAlertAPI=false;
   errorMessageAPI='';
-  barChartOptions : ChartDataset = {
-    type: 'bar',
-    data: {
-        labels: ["previous day", "yesterday", "today"],
-        datasets: [
-            {
-                
-                backgroundColor:  ["RGBA(104, 116, 129, 0.5)","RGBA(104, 116, 129, 0.5)","RGBA(242, 202, 101, 0.5)"],
-                borderColor: "#ADB5BD",
-                borderWidth: 1,
-                hoverBackgroundColor: "RGBA(3,149,253,0.6)",
-                hoverBorderColor: "#0388FD",
-                data: [65, 59, 80,]
-            }
-        ],
-    },
-    chartOptions: {
-        maintainAspectRatio: false,
-    }
-}
-chartOptions: Partial<ApexChartOptions> = {
-  series: [
-    {
-      name: 'Series A',
-      type: 'area',
-      data: [50, 75, 30,],
-    },
-    {
-      name: 'Series B',
-      type: 'line',
-      data: [0, 40, 80, ],
-    },
-  ],
-  chart: {
-    height: 268,
-    type: 'line',
-    toolbar: {
-      show: false,
-    },
-    stacked: false,
-    zoom: {
-      enabled: false,
-    },
-  },
-  stroke: {
-    curve: 'smooth',
-    width: [3, 3],
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  legend: {
-    show: false,
-  },
-  fill: {
-    type: 'solid',
-    opacity: [0, 1],
-  },
-  colors: ['#3cc469', '#188ae2'],
-  xaxis: {
-    categories: ['W1', 'W2', 'W3', ],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  yaxis: {
-    tickAmount: 4,
-    min: 0,
-    max: 100,
-    labels: {
-      style: {
-        colors: '#adb5bd',
-      },
-    },
-  },
-  grid: {
-    show: false,
-    padding: {
-      top: 0,
-      bottom: 0,
-    },
-  },
-  tooltip: {
-    theme: 'dark',
-  },
-
-};
-// model!: NgbDateStruct;
-// date!: { year: number; month: number; };
-
-
-
-
-
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -171,11 +65,11 @@ chartOptions: Partial<ApexChartOptions> = {
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
         next:(res:any) =>{
+          this.organization_name=res[0].organization_name
           this.created_date= new Date(res[0].created_date);
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
           this.createGraphArrayItems([this.product],this.dateSelected);
-          
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
           this.show = false;
           if(this.product.status == "Expired"){
@@ -183,7 +77,7 @@ chartOptions: Partial<ApexChartOptions> = {
           }
         }});
       this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
-        (doc:any) => {this.tableData=doc.data;console.log('doc',doc)});
+        (doc:any) => {this.tableData=doc.data;});
         this.userForm =this.fb.group({
           user_name: ['',Validators.required],
           designation: ['',Validators.required],
@@ -197,12 +91,6 @@ chartOptions: Partial<ApexChartOptions> = {
     })
     this.orgId = this.route.snapshot.paramMap.get("orgId");
     this.productId = this.route.snapshot.paramMap.get("Id");
-    console.log('tjhs',this.productId)
-
-
-
-  
-    
 
   }
   async createGraphArrayItems(product:any,date:any){
@@ -210,7 +98,6 @@ chartOptions: Partial<ApexChartOptions> = {
     const requests = product.map((doc:any) => this.fetchGraphs(doc.product_id,date));
     Promise.all(requests).then(body => { 
         body.forEach(res => {
-          console.log('higeass =>',res)
         this.graphArray.push(res)
         })
      });
@@ -232,8 +119,6 @@ chartOptions: Partial<ApexChartOptions> = {
         graphdetails['prodId'] = prodId;
         graphdetails['date'] = date;
         graphdetails['data'] = doc[0].data.data;
-        
-
         graphdetails['graph'] = {
           type: 'bar',
           data: {
@@ -252,8 +137,6 @@ chartOptions: Partial<ApexChartOptions> = {
         },
         chartOptions: {
             maintainAspectRatio: false,
-            
-            
         },}
 
         return resolve(graphdetails)
@@ -263,80 +146,147 @@ chartOptions: Partial<ApexChartOptions> = {
 
   }
   exportexcel(data:any) {
-    console.log('hello data from me =>',data)
-  const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
-
-  const stepData = filteredDataMap.map((doc:any) =>{
-    
-    console.log("helooooooooo     docccccyyy",doc);
-    
-    delete doc.tests;
-    delete doc.event_mode;
-    delete doc.product_id;
-    delete doc.user_id;
-    delete doc.org_id;
-    doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
-    doc['smoker_rate'] = doc.smoker_accuracy;
-    delete doc.smoker_accuracy;
-    return {
-      date:new Date(doc.test_date).toISOString().split("T")[0],
-      username:doc.username,
-      applicationNumber:doc.policy_number,
-      scanFor:doc.for_whom,
-      name:doc.name,
-      age:doc.age,
-      gender:doc.gender,
-      city:doc.city,
-      heartRate:doc.heart_rate,
-      systolic:doc.systolic,
-      diastolic:doc.diastolic,
-      stress:doc.stress,
-      respirationRate:doc.respiration,
-      spo2:doc.spo2,
-      hrv:doc.hrv,
-      bmi:doc.bmi,
-      smoker_rate :doc['smoker_rate'],
-      smoker_status : doc['smoker_status']
-      
-    
-
-
-
-
-    }
-
-  })
-
-  const filteredData = stepData
-  console.log('your data excel =>', filteredData)
-
-  // const heading =['id','test_date',	'name',	'age',	'gender',	'city' ,	'username'	,'for_whom',	'heart_rate',	'systolic',	'diastolic',	'stress',	'haemoglobin',	'respiration',	'spo2',	'hrv',	'bmi',	'smoker_accuracy',	'vitals_id',	'policy_number',	'bp_status',	'rbs',	'ecg_url',	'app_name',	'bp'
-  // ]
-  const Heading = [[
-    'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
-  ]
-  ];
+    const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
+    const stepData = filteredDataMap.map((doc:any) =>{
   
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
-  XLSX.utils.sheet_add_aoa(ws, Heading);
-  XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J2'});
-  XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K2'});
-  XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R2'});
-  XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q2'});
-  const merge = [
-    { s: { r: 0, c: 9 }, e: { r: 0, c: 10 } }, { s: { r: 0, c: 23 }, e: { r: 0, c: 24 } } 
-  ];
-  ws["!merges"] = merge;
-  XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A3', skipHeader: true });
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-
-  // const worksheet = XLSX.utils.json_to_sheet(filteredData);
-  // XLSX.utils.book_append_sheet(wb, worksheet, 'Sheet1');
-
-
-  XLSX.writeFile(wb, this.fileName);
+      delete doc.tests;
+      delete doc.event_mode;
+      delete doc.product_id;
+      delete doc.user_id;
+      delete doc.org_id;
+      doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
+      doc['smoker_rate'] = doc.smoker_accuracy;
+      delete doc.smoker_accuracy;
+      return {
+        date:new Date(doc.test_date).toISOString().split("T")[0],
+        username:doc.username,
+        applicationNumber:doc.policy_number,
+        scanFor:doc.for_whom,
+        name:doc.name,
+        age:doc.age,
+        gender:doc.gender,
+        city:doc.city,
+        heartRate:doc.heart_rate,
+        systolic:doc.systolic,
+        diastolic:doc.diastolic,
+        stress:doc.stress,
+        respirationRate:doc.respiration,
+        spo2:doc.spo2,
+        hrv:doc.hrv,
+        bmi:doc.bmi,
+        smoker_rate :doc['smoker_rate'],
+        smoker_status : doc['smoker_status']
+        
+      }
+  
+    })
+  
+    const filteredData = stepData
+    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+    ]
+    ];
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(ws, Heading);
+    XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J3'});
+    XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K3'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R3'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q3'});
+    const merge = [
+      { s: { r: 1, c: 9 }, e: { r: 1, c: 10 } }, { s: { r: 1, c: 23 }, e: { r: 1, c: 24 } } 
+    ];
+  
+    ws["A1"].s = {
+  font: {
+    name: "Calibri",
+    sz: 24,
+    bold: true,
+  },
+  };
+    for(let i=1;i<=Heading[1].length;i++){
+      console.log('char =>', String.fromCharCode(64+i)+1)
+      ws[String.fromCharCode(64+i)+2].s = {
+        font: {
+          color: { rgb: "FFFFFF" },
+        },
+        fill:{
+          fgColor:{rgb: "8B0000"},
+          patternType:'solid'
+        },
+        border:{
+          top:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          bottom:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          left:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+          right:{
+            style:'thin',
+            color:{rgb:'000000'}
+          },
+        }
+      };
+  
+      if(ws[String.fromCharCode(64+i)+3]){
+        ws[String.fromCharCode(64+i)+3].s= {
+          font: {
+            color: { rgb: "FFFFFF" },
+          },
+          fill:{
+            fgColor:{rgb: "808080"},
+            patternType:'solid'
+          },
+          border:{
+            left:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+            right:{
+              style:'thin',
+              color:{rgb:'000000'}
+            },
+          }
+  
+        };
+      }
+      else{
+        ws[String.fromCharCode(64+i)+3]= {
+          t:'n',
+          s:{
+            font: {
+              color: { rgb: "FFFFFF" },
+            },
+            fill:{
+              fgColor:{rgb: "808080"},
+              patternType:'solid'
+            },
+            border:{
+              left:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+              right:{
+                style:'thin',
+                color:{rgb:'000000'}
+              },
+            }
+          },
+          v:'',
+        };
+      }
+    }
+    ws["!merges"] = merge;
+    console.log('ws =>', ws)
+    XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, this.fileName);
 }
 
   fetchGraphs(prodId:any,date:any){
@@ -354,7 +304,6 @@ chartOptions: Partial<ApexChartOptions> = {
             })
          })
         })
-        console.log('why this kolaveri =>',details)
         resolve(details)
      })
     })
@@ -362,7 +311,6 @@ chartOptions: Partial<ApexChartOptions> = {
   }
 
   fetchTimely(prodId:any,data:any){
-    console.log('hello musicians', data);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     this.graphArray[index].performance.period = data
     const performance = this.fetchPerformanceDetails(prodId,data)
@@ -397,7 +345,6 @@ chartOptions: Partial<ApexChartOptions> = {
       performaceDetails['PreviouseUserName'] = doc[1].user_name==undefined?'NA':doc[1].user_name;
       performaceDetails['prodId']=prodId;
       performaceDetails['period']=period;
-
       performaceDetails['graph']={
         series: [
           {
@@ -460,8 +407,6 @@ chartOptions: Partial<ApexChartOptions> = {
         },
         yaxis: {
           tickAmount: 4,
-          // min: 0,
-          // max: 100,
           labels: {
             style: {
               colors: '#adb5bd',
@@ -475,29 +420,16 @@ chartOptions: Partial<ApexChartOptions> = {
         grid: {
           show: true,
           borderColor: '#f7f7f7',
-          // padding: {
-          //   top: 0,
-          //   bottom: 0,
-          // },
         },
         tooltip: {
           theme: 'dark',
         },
       }
-      resolve(performaceDetails)
-       // performaceDetails['totalScans'] = doc[0].total_org_tests;
-      // performaceDetails['standardModeScans'] = doc[0].total_org_tests_standard ? doc[0].total_org_tests_standard : 0 ;
-      // performaceDetails['eventModeScans'] = doc[0].total_org_tests_event ? doc[0].total_org_tests_event : 0;
-      // performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )   
+      resolve(performaceDetails)  
     })
     })
   }
-
-
-
   checkdate(event:any,prodId:any,date:any){
-    console.log('hello date =>', date);
-    console.log('date selected => ', event);
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
     Promise.all(promise).then(body => { 
@@ -514,15 +446,11 @@ chartOptions: Partial<ApexChartOptions> = {
     const yesterday = new Date((new Date(date)).valueOf() - 1000*60*60*24)
     const previousDay = new Date((new Date(date)).valueOf() - 1000*60*60*48)
 
-    console.log('oyul =>', datechecked)
     return [this.getDate(previousDay),this.getDate(yesterday),this.getDate(datechecked)]
   }
   getDate(date:any){
     return  this.monthNames[new Date(date).getMonth()].slice(0,3) +' ' +new Date(date).getDate()
    }
-
-
-
 
   daysLefts(date:any){
     const firstDate = new Date();
@@ -535,7 +463,6 @@ chartOptions: Partial<ApexChartOptions> = {
   playstore(data:any,url_type:string){
     if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
     if(url_type=="web") {let redirectWindow = window.open(data.web_url);}
-    // else {let redirectWindow = window.open("https://www.google.com");}   
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -551,20 +478,16 @@ chartOptions: Partial<ApexChartOptions> = {
     return stone
   }
   checkingUserForm(){
-    console.log("fen boy",this.userForm.value);
-    console.log('your boy', this.selectedUserProducts)
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
        
         this.created = true;
-        console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
       },
       error: (err) => {
-        console.log('the failure=>', err);
         this.errorMessageAPI = err;
         this.showLiveAlertAPI = true;
 
@@ -583,22 +506,16 @@ chartOptions: Partial<ApexChartOptions> = {
   }
   inputTpa() {
     this.userForm.get('third_party_org_name')?.value
-    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
-    console.log("code", this.codeList);
-    console.log("code",);
     if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
       this.showButton = false;
-      console.log("hello", this.showButton);
     }
 
     else {
       this.showButton = true;
     }
     this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
-      // console.log('manafmannnu');
       this.changeButton=true
       this.addTpafunc=false
-      console.log(x)
    })
 
   }
@@ -628,7 +545,6 @@ chartOptions: Partial<ApexChartOptions> = {
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid&& (this.thirdParty==true || this.notThirdParty== true)){
       if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
         this.errorMessageNextButton='Mandatory field';
-
           this.showLiveAlertNextButton=true;
 
       }
@@ -644,8 +560,6 @@ chartOptions: Partial<ApexChartOptions> = {
           this.showLiveAlertNextButton=false;
         },
         error: (err) => {
-          console.log('the failure=>',err);
-
           this.errorMessageAPI=err;
           this.showLiveAlertAPI=true;
           this.errorMessageNextButton='';

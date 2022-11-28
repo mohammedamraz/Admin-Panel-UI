@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { ACTIVE } from '../organisation-list/organisation-list.component';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
 
@@ -13,12 +12,7 @@ import { AdvancedTableService } from '../shared/advanced-table/advanced-table.se
 })
 export class UserDetailsComponent implements OnInit {
   page=1
-  // activeWizard1: number = 1;
   activeWizard2: number = 1;
-  // activeWizard3: number = 1;
-  // activeWizard4: number = 1;
-
-
   basicWizardForm!: FormGroup;
   notThirdParty: boolean =false ;
   codeList: any[] = [];
@@ -30,16 +24,12 @@ export class UserDetailsComponent implements OnInit {
   org_name:any
   formSubmitted=false
 
-
-  
-
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
     public service: AdvancedTableService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-
 
   ) { }
 
@@ -48,7 +38,6 @@ export class UserDetailsComponent implements OnInit {
   userList:any[]=[];
   userEditForm!: FormGroup;
   userForm!: FormGroup;
-  userWizard1:number =1;
   list: number = 3;
   thirdParty=false;
   product='';
@@ -68,14 +57,9 @@ export class UserDetailsComponent implements OnInit {
   addTpafunc:boolean=false;
   @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
   userId: any;
-
   errorMessageNextButton='';
-
   length:any
-
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
-
-  
   entries:any=this.pageSizeOptions[0]
   pagenumber:any=1;
   total_pages:any;
@@ -84,12 +68,10 @@ export class UserDetailsComponent implements OnInit {
   showLiveAlertResendInvitation =false 
   productsData : any
   show=false
-  
   currentPage:any;
   showLiveAlertAPI=false;
   errorMessageAPI='';
-  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users']
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      activeStatusValue: any= this.activeStatusOptions[0]
+  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users'];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   activeStatusValue: any= this.activeStatusOptions[0]
   changeButton:boolean=false
 
   ngOnInit(): void {
@@ -108,13 +90,9 @@ export class UserDetailsComponent implements OnInit {
             this.currentPage=doc.page
             this.total_pages=doc.total_pages
             
-            // console.log('doc.......................',doc.data)
-            this.userList=doc.data; console.log('you are the one ', this.userList)
+            this.userList=doc.data;
             this.length=this.userList.length
-            console.log("hello00000",this.length);
             this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-            // this.length=this.tabDAta.length
-            // console.log("hello00000",this.length);
       
             return doc});
       }
@@ -124,11 +102,8 @@ export class UserDetailsComponent implements OnInit {
           this.total_user=doc.total
           this.currentPage=doc.page
           this.total_pages=doc.total_pages
-      
           this.userList=doc.data;
-          this.length=this.userList.length
-          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      
+          this.length=this.userList.length      
       
           return doc});
       }
@@ -138,8 +113,8 @@ export class UserDetailsComponent implements OnInit {
         this.tableData=res
         this.userOrganisationName= res[0].organization_name;
         const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.prod);
-          this.productsData= res[0].product[selected];
-          this.show = false;
+        this.productsData= res[0].product[selected];
+        this.show = false;
         if(res[0].type!='admin'&&this.productsData.status == "Expired"){
           this.show = true;
         }
@@ -176,55 +151,20 @@ export class UserDetailsComponent implements OnInit {
 
     });
 
-    // this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe({
-    //  next:(res:any)=>{{console.log('asdfasdf',res);this.userList=res.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);}}
-    // })
-
-// pagination function starts
-
-     // console.log("entries",this.entries)
-    // console.log("optionsss",this.pageSizeOptions.values())
-
-
- 
-
-
-// pagination ends
-    
-
-
-      // this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
-      // this.adminService.fetchVitalsCount().subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
-      // this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-     
-      
-
-      
-
-
   }
-
-// pagination function starts
-
 
   loadPage(val:any){
     this.pagenumber=val
-    // console.log("fjhgvjgfjd",this.pagenumber);
-    // console.log("entries",this.entries);
-
+  
     if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
       this.total_user=doc.total
-      // console.log('doc.......................',doc)
-      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.userList=doc.data;
       this.length=this.userList.length
-      // console.log("hello00000",this.length);
       this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      // this.length=this.tabDAta.length
-      // console.log("hello00000",this.length);
       
       return doc
     });}
@@ -234,62 +174,42 @@ export class UserDetailsComponent implements OnInit {
           this.total_pages=doc.total_pages
           this.currentPage=doc.page
           this.total_user=doc.total
-          // console.log('doc.......................',doc)
-          this.userList=doc.data; console.log('you are the one ', this.userList)
+
+          this.userList=doc.data;
           this.length=this.userList.length
-          // console.log("hello00000",this.length);
-          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-          // this.length=this.tabDAta.length
-          // console.log("hello00000",this.length);
           
           return doc
 
 
-      })}
-      // this.columns = this.tabDAta;
-      // console.log("heloooo",this.tabDAta);
-      // this.onFilter(this.item)
-     
-      
-      
-      
+      })}   
     
   }
 
   updateStatus(data:any,userData:any){
-    // console.log("datat",data)
     this.adminService.patchUserStatus(userData.id, data).subscribe({
       next: (res) => {
-        console.log('the success=>',data);
         if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
           next: (res) =>{
-            console.log("dsasyfjewbsd",res)
             this.reloadCurrentPage();
           },
           error : (err)=>{
-            console.log("ewdfsxc",err)
             this.reloadCurrentPage();
           }
         })
         this.reloadCurrentPage();
-        // this.activeWizard2=this.activeWizard2+1;
-        // this.created=true;
       }
     })
 
   }
 
   resendInvitationMail(data:any){
-    console.log("ersdfzdx",data);
     this.showLiveAlertResendInvitation = true;
     this.errorMessageResendInvitation = 'Invitation Successfully resent!'
     this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
       next: (res) =>{
-        console.log("dsasyfjewbsd",res)
         
       },
       error : (err)=>{
-        console.log("ewdfsxc",err)
   
       }
     })
@@ -298,9 +218,6 @@ export class UserDetailsComponent implements OnInit {
 
   onFilter (data:any) {
       this.entries=data.value
-      
-      // console.log("jhgfdhfh",this.entries);
-      // console.log("page number",this.pagenumber)
 
       if(this.prod == undefined) {
         this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
@@ -308,13 +225,9 @@ export class UserDetailsComponent implements OnInit {
         this.total_pages=doc.total_pages
         this.currentPage=doc.page
         this.total_user=doc.total
-        // console.log('doc.......................',doc)
-        this.userList=doc.data; console.log('you are the one ', this.userList)
+        this.userList=doc.data;
         this.length=this.userList.length
-        // console.log("hello00000",this.length);
         this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-        // this.length=this.tabDAta.length
-        // console.log("hello00000",this.length);
         
         return doc
       });}
@@ -324,42 +237,30 @@ export class UserDetailsComponent implements OnInit {
             this.total_pages=doc.total_pages
             this.currentPage=doc.page
             this.total_user=doc.total
-            // console.log('doc.......................',doc)
-            this.userList=doc.data; console.log('you are the one ', this.userList)
+
+            this.userList=doc.data;
             this.length=this.userList.length
-            // console.log("hello00000",this.length);
-            // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-            // this.length=this.tabDAta.length
-            // console.log("hello00000",this.length);
             
             return doc
   
   
         })}
 
-    //  return data.value
-     
       
   }
 
   onActiveStatus(data :any){
     this.activeStatusValue=data.value
       
-      // console.log("jhgfdhfh",this.entries);
-      // console.log("page number",this.pagenumber)
       if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
+
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
       this.total_user=doc.total
-      // console.log('doc.......................',doc)
-      this.userList=doc.data; console.log('you are the one ', this.userList)
+      this.userList=doc.data; 
       this.length=this.userList.length
-      // console.log("hello00000",this.length);
-      // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      // this.length=this.tabDAta.length
-      // console.log("hello00000",this.length);
       
       return doc
     },(error)=>{
@@ -368,26 +269,19 @@ export class UserDetailsComponent implements OnInit {
       else{
         this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
         ((doc:any) =>{ 
+
           this.total_pages=doc.total_pages
           this.currentPage=doc.page
           this.total_user=doc.total
-          // console.log('doc.......................',doc)
-          this.userList=doc.data; console.log('you are the one ', this.userList)
+          this.userList=doc.data;
           this.length=this.userList.length
-          // console.log("hello00000",this.length);
-          // this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-          // this.length=this.tabDAta.length
-          // console.log("hello00000",this.length);
-          
-          return doc
 
+          return doc
 
       })}
 
   }
-
-// pagination func endsss
-  
+ 
   checkingForm(){
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
@@ -403,17 +297,13 @@ export class UserDetailsComponent implements OnInit {
     data.append('web_url',this.listdetails.map(value=>value.web_url==''?'null':'vitals_'+value.web_url).toString());
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
-    console.log('this image => ,',this.image)
     this.image==''? null:data.append('file', this.image, this.image.name)
-    console.log('the request body => ', data)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.activeWizard2=this.activeWizard2+1;
-        console.log('the success=>',res);
         this.org_name = res.organization_name;
       },
       error: (err) => {
-        console.log('the failure=>',err);
         this.errorMessage=err;
         this.showLiveAlert=true;
 
@@ -425,11 +315,8 @@ export class UserDetailsComponent implements OnInit {
 
   
   demoFunction(event:any, product:any){
-    console.log('asdf',event.target.checked);
-    console.log('donned',product)
-    
+   
     if(event.target.checked){
-      // this.basicWizardForm.controls[product].setValue(true);
       this.list++;
       let details={
         prod_id:product.id,
@@ -445,7 +332,6 @@ export class UserDetailsComponent implements OnInit {
     }
     else{
       this.list--;
-      // this.basicWizardForm.controls[product].setValue(false);
       const selected =this.listdetails.findIndex(obj=>obj.name===product.product_name);
       this.selectedProducts.slice(product.id,1);
       this.listdetails.splice(selected,1);
@@ -453,7 +339,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   paginate(): void {
-    // paginate
     this.service.totalRecords = this.tableData.length;
     if (this.service.totalRecords === 0) {
       this.service.startIndex = 0;
@@ -469,20 +354,16 @@ export class UserDetailsComponent implements OnInit {
 
 
   checkingUserForm(){
-    console.log("fen boy",this.userForm.value);
-    console.log('your boy', this.selectedUserProducts)
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
        
         this.created = true;
-        console.log('the success=>', res);
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
       },
       error: (err) => {
-        console.log('the failure=>', err);
         this.errorMessageAPI = err;
         this.showLiveAlertAPI = true;
 
@@ -515,7 +396,6 @@ export class UserDetailsComponent implements OnInit {
     this.formSubmitted=true;
 
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
-
       if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
         this.errorMessageNextButton='Mandatory field';
 
@@ -524,15 +404,8 @@ export class UserDetailsComponent implements OnInit {
       }
       else{
       let data ={
-
-        // organization_name: this.userForm.controls['user_name'],
-
         email: this.userForm.value['email'],
-
         mobile: '+91'+ this.userForm.value['mobile']
-
-
-
     };
 
       this.adminService.fetchUserDataIfExists(data).subscribe({
@@ -541,29 +414,19 @@ export class UserDetailsComponent implements OnInit {
 
           this.activeWizard2=this.activeWizard2+1;
           this.showLiveAlertNextButton=false;
-
-
         },
 
         error: (err) => {
-
-          console.log('the failure=>',err);
-
           this.errorMessageAPI=err;
-
           this.showLiveAlertAPI=true;
           this.errorMessageNextButton='';
           this.showLiveAlertNextButton=false;
 
         },
 
-     
-
     })
   }
-
   }
-
 }
    change() {
     this.thirdParty = this.notThirdParty;
@@ -573,22 +436,15 @@ export class UserDetailsComponent implements OnInit {
   }
   inputTpa() {
     this.userForm.get('third_party_org_name')?.value
-    console.log("rsdfvfdxffdx", this.userForm.get('third_party_org_name')?.value)
-    console.log("code", this.codeList);
-    console.log("code",);
     if (this.codeList.includes(this.userForm.get('third_party_org_name')?.value)) {
       this.showButton = false;
-      console.log("hello", this.showButton);
     }
-
     else {
       this.showButton = true;
     }
     this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
-      // console.log('manafmannnu');
       this.changeButton=true
       this.addTpafunc=false
-      console.log(x)
    })
 
   }
@@ -606,19 +462,17 @@ export class UserDetailsComponent implements OnInit {
     this.errorMessage = '';
     this.showLiveAlert = false;
     this.userForm.controls['org_id'].setValue(doc.id);
-    console.log('hey manaf =>',doc);
     this.activeWizard2 = 1;
     this.organaization_id=doc.id
 
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;console.log("ghghg",doc);return doc});
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {
       for (let i = 0; i <= doc.length - 1; i++) {
         if (doc[i].tpa_name != null) {
           this.codeList.push(doc[i].tpa_name)
         }
 
-      }
-   
+      } 
         ; return doc;
     })
 
@@ -642,7 +496,6 @@ export class UserDetailsComponent implements OnInit {
 
     editUserForm(data:any){
 
-      console.log('user data =>', data);
       this.userEditForm = this.fb.group({
         email:[data.email,[Validators.email]],
         mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
@@ -655,20 +508,16 @@ export class UserDetailsComponent implements OnInit {
     }
   
     editUser(){ 
-      console.log("easzfcersdzfxc");
       
       if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
-        console.log("easzfcersdzfxc");
-        this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
+      this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
       this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
         next: (res:any) => {
-          console.log('the success=>',res);
   
           this.activeWizard2=this.activeWizard2+1;
   
         },
         error: (err) => {
-          console.log('the failure=>',err);
           this.errorMessageAPI=err;
           this.showLiveAlertAPI=true;
   
