@@ -92,17 +92,19 @@
     
                     </div>
                     
+<div style="display: grid;">
     
                     <div class="chartjs-chart" style="height: 300px;width:75%">
                         <canvas id="bar-chart" #barChart baseChart [data]="season.graph.data!" [legend]="false"
                             [type]="season.graph.type!" [options]="season.graph.chartOptions!"></canvas>
                     </div>
-                    <div></div>
-                    <div style="    display: inline-flex;gap: inherit;justify-self: center;    place-items: baseline;">
+                    <!-- <div></div> -->
+                    <div style="    display: inline-flex;gap: 1rem ;margin-top:1rem; justify-self: center;    place-items: baseline;">
                     <div style="background-color:RGBA(104, 116, 129, 0.5);height: 5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                     <div style="background-color:RGBA(242, 202, 101, 0.5);height:5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                 </div>
                     </div>
+                </div>
                 </div>
             </div>
     
