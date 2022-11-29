@@ -621,7 +621,7 @@ font: {
     this.products = product;
     this.listdetails = list;
 
-    if(this.orglogin){
+    // if(this.orglogin){
 
       const requests =  OrgProducts.map((doc:any) =>this.fetchScansResolver(doc))
       Promise.all(requests).then(body => {
@@ -629,7 +629,7 @@ font: {
           this.orgProd.push(res)
         })
       })
-    }
+    // }
   }
 
   fetchScansResolver(data:any){
@@ -637,6 +637,7 @@ font: {
     return new Promise((resolve,reject) => {
       this.adminService.fetchScan(this.snapshotParam,data.product_id).subscribe(
         (doc:any) => {
+          console.log('dai madaya =>0,',doc)
           const result = {
             product_id:data.product_id,
             productName:data.product_id  === '1' ? 'HSA' : (data.product_id === '2' ? 'Vitals':'RUW' ),

@@ -276,7 +276,7 @@
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #82B4F3;">5</h2>
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{totalScans}}</h2>
                     <h5 style="color: #ADB5BD;">Total Scans</h5>
                 </div>
             </div>
@@ -286,7 +286,7 @@
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #82B4F3;">5</h2>
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{todayScans}}</h2>
                     <h5 style="color: #ADB5BD;">Today's Scans</h5>
                 </div>
             </div>
@@ -296,7 +296,7 @@
         <div class="card" style="background: #313844;;" >
             <div class="card-body widget-user">
                 <div class="text-center">
-                    <h2 class="fw-normal" style="color: #82B4F3;">5</h2>
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{users}}</h2>
                     <h5 style="color: #ADB5BD;">Users</h5>
                 </div>
             </div>
@@ -312,7 +312,7 @@
                 <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
                     <p *ngIf="product.status =='Active'" style="
                     margin-bottom: 0.5rem;">
-              {{daysLefts(product.end_date)}} 
+              {{daysLefts(product.end_date)+1}} 
                     days left for pilot to end</p>
                     <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>                    <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                 </div>
