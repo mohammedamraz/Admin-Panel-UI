@@ -378,10 +378,12 @@
                     <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
                 </div> <!-- end col -->
 
-                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr));" >
-                    <div >
-                    
-                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;  margin-top: 3rem;">
+                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr));" >
+                    <div style="justify-self: center;">
+
+                        <!-- <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;"> -->
+                            <div style="gap: 1rem;
+                            display: inline-flex;margin-top: 3rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
                         <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
@@ -449,7 +451,7 @@
             </div> 
             
 
-            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr)); ">
+            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr)); ">
             <div dir="ltr" style="padding: 0.5rem;">
                 <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"
                     [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
@@ -457,7 +459,7 @@
                     [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
                 <div style="    display: inline-flex;
-                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                gap: 0.8rem;margin-left:3rem;    place-items: baseline;">
                     <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                     <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                 </div>

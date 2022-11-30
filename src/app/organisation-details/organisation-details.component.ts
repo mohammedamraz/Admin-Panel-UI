@@ -38,6 +38,11 @@ export class OrganisationDetailsComponent implements OnInit {
 ];
   todayDate=new Date();
   organization_name:any='';
+  country : any = '';
+  city : any = '';
+  state : any = '';
+  zip : any = '';
+  address : any = '';
   admin_name:any='';
   application_id:any='';
   attempts:any='';
@@ -134,6 +139,11 @@ export class OrganisationDetailsComponent implements OnInit {
         this.tabDAta=res
         this.designation= res[0].designation;
         this.organization_name= res[0].organization_name;
+        this.country= res[0].country ? res[0].country : 'NA';
+        this.state= res[0].state ? res[0].state : 'NA';
+        this.address= res[0].address ? res[0].address : 'NA';
+        this.city= res[0].city ? res[0].city : 'NA';
+        this.zip= res[0].zip ? res[0].zip : 'NA';
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;

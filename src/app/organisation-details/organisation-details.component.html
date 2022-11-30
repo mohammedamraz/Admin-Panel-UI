@@ -678,48 +678,48 @@ padding-top:10px">
                     line-height: 22px;
                     ">{{organization_name}}</p>
                     <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size:0.9rem ;">Org Admin Full Name</h4>
+                        font-size:0.9rem ;">Country</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
                         font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{admin_name}}</p>
+                        line-height: 22px;">{{country}}</p>
                     <!-- </div>
                     <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 0.9rem;">Designation</h4>
+                        font-size: 0.9rem;">Zip</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
                         font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{designation}}</p>
+                        line-height: 22px;">{{zip}}</p>
                     <!-- </div>
                 </div> -->
                 <!-- <div class="card-body" > -->
                     <!-- <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 0.9rem;">Mobile Number</h4>
+                        font-size: 0.9rem;">State</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
                         font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
+                        line-height: 22px;">{{state}}</p>
                     <!-- </div>
                     <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 0.9rem;">Email Address</h4>
+                        font-size: 0.9rem;">City</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
                         font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{organization_email}}</p>
+                        line-height: 22px;">{{city}}</p>
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 0.9rem;">Designation</h4>
+                        font-size: 0.9rem;">Address</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
                         font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{designation}}</p>
+                        line-height: 22px;">{{address}}</p>
                     </div>
 
         </div>
@@ -746,7 +746,7 @@ padding-top:10px">
                     margin-bottom: 0;font-weight: 400;
                     font-size: 1.2rem;
                     line-height: 22px;
-                    ">{{organization_name}}</p>
+                    ">{{admin_name}}</p>
                     <!-- <h4 style="color: #98a6ad;font-weight: 100;
                         font-size:0.9rem ;">Org Admin Full Name</h4>
                         <p class="sub-header" style=" color: #fff;
@@ -865,10 +865,12 @@ padding-top:10px">
                     <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" name="date">
                 </div> <!-- end col -->
 
-                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr));" >
-                    <div>
+                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr));" >
+                    <div style="justify-self: center;">
 
-                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;">
+                <!-- <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;"> -->
+                    <div style="gap: 1rem;
+                    display: inline-flex;margin-top: 3rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
                         <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
@@ -882,6 +884,7 @@ padding-top:10px">
                         <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
                     </div>
                 </div>
+                <!-- </div> -->
                     <div style="    margin-top: 4rem;">
                         <img src="./assets/images/excel-icone.png"> &nbsp;
                         <a style="font-size: 1.2rem;
@@ -935,7 +938,7 @@ padding-top:10px">
             </div> 
             
 
-            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr)); ">
+            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr)); ">
             <div dir="ltr" style="padding: 0.5rem;">
                 <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"  [plotOptions]="season.performance.graph.plotOptions!"
                     [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
@@ -943,7 +946,7 @@ padding-top:10px">
                     [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
                 <div style="    display: inline-flex;
-                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                gap: 0.8rem;margin-left:3rem;    place-items: baseline;">
                     <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                     <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                 </div>
