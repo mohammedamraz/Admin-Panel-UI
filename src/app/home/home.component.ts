@@ -44,6 +44,8 @@ export class HomeComponent implements OnInit {
   errorMessageNextButton='';
   addTpafunc:boolean=false;
   urlFormSubmitted = false;
+  firstFormSubmitted = false
+  secondFormSubmitted = false
   changeButton:boolean=false
   validation:boolean=false
   web_url_error=''
@@ -79,7 +81,7 @@ export class HomeComponent implements OnInit {
         product_name:[''],
         url:['',[Validators.required]],
         country:['',[Validators.required]],
-        zip:['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{6}$")]],
+        zip:['',[Validators.required,Validators.pattern("^[0-9]{6}$")]],
         state:['',[Validators.required]],
         city:['',[Validators.required]],
         address:['',[Validators.required]],
@@ -337,6 +339,7 @@ export class HomeComponent implements OnInit {
     this.showLiveAlert=false;
 
     if(this.activeWizard1 == 1){
+      this.firstFormSubmitted=true
     if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
 
         let data ={
@@ -356,22 +359,23 @@ export class HomeComponent implements OnInit {
           this.showLiveAlertAPI=true;
         }
       })
+      this.firstFormSubmitted=false 
     }
     }
     if(this.activeWizard1 == 2){
+      this.secondFormSubmitted=true
+
       if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
         this.activeWizard1 = this.activeWizard1+1;
+        this.secondFormSubmitted=false
       }
 
     }
     if(this.activeWizard1 == 3){
       this.urlFormSubmitted=true
-      console.log('current wizard',this.urlFormSubmitted);
-      
       if(this.basicWizardForm.controls['url'].valid){
       this.activeWizard1 = 4;
       this.urlFormSubmitted=false
-      console.log('later wizard',this.urlFormSubmitted);
       }
     }
     if(this.activeWizard1 == 4){
