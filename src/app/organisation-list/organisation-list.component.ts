@@ -49,6 +49,8 @@ export class OrganisationListComponent implements OnInit {
   total_pages:any;
   total_org:any;
   urlFormSubmitted = false
+  firstFormSubmitted = false
+  secondFormSubmitted = false
   currentPage:any;
   showLiveAlertAPI=false;
   errorMessageAPI='';
@@ -99,7 +101,7 @@ export class OrganisationListComponent implements OnInit {
       pilot_duration:[''],
       product_name:[''],
       country:['',[Validators.required]],
-      zip:['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{6}$")]],
+      zip:['',[Validators.required,Validators.pattern("^[0-9]{6}$")]],
       state:['',[Validators.required]],
       city:['',[Validators.required]],
       address:['',[Validators.required]],
@@ -150,6 +152,7 @@ export class OrganisationListComponent implements OnInit {
     this.showLiveAlert=false;
 
     if(this.activeWizard2 == 1){
+      this.firstFormSubmitted=true
     if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
 
         let data ={
@@ -171,12 +174,15 @@ export class OrganisationListComponent implements OnInit {
             
         }
     })
+    this.firstFormSubmitted=false
 
     }
   }
   if(this.activeWizard2 == 2){
+    this.secondFormSubmitted=true
     if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
       this.activeWizard2 = this.activeWizard2+1;
+      this.secondFormSubmitted=false
     }
   }
   if(this.activeWizard2 == 3){

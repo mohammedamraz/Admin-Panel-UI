@@ -40,10 +40,10 @@
                                                        color: #9BA6AC;" minlength="3"
                                                        
                                                        oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                       name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{  'is-invalid': form1['organization_name'].touched&&form1['organization_name'].invalid||basicForm.submitted && form1['organization_name'].invalid }">
+                                                       name="userName" placeholder="Organisation Name" required formControlName="organization_name"[ngClass]="{  'is-invalid': form1['organization_name'].touched&&form1['organization_name'].invalid||firstFormSubmitted && form1['organization_name'].invalid }">
     
                                                         <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC" class="form-label" i18n>Organisation Name</label>
-                                                        <div *ngIf="form1['organization_name'].touched&&form1['organization_name'].invalid||basicForm.submitted && form1['organization_name'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['organization_name'].touched&&form1['organization_name'].invalid||firstFormSubmitted && form1['organization_name'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['organization_name'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
@@ -62,10 +62,10 @@
                                                     <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    "
                                                     pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
                                                     oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                    name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-invalid': form1['admin_name'].touched&&form1['admin_name'].invalid ||basicForm.submitted && form1['admin_name'].invalid }">
+                                                    name="userName" placeholder="Org Admin Full Name" requied formControlName="admin_name"[ngClass]="{ 'is-invalid': form1['admin_name'].touched&&form1['admin_name'].invalid ||firstFormSubmitted && form1['admin_name'].invalid }">
                                                         <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Org Admin Full Name</label
                                                       >
-                                                      <div *ngIf="form1['admin_name'].touched&&form1['admin_name'].invalid ||basicForm.submitted && form1['admin_name'].invalid " class="invalid-feedback">
+                                                      <div *ngIf="form1['admin_name'].touched&&form1['admin_name'].invalid ||firstFormSubmitted && form1['admin_name'].invalid " class="invalid-feedback">
                                                         <div *ngIf="form1['admin_name'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
@@ -81,9 +81,9 @@
                                                     <input type="text" class="form-control" id="userName1" style="height: 3rem;
                                                       color: #9BA6AC;" minlength="3"
                                                     oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                    name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{ 'is-invalid':form1['designation'].touched&&form1['designation'].invalid ||basicForm.submitted&&form1['designation'].invalid}">
+                                                    name="userName" placeholder="Designation" required formControlName="designation" [ngClass]="{ 'is-invalid':form1['designation'].touched&&form1['designation'].invalid ||firstFormSubmitted&&form1['designation'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Designation</label>
-                                                        <div *ngIf="form1['designation'].touched&&form1['designation'].invalid ||basicForm.submitted && form1['designation'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['designation'].touched&&form1['designation'].invalid ||firstFormSubmitted && form1['designation'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['designation'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
@@ -99,9 +99,9 @@
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style="  height: 3rem;color: #9BA6AC"
                                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                                                    name="userName" placeholder="Email Address" required formControlName="organization_email"  [ngClass]="{'is-invalid':form1['organization_email'].touched&&form1['organization_email'].invalid ||basicForm.submitted&&form1['organization_email'].invalid}">
+                                                    name="userName" placeholder="Email Address" required formControlName="organization_email"  [ngClass]="{'is-invalid':form1['organization_email'].touched&&form1['organization_email'].invalid ||firstFormSubmitted&&form1['organization_email'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
-                                                        <div *ngIf="form1['organization_email'].touched&&form1['organization_email'].invalid ||basicForm.submitted && form1['organization_email'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['organization_email'].touched&&form1['organization_email'].invalid ||firstFormSubmitted && form1['organization_email'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['organization_email'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
@@ -114,9 +114,9 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
-                                                        name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{ 'is-invalid':form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||basicForm.submitted&&form1['organization_mobile'].invalid}">
+                                                        name="userName" placeholder="Mobile Number" required formControlName="organization_mobile" [ngClass]="{ 'is-invalid':form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||firstFormSubmitted&&form1['organization_mobile'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Mobile Number</label>
-                                                        <div *ngIf="form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||basicForm.submitted && form1['organization_mobile'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||firstFormSubmitted && form1['organization_mobile'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['organization_mobile'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
@@ -145,16 +145,16 @@
                                         <div class="row ">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    "
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    " minlength="3"
                                                     oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                    name="userName" placeholder="Country" requied formControlName="country"[ngClass]="{ 'is-invalid': form1['country'].touched&&form1['country'].invalid ||basicForm.submitted && form1['country'].invalid }">
+                                                    name="userName" placeholder="Country" requied formControlName="country"[ngClass]="{ 'is-invalid': form1['country'].touched&&form1['country'].invalid ||secondFormSubmitted  && form1['country'].invalid }">
                                                         <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Country</label>
-                                                      <div *ngIf="form1['country'].touched&&form1['country'].invalid ||basicForm.submitted && form1['country'].invalid " class="invalid-feedback">
+                                                      <div *ngIf="secondFormSubmitted && form1['country'].invalid || form1['country'].touched&&form1['country'].invalid " class="invalid-feedback">
                                                         <div *ngIf="form1['country'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="form1['country'].errors?.['pattern']" i18n>
-                                                            Invalid name format. Please enter Country
+                                                          <div *ngIf="form1['country'].errors?.['minlength']" i18n>
+                                                            Invalid Country format. Please enter Country
                                                           </div>
                                                     </div>
                                                 </div>
@@ -162,14 +162,14 @@
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
                                                     <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
-                                                        name="userName" placeholder="Zip" required formControlName="zip" [ngClass]="{ 'is-invalid':form1['zip'].touched&&form1['zip'].invalid ||basicForm.submitted&&form1['zip'].invalid}">
+                                                        name="userName" placeholder="Zip" required formControlName="zip" [ngClass]="{ 'is-invalid':form1['zip'].touched&&form1['zip'].invalid ||secondFormSubmitted&&form1['zip'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Zip</label>
-                                                        <div *ngIf="form1['zip'].touched&&form1['zip'].invalid ||basicForm.submitted && form1['zip'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['zip'].touched&&form1['zip'].invalid ||secondFormSubmitted && form1['zip'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['zip'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
-                                                              <div *ngIf="form1['zip'].errors?.['minlength']" i18n>
-                                                                please enter zip code
+                                                              <div *ngIf="form1['zip'].errors?.['pattern']" i18n>
+                                                                Invalid format. Please enter valid format
                                                               </div>
                                                         </div>
                                                 </div>
@@ -178,15 +178,15 @@
                                         <div class="row " >
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="userName1" style="height: 3rem;   color: #9BA6AC;"
-                                                        name="userName" placeholder="State" required formControlName="state"  [ngClass]="{'is-invalid':form1['state'].touched&&form1['state'].invalid ||basicForm.submitted&&form1['state'].invalid}">
+                                                    <input type="text" class="form-control" id="userName1" style="height: 3rem;   color: #9BA6AC;" minlength="3"
+                                                        name="userName" placeholder="State" required formControlName="state"  [ngClass]="{'is-invalid':form1['state'].touched&&form1['state'].invalid ||secondFormSubmitted&&form1['state'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>State</label>
 
-                                                        <div *ngIf="form1['state'].touched&&form1['state'].invalid ||basicForm.submitted && form1['state'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['state'].touched&&form1['state'].invalid ||secondFormSubmitted && form1['state'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['state'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
-                                                              <div *ngIf="form1['state'].errors?.['pattern']" i18n>
+                                                              <div *ngIf="form1['state'].errors?.['minlength']" i18n>
                                                                 Please Enter State 
                                                               </div>
                                                         </div>
@@ -195,14 +195,14 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input   type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
-                                                        name="userName" placeholder="City" required formControlName="city" [ngClass]="{ 'is-invalid':form1['city'].touched&&form1['city'].invalid ||basicForm.submitted&&form1['city'].invalid}">
+                                                    <input   type="text" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;" minlength="3"
+                                                        name="userName" placeholder="City" required formControlName="city" [ngClass]="{ 'is-invalid':form1['city'].touched&&form1['city'].invalid ||secondFormSubmitted&&form1['city'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>City</label>
-                                                        <div *ngIf="form1['city'].touched&&form1['city'].invalid ||basicForm.submitted && form1['city'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="form1['city'].touched&&form1['city'].invalid ||secondFormSubmitted && form1['city'].invalid " class="invalid-feedback">
                                                             <div *ngIf="form1['city'].errors?.['required']" i18n>
                                                                 Mandatory field
                                                               </div>
-                                                              <div *ngIf="form1['city'].errors?.['pattern']" i18n>
+                                                              <div *ngIf="form1['city'].errors?.['minlength']" i18n>
                                                                  Please enter city
                                                               </div>
                                                         </div>
@@ -215,12 +215,12 @@
                                         <div class="col-md">
                                             <div class="form-floating " style="margin-bottom: 2rem;">
                                                 <input type="text"  class="form-control" id="userName1" style="    height: 3rem;
-                                                   color: #9BA6AC;" minlength="3"
+                                                   color: #9BA6AC;" minlength="5"
                                                    
                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                   name="userName" placeholder="Address" required formControlName="address"[ngClass]="{  'is-invalid':form1['address'].touched&&form1['address'].invalid|| basicForm.submitted && form1['address'].invalid }">
+                                                   name="userName" placeholder="Address" required formControlName="address"[ngClass]="{  'is-invalid':form1['address'].touched&&form1['address'].invalid|| secondFormSubmitted && form1['address'].invalid }">
                             <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC" class="form-label" i18n>Address</label>
-                                                   <div *ngIf="form1['address'].touched&&form1['address'].invalid ||basicForm.submitted && form1['address'].invalid " class="invalid-feedback">
+                                                   <div *ngIf="form1['address'].touched&&form1['address'].invalid ||secondFormSubmitted && form1['address'].invalid " class="invalid-feedback">
                                                         <div *ngIf="form1['address'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
@@ -557,7 +557,7 @@
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
-                            <button  style="width: 100px;" type="submit"(click)="fetchData()" class="btn btn-info" 
+                            <button  style="width: 100px;" type="button"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
                             <button type="button" class="btn btn-info"style="width: 100px;" (click)="fetchData();"
                                 *ngIf="activeWizard2!=4&&activeWizard2 == list-1">Submit</button>
@@ -581,7 +581,7 @@
                 <i class="mdi mdi-dots-vertical"></i>
             </a>
             <div ngbDropdownMenu>
-                <a href="javascript:void(0);" (click)="open(toggleModal1)" ngbDropdownItem>Create Org</a>
+                <a href="javascript:void(0);" (click)="open(toggleModal1); clearform();" ngbDropdownItem>Create Org</a>
             </div>
         </div>            
         <div class=" float-end" ngbDropdown placement="bottom-end">
