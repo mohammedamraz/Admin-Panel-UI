@@ -68,7 +68,7 @@ export class OrganisationListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    this.list = 4
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
@@ -98,6 +98,12 @@ export class OrganisationListComponent implements OnInit {
       url:['',Validators.required],
       pilot_duration:[''],
       product_name:[''],
+      country:['',[Validators.required]],
+      zip:['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{6}$")]],
+      state:['',[Validators.required]],
+      city:['',[Validators.required]],
+      address:['',[Validators.required]],
+      
     });
 
   }
@@ -136,7 +142,7 @@ export class OrganisationListComponent implements OnInit {
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
     this.listdetails=[];
-    this.list=4;
+    this.list=5;
     this.activeWizard2 =1;
    }
 
@@ -169,13 +175,28 @@ export class OrganisationListComponent implements OnInit {
     }
   }
   if(this.activeWizard2 == 2){
-    this.urlFormSubmitted=true
-    if(this.basicWizardForm.controls['url'].valid){
-      this.activeWizard2 = 3;
-    this.urlFormSubmitted=false
-
+    if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+      this.activeWizard2 = this.activeWizard2+1;
     }
   }
+  if(this.activeWizard2 == 3){
+    this.urlFormSubmitted=true
+    if(this.basicWizardForm.controls['url'].valid){
+      
+      this.activeWizard2 = 4;
+      console.log("wizard", this.activeWizard2);
+
+    this.urlFormSubmitted=false
+
+    
+  }
+}
+if(this.activeWizard2 == 4){
+  if(this.listdetails.length>0 ){
+    this.activeWizard2+= 1; 
+  }
+}
+
 
   if(this.listdetails.length>0 ){
       console.log("hey manaf",this.listdetails[0]);
@@ -494,12 +515,17 @@ export class OrganisationListComponent implements OnInit {
         index:this.list-1, 
         pilot_duration:0,
         fedo_score:false,
-        web_fedoscore:false,
-        productaccess_web: false,
-        web_url:'',
+        // web_fedoscore:false,
+        // productaccess_web: false,
+        // web_url:'',
         event:false,
         event_mode:0,
-        pressed:false
+        pressed:false,
+        limitScans:false,
+        scans:0,
+        ProductIOSAccess:false,
+        productAccessWeb: false,
+        productAccessMobile: false
 
       };
       this.listdetails.push(details);
