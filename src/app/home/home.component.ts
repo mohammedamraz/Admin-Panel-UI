@@ -77,7 +77,12 @@ export class HomeComponent implements OnInit {
         designation:['',Validators.required],
         pilot_duration:['',Validators.required],
         product_name:[''],
-        url:['',[Validators.required]]
+        url:['',[Validators.required]],
+        country:['',[Validators.required]],
+        zip:['',[Validators.required,Validators.pattern("^((\\+91-?)|0)?[0-9]{6}$")]],
+        state:['',[Validators.required]],
+        city:['',[Validators.required]],
+        address:['',[Validators.required]],
       });
 
       this.userForm =this.fb.group({
@@ -301,12 +306,17 @@ export class HomeComponent implements OnInit {
         index:this.list-1, 
         pilot_duration:0,
         fedo_score:false,
-        web_fedoscore:false,
-        productaccess_web: false,
-        web_url:'',
+        // web_fedoscore:false,
+        // web_url:'',
         event:false,
         event_mode:0,
-        pressed:false
+        pressed:false,
+        limitScans:false,
+        scans:0,
+        ProductIOSAccess:false,
+        productAccessWeb: false,
+        productAccessMobile: false
+
 
       };
       this.listdetails.push(details);
@@ -349,10 +359,21 @@ export class HomeComponent implements OnInit {
     }
     }
     if(this.activeWizard1 == 2){
+      if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+        this.activeWizard1 = this.activeWizard1+1;
+      }
+
+    }
+    if(this.activeWizard1 == 3){
       this.urlFormSubmitted=true
       if(this.basicWizardForm.controls['url'].valid){
-      this.activeWizard1 = 3;
+      this.activeWizard1 = 4;
       this.urlFormSubmitted=false
+      }
+    }
+    if(this.activeWizard1 == 4){
+      if(this.listdetails.length>0 ){
+        this.activeWizard1+= 1; 
       }
     }
     if(this.listdetails.length>0 ){
@@ -440,7 +461,7 @@ export class HomeComponent implements OnInit {
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
     this.listdetails=[];
-    this.list=4;
+    this.list=5;
     this.activeWizard1 =1;
    }
 
