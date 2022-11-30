@@ -80,7 +80,9 @@ export class PilotDashboardComponent implements OnInit {
           }
         }});
       this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
-        (doc:any) => {this.tableData=doc.data;});
+        (doc:any) => {
+        this.tableData=doc.data;
+        this.users=doc.total});
         this.userForm =this.fb.group({
           user_name: ['',Validators.required],
           designation: ['',Validators.required],
@@ -91,11 +93,11 @@ export class PilotDashboardComponent implements OnInit {
           third_party_org_name: ['',Validators.required],
   
         });
-        this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
-          console.log('all user',doc);
-          this.users=doc.total
+        // this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
+        //   console.log('all user',doc);
+        //   this.users=doc.total
           
-        })
+        // })
         this.adminService.fetchScan(this.orgId,this.productId).subscribe((doc:any)=>{
           console.log("all scans",doc);
           this.totalScans = doc.total_tests; 
