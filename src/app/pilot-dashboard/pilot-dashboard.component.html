@@ -272,6 +272,39 @@
     </div> <!-- end card-->
 </ng-template>
 <div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{totalScans}}</h2>
+                    <h5 style="color: #ADB5BD;">Total Scans</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{todayScans}}</h2>
+                    <h5 style="color: #ADB5BD;">Today's Scans</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="text-center">
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{users}}</h2>
+                    <h5 style="color: #ADB5BD;">Users</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
@@ -279,7 +312,7 @@
                 <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
                     <p *ngIf="product.status =='Active'" style="
                     margin-bottom: 0.5rem;">
-              {{daysLefts(product.end_date)}} 
+              {{daysLefts(product.end_date)+1}} 
                     days left for pilot to end</p>
                     <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>                    <ngb-progressbar style="margin-top: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                 </div>
@@ -287,10 +320,22 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-4 col-md-6" style="display: grid">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <h4 class="mt-0 header-title" style="color: white;">Fedo Score</h4>
+                <div class="form-check form-switch mt-3" style=" display: block;">
+                    <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
+                    <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
+                    <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-xl-4 col-md-6 " style="display: grid">
         <div class="card pt-2  " style="background: #313844;border-radius: 10px;"  >
             <div class="card-body widget-user ">
-                <h4 class="mt-0 header-title " style="color: white;">Downloads</h4>
+                <h4 class="mt-0 header-title " style="color: white;">Apps Available</h4>
                 <div class="download-style " >
                 <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
@@ -299,22 +344,10 @@
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
                 <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
-                    <button  style="height: 3.5rem;width: 9.3rem; background-color: black; color: white;  border-radius: 11px;"> {{product.product_id === '1' ? 'HSA' : (product.product_id === '2' ? 'Vitals':'RUW' )}} Web App</button>
+                    <button  style="height: 3.5rem;width: auto; background-color: black;  border-radius: 11px;"> <img src="./assets/images/Button - WebApp.png" style="height: 3rem;"></button>
                 </a>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-md-6" style="display: grid">
-        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
-            <div class="card-body widget-user">
-                <h4 class="mt-0 header-title" style="color: white;">Enable Fedo Score for Mobile App    </h4>
-                <div class="form-check form-switch mt-3" style=" display: block;">
-                    <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
-                    <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
-                    <h5 style="color: white; margin-left:0.5rem " *ngIf="product.fedoscore==true">Enabled</h5>
-                </div>
             </div>
         </div>
     </div>
@@ -345,10 +378,12 @@
                     <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
                 </div> <!-- end col -->
 
-                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr));" >
-                    <div >
-                    
-                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;  margin-top: 3rem;">
+                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr));" >
+                    <div style="justify-self: center;">
+
+                        <!-- <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;"> -->
+                            <div style="gap: 1rem;
+                            display: inline-flex;margin-top: 3rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
                         <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
@@ -416,7 +451,7 @@
             </div> 
             
 
-            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr)); ">
+            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr)); ">
             <div dir="ltr" style="padding: 0.5rem;">
                 <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"
                     [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
@@ -424,7 +459,7 @@
                     [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
                 <div style="    display: inline-flex;
-                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                gap: 0.8rem;margin-left:3rem;    place-items: baseline;">
                     <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                     <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                 </div>

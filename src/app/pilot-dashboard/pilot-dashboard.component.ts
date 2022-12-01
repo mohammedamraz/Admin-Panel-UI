@@ -49,6 +49,9 @@ export class PilotDashboardComponent implements OnInit {
   perpage:any=1000
   showLiveAlertAPI=false;
   errorMessageAPI='';
+  totalScans : any = 0;
+  todayScans : any = 0;
+  users : any = 0;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -77,7 +80,9 @@ export class PilotDashboardComponent implements OnInit {
           }
         }});
       this.adminService.fetchLatestUserOfOrgProd(this.orgId,this.productId).subscribe(
-        (doc:any) => {this.tableData=doc.data;});
+        (doc:any) => {
+        this.tableData=doc.data;
+        this.users=doc.total});
         this.userForm =this.fb.group({
           user_name: ['',Validators.required],
           designation: ['',Validators.required],
@@ -88,6 +93,17 @@ export class PilotDashboardComponent implements OnInit {
           third_party_org_name: ['',Validators.required],
   
         });
+        // this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
+        //   console.log('all user',doc);
+        //   this.users=doc.total
+          
+        // })
+        this.adminService.fetchScan(this.orgId,this.productId).subscribe((doc:any)=>{
+          console.log("all scans",doc);
+          this.totalScans = doc.total_tests; 
+
+          
+        })
     })
     this.orgId = this.route.snapshot.paramMap.get("orgId");
     this.productId = this.route.snapshot.paramMap.get("Id");
@@ -110,6 +126,10 @@ export class PilotDashboardComponent implements OnInit {
       this.adminService.fetchDailyScan(this.orgId,prodId,date,this.page,this.perpage).subscribe((doc:any)=>{
         console.log('asdffweafdszv => ',doc)
         graphdetails['today'] = doc[0].total_org_tests;
+       console.log('the date from app =>', date)
+       if(new Date().toISOString().substring(0, 10) == date){
+         this.todayScans =  doc[0].total_org_tests;
+       }
         graphdetails['yesterday'] = doc[0].total_org_tests_onedaybefore;
         graphdetails['previousDay'] = doc[0].total_org_tests_twodaybefore;
         graphdetails['totalScans'] = doc[0].total_org_tests;

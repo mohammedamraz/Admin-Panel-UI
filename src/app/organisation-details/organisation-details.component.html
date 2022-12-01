@@ -7,7 +7,6 @@ margin-top: 15px;
 padding-top:10px">
     <ngb-alert style = 'background: #0fba64;'type="success" *ngIf="showLiveAlertResendInvitation" (closed)="showLiveAlertResendInvitation = false"><span style="color: white;">{{errorMessageResendInvitation}}</span></ngb-alert>
 </div>
-<h4 *ngIf="orglogin==false" style="color: white;">Organisation Details</h4>
 <ng-template #toggleModal3 let-modal>
     <div class="card" style="background-color: #282E38;margin-bottom: 0;">
         <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
@@ -623,75 +622,176 @@ padding-top:10px">
     </div> <!-- end card-->
 </ng-template>
 
-<div class="row" *ngIf="orglogin==false" >
-    <div class="col-xl-8 col-md-8" style="display:inline-grid" >
-        <div class="card layout-style" style="background: #313844; border-radius:10px">
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Organisation Name</h4>
-                        <p class="sub-header" style=" color: #fff;
-                        margin-bottom: 0;font-weight: 500;
-                        font-size: 1.2rem;
-                        line-height: 22px;
-                        ">{{organization_name}}</p>
+<h4 *ngIf="orglogin === true" style="color: white;">Your Fedo Products</h4>
+<h4 *ngIf="orglogin === false" style="color: white;">Fedo Products</h4>
+    <div class="row mb-2"  >
+        <div class="col-xl-3 col-md-4" *ngFor="let product of orgProd;let indexOfelement=index;">
+            <div class="card" style="background: #313844;border-radius:10px"  >
+                <div class="card-body widget-user">
+                    <div class="float-end" ngbDropdown placement="bottom-end">
+                        <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <div ngbDropdownMenu>
+                            <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/pilotdashboard/'+product.product_id" ngbDropdownItem>Pilot Info</a>
+                        </div>
                     </div>
-                    <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
-                    align-self: center;" *ngIf="userlogin">
+                    <div class="text-center">
+                        <p style="margin: 0;"><b class="fw-normal" style="color: #82B4F3;font-size: xxx-large;font-weight: bolder;">{{product.count}}</b> Scans</p>
+                        <div class=" card-body" style="padding:0;text-align: -webkit-center;">
+                            <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
+                            <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
+                            <p *ngIf="product.status =='Active'"  style="margin-bottom: 0.5rem;">
+                      {{daysLefts(product.end_date)}} 
+                            days left for pilot to end</p>
+                            <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="row" *ngIf="orglogin==false" >
+    <div class="col-xl-4 col-md-4" style="display:inline-grid" >
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+            <div class="card-body">
+                    <div style="grid-auto-flow: column;
+                    display: grid; grid-template-columns: auto auto;">
+                        <div>
+                            <h4 *ngIf="orglogin==false" style="color: white;font-weight:400">Organisation Details</h4>
+    
+                        </div>
+                        <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                        align-self: center;" *ngIf="userlogin">
                         <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
                 </div>
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size:1.2rem ;">Org Admin Full Name</h4>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                    font-size: 0.9rem;">Organisation Name</h4>
+                    <p class="sub-header" style=" color: #fff;
+                    margin-bottom: 0;font-weight: 400;
+                    font-size: 1.2rem;
+                    line-height: 22px;
+                    ">{{organization_name}}</p>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size:0.9rem ;">Country</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{admin_name}}</p>
-                    </div>
-                    <div>
+                        line-height: 22px;">{{country}}</p>
+                    <!-- </div>
+                    <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Designation</h4>
+                        font-size: 0.9rem;">Zip</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{designation}}</p>
-                    </div>
-                </div>
-                <div class="card-body" style="grid-auto-flow: column;
-                display: grid;grid-template-columns: 1fr 1fr;">
-                    <div>
+                        line-height: 22px;">{{zip}}</p>
+                    <!-- </div>
+                </div> -->
+                <!-- <div class="card-body" > -->
+                    <!-- <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Mobile Number</h4>
+                        font-size: 0.9rem;">State</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
-                    </div>
-                    <div>
+                        line-height: 22px;">{{state}}</p>
+                    <!-- </div>
+                    <div> -->
                         <h4 style="color: #98a6ad;font-weight: 100;
-                        font-size: 1.2rem;">Email Address</h4>
+                        font-size: 0.9rem;">City</h4>
                         <p class="sub-header" style=" color: #fff;
                         margin-bottom: 0;
-                        font-weight: 500;
+                        font-weight: 400;
                         font-size: 1.2rem;
-                        line-height: 22px;">{{organization_email}}</p>
+                        line-height: 22px;">{{city}}</p>
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Address</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{address}}</p>
                     </div>
-                </div>
 
         </div>
     </div>
-    <div class="col-xl-4 col-md-4"  >
+    <div class="col-xl-4 col-md-4" style="display:inline-grid" >
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+            <div class="card-body">
+                    <div style="grid-auto-flow: column;
+                    display: grid; grid-template-columns: auto auto;">
+                        <div>
+                            <h4 *ngIf="orglogin==false" style="color: white;font-weight:400">Org Admin Details</h4>
+    
+                        </div>
+                        <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                        align-self: center;" *ngIf="userlogin">
+                        <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                            <i class="mdi mdi-pencil"></i>
+                        </a>
+                    </div>
+                </div>
+                    <h4 style="color: #98a6ad;font-weight: 100;
+                    font-size: 0.9rem;">Name</h4>
+                    <p class="sub-header" style=" color: #fff;
+                    margin-bottom: 0;font-weight: 400;
+                    font-size: 1.2rem;
+                    line-height: 22px;
+                    ">{{admin_name}}</p>
+                    <!-- <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size:0.9rem ;">Org Admin Full Name</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{admin_name}}</p> -->
+                    <!-- </div>
+                    <div> -->
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size: 0.9rem;">Designation</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{designation}}</p>
+                    <!-- </div>
+                </div> -->
+                <!-- <div class="card-body" > -->
+                    <!-- <div> -->
+                        <!-- </div>
+                            <div> -->
+                                <h4 style="color: #98a6ad;font-weight: 100;
+                                font-size: 0.9rem;">Email</h4>
+                                <p class="sub-header" style=" color: #fff;
+                                margin-bottom: 0;
+                                font-weight: 400;
+                                font-size: 1.2rem;
+                                line-height: 22px;">{{organization_email}}</p>
+                                
+                                <h4 style="color: #98a6ad;font-weight: 100;
+                                font-size: 0.9rem;">Mobile</h4>
+                                <p class="sub-header" style=" color: #fff;
+                                margin-bottom: 0;
+                                font-weight: 400;
+                                font-size: 1.2rem;
+                                line-height: 22px;">{{organization_mobile.slice(3,14)}}</p>
+                                
+                            </div>
+                            
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-4 " style="display:inline-grid" >
         <div  class="card" style="background: #313844; border-radius:10px">
-            <h4 *ngIf="orglogin"  style="color: white; margin: 2rem 0 0 2rem">Manage Logo</h4>
+            <h4   style="color: white; margin: 2rem 0 0 2rem">Manage Logo</h4>
             
             <div class="card-body mt-1 mb-0 shadow-none border"  >
                 <div  style="align-self: center;">
@@ -737,35 +837,6 @@ padding-top:10px">
 
     
 </div>
-<h4 *ngIf="orglogin === true" style="color: white;">Your Fedo Products</h4>
-    <div class="row mb-2" *ngIf="orglogin" >
-        <div class="col-xl-3 col-md-4" *ngFor="let product of orgProd;let indexOfelement=index;">
-            <div class="card" style="background: #313844;border-radius:10px"  >
-                <div class="card-body widget-user">
-                    <div class="float-end" ngbDropdown placement="bottom-end">
-                        <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
-                            <i class="mdi mdi-dots-vertical"></i>
-                        </a>
-                        <div ngbDropdownMenu>
-                            <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/pilotdashboard/'+product.product_id" ngbDropdownItem>View List</a>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p style="margin: 0;"><b class="fw-normal" style="color: #82B4F3;font-size: xxx-large;font-weight: bolder;">{{product.count}}</b> Scans</p>
-                        <div class=" card-body" style="padding:0;text-align: -webkit-center;">
-                            <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
-                            <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
-                            <p *ngIf="product.status =='Active'"  style="margin-bottom: 0.5rem;">
-                      {{daysLefts(product.end_date)}} 
-                            days left for pilot to end</p>
-                            <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     
     
 
@@ -794,10 +865,12 @@ padding-top:10px">
                     <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='season.date' (change)="checkdate($event,season.prodId,season.date)" type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" name="date">
                 </div> <!-- end col -->
 
-                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr));" >
-                    <div>
+                <div class="BarGraph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr));" >
+                    <div style="justify-self: center;">
 
-                <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;">
+                <!-- <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem; margin-top: 3rem;"> -->
+                    <div style="gap: 1rem;
+                    display: inline-flex;margin-top: 3rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
                         <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
@@ -811,6 +884,7 @@ padding-top:10px">
                         <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
                     </div>
                 </div>
+                <!-- </div> -->
                     <div style="    margin-top: 4rem;">
                         <img src="./assets/images/excel-icone.png"> &nbsp;
                         <a style="font-size: 1.2rem;
@@ -864,7 +938,7 @@ padding-top:10px">
             </div> 
             
 
-            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(17rem , 1fr)); ">
+            <div class="graph-container" style="display: grid;grid-template-columns: repeat(auto-fill, minmax(14rem , 1fr)); ">
             <div dir="ltr" style="padding: 0.5rem;">
                 <apx-chart class="apex-charts mt-2" [series]="season.performance.graph.series!" [chart]="season.performance.graph.chart!"  [plotOptions]="season.performance.graph.plotOptions!"
                     [dataLabels]="season.performance.graph.dataLabels!" [legend]="season.performance.graph.legend!" [fill]="season.performance.graph.fill!"
@@ -872,7 +946,7 @@ padding-top:10px">
                     [stroke]="season.performance.graph.stroke!" [tooltip]="season.performance.graph.tooltip!" [colors]="season.performance.graph.colors!">
                 </apx-chart>
                 <div style="    display: inline-flex;
-                gap: 0.8rem;margin-left:5rem;    place-items: baseline;">
+                gap: 0.8rem;margin-left:3rem;    place-items: baseline;">
                     <div style="background-color:#82B4F3;height: 5px;width:20px"></div><p style="color:#ADB5BD">Current</p>
                     <div style="background-color: #F08FC9;height:5px;width:20px"></div><p style="color:#ADB5BD">Previous</p>
                 </div>
@@ -916,7 +990,7 @@ padding-top:10px">
 
 
 
-<div class="row" *ngIf="orglogin == false" >
+<!-- <div class="row" *ngIf="orglogin == false" >
     <div class="col-xl-6 col-md-6">
         <div class="card" style="background: #313844; border-radius:10px">
                 <div class="card-body" *ngIf="orglogin == false" style="grid-auto-flow: column;
@@ -987,89 +1061,10 @@ padding-top:10px">
         </div>
     </div>
 
-    <div class="col-xl-6 col-md-6">
-    <div class="card" style="background: #313844; border-radius:10px;place-self: baseline;"  *ngIf="userlogin" >
-        <div class="card-body">
-            <div class=" float-end" ngbDropdown placement="bottom-end">
-                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                    <i class="mdi mdi-dots-vertical"></i>
-                </a>
-                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu *ngIf="userlogin">
-                    <div *ngFor="let person of tabDAta;" >
-                    <a href="javascript:void(0);" (click)="open(toggleModal3); setValue(person);" ngbDropdownItem>Create User</a>
-                    <a href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id"  ngbDropdownItem>User List</a>
+   
+</div> -->
 
-                </div>
-            </div>
-            </div>            
-            <div class=" float-end" ngbDropdown placement="bottom-end"  *ngIf="userlogin" >
-                <div *ngFor="let person of tabDAta;">
-                <a  href="javascript:void(0)" (click)="open(toggleModal3);setValue(person);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                    <i class="mdi mdi-plus"></i>
-                </a>
-            </div>            
-        </div>            
-            <h4 class="mt-0 header-title" style="color: white;">Recent 5 Users</h4>
-            <div class="table-responsive" >
-                <table class="table mb-0">
-                    <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
-                        <tr style="border-color: #49565d;">
-                            <th>#</th>
-                        <th></th>
-                            <th>Org User Name</th>
-                            <th >Mobile</th>
-                            <th style="text-align: -webkit-center;">Total Tests</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
-                        <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tableData;let indexOfelement=index;">
-                            <th scope="row">{{indexOfelement+1}}</th>
-                            <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
-                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
-                            <td>{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
-                            <td >{{person.mobile.slice(3,14)}}</td>
-                            <td style="text-align: -webkit-center;color: #82B4F3;">{{person.total_test}}</td>
-                            <td class="option">
-                                <div class=" float-end" ngbDropdown placement="bottom-end" >
-                                    <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
-                                        <i class="mdi mdi-dots-vertical"></i>
-                                    </a>
-                                    <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                        <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
-                                        <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a>
-                                    <div style="display: flex;
-                                        align-items: center;">
-                                        <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
-                                        <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div>
-                                        
-                                        <div class="form-check form-switch" >
-                                            <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
-                                    </div>
-                                </div>
-                                <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
-    
-                                </div>
-                            </div>
-    
-                                </div> 
-                            </td>
-                            
-                        </tr>
-
-                     
-                    </tbody>
-                </table>
-            <p style="margin-top: 0.5rem;
-            text-align-last: right;">OA - Organization Admin</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-</div>
-
-<div class="card" style="background: #313844; border-radius:10px" *ngIf="orglogin">
+<div class="card" style="background: #313844; border-radius:10px" >
     <div class="card-body">
         <div class=" float-end" ngbDropdown placement="bottom-end">
             <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
@@ -1141,6 +1136,8 @@ padding-top:10px">
                     </tr>
                 </tbody>
             </table>
+            <p style="margin-top: 0.5rem;
+            text-align-last: right;">OA - Organization Admin</p>
 
         </div>
     </div>

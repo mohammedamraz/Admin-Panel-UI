@@ -38,6 +38,11 @@ export class OrganisationDetailsComponent implements OnInit {
 ];
   todayDate=new Date();
   organization_name:any='';
+  country : any = '';
+  city : any = '';
+  state : any = '';
+  zip : any = '';
+  address : any = '';
   admin_name:any='';
   application_id:any='';
   attempts:any='';
@@ -134,6 +139,11 @@ export class OrganisationDetailsComponent implements OnInit {
         this.tabDAta=res
         this.designation= res[0].designation;
         this.organization_name= res[0].organization_name;
+        this.country= res[0].country ? res[0].country : 'NA';
+        this.state= res[0].state ? res[0].state : 'NA';
+        this.address= res[0].address ? res[0].address : 'NA';
+        this.city= res[0].city ? res[0].city : 'NA';
+        this.zip= res[0].zip ? res[0].zip : 'NA';
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;
@@ -621,7 +631,7 @@ font: {
     this.products = product;
     this.listdetails = list;
 
-    if(this.orglogin){
+    // if(this.orglogin){
 
       const requests =  OrgProducts.map((doc:any) =>this.fetchScansResolver(doc))
       Promise.all(requests).then(body => {
@@ -629,7 +639,7 @@ font: {
           this.orgProd.push(res)
         })
       })
-    }
+    // }
   }
 
   fetchScansResolver(data:any){
@@ -637,6 +647,7 @@ font: {
     return new Promise((resolve,reject) => {
       this.adminService.fetchScan(this.snapshotParam,data.product_id).subscribe(
         (doc:any) => {
+          console.log('dai madaya =>0,',doc)
           const result = {
             product_id:data.product_id,
             productName:data.product_id  === '1' ? 'HSA' : (data.product_id === '2' ? 'Vitals':'RUW' ),
