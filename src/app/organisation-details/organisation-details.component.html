@@ -633,6 +633,8 @@ padding-top:10px">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <div ngbDropdownMenu>
+                          <a (click)="orgEdit(toggleModal2);" href="javascript:void(0); "  ngbDropdownItem>Edit Pilot</a>
+
                             <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/pilotdashboard/'+product.product_id" ngbDropdownItem>Pilot Info</a>
                         </div>
                     </div>
