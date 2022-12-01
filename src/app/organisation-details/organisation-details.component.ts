@@ -602,6 +602,7 @@ font: {
 
   createEditproc(products:any,OrgProducts:any){
 
+    this.orgProd = [];  
    const product = products.map((doc:any)=>{
       const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
       if(found){
