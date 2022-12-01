@@ -338,51 +338,103 @@ export class HomeComponent implements OnInit {
   fetchData(){
     this.showLiveAlert=false;
 
-    if(this.activeWizard1 == 1){
-      this.firstFormSubmitted=true
-    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
-
-        let data ={
-            organization_name: this.basicWizardForm.value.organization_name,
-            organization_email: this.basicWizardForm.value.organization_email,
-            organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
-        };
-        
-    this.adminService.fetchOrgData(data).subscribe({
-        next: (data:any)=>{    
-          this.activeWizard1 = this.activeWizard1+1;
-          this.errorMessageAPI='';
-          this.showLiveAlertAPI=false;
-        },
-        error:(data:any)=>{
-          this.errorMessageAPI=data;
-          this.showLiveAlertAPI=true;
-        }
-      })
-      this.firstFormSubmitted=false 
-    }
-    }
-    if(this.activeWizard1 == 2){
-      this.secondFormSubmitted=true
-
-      if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
-        this.activeWizard1 = this.activeWizard1+1;
-        this.secondFormSubmitted=false
+    switch(this.activeWizard1){
+      case 1: this.firstFormSubmitted=true
+      if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+  
+          let data ={
+              organization_name: this.basicWizardForm.value.organization_name,
+              organization_email: this.basicWizardForm.value.organization_email,
+              organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+          };
+          
+      this.adminService.fetchOrgData(data).subscribe({
+          next: (data:any)=>{    
+            this.activeWizard1 = this.activeWizard1+1;
+            this.errorMessageAPI='';
+            this.showLiveAlertAPI=false;
+          },
+          error:(data:any)=>{
+            this.errorMessageAPI=data;
+            this.showLiveAlertAPI=true;
+          }
+        })
+        this.firstFormSubmitted=false 
       }
+      break;
 
-    }
-    if(this.activeWizard1 == 3){
+      case 2:
+        console.log('inside the case');
+        this.secondFormSubmitted=true
+
+        if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+          this.activeWizard1 = this.activeWizard1+1;
+          this.secondFormSubmitted=false
+        }
+        break;
+      case 3:  
       this.urlFormSubmitted=true
       if(this.basicWizardForm.controls['url'].valid){
       this.activeWizard1 = 4;
       this.urlFormSubmitted=false
       }
-    }
-    if(this.activeWizard1 == 4){
+        break;  
+      case 4:  
       if(this.listdetails.length>0 ){
         this.activeWizard1+= 1; 
       }
+      break;
+
+
     }
+
+
+
+    // if(this.activeWizard1 == 1){
+    //   this.firstFormSubmitted=true
+    // if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
+    //     let data ={
+    //         organization_name: this.basicWizardForm.value.organization_name,
+    //         organization_email: this.basicWizardForm.value.organization_email,
+    //         organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+    //     };
+        
+    // this.adminService.fetchOrgData(data).subscribe({
+    //     next: (data:any)=>{    
+    //       this.activeWizard1 = this.activeWizard1+1;
+    //       this.errorMessageAPI='';
+    //       this.showLiveAlertAPI=false;
+    //     },
+    //     error:(data:any)=>{
+    //       this.errorMessageAPI=data;
+    //       this.showLiveAlertAPI=true;
+    //     }
+    //   })
+    //   this.firstFormSubmitted=false 
+    // }
+    // }
+    // if(this.activeWizard1 == 2){
+    //   this.secondFormSubmitted=true
+
+    //   if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+    //     this.activeWizard1 = this.activeWizard1+1;
+    //     this.secondFormSubmitted=false
+    //   }
+
+    // }
+    // if(this.activeWizard1 == 3){
+    //   this.urlFormSubmitted=true
+    //   if(this.basicWizardForm.controls['url'].valid){
+    //   this.activeWizard1 = 4;
+    //   this.urlFormSubmitted=false
+    //   }
+    // }
+    // if(this.activeWizard1 == 4){
+    //   if(this.listdetails.length>0 ){
+    //     this.activeWizard1+= 1; 
+    //   }
+    // }
     if(this.listdetails.length>0 ){
     
       if(this.listdetails.length>0 ){
@@ -400,7 +452,7 @@ export class HomeComponent implements OnInit {
 
   checkListDetailsForm(){
 
-    if(this.activeWizard1==3){
+    if(this.activeWizard1==4){
       this.activeWizard1=4;
     }else{
       this.makeMove();

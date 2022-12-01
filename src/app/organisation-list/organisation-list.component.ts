@@ -151,57 +151,108 @@ export class OrganisationListComponent implements OnInit {
   fetchData(){
     this.showLiveAlert=false;
 
-    if(this.activeWizard2 == 1){
-      this.firstFormSubmitted=true
-    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+    
+    switch(this.activeWizard2){
+      case 1: this.firstFormSubmitted=true
+      if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+  
+          let data ={
+              organization_name: this.basicWizardForm.value.organization_name,
+              organization_email: this.basicWizardForm.value.organization_email,
+              organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+          };
+          
+      this.adminService.fetchOrgData(data).subscribe({
+          next: (data:any)=>{    
+            this.activeWizard2 = this.activeWizard2+1;
+            this.errorMessageAPI='';
+            this.showLiveAlertAPI=false;
+          },
+          error:(data:any)=>{
+            this.errorMessageAPI=data;
+            this.showLiveAlertAPI=true;
+          }
+        })
+        this.firstFormSubmitted=false 
+      }
+      break;
 
-        let data ={
-            organization_name: this.basicWizardForm.value.organization_name,
-            organization_email: this.basicWizardForm.value.organization_email,
-            organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+      case 2:
+        console.log('inside the case');
+        this.secondFormSubmitted=true
 
-        };
-
-    this.adminService.fetchOrgData(data).subscribe({
-        next: (data:any)=>{
+        if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
           this.activeWizard2 = this.activeWizard2+1;
-          this.errorMessageAPI='';
-                this.showLiveAlertAPI=false;
-        },
-        error:(data:any)=>{     
-                this.errorMessageAPI=data;
-                this.showLiveAlertAPI=true;
-            
+          this.secondFormSubmitted=false
         }
-    })
-    this.firstFormSubmitted=false
-
-    }
-  }
-  if(this.activeWizard2 == 2){
-    this.secondFormSubmitted=true
-    if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
-      this.activeWizard2 = this.activeWizard2+1;
-      this.secondFormSubmitted=false
-    }
-  }
-  if(this.activeWizard2 == 3){
-    this.urlFormSubmitted=true
-    if(this.basicWizardForm.controls['url'].valid){
-      
+        break;
+      case 3:  
+      this.urlFormSubmitted=true
+      if(this.basicWizardForm.controls['url'].valid){
       this.activeWizard2 = 4;
-      console.log("wizard", this.activeWizard2);
+      this.urlFormSubmitted=false
+      }
+        break;  
+      case 4:  
+      if(this.listdetails.length>0 ){
+        this.activeWizard2+= 1; 
+      }
+      break;
 
-    this.urlFormSubmitted=false
+
+    }
+
+//     if(this.activeWizard2 == 1){
+//       this.firstFormSubmitted=true
+//     if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
+//         let data ={
+//             organization_name: this.basicWizardForm.value.organization_name,
+//             organization_email: this.basicWizardForm.value.organization_email,
+//             organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+
+//         };
+
+//     this.adminService.fetchOrgData(data).subscribe({
+//         next: (data:any)=>{
+//           this.activeWizard2 = this.activeWizard2+1;
+//           this.errorMessageAPI='';
+//                 this.showLiveAlertAPI=false;
+//         },
+//         error:(data:any)=>{     
+//                 this.errorMessageAPI=data;
+//                 this.showLiveAlertAPI=true;
+            
+//         }
+//     })
+//     this.firstFormSubmitted=false
+
+//     }
+//   }
+//   if(this.activeWizard2 == 2){
+//     this.secondFormSubmitted=true
+//     if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+//       this.activeWizard2 = this.activeWizard2+1;
+//       this.secondFormSubmitted=false
+//     }
+//   }
+//   if(this.activeWizard2 == 3){
+//     this.urlFormSubmitted=true
+//     if(this.basicWizardForm.controls['url'].valid){
+      
+//       this.activeWizard2 = 4;
+//       console.log("wizard", this.activeWizard2);
+
+//     this.urlFormSubmitted=false
 
     
-  }
-}
-if(this.activeWizard2 == 4){
-  if(this.listdetails.length>0 ){
-    this.activeWizard2+= 1; 
-  }
-}
+//   }
+// }
+// if(this.activeWizard2 == 4){
+//   if(this.listdetails.length>0 ){
+//     this.activeWizard2+= 1; 
+//   }
+// }
 
 
   if(this.listdetails.length>0 ){
