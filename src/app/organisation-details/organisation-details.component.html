@@ -505,19 +505,19 @@ padding-top:10px">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
                                                 oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid}" 
-                                                name="userName" placeholder="Country" required formControlName="admin_name"> -->
-                                                <select2 class="select2-selection__rendered"  [customSearchEnabled]="true" [data]="countries" placeholder="Select Country" id="selec2-2" #country1>
-                                                </select2>
-                                                    <!-- <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label> -->
-                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['admin_name'].errors?.['required']" i18n>
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['country'].invalid}" 
+                                                name="userName" placeholder="Country" required formControlName="country">
+                                                <!-- <select2 class="select2-selection__rendered"  [customSearchEnabled]="true" [data]="countries" placeholder="Select Country" id="selec2-2" #country1>
+                                                </select2> -->
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['country'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['country'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="OrgForm.controls['admin_name'].errors?.['pattern']" i18n>
-                                                            Invalid name format. Please enter your full name
+                                                          <div *ngIf="OrgForm.controls['country'].errors?.['minlength']" i18n>
+                                                            Invalid Country format. Please enter Country
                                                           </div>
                                                     </div>
                                             </div>
@@ -526,15 +526,15 @@ padding-top:10px">
                                         <div class="form-floating mb-3">
 
                                                 <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
-                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['designation'].invalid}" 
-                                                name="userName" placeholder="Zip" formControlName="designation" minlength="3">
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['zip'].invalid}" 
+                                                name="userName" placeholder="Zip" formControlName="zip" minlength="3">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Zip</label>
-                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['designation'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['designation'].errors?.['required']" i18n>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['zip'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['zip'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="OrgForm.controls['designation'].errors?.['minlength']" i18n>
-                                                            Enter Zip
+                                                          <div *ngIf="OrgForm.controls['zip'].errors?.['pattern']" i18n>
+                                                            Invalid format. Please enter valid format
                                                           </div>
                                                     </div>
                                             </div>
@@ -543,23 +543,31 @@ padding-top:10px">
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
-                                                    name="userName" placeholder="State" formControlName="organization_email" [readonly]="true">
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC" minlength="3"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['state'].invalid}"  name="userName" placeholder="State" formControlName="state" >
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>State</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['state'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['state'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['state'].errors?.['minlength']" i18n>
+                                                            Please Enter State
+                                                          </div>
+                                                    </div>
                                             </div>
                                         </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input  matInput  type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC" 
-                                                    name="userName" placeholder="City" formControlName="organization_mobile"
-                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid}" >
+                                                <input  matInput  type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
+                                                    name="userName" placeholder="City" formControlName="city"
+                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['city'].invalid}" >
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>City</label>
-                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_mobile'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['required']" i18n>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['city'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['city'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="OrgForm.controls['organization_mobile'].errors?.['pattern']" i18n>
+                                                          <div *ngIf="OrgForm.controls['city'].errors?.['minlength']" i18n>
                                                             Invalid format. Please enter valid format
                                                           </div>
                                                     </div>
@@ -571,14 +579,14 @@ padding-top:10px">
                                                 <div class="form-floating ">
 
                                                 <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
-                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid}" 
-                                                name="userName" minlength="3" placeholder="Address" formControlName="organization_name" oninput=" this.value = this.value.replace(/[0-9]/g,'')" >
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['address'].invalid}" 
+                                                name="userName" minlength="5" placeholder="Address" formControlName="address" oninput=" this.value = this.value.replace(/[0-9]/g,'')" >
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Address</label>
-                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['organization_name'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['organization_name'].errors?.['required']" i18n>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['address'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['address'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="OrgForm.controls['organization_name'].errors?.['minlength']" i18n>
+                                                          <div *ngIf="OrgForm.controls['address'].errors?.['minlength']" i18n>
                                                             Enter full Address
                                                           </div>
                                                     </div>
