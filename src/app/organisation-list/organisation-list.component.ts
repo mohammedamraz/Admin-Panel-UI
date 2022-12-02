@@ -49,6 +49,8 @@ export class OrganisationListComponent implements OnInit {
   total_pages:any;
   total_org:any;
   urlFormSubmitted = false
+  firstFormSubmitted = false
+  secondFormSubmitted = false
   currentPage:any;
   showLiveAlertAPI=false;
   errorMessageAPI='';
@@ -68,7 +70,7 @@ export class OrganisationListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    this.list = 4
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
@@ -98,6 +100,12 @@ export class OrganisationListComponent implements OnInit {
       url:['',Validators.required],
       pilot_duration:[''],
       product_name:[''],
+      country:['',[Validators.required]],
+      zip:['',[Validators.required,Validators.pattern("^[0-9]{6}$")]],
+      state:['',[Validators.required]],
+      city:['',[Validators.required]],
+      address:['',[Validators.required]],
+      
     });
 
   }
@@ -136,46 +144,116 @@ export class OrganisationListComponent implements OnInit {
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
     this.listdetails=[];
-    this.list=4;
+    this.list=5;
     this.activeWizard2 =1;
    }
 
   fetchData(){
     this.showLiveAlert=false;
 
-    if(this.activeWizard2 == 1){
-    if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+    
+    switch(this.activeWizard2){
+      case 1: this.firstFormSubmitted=true
+      if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+  
+          let data ={
+              organization_name: this.basicWizardForm.value.organization_name,
+              organization_email: this.basicWizardForm.value.organization_email,
+              organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+          };
+          
+      this.adminService.fetchOrgData(data).subscribe({
+          next: (data:any)=>{    
+            this.activeWizard2 = this.activeWizard2+1;
+            this.errorMessageAPI='';
+            this.showLiveAlertAPI=false;
+          },
+          error:(data:any)=>{
+            this.errorMessageAPI=data;
+            this.showLiveAlertAPI=true;
+          }
+        })
+        this.firstFormSubmitted=false 
+      }
+      break;
 
-        let data ={
-            organization_name: this.basicWizardForm.value.organization_name,
-            organization_email: this.basicWizardForm.value.organization_email,
-            organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+      case 2:
+        console.log('inside the case');
+        this.secondFormSubmitted=true
 
-        };
-
-    this.adminService.fetchOrgData(data).subscribe({
-        next: (data:any)=>{
+        if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
           this.activeWizard2 = this.activeWizard2+1;
-          this.errorMessageAPI='';
-                this.showLiveAlertAPI=false;
-        },
-        error:(data:any)=>{     
-                this.errorMessageAPI=data;
-                this.showLiveAlertAPI=true;
-            
+          this.secondFormSubmitted=false
         }
-    })
+        break;
+      case 3:  
+      this.urlFormSubmitted=true
+      if(this.basicWizardForm.controls['url'].valid){
+      this.activeWizard2 = 4;
+      this.urlFormSubmitted=false
+      }
+        break;  
+      case 4:  
+      if(this.listdetails.length>0 ){
+        this.activeWizard2+= 1; 
+      }
+      break;
+
 
     }
-  }
-  if(this.activeWizard2 == 2){
-    this.urlFormSubmitted=true
-    if(this.basicWizardForm.controls['url'].valid){
-      this.activeWizard2 = 3;
-    this.urlFormSubmitted=false
 
-    }
-  }
+//     if(this.activeWizard2 == 1){
+//       this.firstFormSubmitted=true
+//     if(this.basicWizardForm.controls['organization_name'].valid &&this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid ){
+
+//         let data ={
+//             organization_name: this.basicWizardForm.value.organization_name,
+//             organization_email: this.basicWizardForm.value.organization_email,
+//             organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+
+//         };
+
+//     this.adminService.fetchOrgData(data).subscribe({
+//         next: (data:any)=>{
+//           this.activeWizard2 = this.activeWizard2+1;
+//           this.errorMessageAPI='';
+//                 this.showLiveAlertAPI=false;
+//         },
+//         error:(data:any)=>{     
+//                 this.errorMessageAPI=data;
+//                 this.showLiveAlertAPI=true;
+            
+//         }
+//     })
+//     this.firstFormSubmitted=false
+
+//     }
+//   }
+//   if(this.activeWizard2 == 2){
+//     this.secondFormSubmitted=true
+//     if(this.basicWizardForm.controls['country'].valid &&this.basicWizardForm.controls['zip'].valid && this.basicWizardForm.controls['state'].valid && this.basicWizardForm.controls['city'].valid && this.basicWizardForm.controls['address'].valid ){
+//       this.activeWizard2 = this.activeWizard2+1;
+//       this.secondFormSubmitted=false
+//     }
+//   }
+//   if(this.activeWizard2 == 3){
+//     this.urlFormSubmitted=true
+//     if(this.basicWizardForm.controls['url'].valid){
+      
+//       this.activeWizard2 = 4;
+//       console.log("wizard", this.activeWizard2);
+
+//     this.urlFormSubmitted=false
+
+    
+//   }
+// }
+// if(this.activeWizard2 == 4){
+//   if(this.listdetails.length>0 ){
+//     this.activeWizard2+= 1; 
+//   }
+// }
+
 
   if(this.listdetails.length>0 ){
       console.log("hey manaf",this.listdetails[0]);
@@ -333,12 +411,17 @@ export class OrganisationListComponent implements OnInit {
     data.append('pilot_duration',this.listdetails.map(value=>value.pilot_duration).toString());
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
-    data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
+    data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
+    data.append('productaccess_mobile',this.listdetails.map(value=>value.productaccess_mobile).toString());
 
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
+    data.append('country',this.basicWizardForm.value.country);
+    data.append('zip',this.basicWizardForm.value.zip.toString());
+    data.append('state',this.basicWizardForm.value.state);
+    data.append('city',this.basicWizardForm.value.city);
+    data.append('address',this.basicWizardForm.value.address);
     this.image==''? null:data.append('file', this.image, this.image.name)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
@@ -494,12 +577,17 @@ export class OrganisationListComponent implements OnInit {
         index:this.list-1, 
         pilot_duration:0,
         fedo_score:false,
-        web_fedoscore:false,
-        productaccess_web: false,
-        web_url:'',
+        // web_fedoscore:false,
+        // productaccess_web: false,
+        // web_url:'',
         event:false,
         event_mode:0,
-        pressed:false
+        pressed:false,
+        limitScans:false,
+        scans:0,
+        ios_access:false,
+        productaccess_web: false,
+        productaccess_mobile: false
 
       };
       this.listdetails.push(details);

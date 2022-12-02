@@ -54,3 +54,21 @@
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     
 }
+.checkmate:checked{
+    background-color: #71b6f9 !important;
+    border-color: #71b6f9 !important;
+}
+.checkmate{
+    border-radius: 0.25em;
+    float: left;
+    margin-left: -1.643em;
+    width: 1.143em;
+    height: 1.143em;
+    margin-top: 0.1785em;
+    vertical-align: top;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    appearance: revert;
+    -webkit-print-color-adjust: exact;
+}
