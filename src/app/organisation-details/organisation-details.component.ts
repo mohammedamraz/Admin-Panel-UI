@@ -619,18 +619,21 @@ font: {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date),
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id,
-      event_mode:el.event_mode
+      event_mode:el.event_mode,
+      ios_access:el.ios_access,
+      mobile_access :el.mobile_access
+
     }})
     this.list=2+OrgProducts.length
     this.products = product;
-    this.listdetails = list;
+    this.listdetails = list;    
 
     // if(this.orglogin){
 
@@ -1035,7 +1038,9 @@ resendInvitationMail(data:any){
         web_access: el.web_access,
         web_url: el.web_access ? el.web_url :'',
         web_fedoscore: el.web_access ? el.web_fedoscore:false,
-        event_mode: el.event_mode
+        event_mode: el.event_mode,
+        ios_access: el.ios_access ,
+        mobile_access: el.mobile_access,
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1054,6 +1059,8 @@ resendInvitationMail(data:any){
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+    data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+    data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
