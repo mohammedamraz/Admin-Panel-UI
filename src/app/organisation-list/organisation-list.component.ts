@@ -411,12 +411,17 @@ export class OrganisationListComponent implements OnInit {
     data.append('pilot_duration',this.listdetails.map(value=>value.pilot_duration).toString());
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
-    data.append('web_fedoscore',this.listdetails.map(value=>value.web_fedoscore).toString());
-    data.append('web_url',this.listdetails.map(value=>value.web_url==''?'':'vitals_'+value.web_url).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
+    data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
+    data.append('productaccess_mobile',this.listdetails.map(value=>value.productaccess_mobile).toString());
 
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
+    data.append('country',this.basicWizardForm.value.country);
+    data.append('zip',this.basicWizardForm.value.zip.toString());
+    data.append('state',this.basicWizardForm.value.state);
+    data.append('city',this.basicWizardForm.value.city);
+    data.append('address',this.basicWizardForm.value.address);
     this.image==''? null:data.append('file', this.image, this.image.name)
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
@@ -580,9 +585,9 @@ export class OrganisationListComponent implements OnInit {
         pressed:false,
         limitScans:false,
         scans:0,
-        ProductIOSAccess:false,
-        productAccessWeb: false,
-        productAccessMobile: false
+        ios_access:false,
+        productaccess_web: false,
+        productaccess_mobile: false
 
       };
       this.listdetails.push(details);
