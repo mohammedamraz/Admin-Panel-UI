@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import * as XLSX from 'xlsx-js-style'; 
+import { Select2Data, Select2Option } from 'ng-select2-component';
 
 
 @Component({
@@ -99,6 +100,190 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   userId: any;
+  countries:Select2Option[] = [ 
+    {
+      value:'IN',
+      label:'india',
+      // data:[{sadf:'asdf'}],
+      id:'1',
+      
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+
+  ];
 
   constructor(
     private sanitizer: DomSanitizer, 
