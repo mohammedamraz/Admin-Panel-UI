@@ -71,7 +71,8 @@ export class UserDetailsComponent implements OnInit {
   currentPage:any;
   showLiveAlertAPI=false;
   errorMessageAPI='';
-  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users'];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   activeStatusValue: any= this.activeStatusOptions[0]
+  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users'];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+  activeStatusValue: any= this.activeStatusOptions[1]
   changeButton:boolean=false
 
   ngOnInit(): void {
