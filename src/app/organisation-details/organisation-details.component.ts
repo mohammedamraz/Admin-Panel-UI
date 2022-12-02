@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import * as XLSX from 'xlsx-js-style'; 
+import { Select2Data, Select2Option } from 'ng-select2-component';
 
 
 @Component({
@@ -99,6 +100,190 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   userId: any;
+  countries:Select2Option[] = [ 
+    {
+      value:'IN',
+      label:'india',
+      // data:[{sadf:'asdf'}],
+      id:'1',
+      
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+
+  ];
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -194,6 +379,11 @@ export class OrganisationDetailsComponent implements OnInit {
       designation:[this.designation,[Validators.required]],
       fedo_score:[this.fedo_score],
       url:[this.url],
+      country:[this.country,[Validators.required]],
+      state:[this.state,[Validators.required]],
+      city:[this.city,[Validators.required]],
+      address:[this.address,[Validators.required]],
+      zip:[this.zip,[Validators.required,Validators.pattern("[0-9]{6}$")]],
     });
 
     this.basicWizardForm = this.fb.group({
@@ -700,6 +890,11 @@ font: {
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
+    this.OrgForm.controls['country'].setValue(this.country);
+    this.OrgForm.controls['state'].setValue(this.state);
+    this.OrgForm.controls['zip'].setValue(this.zip);
+    this.OrgForm.controls['address'].setValue(this.address);
+    this.OrgForm.controls['city'].setValue(this.city);
     this.activeWizard2 = 1;
 
  }
@@ -1005,7 +1200,7 @@ resendInvitationMail(data:any){
   checkingOrgForm(){
 
     this.OrgDetailsEditForm = true
-    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid ){
+    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
