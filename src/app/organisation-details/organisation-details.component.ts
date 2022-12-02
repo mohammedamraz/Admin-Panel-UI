@@ -602,8 +602,8 @@ font: {
 
   createEditproc(products:any,OrgProducts:any){
 
-   const product = products.map((doc:any)=>{
-      const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
+   const product = products.map((doc:any)=>{    
+      const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());      
       if(found){
         doc['checked'] = true;
         doc['noPenetration']=true;
@@ -625,11 +625,14 @@ font: {
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id,
-      event_mode:el.event_mode
+      event_mode:el.event_mode,
+      ios_access:el.ios_access,
+      mobile_access :el.mobile_access
+
     }})
     this.list=2+OrgProducts.length
     this.products = product;
-    this.listdetails = list;
+    this.listdetails = list;    
 
     // if(this.orglogin){
 
@@ -1034,7 +1037,9 @@ resendInvitationMail(data:any){
         web_access: el.web_access,
         web_url: el.web_access ? el.web_url :'',
         web_fedoscore: el.web_access ? el.web_fedoscore:false,
-        event_mode: el.event_mode
+        event_mode: el.event_mode,
+        ios_access: el.ios_access ,
+        mobile_access: el.mobile_access,
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1053,6 +1058,8 @@ resendInvitationMail(data:any){
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+    data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+    data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
