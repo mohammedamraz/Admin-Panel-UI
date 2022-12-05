@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 import * as XLSX from 'xlsx-js-style'; 
+import { AuthenticationService } from '../core/service/auth.service';
 
 @Component({
   selector: 'app-pilot-dashboard',
@@ -52,26 +53,44 @@ export class PilotDashboardComponent implements OnInit {
   totalScans : any = 0;
   todayScans : any = 0;
   users : any = 0;
+  listdetails:any[]=[];
+  orgProd:any=[];
+  showOrgLiveAlert=false;
+  errorOrgMessage = '';
+  id:any='';
+  listorg:number =3;
+  OrgForm!: FormGroup;
+  next:boolean=false;
+  basicWizardForm!: FormGroup;
+  productsWhole: any;
+  loggedInUser : any = {};
+  orgLogin : boolean = false;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly adminService: AdminConsoleService,
     private modalService: NgbModal,
     private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+
 
   ) { }
 
   ngOnInit(): void {
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
     this.route.params.subscribe((val:any) =>{
+      console.log("params",val)
       this.graphArray = [];
       this.orgId = val.orgId;
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
         next:(res:any) =>{
+          this.id= res[0].id;
           this.organization_name=res[0].organization_name
           this.created_date= new Date(res[0].created_date);
           const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.productId);
           this.product= res[0].product[selected];
+          this.productsWhole= res[0].product;
           this.createGraphArrayItems([this.product],this.dateSelected);
           this.userProduct = [{product_id:this.product.product_id,product_name:this.product.product_id === '1' ? 'HSA' : (this.product.product_id === '2' ? 'Vitals':'RUW' )}]
           this.show = false;
@@ -105,8 +124,16 @@ export class PilotDashboardComponent implements OnInit {
           
         })
     })
+    console.log("orglogin",this.orgLogin)
     this.orgId = this.route.snapshot.paramMap.get("orgId");
     this.productId = this.route.snapshot.paramMap.get("Id");
+    this.loggedInUser = <any>this.authenticationService.currentUser();
+    if(this.loggedInUser.org_data[0].type=='orgAdmin'){
+      this.orgLogin = true;
+    }
+
+    this.createEditproc(this.products,this.product);
+
 
   }
   async createGraphArrayItems(product:any,date:any){
@@ -590,6 +617,169 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   }
+
+  orgEdit(content: TemplateRef<NgbModal>): void {    
+    this.createEditproc(this.products,this.productsWhole);
+    this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
+  }
+
+  createEditproc(products:any,OrgProducts:any){
+
+    this.orgProd = []; 
+   const product = products.map((doc:any)=>{
+    const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+
+      }
+      return doc
+    })
+
+    const list = OrgProducts.map((el:any) => {return {
+      fedoscore: el.fedoscore,
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
+      product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
+      web_access: el.web_access,
+      web_url: el.web_url,
+      web_fedoscore:el.web_fedoscore,
+      product_junction_id: el.id,
+      product_id: el.product_id,
+      event_mode:el.event_mode,
+      ios_access:el.ios_access,
+      mobile_access :el.mobile_access
+
+    }})
+    this.list=2+OrgProducts.length
+    this.products = product;
+    this.listdetails = list;    
+
+      const requests =  OrgProducts.map((doc:any) =>this.fetchScansResolver(doc))
+      Promise.all(requests).then(body => {
+        body.forEach(res => {
+          this.orgProd.push(res)
+        })
+      })
+  }
+  fetchScansResolver(data:any){
+
+    return new Promise((resolve,reject) => {
+      this.adminService.fetchScan(this.orgId,data.product_id).subscribe(
+        (doc:any) => {
+          const result = {
+            product_id:data.product_id,
+            productName:data.product_id  === '1' ? 'HSA' : (data.product_id === '2' ? 'Vitals':'RUW' ),
+            status:data.status,
+            count:doc.total_tests,
+            end_date: data.end_date,
+            pilot_duration:data.pilot_duration
+          }
+          return resolve(result)
+    })})
+
+  }
+
+  checkingProductOrgForm(){
+    
+    const prod:any = this.listdetails.map((el:any)=>{
+      return {
+        fedo_score:el.fedoscore,
+        pilot_duration: el.pilot_duration,
+        product_junction_id:el.product_junction_id,
+        product_id: el.product_id,
+        web_access: el.web_access,
+        web_url: el.web_access ? el.web_url :'',
+        web_fedoscore: el.web_access ? el.web_fedoscore:false,
+        event_mode: el.event_mode,
+        ios_access: el.ios_access ,
+        mobile_access: el.mobile_access,
+      }
+    });
+    const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
+    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
+      this.errorOrgMessage='web url must be provided';
+      this.showOrgLiveAlert=true;    
+    }
+    else{
+    let data = new FormData();
+    data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
+    data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
+    data.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
+    data.append('product_id',prod.map((value:any) => value.product_id).toString());
+    data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
+    data.append('web_url',prod.map((value:any) => value.web_url).toString());
+    data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
+    data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+    data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+    data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    
+
+    this.adminService.patchOrgDetails(this.id, data).subscribe({
+      next: (res) => {
+        this.activeWizard2=this.activeWizard2+1;
+        this.created = true;
+      },
+      error: (err) => {
+        this.errorOrgMessage=err;
+        this.showOrgLiveAlert=true;
+      },
+      complete: () => { }
+    });
+  } 
+  }
+
+  reloadPage(){
+    window.location.reload();
+  }
+
+  setEventMode(event: any,product:any,value:any){
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].event_mode = value ;
+  }
+
+  updateProduct(event:any, productId:string){
+    if(event.target.checked){
+      const data = {
+        fedoscore: false,
+        pilot_duration: 15,
+        product_name:parseInt(productId) === 1 ? 'HSA' : (parseInt(productId) === 2 ? 'Vitals':'RUW' ), 
+        web_access: false,
+        web_url: '',
+        web_fedoscore: false,
+        product_junction_id: '',
+        checked:true,
+        product_id:productId
+      }
+      this.list++;
+      this.listdetails.push(data);
+      const perish = this.products.findIndex((prod:any) => prod.id == productId)
+      this.products[perish]['checked'] = true
+      this.products[perish]['noPenetration'] = false
+
+    }
+    else{
+      const selected =this.listdetails.findIndex(obj=>obj.product_id===productId);
+      this.listdetails.splice(selected,1);
+      this.list--;
+    }
+  }
+
+  eventmode(event:any, product:any){
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode = 1;  
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].event_mode=0;  
+    }
+  }
+
+  
 }
   
 

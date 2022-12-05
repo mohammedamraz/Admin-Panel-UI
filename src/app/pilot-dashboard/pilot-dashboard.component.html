@@ -308,7 +308,18 @@
     <div class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
+                <div style="grid-auto-flow: column;
+                display: grid; grid-template-columns: auto auto;">
+                <div>
                 <h4 class="mt-0 header-title" style="color: white;">Pilot Duration</h4>
+                </div>
+                <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                align-self: center;">
+                <a *ngIf="orgLogin==false" (click)="orgEdit(toggleModal2);" href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                    <i class="mdi mdi-pencil"></i>
+                </a>
+            </div>
+            </div>
                 <div class="col-xl-12 card-body" style="padding-left:0;padding-right:0">
                     <p *ngIf="product.status =='Active'" style="
                     margin-bottom: 0.5rem;">
@@ -323,7 +334,18 @@
     <div class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
+                <div style="grid-auto-flow: column;
+                display: grid; grid-template-columns: auto auto;">
+                <div>
                 <h4 class="mt-0 header-title" style="color: white;">Fedo Score</h4>
+                </div>
+                <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                align-self: center;">
+                <a *ngIf="orgLogin==false" (click)="orgEdit(toggleModal2);" href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                    <i class="mdi mdi-pencil"></i>
+                </a>
+            </div>
+            </div>
                 <div class="form-check form-switch mt-3" style=" display: block;">
                     <input style="pointer-events: none;" type="checkbox" class="form-check-input" [checked]="product.fedoscore" id="customSwitch1">
                     <h5 style="color: white; margin-left:0.5rem" *ngIf="product.fedoscore==false">Disabled</h5>
@@ -335,7 +357,18 @@
     <div class="col-xl-4 col-md-6 " style="display: grid">
         <div class="card pt-2  " style="background: #313844;border-radius: 10px;"  >
             <div class="card-body widget-user ">
-                <h4 class="mt-0 header-title " style="color: white;">Apps Available</h4>
+                <div style="grid-auto-flow: column;
+                display: grid; grid-template-columns: auto auto;">
+                    <div>
+                        <h4 class="mt-0 header-title" style="color: white;">Apps Available</h4>
+                    </div>
+                    <div *ngIf="orgLogin==false" class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                    align-self: center;" >
+                    <a (click)="orgEdit(toggleModal2);" href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-pencil"></i>
+                    </a>
+                </div>
+            </div>
                 <div class="download-style " >
                 <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
@@ -575,3 +608,230 @@
 
     </div> 
 </div>
+
+
+<ng-template #toggleModal2 let-modal style="width: auto;">
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
+        <div class="card-body" style="     min-width: min-content;   background-color: #282E38;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3; reloadPage();" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Organisation</h4>
+    
+            <form >
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(8rem , 5fr)); background-color: #313844;">
+           
+                        <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <span class=" d-sm-inline">Products</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div style="display: grid;
+                                    grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
+                                    grid-gap: 1rem;margin-bottom: 2rem;">
+                                         
+                                         <ng-template ngFor let-season [ngForOf]="products" let-i=index>
+                                            <div class="gal-detail thumb" style=" width: 142px;
+                                            height: 180px;background: #3C424F;
+                                             border-radius: 8px; margin:0px">
+                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                </a>
+                            
+                                                <div style="    text-align: -webkit-center;
+                                                display: grid;
+                                                justify-items: center;
+                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                    <div class="avatar-md">
+                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                            F{{season.product_name.charAt(0).toUpperCase()}}
+                                                        </span>
+                                                    </div>
+                                                    <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
+                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                        <input type="checkbox" [checked]="season.checked" (change)="updateProduct($event,season.id)"  [ngStyle]="{'pointer-events': season.noPenetration ? 'none':'fill'}"  class="form-check-input" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                      
+    
+                                    </div>
+                                </ng-template>
+                        </li>
+
+                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                            <li [ngbNavItem]="2+i">
+                            <a [ngStyle]=" activeWizard2 > 2+i ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class=" d-sm-inline">Config {{season.product_name}}</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div class="row grid-container ">
+                                        <div class="">
+                                            <div class="card">
+                                                <div class="card-body" style="padding-left: 0;">
+                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
+                                                    <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
+                                                        [options]="{
+                                                            floor: 0,
+                                                            ceil: 90    
+                                                        }"></ngx-slider>
+                                                </div> <!-- end card-body -->
+                                            </div> <!-- end card-->
+                                            <!-- <div style="padding-bottom:1rem">
+                                                <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>{{season.name}}
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" class="form-check-input"  [readonly]="orglogin" id="customSwitch1">
+                                                </div>
+                                            </div> -->
+                                            <div *ngIf="season.product_name === 'Vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" *ngIf="season.event_mode!='0'"  >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
+                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
+                                                        <div >
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
+                                            </div>
+                                            <div >
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <label class="form-check-label" for="customRadio1"
+                                                >&nbsp;Vitals Dashboard</label>
+                                            </div>
+                                                    </div>
+                                      </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " >
+                                            <div>
+                                                <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                </div>
+                                            </div>
+                                            <div *ngIf="season.product_name === 'Vitals'" >
+                                                <div style="margin-bottom:1rem; margin-top: 1rem"    >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Apps:</h4>
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.mobile_access" [ngModelOptions]="{standalone: true}"  value="0" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">Android</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.ios_access" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">iOS</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.web_access" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">WebApp</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                         
+                                            <!-- <div style="margin-bottom: 1rem;">
+                                                <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.limitScans" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                </div>
+                                            </div> -->
+                                            <!-- <div *ngIf="season.limitScans" style="display: grid;grid-template-columns: 1fr 1fr;grid-gap:1rem">
+                                                <div class="">
+                                                    <div class="form-floating mb-3">
+                                                        <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
+                                                            name="userName" placeholder="Limit Scans" required [(ngModel)]="season.scans" [ngModelOptions]="{standalone: true}">
+                                                            <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Limit Scans</label>
+                                                            
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" >
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1">Per Month</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1"
+                                                        >In Total</label
+                                                      >
+                                                    </div>   
+                                                  </div>
+
+                                            </div> -->
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </ng-template>
+                        </li>
+                        </ng-template>
+
+                        <li [ngbNavItem]="list">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" >
+                        <div *ngIf="showOrgLiveAlert" class="mb-3" style="width: 100%;
+                                        margin-top: 0.25rem;
+                                        font-size: 0.75rem;
+                                        color: #F08F8F;">
+
+                                                  {{errorOrgMessage}}
+                                                
+                                              </div>
+                        <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
+                                [disabled]="activeWizard2===1">Previous</button>
+                        </li>
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
+                            <button type="button"    style="width: 100px;"  class="btn btn-secondary mt-4" (click)="modal.dismiss('');listorg=3;listdetails=[]; reloadPage();"
+                                >Close</button>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
+                            <button type="button" (click)="activeWizard2=activeWizard2+1" style="width: 100px;" class="btn btn-info"
+                                *ngIf="activeWizard2<list-1">Next</button>
+                            <button type="button" class="btn btn-secondary" (click)="checkingProductOrgForm()" style="width: 100px;" class="btn btn-info"
+                                *ngIf="activeWizard2 == list-1">Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
+
