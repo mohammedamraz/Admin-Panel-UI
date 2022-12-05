@@ -350,12 +350,9 @@ export class HomeComponent implements OnInit {
     }
     if(this.activeWizard1 == 2){
       this.urlFormSubmitted=true
-      console.log('current wizard',this.urlFormSubmitted);
-      
       if(this.basicWizardForm.controls['url'].valid){
       this.activeWizard1 = 3;
       this.urlFormSubmitted=false
-      console.log('later wizard',this.urlFormSubmitted);
       }
     }
     if(this.listdetails.length>0 ){

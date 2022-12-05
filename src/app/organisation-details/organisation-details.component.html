@@ -329,7 +329,7 @@ padding-top:10px">
                                 <span class=" d-sm-inline">Config {{season.product_name}}</span>
                             </a>
                             <ng-template ngbNavContent>
-                                    <div class="row grid-container " style="   ">
+                                    <div class="row grid-container ">
                                         <div class="">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
@@ -341,12 +341,12 @@ padding-top:10px">
                                                         }"></ngx-slider>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div style="padding-bottom:1rem">
+                                            <!-- <div style="padding-bottom:1rem">
                                                 <h4 class="header-title" style="color: white;">Enable Fedo Score:</h4>{{season.name}}
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" class="form-check-input"  [readonly]="orglogin" id="customSwitch1">
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div *ngIf="season.product_name === 'Vitals'" >
                                                 <div style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
@@ -370,32 +370,64 @@ padding-top:10px">
                                       </div>
                                             </div>
                                         </div>
-                                        <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " *ngIf="season.product_name === 'Vitals'">
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " >
                                             <div>
-                                                <h4 class="header-title" style="color: #AEB5BC;">Enable Vitals Web App</h4>
+                                                <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.web_access" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
-                                            <div *ngIf="season.web_access">
-                                            <div >
-                                                <h4 class="header-title" style="color: #AEB5BC;">Define Web App Vitals URL:</h4>
-                                                <p>https://www.fedo.ai/products/vitals/
-                                             
-                                                    <input type="text" class="form-control" id="userName1" style="background: #383E4A;
-                                                    border: 1px solid #444C5B;
-                                                    border-radius: 4px;
-                                                    width: 40%;
-                                                    "    
-                                                        name="userName" placeholder=""required="" [(ngModel)]="season.web_url" [ngModelOptions]="{standalone: true}" >
-                                                    </p>
-                                            </div>
-                                            <div>
-                                                <h4 class="header-title" style="color: #AEB5BC; width: 90%;">Enable Fedo Score on Vitals Web App:</h4>
-                                                <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.web_fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch2">
+                                            <div *ngIf="season.product_name === 'Vitals'" >
+                                                <div style="margin-bottom:1rem; margin-top: 1rem"    >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Apps:</h4>
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.mobile_access" [ngModelOptions]="{standalone: true}"  value="0" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">Android</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.ios_access" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">iOS</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.web_access" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">WebApp</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                         
+                                            <!-- <div style="margin-bottom: 1rem;">
+                                                <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.limitScans" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                </div>
+                                            </div> -->
+                                            <!-- <div *ngIf="season.limitScans" style="display: grid;grid-template-columns: 1fr 1fr;grid-gap:1rem">
+                                                <div class="">
+                                                    <div class="form-floating mb-3">
+                                                        <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
+                                                            name="userName" placeholder="Limit Scans" required [(ngModel)]="season.scans" [ngModelOptions]="{standalone: true}">
+                                                            <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Limit Scans</label>
+                                                            
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" >
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1">Per Month</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1"
+                                                        >In Total</label
+                                                      >
+                                                    </div>   
+                                                  </div>
+
+                                            </div> -->
                                             </div>
 
                                         </div>
@@ -505,21 +537,196 @@ padding-top:10px">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
                                                 oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
-                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid}" 
-                                                name="userName" placeholder="Org Admin Full Name" required formControlName="admin_name">
-                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label>
-                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid " class="invalid-feedback">
-                                                        <div *ngIf="OrgForm.controls['admin_name'].errors?.['required']" i18n>
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['country'].invalid}" 
+                                                name="userName" placeholder="Country" required formControlName="country">
+                                                <!-- <select2 class="select2-selection__rendered"  [customSearchEnabled]="true" [data]="countries" placeholder="Select Country" id="selec2-2" #country1>
+                                                </select2> -->
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['country'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['country'].errors?.['required']" i18n>
                                                             Mandatory field
                                                           </div>
-                                                          <div *ngIf="OrgForm.controls['admin_name'].errors?.['pattern']" i18n>
-                                                            Invalid name format. Please enter your full name
+                                                          <div *ngIf="OrgForm.controls['country'].errors?.['minlength']" i18n>
+                                                            Invalid Country format. Please enter Country
                                                           </div>
                                                     </div>
                                             </div>
                                         </div>
+                                            <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['zip'].invalid}" 
+                                                name="userName" placeholder="Zip" formControlName="zip" minlength="3">
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Zip</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['zip'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['zip'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['zip'].errors?.['pattern']" i18n>
+                                                            Invalid format. Please enter valid format
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC" minlength="3"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['state'].invalid}"  name="userName" placeholder="State" formControlName="state" >
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>State</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['state'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['state'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['state'].errors?.['minlength']" i18n>
+                                                            Please Enter State
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3">
+
+                                                <input  matInput  type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
+                                                    name="userName" placeholder="City" formControlName="city"
+                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['city'].invalid}" >
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>City</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['city'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['city'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['city'].errors?.['minlength']" i18n>
+                                                            Invalid format. Please enter valid format
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md">
+                                                <div class="form-floating ">
+
+                                                <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
+                                                [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['address'].invalid}" 
+                                                name="userName" minlength="5" placeholder="Address" formControlName="address" oninput=" this.value = this.value.replace(/[0-9]/g,'')" >
+                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Address</label>
+                                                    <div *ngIf="OrgDetailsEditForm && OrgForm.controls['address'].invalid " class="invalid-feedback">
+                                                        <div *ngIf="OrgForm.controls['address'].errors?.['required']" i18n>
+                                                            Mandatory field
+                                                          </div>
+                                                          <div *ngIf="OrgForm.controls['address'].errors?.['minlength']" i18n>
+                                                            Enter full Address
+                                                          </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                      
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+                            </ng-template>
+                        </li>
+                        <li [ngbNavItem]="2">
+                            <a ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none   ;">
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div> 
+                                <div style="text-align: center; margin: 5rem 5rem 1rem 5rem;">
+                                <button style="width: 100px;" type="button" class="btn btn-info" (click)="reloadCurrentPage()"
+                                >Close</button>
+                            </div>
+                            </ng-template>
+                            
+                        </li>
+                        
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" *ngIf="activeWizard2 == 1" >
+                        <div id="liveAlertPlaceholder">
+                            <ngb-alert type="warning" *ngIf="showOrgLiveAlert" (closed)="showOrgLiveAlert = false">{{errorOrgMessage}}</ngb-alert>
+                        </div>
+                        <li class="previous list-inline-item" >
+                            <button style="width: 6rem;" type="button" class="btn btn-secondary" (click)="modal.dismiss('')" 
+                                >Close</button>
+                        </li>
+
+                        <li class="next list-inline-item float-end" >
+
+                            <button type="button" style="width: 100px;" class="btn btn-info"  (click)="checkingOrgForm()"
+                                >Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
+<ng-template #toggleModal7 let-modal>
+    <div class="card" style="background-color: #282E38;margin-bottom: 0; ">
+        <div class="card-body" style="background-color: #282E38 ;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Organisation</h4>
+    
+            <form [formGroup]="OrgForm" #basicForm="ngForm">
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
+                        <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <span class=" d-sm-inline">Org Details</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row" >
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <div class="col-md">
+                                                <div class="form-floating mb-3">
+
+                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
+                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
+                                                    [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid}" 
+                                                    name="userName" placeholder="Org Admin Full Name" required formControlName="admin_name">
+                                                        <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Org Admin Full Name</label>
+                                                        <div *ngIf="OrgDetailsEditForm && OrgForm.controls['admin_name'].invalid " class="invalid-feedback">
+                                                            <div *ngIf="OrgForm.controls['admin_name'].errors?.['required']" i18n>
+                                                                Mandatory field
+                                                              </div>
+                                                              <div *ngIf="OrgForm.controls['admin_name'].errors?.['pattern']" i18n>
+                                                                Invalid name format. Please enter your full name
+                                                              </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                        <div class="row mb-3">
+                                       
                                             <div class="col-md-6">
                                         <div class="form-floating mb-3">
 
@@ -537,15 +744,16 @@ padding-top:10px">
                                                     </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
+                                                <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
+                                        </div>
+                                    </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
-                                                    name="userName" placeholder="Email Address" formControlName="organization_email" [readonly]="true">
-                                                    <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
-                                            </div>
-                                        </div>
+                                         
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
@@ -633,6 +841,8 @@ padding-top:10px">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <div ngbDropdownMenu>
+                          <a (click)="orgEdit(toggleModal2);" href="javascript:void(0); "  ngbDropdownItem>Edit Pilot</a>
+
                             <a href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/pilotdashboard/'+product.product_id" ngbDropdownItem>Pilot Info</a>
                         </div>
                     </div>
@@ -735,7 +945,7 @@ padding-top:10px">
                         </div>
                         <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
                         align-self: center;" *ngIf="userlogin">
-                        <a href="javascript:void(0)" (click)="orgEdit(toggleModal1);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                        <a href="javascript:void(0)" (click)="orgEdit(toggleModal7);prepopulateOrgFormforEdit();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                             <i class="mdi mdi-pencil"></i>
                         </a>
                     </div>
