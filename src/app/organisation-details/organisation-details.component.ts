@@ -100,6 +100,8 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   userId: any;
+  userProductEdited:any=[];
+  
   countries:Select2Option[] = [ 
     {
       value:'IN',
@@ -1309,6 +1311,19 @@ updateUserProd(event:any, product:any){
   }
 
 }
+
+updateEditUserProd(event:any, product:any){
+  const selected = this.userProduct.findIndex(obj=>obj.product_id===product.product_id)
+  if(event.target.checked){
+    this.userProduct[selected].checked = true;
+    this.userProductEdited.push(this.userProduct[selected]);
+  }else{
+    this.userProduct[selected].checked = false;
+    const index = this.userProductEdited.findIndex((obj:any)=>obj.product_id===product.product_id)
+    this.userProductEdited.splice(index,1)
+  }
+}
+
 clearform(){
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
@@ -1411,21 +1426,60 @@ clearform(){
   }
 
   editUserForm(data:any){
+    console.log('the persons data =>',data)
     this.userEditForm = this.fb.group({
       email:[data.email,[Validators.email]],
       mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
       user_name:[data.user_name,[Validators.required]],
-      designation:[data.designation,[Validators.required]]
+      designation:[data.designation,[Validators.required]],
+      third_party_org_name:[data.third_party_org_name, Validators.required]
     })
     this.userId = data.id
     this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+    if(this.userEditForm.value.third_party_org_name == null){
+      this.notThirdParty = true;
+    }
+    else{
+      this.thirdParty =true;
+    }
+
+
+    this.userProduct = this.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = this.userProduct.map((doc:any)=>{
+      const found = data.tests.some((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+        
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+        
+      }
+      const selected = data.tests.findIndex((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      doc['junctionId']= selected === -1 ? '' : data.tests[selected].id;
+      doc.checked ? this.userProductEdited.push(doc):null;
+      return doc
+
+    })
+
+
 
   }
 
   editUser(){ 
     if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
-    this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
-    this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
+    const data = JSON.parse(JSON.stringify(this.userEditForm.value));;
+    data.mobile = ('+91' + this.userEditForm.value.mobile).toString();
+    data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
+    data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
+    data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
+    data['third_party_org_name'] = this.thirdParty ? data['third_party_org_name']:null; 
+
+    console.log('list => ',this.userProduct)
+    console.log('full form => ',data)
+    this.adminService.patchuser(this.userId,data).subscribe({
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
 
@@ -1440,5 +1494,6 @@ clearform(){
 
   }
 }
+
 
 }

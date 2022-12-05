@@ -1510,15 +1510,102 @@ padding-top:10px">
 
                                                     </div>
                                             </div>
-                                        </div>                       
+                                        </div>  
+                                        
+                                        <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
+                                            <div class="form-check">
+                                              <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                              <label class="form-check-label" for="customRadio1">Own Employee</label>
+                                            </div>
+                                            <div class="form-check">
+                                              <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                              <label class="form-check-label" for="customRadio1">Employee of TPA</label>
+                                        </div>
+                                        <div *ngIf="formSubmitted && thirdParty==false&& notThirdParty==false" style="width: 100%; margin-top: 0.25rem;font-size: 0.75rem;  color: #F08F8F;">
+                                                  Mandatory field
+                                              </div>
+                                      </div>
+                                      <div class="form-floating" style="display: flex; padding-bottom: 1rem; " *ngIf="thirdParty == true" >
+                                        <input type="text" class="form-control" id="userName1" style="
+                                            background: #383e4a;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;color: #9BA6AC" name="userName" placeholder="Select third-party Company or Add New" formControlName="third_party_org_name" list="codes" minlength="3" />
+                                            <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" required class="form-label" i18n>Select third-party Company or Add New</label>
+                                        <datalist id="codes" style="background: white">
+                                          <option *ngFor="let c of codeList" >
+                                            {{ c }}
+                                          </option>
+                                        </datalist>
+                                        <!-- <div > -->
+                                        <button *ngIf="showButton&&addTpafunc==false&&changeButton && userForm.controls['third_party_org_name'].value.length>=3" (click)="addTpa()" id="erase" style="
+                                            background: #383e4a;
+                                            height: 3.6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;">+</button>
+
+                                            <button *ngIf="addTpafunc" class="mdi mdi-check-all" id="erase" style="
+                                            background: #084b23;
+                                            height: 3..6rem;
+                                            border: 1px solid #444c5b;
+                                            border-radius: 4px;
+                                            color: grey;
+                                            padding-right: 0.5rem;
+                                            padding-left: 0.5rem;"></button>
+                                        <!-- </div> -->
+                                      </div>
+
+                                      <div class="mb-3" *ngIf="userForm.controls['third_party_org_name']?.touched && thirdParty==true" style="width: 100%; font-size: 0.75rem; color: #F08F8F;">
+                                                  <div *ngIf=" userForm.controls['third_party_org_name'].errors?.['minlength']" i18n>
+                                                    Enter full Third Party Name
+                                                  </div>
+                                              </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
          
                             </ng-template>
                         </li>
 
-
                         <li [ngbNavItem]="2">
+                            <a [ngStyle]=" activeWizard1 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2"style="pointer-events:none">
+                                <span class=" d-sm-inline">Products</span>
+                            </a>
+                                          <ng-template ngbNavContent>
+                                            <div style="display: grid;
+                                            grid-template-columns:repeat(auto-fill, minmax(8rem , 5fr));
+                                            grid-gap: 1rem;margin-bottom: 2rem;">
+                                                        <ng-template ngFor let-season [ngForOf]="userProduct" let-i=index>
+                                                            <div class="gal-detail thumb" style="    width: 142px;
+                                                            height: 180px;
+                                                            background: #3C424F;
+                                                            border-radius: 8px;margin:0%">
+                                                                <a href="javascript:void(0)" class="image-popup" title="hi">
+                                                                </a>
+                                                                <div style="    text-align: -webkit-center;
+                                                                display: grid;
+                                                                justify-items: center;
+                                                                grid-gap: 1rem; margin-top: 0.5rem;">
+                                                                    <div class="avatar-md">
+                                                                        <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
+                                                                            F{{season.product_name.charAt(0)}}
+                                                                        </span>
+                                                                    </div>
+                                                                    <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name}}</p>
+                                                                    <div class="form-check form-switch" style=" display: grid;justify-items: center;">
+                                                                        <input type="checkbox" [checked]="season.checked"  [ngStyle]="{'pointer-events': season.noPenetration ? 'none':'fill'}"  (change)="updateEditUserProd($event,season)" class="form-check-input" id="customSwitch1">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                            </div>
+                                        </ng-template>
+                                         
+                        </li>
+
+
+                        <li [ngbNavItem]="3">
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
@@ -1544,7 +1631,13 @@ padding-top:10px">
                         <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
                         </div>
-                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 2">
+                        <li class="previous list-inline-item" *ngIf="activeWizard1 == 2">
+                            <button class="btn btn-secondary" (click)="activeWizard1=1" 
+                                >Previous</button>
+                 
+                        </li>
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 3">
+                        <!-- <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 2"> -->
                             <div style="    display: grid;
                             grid-template-columns: min-content max-content;
                             justify-content: center;
@@ -1553,8 +1646,11 @@ padding-top:10px">
                                     >Close</button>
                             </div>
                         </li>
-                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 1">
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 2">
                             <button type="button" style="width: 100px;" class="btn btn-info" (click)="editUser()">Submit</button>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 1">
+                            <button type="button" style="width: 100px;" (click)="activeWizard1=activeWizard1+1" class="btn btn-info">Next</button>
                         </li>
                     </ul>
     
