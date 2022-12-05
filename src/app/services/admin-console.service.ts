@@ -306,10 +306,28 @@ export class AdminConsoleService {
     }
 
     if(event.url?.split('/')[2]=='pilotdashboard'){
+      if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
+        //orgAdmin
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
         { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
-    ])
+      ])
+    }
+    if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type == 'admin'){
+      //superadmin
+      console.log('hi super user',event.url)
+      this.fetchOrgById(event.url?.split('/')[1]).subscribe({
+        next: (res:any) => {
+          name=res[0].organization_name
+          this.breadCrumbs.next([
+            { label: 'Home', path: 'home' },
+            { label: 'Organisations List', path: 'orgList' },
+            { label: name, path: `/orgdetails/${event.url?.split('/')[1]}` },
+            { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`, active: true},
+      ])
+      },
+    });
+  }
     }
 
     if(event.url?.slice(3,)=='/settings'){

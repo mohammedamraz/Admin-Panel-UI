@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import * as XLSX from 'xlsx-js-style'; 
+import { Select2Data, Select2Option } from 'ng-select2-component';
 
 
 @Component({
@@ -38,6 +39,11 @@ export class OrganisationDetailsComponent implements OnInit {
 ];
   todayDate=new Date();
   organization_name:any='';
+  country : any = '';
+  city : any = '';
+  state : any = '';
+  zip : any = '';
+  address : any = '';
   admin_name:any='';
   application_id:any='';
   attempts:any='';
@@ -94,6 +100,192 @@ export class OrganisationDetailsComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   userId: any;
+  userProductEdited:any=[];
+  
+  countries:Select2Option[] = [ 
+    {
+      value:'IN',
+      label:'india',
+      // data:[{sadf:'asdf'}],
+      id:'1',
+      
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+    {
+      value:'AN',
+      label:'afghanistan',
+      // data:[{sadf:'asdf'}],
+      id:'2'
+  },
+
+  ];
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -134,6 +326,11 @@ export class OrganisationDetailsComponent implements OnInit {
         this.tabDAta=res
         this.designation= res[0].designation;
         this.organization_name= res[0].organization_name;
+        this.country= res[0].country ? res[0].country : 'NA';
+        this.state= res[0].state ? res[0].state : 'NA';
+        this.address= res[0].address ? res[0].address : 'NA';
+        this.city= res[0].city ? res[0].city : 'NA';
+        this.zip= res[0].zip ? res[0].zip : 'NA';
         this.admin_name= res[0].admin_name;
         this.application_id= res[0].application_id;
         this.attempts= res[0].attempts;
@@ -184,6 +381,11 @@ export class OrganisationDetailsComponent implements OnInit {
       designation:[this.designation,[Validators.required]],
       fedo_score:[this.fedo_score],
       url:[this.url],
+      country:[this.country,[Validators.required]],
+      state:[this.state,[Validators.required]],
+      city:[this.city,[Validators.required]],
+      address:[this.address,[Validators.required]],
+      zip:[this.zip,[Validators.required,Validators.pattern("[0-9]{6}$")]],
     });
 
     this.basicWizardForm = this.fb.group({
@@ -592,6 +794,7 @@ font: {
 
   createEditproc(products:any,OrgProducts:any){
 
+    this.orgProd = [];  
    const product = products.map((doc:any)=>{
       const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
       if(found){
@@ -615,13 +818,16 @@ font: {
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id,
-      event_mode:el.event_mode
+      event_mode:el.event_mode,
+      ios_access:el.ios_access,
+      mobile_access :el.mobile_access
+
     }})
     this.list=2+OrgProducts.length
     this.products = product;
-    this.listdetails = list;
+    this.listdetails = list;    
 
-    if(this.orglogin){
+    // if(this.orglogin){
 
       const requests =  OrgProducts.map((doc:any) =>this.fetchScansResolver(doc))
       Promise.all(requests).then(body => {
@@ -629,7 +835,7 @@ font: {
           this.orgProd.push(res)
         })
       })
-    }
+    // }
   }
 
   fetchScansResolver(data:any){
@@ -637,6 +843,7 @@ font: {
     return new Promise((resolve,reject) => {
       this.adminService.fetchScan(this.snapshotParam,data.product_id).subscribe(
         (doc:any) => {
+          console.log('dai madaya =>0,',doc)
           const result = {
             product_id:data.product_id,
             productName:data.product_id  === '1' ? 'HSA' : (data.product_id === '2' ? 'Vitals':'RUW' ),
@@ -685,6 +892,11 @@ font: {
     this.OrgForm.controls['fedo_score'].setValue(this.fedo_score);
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
+    this.OrgForm.controls['country'].setValue(this.country);
+    this.OrgForm.controls['state'].setValue(this.state);
+    this.OrgForm.controls['zip'].setValue(this.zip);
+    this.OrgForm.controls['address'].setValue(this.address);
+    this.OrgForm.controls['city'].setValue(this.city);
     this.activeWizard2 = 1;
 
  }
@@ -990,7 +1202,7 @@ resendInvitationMail(data:any){
   checkingOrgForm(){
 
     this.OrgDetailsEditForm = true
-    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid ){
+    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
@@ -1023,7 +1235,9 @@ resendInvitationMail(data:any){
         web_access: el.web_access,
         web_url: el.web_access ? el.web_url :'',
         web_fedoscore: el.web_access ? el.web_fedoscore:false,
-        event_mode: el.event_mode
+        event_mode: el.event_mode,
+        ios_access: el.ios_access ,
+        mobile_access: el.mobile_access,
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1042,6 +1256,8 @@ resendInvitationMail(data:any){
     data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+    data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+    data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
@@ -1095,6 +1311,19 @@ updateUserProd(event:any, product:any){
   }
 
 }
+
+updateEditUserProd(event:any, product:any){
+  const selected = this.userProduct.findIndex(obj=>obj.product_id===product.product_id)
+  if(event.target.checked){
+    this.userProduct[selected].checked = true;
+    this.userProductEdited.push(this.userProduct[selected]);
+  }else{
+    this.userProduct[selected].checked = false;
+    const index = this.userProductEdited.findIndex((obj:any)=>obj.product_id===product.product_id)
+    this.userProductEdited.splice(index,1)
+  }
+}
+
 clearform(){
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
@@ -1197,21 +1426,60 @@ clearform(){
   }
 
   editUserForm(data:any){
+    console.log('the persons data =>',data)
     this.userEditForm = this.fb.group({
       email:[data.email,[Validators.email]],
       mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
       user_name:[data.user_name,[Validators.required]],
-      designation:[data.designation,[Validators.required]]
+      designation:[data.designation,[Validators.required]],
+      third_party_org_name:[data.third_party_org_name, Validators.required]
     })
     this.userId = data.id
     this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+    if(this.userEditForm.value.third_party_org_name == null){
+      this.notThirdParty = true;
+    }
+    else{
+      this.thirdParty =true;
+    }
+
+
+    this.userProduct = this.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = this.userProduct.map((doc:any)=>{
+      const found = data.tests.some((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+        
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+        
+      }
+      const selected = data.tests.findIndex((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      doc['junctionId']= selected === -1 ? '' : data.tests[selected].id;
+      doc.checked ? this.userProductEdited.push(doc):null;
+      return doc
+
+    })
+
+
 
   }
 
   editUser(){ 
     if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
-    this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
-    this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
+    const data = JSON.parse(JSON.stringify(this.userEditForm.value));;
+    data.mobile = ('+91' + this.userEditForm.value.mobile).toString();
+    data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
+    data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
+    data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
+    data['third_party_org_name'] = this.thirdParty ? data['third_party_org_name']:null; 
+
+    console.log('list => ',this.userProduct)
+    console.log('full form => ',data)
+    this.adminService.patchuser(this.userId,data).subscribe({
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
 
@@ -1226,5 +1494,6 @@ clearform(){
 
   }
 }
+
 
 }

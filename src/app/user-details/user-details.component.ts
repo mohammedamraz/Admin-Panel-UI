@@ -40,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
   userForm!: FormGroup;
   list: number = 3;
   thirdParty=false;
-  product='';
+  product: any[] = []
   listdetails:any[]=[];
   showLiveAlert=false;
   errorMessage='';
@@ -74,6 +74,8 @@ export class UserDetailsComponent implements OnInit {
   activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users'];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   activeStatusValue: any= this.activeStatusOptions[1]
   changeButton:boolean=false
+  userProductEdited:any=[];
+
 
   ngOnInit(): void {
     this.route.params.subscribe((val:any) =>{   
@@ -115,6 +117,7 @@ export class UserDetailsComponent implements OnInit {
         this.userOrganisationName= res[0].organization_name;
         const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.prod);
         this.productsData= res[0].product[selected];
+        this.product= res[0].product;
         this.show = false;
         if(res[0].type!='admin'&&this.productsData.status == "Expired"){
           this.show = true;
@@ -495,39 +498,87 @@ export class UserDetailsComponent implements OnInit {
     window. location. reload();
     }
 
-    editUserForm(data:any){
+    updateEditUserProd(event:any, product:any){
+      const selected = this.userProduct.findIndex(obj=>obj.product_id===product.product_id)
+      if(event.target.checked){
+        this.userProduct[selected].checked = true;
+        this.userProductEdited.push(this.userProduct[selected]);
+      }else{
+        this.userProduct[selected].checked = false;
+        const index = this.userProductEdited.findIndex((obj:any)=>obj.product_id===product.product_id)
+        this.userProductEdited.splice(index,1)
+      }
+    }
 
-      this.userEditForm = this.fb.group({
-        email:[data.email,[Validators.email]],
-        mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
-        user_name:[data.user_name,[Validators.required]],
-        designation:[data.designation,[Validators.required]]
-      })
-      this.userId = data.id
-      this.open(<TemplateRef<NgbModal>><unknown>this.input3);
-  
+    editUserForm(data:any){
+    console.log('the persons data =>',data)
+    this.userEditForm = this.fb.group({
+      email:[data.email,[Validators.email]],
+      mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
+      user_name:[data.user_name,[Validators.required]],
+      designation:[data.designation,[Validators.required]],
+      third_party_org_name:[data.third_party_org_name, Validators.required]
+    })
+    this.userId = data.id
+    this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+    if(this.userEditForm.value.third_party_org_name == null){
+      this.notThirdParty = true;
     }
-  
-    editUser(){ 
-      
-      if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
-      this.userEditForm.value.mobile = '+91' + this.userEditForm.value.mobile.toString()
-      this.adminService.patchuser(this.userId,this.userEditForm.value).subscribe({
-        next: (res:any) => {
-  
-          this.activeWizard2=this.activeWizard2+1;
-  
-        },
-        error: (err) => {
-          this.errorMessageAPI=err;
-          this.showLiveAlertAPI=true;
-  
-        },
-        complete: () => { }
-      });
+    else{
+      this.thirdParty =true;
     }
-    }
-  
+
+
+    this.userProduct = this.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = this.userProduct.map((doc:any)=>{
+      const found = data.tests.some((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+        
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+        
+      }
+      const selected = data.tests.findIndex((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      doc['junctionId']= selected === -1 ? '' : data.tests[selected].id;
+      doc.checked ? this.userProductEdited.push(doc):null;
+      return doc
+
+    })
+
+
+
+  }
+
+  editUser(){ 
+    if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
+    const data = JSON.parse(JSON.stringify(this.userEditForm.value));;
+    data.mobile = ('+91' + this.userEditForm.value.mobile).toString();
+    data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
+    data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
+    data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
+    data['third_party_org_name'] = this.thirdParty ? data['third_party_org_name']:null; 
+
+    console.log('list => ',this.userProduct)
+    console.log('full form => ',data)
+    this.adminService.patchuser(this.userId,data).subscribe({
+      next: (res:any) => {
+        this.activeWizard2=this.activeWizard2+1;
+
+      },
+      error: (err) => {
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
+
+      },
+      complete: () => { }
+    });
+
+  }
+}
 
 }
 

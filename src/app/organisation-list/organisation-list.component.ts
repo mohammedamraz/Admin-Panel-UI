@@ -70,7 +70,7 @@ export class OrganisationListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.list = 4
+    
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
@@ -144,7 +144,7 @@ export class OrganisationListComponent implements OnInit {
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
     this.listdetails=[];
-    this.list=5;
+    this.list=4;
     this.activeWizard2 =1;
    }
 
@@ -577,16 +577,16 @@ export class OrganisationListComponent implements OnInit {
         index:this.list-1, 
         pilot_duration:0,
         fedo_score:false,
-        // web_fedoscore:false,
-        // productaccess_web: false,
-        // web_url:'',
+        web_fedoscore:false,
+        productaccess_web: false,
+        web_url:'',
         event:false,
         event_mode:0,
         pressed:false,
         limitScans:false,
         scans:0,
         ios_access:false,
-        productaccess_web: false,
+        // productaccess_web: false,
         productaccess_mobile: false
 
       };

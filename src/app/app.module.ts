@@ -10,6 +10,8 @@ import { JoyrideModule } from 'ngx-joyride';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
+import { Select2Module } from 'ng-select2-component';
+import { FormModule } from './pages/forms/forms.module';
 
 
 @NgModule({
@@ -22,8 +24,8 @@ import { DailyreportComponent } from './dailyreport/dailyreport.component';
     CoreModule,
     LayoutModule,
     AppRoutingModule,
-  FormsModule,
-ReactiveFormsModule,
+    FormModule,
+    ReactiveFormsModule,
 ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/admin/' },
