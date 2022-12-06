@@ -85,7 +85,7 @@ export class OrganisationListComponent implements OnInit {
     });
     this.columns = this.tabDAta;
 
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc})
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products= doc.filter((doc: { id: number; }) => doc.id !=  1);return doc})
 
     this.basicWizardForm = this.fb.group({
       organization_name:[''],

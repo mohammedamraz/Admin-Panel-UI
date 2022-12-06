@@ -98,6 +98,7 @@ export class LeftSidebarComponent implements OnInit {
           let tempProd = [];
           tempProd.push(MENU_ITEMS[0]);
           tempProd.push(MENU_ITEMS[1]);
+            doc = doc.filter((doc: { id: number; }) => doc.id !=  1);          
           const prod = doc.map((product:any) => ({ 
               key: 'apps-tasks',
               label: `${product.id === 1 ? 'HSA' : (product.id === 2 ? 'Vitals':'RUW')}`,

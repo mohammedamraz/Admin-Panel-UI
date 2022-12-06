@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount('vitals').subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data});
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;doc.forEach( (prod:any) =>{this.fetchCounts(prod)})});    
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc.filter((doc: { id: number; }) => doc.id !=  1);doc.forEach( (prod:any) =>{this.fetchCounts(prod)})});    
 
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
@@ -113,12 +113,14 @@ export class HomeComponent implements OnInit {
  
      this.adminService.fetchVitalsCount(prod.product_name).subscribe(
       (doc:any) =>{
+        if(prod.id != 1 ){
           this.widgetCounts.push ({
           id: prod.id,
           name: prod.id === 1 ? 'HSA' :(prod.id === 2 ? 'Vitals':'RUW'),
           count:   doc[`total_${prod.product_name}_pilot_count`],
           color:  prod.id === 1 ? '#F08FC9' :(prod.id === 2 ? '#F2CA65':'#FF9632')
-        })});
+        })}
+      });
   }
 
   daysLefts(date:any){
