@@ -28,7 +28,7 @@
                         grid-template-columns: repeat(auto-fill, minmax(8rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
                                 <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <span class=" d-sm-inline">Org Details</span>
+                                <span class=" d-sm-inline">Org Admin</span>
                             </a>
                             <ng-template ngbNavContent>
                                 <div class="row" >
@@ -337,8 +337,8 @@
                                     </div>
                                 </ng-template>
                         </li>
-                        <li [ngbNavItem]="3">
-                            <a  [ngStyle]=" activeWizard2 > 3 ? ngstyle():null" style="pointer-events:none;" ngbNavLink class="rounded-0 pt-2 pb-2">
+                        <li [ngbNavItem]="4">
+                            <a  [ngStyle]=" activeWizard2 > 4 ? ngstyle():null" style="pointer-events:none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <span class=" d-sm-inline">Products</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -395,12 +395,12 @@
                                                           </div>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
-                                            <div style="margin-bottom:1rem ;">
+                                            <!-- <div style="margin-bottom:1rem ;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score:</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox"  class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <div *ngIf="season.name === 'vitals'" >
                                                 <div style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
@@ -431,7 +431,7 @@
                                             <div style="padding-bottom:1rem">
                                                 <h4 class="header-title" style="color: white;">Enable Fedo Score</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.productaccess_web" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
                                             <div  *ngIf="season.name ==='vitals'">
@@ -455,17 +455,56 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
-                                                </div>
-    
-                                            <!-- </div> -->
-                                            <!-- <div>
-                                                <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score on Vitals Web App:</h4>
+
+                                            <!-- <div style="margin-bottom: 1rem;">
+                                                <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.web_fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch2">
+                                                    <input type="checkbox"  class="form-check-input" [(ngModel)]="season.limitScans" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
+                                            <div *ngIf="season.limitScans" style="display: grid;grid-template-columns: 1fr 1fr;grid-gap:1rem">
+                                                <div class="">
+                                                    <div class="form-floating mb-3">
+                                                        <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="10" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
+                                                            name="userName" placeholder="Limit Scans" required [(ngModel)]="season.scans" [ngModelOptions]="{standalone: true}" [ngClass]="{ 'is-invalid':form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||basicForm.submitted&&form1['organization_mobile'].invalid}">
+                                                            <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Limit Scans</label>
+                                                            <div *ngIf="form1['organization_mobile'].touched&&form1['organization_mobile'].invalid ||basicForm.submitted && form1['organization_mobile'].invalid " class="invalid-feedback">
+                                                                <div *ngIf="form1['organization_mobile'].errors?.['required']" i18n>
+                                                                    Mandatory field
+                                                                  </div>
+                                                                  <div *ngIf="form1['organization_mobile'].errors?.['pattern']" i18n>
+                                                                    Invalid format. Please enter valid format
+                                                                  </div>
+                                                            </div>
+                                                            
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3" >
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1">Per Month</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                      <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                                      <label class="form-check-label" for="customRadio1"
+                                                        >In Total</label
+                                                      >
+                                                    </div>
+                                                    <div *ngIf="formSubmitted && thirdParty==false&& notThirdParty==false" style="width: 100%;
+                                                    margin-top: 0.25rem;
+                                                    font-size: 0.75rem;
+                                                    color: #F08F8F;">
+            
+                                                              Mandatory field
+                                                            
+                                                          </div>
+            
+                                                          
+                                                  </div>
+
                                             </div> -->
+                                            </div>
+                                  
 
                                         </div>
 
@@ -521,7 +560,7 @@
                             <button  style="width: 100px;" type="button"(click)="fetchData()" class="btn btn-info" 
                                 *ngIf="activeWizard2<list-1">Next</button>
                             <button type="button" class="btn btn-info"style="width: 100px;" (click)="fetchData();"
-                                *ngIf="activeWizard2!=3&&activeWizard2 == list-1">Submit</button>
+                                *ngIf="activeWizard2!=4&&activeWizard2 == list-1">Submit</button>
                         </li>
                     </ul>
     
@@ -546,7 +585,7 @@
             </div>
         </div>            
         <div class=" float-end" ngbDropdown placement="bottom-end">
-            <a href="javascript:void(0)" (click)="open(toggleModal1)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+            <a href="javascript:void(0)" (click)="open(toggleModal1); clearform();" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                 <i class="mdi mdi-plus"></i>
             </a>
         </div>            

@@ -144,7 +144,7 @@ export class OrganisationListComponent implements OnInit {
     this.srcImage='./assets/images/fedo-logo-white.png';
     this.basicWizardForm.reset();
     this.listdetails=[];
-    this.list=4;
+    this.list=5;
     this.activeWizard2 =1;
    }
 
