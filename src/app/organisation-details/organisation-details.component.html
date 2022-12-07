@@ -537,12 +537,15 @@ padding-top:10px">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
+                                                    <select  style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:100%; background-color: #383E4A;
+                                                    border: 1px solid #444C5B;" value='country' formControlName="country">
+                                                        <option value="" *ngFor="let c of countryList" [ngValue]='c.name'>  {{c.name}} </option>
+                                                      </select>
+
+                                                <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
                                                 oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
                                                 [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['country'].invalid}" 
                                                 name="userName" placeholder="Country" required formControlName="country">
-                                                <!-- <select2 class="select2-selection__rendered"  [customSearchEnabled]="true" [data]="countries" placeholder="Select Country" id="selec2-2" #country1>
-                                                </select2> -->
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label>
                                                     <div *ngIf="OrgDetailsEditForm && OrgForm.controls['country'].invalid " class="invalid-feedback">
                                                         <div *ngIf="OrgForm.controls['country'].errors?.['required']" i18n>
@@ -551,13 +554,13 @@ padding-top:10px">
                                                           <div *ngIf="OrgForm.controls['country'].errors?.['minlength']" i18n>
                                                             Invalid Country format. Please enter Country
                                                           </div>
-                                                    </div>
+                                                    </div> -->
                                             </div>
                                         </div>
                                             <div class="col-md-6">
                                         <div class="form-floating mb-3">
 
-                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"(input)="inputZip()"
                                                 [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['zip'].invalid}" 
                                                 name="userName" placeholder="Zip" formControlName="zip" minlength="3">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Zip</label>

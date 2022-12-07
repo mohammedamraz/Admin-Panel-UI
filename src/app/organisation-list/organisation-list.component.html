@@ -136,7 +136,7 @@
                             </ng-template>
                         </li>
                         <li [ngbNavItem]="2">
-                            <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2"style="pointer-events: none;">
                                 <span class="d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -145,7 +145,11 @@
                                         <div class="row ">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    " minlength="3"
+                                                    <select  style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:100%; background-color: #383E4A;
+                                                    border: 1px solid #444C5B;" [(ngModel)]="countryList[0].name" formControlName="country">
+                                                        <option value="" *ngFor="let c of countryList" [ngValue]='c.name'>  {{c.name}} </option>
+                                                      </select>
+                                                    <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    " minlength="3"
                                                     oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
                                                     name="userName" placeholder="Country" requied formControlName="country"[ngClass]="{ 'is-invalid': form1['country'].touched&&form1['country'].invalid ||secondFormSubmitted  && form1['country'].invalid }">
                                                         <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Country</label>
@@ -156,12 +160,12 @@
                                                           <div *ngIf="form1['country'].errors?.['minlength']" i18n>
                                                             Invalid Country format. Please enter Country
                                                           </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"
+                                                    <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC;"(input)="inputZip()"
                                                         name="userName" placeholder="Zip" required formControlName="zip" [ngClass]="{ 'is-invalid':form1['zip'].touched&&form1['zip'].invalid ||secondFormSubmitted&&form1['zip'].invalid}">
                                                         <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Zip</label>
                                                         <div *ngIf="form1['zip'].touched&&form1['zip'].invalid ||secondFormSubmitted && form1['zip'].invalid " class="invalid-feedback">
@@ -219,7 +223,7 @@
                                                    
                                                    oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
                                                    name="userName" placeholder="Address" required formControlName="address"[ngClass]="{  'is-invalid':form1['address'].touched&&form1['address'].invalid|| secondFormSubmitted && form1['address'].invalid }">
-                            <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC" class="form-label" i18n>Address</label>
+                                                   <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC" class="form-label" i18n>Address</label>
                                                    <div *ngIf="form1['address'].touched&&form1['address'].invalid ||secondFormSubmitted && form1['address'].invalid " class="invalid-feedback">
                                                         <div *ngIf="form1['address'].errors?.['required']" i18n>
                                                             Mandatory field
