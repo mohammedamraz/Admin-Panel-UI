@@ -232,6 +232,9 @@ export class AdminConsoleService {
     
     return this.http.post(`${ADMIN_URL}notification/email/org/active`,content);
   }
+  fetchLocation(zip:any){
+    return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&sensor=false&key=AIzaSyDKbpzwKSDDnYNgwnddnd0CLaKTa6bANWc`)
+  }
 
 
 

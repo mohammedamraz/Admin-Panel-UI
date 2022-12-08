@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../core/service/auth.service';
 import * as XLSX from 'xlsx-js-style'; 
-import { Select2Data, Select2Option } from 'ng-select2-component';
+import { COUNTRIES } from '../home/data';
 
 
 @Component({
@@ -101,191 +101,10 @@ export class OrganisationDetailsComponent implements OnInit {
   errorMessageAPI='';
   userId: any;
   userProductEdited:any=[];
-  
-  countries:Select2Option[] = [ 
-    {
-      value:'IN',
-      label:'india',
-      // data:[{sadf:'asdf'}],
-      id:'1',
-      
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
-    {
-      value:'AN',
-      label:'afghanistan',
-      // data:[{sadf:'asdf'}],
-      id:'2'
-  },
+  countryList=COUNTRIES
+  locationValue='';
+  stateValue='';
 
-  ];
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -413,6 +232,47 @@ export class OrganisationDetailsComponent implements OnInit {
     });
    
   }
+  inputZip(){    
+    
+    const zip = this.OrgForm.get('zip')?.value    
+     if(zip.toString().length==6){
+       this.adminService.fetchLocation(zip).subscribe((doc:any)=>{
+         const res=doc
+         if(res.status=='OK'){
+         for (let i = 0; i < res.results[0].address_components.length; i++) {
+ 
+           if (res.results[0].address_components[i].types[0] == "locality") {    
+             this.locationValue = `${res.results[0].address_components[i].long_name}`;
+             this.OrgForm.controls['city']?.setValue(this.locationValue);
+             
+     
+           }
+           if(res.results[0].address_components[i].types[0] == "administrative_area_level_1"){
+             this.stateValue = res.results[0].address_components[i].long_name
+             this.OrgForm.controls['state']?.setValue(this.stateValue);
+             
+           }
+     
+     
+     
+         }
+       }
+       else {
+         this.OrgForm.controls['city']?.reset();
+         this.OrgForm.controls['state']?.reset();
+       }
+ 
+         
+       })
+     }
+     else {
+ 
+       this.OrgForm.controls['city']?.reset();
+       this.OrgForm.controls['state']?.reset();
+     }
+     
+ 
+   }
   
 
 exportexcel(data:any) {

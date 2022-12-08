@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { COUNTRIES } from '../home/data';
 import { Employee } from '../pages/tables/advanced/advance.model';
 import { EMPLOYEES } from '../pages/tables/advanced/data';
 import { AdminConsoleService } from '../services/admin-console.service';
@@ -57,6 +58,12 @@ export class OrganisationListComponent implements OnInit {
   validation:boolean=false;
   web_url_error='';
   web_url_error_token= false;
+  stateValue='';
+  locationValue='';
+  countryList=COUNTRIES
+
+
+
 
 
   constructor(
@@ -109,6 +116,48 @@ export class OrganisationListComponent implements OnInit {
     });
 
   }
+
+  inputZip(){    
+    const zip = this.basicWizardForm.get('zip')?.value
+     if(zip.toString().length==6){
+       this.adminService.fetchLocation(zip).subscribe((doc:any)=>{
+         const res=doc
+         if(res.status=='OK'){
+         for (let i = 0; i < res.results[0].address_components.length; i++) {
+ 
+           if (res.results[0].address_components[i].types[0] == "locality") {    
+             this.locationValue = `${res.results[0].address_components[i].long_name}`;
+             this.basicWizardForm.controls['city']?.setValue(this.locationValue);
+             
+     
+           }
+           if(res.results[0].address_components[i].types[0] == "administrative_area_level_1"){
+             this.stateValue = res.results[0].address_components[i].long_name
+             this.basicWizardForm.controls['state']?.setValue(this.stateValue);
+             
+           }
+     
+     
+     
+         }
+       }
+       else {
+         this.basicWizardForm.controls['city']?.reset();
+         this.basicWizardForm.controls['state']?.reset();
+       }
+ 
+         
+       })
+     }
+     else {
+ 
+       this.basicWizardForm.controls['city']?.reset();
+       this.basicWizardForm.controls['state']?.reset();
+     }
+     
+ 
+   }
+ 
 
   loadPage(val:any){
     this.pagenumber=val

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
+import { COUNTRIES } from './data';
 
 @Component({
   selector: 'app-home',
@@ -53,6 +54,9 @@ export class HomeComponent implements OnInit {
   showLiveAlertAPI=false;
   errorMessageAPI='';
   web_url_error_token= false
+  countryList=COUNTRIES;
+  locationValue:any=''
+  stateValue:any=''
 
   constructor(
     private readonly adminService: AdminConsoleService,
@@ -99,6 +103,49 @@ export class HomeComponent implements OnInit {
       });
 
   }
+  
+  inputZip(){
+   const zip = this.basicWizardForm.get('zip')?.value
+    if(zip.toString().length==6){
+      this.adminService.fetchLocation(zip).subscribe((doc:any)=>{
+        const res=doc
+        if(res.status=='OK'){
+        for (let i = 0; i < res.results[0].address_components.length; i++) {
+
+          if (res.results[0].address_components[i].types[0] == "locality") {    
+            this.locationValue = `${res.results[0].address_components[i].long_name}`;
+            this.basicWizardForm.controls['city']?.setValue(this.locationValue);
+            
+    
+          }
+          if(res.results[0].address_components[i].types[0] == "administrative_area_level_1"){
+            this.stateValue = res.results[0].address_components[i].long_name
+            this.basicWizardForm.controls['state']?.setValue(this.stateValue);
+            
+          }
+    
+    
+    
+        }
+      }
+      else {
+        this.basicWizardForm.controls['city']?.reset();
+        this.basicWizardForm.controls['state']?.reset();
+      }
+
+        
+      })
+    }
+    else {
+
+      this.basicWizardForm.controls['city']?.reset();
+      this.basicWizardForm.controls['state']?.reset();
+    }
+    
+
+  }
+
+
   get validator() {
     return true;
   }
@@ -547,7 +594,7 @@ export class HomeComponent implements OnInit {
     else {
       this.showButton = true;
     }
-    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+    this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {      
       this.changeButton=true
       this.addTpafunc=false
    })
