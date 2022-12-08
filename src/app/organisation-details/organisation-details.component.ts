@@ -1092,12 +1092,12 @@ resendInvitationMail(data:any){
         pilot_duration: el.pilot_duration,
         product_junction_id:el.product_junction_id,
         product_id: el.product_id,
-        web_access: el.web_access,
+        web_access: el.web_access ? el.web_access:false ,
         web_url: el.web_access ? el.web_url :'',
         web_fedoscore: el.web_access ? el.web_fedoscore:false,
         event_mode: el.event_mode,
-        ios_access: el.ios_access ,
-        mobile_access: el.mobile_access,
+        ios_access: el.ios_access ? el.ios_access:false ,
+        mobile_access: el.mobile_access ? el.mobile_access:false,
       }
     });
     console.log('dalsdfj',this.listdetails)

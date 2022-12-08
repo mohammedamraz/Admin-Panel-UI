@@ -855,7 +855,7 @@ padding-top:10px">
                             <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
                             <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             <p *ngIf="product.status =='Active'"  style="margin-bottom: 0.5rem;">
-                      {{daysLefts(product.end_date)+1}} 
+                      {{daysLefts(product.end_date)}} 
                             days left for pilot to end</p>
                             <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>
                         </div>
