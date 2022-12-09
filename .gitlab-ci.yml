@@ -4,7 +4,7 @@ image: node:14
   before_script:
     - export TAGGED_APP_VERSION=fedo-admin-ui_`git describe --tags --always --abbrev=0`-`git rev-parse --short HEAD`
     - export VALID_PIPELINE_COMMIT_TITLE="/^([0-9]+)\.([0-9]+)\.([0-9]+)-(build|alpha|beta|rc).([0-9-]+)?$/"
-    # - export AS_FEDO="sudo -H -u fedo-dev"
+    - export AS_FEDO="sudo -H -u fedo-dev"
     # - export SERVICE_NAME=admin.fedo.ai
     - export DEPLOY_LOCATION_DEV=/home/fedo-dev/system-storage/www/dev.admin.fedo.ai
     - export DEPLOY_LOCATION_SIT=/home/fedo-dev/system-storage/www/sit.admin.fedo.ai
