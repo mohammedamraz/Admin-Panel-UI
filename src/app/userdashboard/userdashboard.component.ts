@@ -34,6 +34,7 @@ fileName='ExcelSheet.xlsx';
 page:any=1;
 perpage:any=1000;
 organization_name:any=''
+product_name=''
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -392,7 +393,11 @@ organization_name:any=''
     this.authenticationService.logout();
     this.reloadCurrentPage();
   }
-  exportexcel(data:any) {
+  exportexcel(data:any,prodId:any) {
+    if(prodId=='2'){
+    
+      this.product_name= prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW')
+
 
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
 
@@ -431,7 +436,7 @@ organization_name:any=''
     })
 
     const filteredData = stepData
-    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+'  VITALS DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
@@ -536,5 +541,6 @@ organization_name:any=''
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
 }
+  }
 
 }
