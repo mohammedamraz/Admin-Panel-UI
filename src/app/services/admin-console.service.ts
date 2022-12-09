@@ -192,8 +192,8 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}${id}?page=${num}&per_page=${item}`) ;
   }
 
-  fetchVitalsActiveByPage(id:any,num:any,item:any){
-    return this.http.get(`${API_URL}${id}?type=active&page=${num}&per_page=${item}`) ;
+  fetchVitalsActiveByPage(id:any,num:any,item:any, status :any){
+    return this.http.get(`${API_URL}${id}?type=${status}&page=${num}&per_page=${item}`) ;
   }
   sendEmailNotification(data:any){  
     return this.http.post(`${ADMIN_URL}notification/logout/notification`,data);
@@ -352,7 +352,7 @@ export class AdminConsoleService {
     if(event.url?.split('/')[1] == 'vitalsList'){
       this.breadCrumbs.next([
         { label: 'Home', path: 'home' },
-        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `/vitals-dashboard/${event.url?.split('/')[2]}`},
+        {label: `${event.url?.split('/')[2] === '1' ? 'HSA': (event.url?.split('/')[2][0] === '2' ? 'Vitals' : 'RUW')} Dashboard`, path: `/vitals-dashboard/${event.url?.split('/')[2][0]}`},
         {label: `Pilot List`, path: `/vitalsList/${event.url?.split('/')[2]}`, active: true}
     ])
     }
