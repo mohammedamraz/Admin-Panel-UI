@@ -104,6 +104,7 @@ export class OrganisationDetailsComponent implements OnInit {
   countryList=COUNTRIES
   locationValue='';
   stateValue='';
+  product_name=''
 
 
   constructor(
@@ -275,7 +276,11 @@ export class OrganisationDetailsComponent implements OnInit {
    }
   
 
-exportexcel(data:any) {
+exportexcel(data:any,prodId:any) {
+  if(prodId==2){
+  console.log('product id',prodId)
+ this.product_name= prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW')
+  
 
   const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
   const stepData = filteredDataMap.map((doc:any) =>{
@@ -313,7 +318,7 @@ exportexcel(data:any) {
   })
 
   const filteredData = stepData
-  const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+  const Heading = [[this.organization_name+' '+this.product_name+'  DAILY SCAN REPORT'],[
     'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
   ]
   ];
@@ -420,6 +425,7 @@ font: {
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
   XLSX.writeFile(wb, this.fileName);
 }
+}
 
   
 
@@ -429,6 +435,8 @@ font: {
     Promise.all(requests).then(body => { 
         body.forEach(res => {
         this.graphArray.push(res)
+        console.log( "grapghyyyyyyy arraaaaayyy",this.graphArray);
+        
         
         })
      });

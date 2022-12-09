@@ -400,7 +400,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
-                        <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
+                        <a href="javascript:void(0);" (click)="exportexcel(season.data,season.prodId)" ngbDropdownItem>Download Excel Report</a>
                     </div>
 
                 </div>
@@ -434,7 +434,7 @@
                     <img src="./assets/images/excel-icone.png"> &nbsp;
                     <a style="font-size: 1.2rem;
                     margin: 0;
-                    color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data)">Download Excel Report</a>
+                    color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data,season.prodId)">Download Excel Report</a>
                    
                    
                   </div>

@@ -65,6 +65,7 @@ export class PilotDashboardComponent implements OnInit {
   productsWhole: any;
   loggedInUser : any = {};
   orgLogin : boolean = false;
+  product_name=''
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -142,6 +143,8 @@ export class PilotDashboardComponent implements OnInit {
     Promise.all(requests).then(body => { 
         body.forEach(res => {
         this.graphArray.push(res)
+        console.log('graphyyy',this.graphArray);
+        
         })
      });
 
@@ -192,7 +195,13 @@ export class PilotDashboardComponent implements OnInit {
     })
 
   }
-  exportexcel(data:any) {
+  exportexcel(data:any,prodId:any) {
+
+    if(prodId==2){
+      console.log('product id',prodId)
+     this.product_name= prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW')
+      
+
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
     const stepData = filteredDataMap.map((doc:any) =>{
   
@@ -229,7 +238,7 @@ export class PilotDashboardComponent implements OnInit {
     })
   
     const filteredData = stepData
-    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+' DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
@@ -334,6 +343,7 @@ export class PilotDashboardComponent implements OnInit {
     XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
+  }
 }
 
   fetchGraphs(prodId:any,date:any){
