@@ -394,9 +394,9 @@ product_name=''
     this.reloadCurrentPage();
   }
   exportexcel(data:any,prodId:any) {
-    if(prodId=='2'){
+    if(Number(prodId) === 2){
     
-      this.product_name= prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW')
+      this.product_name= Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW')
 
 
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
@@ -436,7 +436,7 @@ product_name=''
     })
 
     const filteredData = stepData
-    const Heading = [[this.organization_name+' '+this.product_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+'  DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
