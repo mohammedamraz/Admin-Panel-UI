@@ -8,5 +8,15 @@
         },
 
         "logLevel": "debug"
+    },
+    "/sales/": {
+        "target": "https://admin.uat.demo.fedo.ai/",
+        "secure": false,
+        "changeOrigin": true,
+        "headers": {
+            "Connection": "keep-alive"
+        },
+
+        "logLevel": "debug"
     }
 }
