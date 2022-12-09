@@ -333,7 +333,7 @@ padding-top:10px">
                                         <div class="">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
-                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration:</h4>
+                                                    <h4 class="header-title" style="color: white;">Specify Pilot Duration (Days):</h4>
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
                                                         [options]="{
                                                             floor: 0,
@@ -537,12 +537,15 @@ padding-top:10px">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
 
-                                                <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
+                                                    <select  style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:100%; background-color: #383E4A;
+                                                    border: 1px solid #444C5B;" value='country' formControlName="country">
+                                                        <option value="" *ngFor="let c of countryList" [ngValue]='c.name'>  {{c.name}} </option>
+                                                      </select>
+
+                                                <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
                                                 oninput=" this.value = this.value.replace(/[0-9]/g,'')" 
                                                 [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['country'].invalid}" 
                                                 name="userName" placeholder="Country" required formControlName="country">
-                                                <!-- <select2 class="select2-selection__rendered"  [customSearchEnabled]="true" [data]="countries" placeholder="Select Country" id="selec2-2" #country1>
-                                                </select2> -->
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label>
                                                     <div *ngIf="OrgDetailsEditForm && OrgForm.controls['country'].invalid " class="invalid-feedback">
                                                         <div *ngIf="OrgForm.controls['country'].errors?.['required']" i18n>
@@ -551,13 +554,13 @@ padding-top:10px">
                                                           <div *ngIf="OrgForm.controls['country'].errors?.['minlength']" i18n>
                                                             Invalid Country format. Please enter Country
                                                           </div>
-                                                    </div>
+                                                    </div> -->
                                             </div>
                                         </div>
                                             <div class="col-md-6">
                                         <div class="form-floating mb-3">
 
-                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
+                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"(input)="inputZip()"
                                                 [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['zip'].invalid}" 
                                                 name="userName" placeholder="Zip" formControlName="zip" minlength="3">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Zip</label>
@@ -852,7 +855,7 @@ padding-top:10px">
                             <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
                             <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             <p *ngIf="product.status =='Active'"  style="margin-bottom: 0.5rem;">
-                      {{daysLefts(product.end_date)+1}} 
+                      {{daysLefts(product.end_date)}} 
                             days left for pilot to end</p>
                             <span *ngIf="product.status =='Expired'" style="color: #F08F8F;">{{product.status}}</span>
                         </div>
