@@ -104,8 +104,9 @@ export class OrganisationDetailsComponent implements OnInit {
   countryList=COUNTRIES
   locationValue='';
   stateValue='';
-  product_name=''
-
+  product_name='';
+  period_type : any = [];
+  period_data : any  = []
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -465,7 +466,26 @@ font: {
   }
 
   fetchPerformanceDetails(prodId:any,period:any){
-    
+    if(period == 'monthly'){
+      this.period_type = ['W1','W2','W3','W4','W5'];
+      this.period_data = [0,0,0,0,0];
+
+    }
+    else if(period == 'weekly'){
+      this.period_type = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      this.period_data = [0,0,0,0,0,0,0];
+
+    }
+    else if(period == 'quaterly'){
+      this.period_type = ['M1','M2','M3'];
+      this.period_data = [0,0,0];
+
+    }
+    else {
+      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    }
     return new Promise((resolve, reject) => {
       this.adminService.fetchPerformanceChart(this.snapshotParam,prodId,period).subscribe((doc:any)=>{
       let performaceDetails:any={}
@@ -473,14 +493,14 @@ font: {
       performaceDetails['currentMonth'] = doc[0].total_org_tests ? doc[0].total_org_tests : 0;
       performaceDetails['previousMonth'] = doc[1].total_org_tests ? doc[1].total_org_tests : 0;
       performaceDetails['varience'] = doc[2].variance ? doc[2].variance : 0;
-      performaceDetails['quaterOne'] = doc[0].quarter_one_tests ? doc[0].quarter_one_tests : 0;
-      performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
-      performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
-      performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
-      performaceDetails['PreviousQuaterOne'] = doc[1].quarter_one_tests ? doc[1].quarter_one_tests: 0 ;
-      performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
-      performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
-      performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
+      performaceDetails['quaterOne'] = doc[0].quarterData ? doc[0].quarterData : this.period_data;
+      // performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
+      // performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
+      // performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
+      performaceDetails['PreviousQuaterOne'] = doc[1].quarterData ? doc[1].quarterData: this.period_data ;
+      // performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
+      // performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
+      // performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
       performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
       performaceDetails['currentUserEmail'] = doc[0].user_email;
       performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NA':doc[0].user_name;
@@ -494,12 +514,12 @@ font: {
           {
             name: 'Series A',
             type: 'area',
-            data: [performaceDetails['quaterOne'],performaceDetails['quaterTwo'], performaceDetails['quaterThree'], performaceDetails['quaterFour']],
+            data: performaceDetails['quaterOne'],
           },
           {
             name: 'Series B',
             type: 'line',
-            data: [performaceDetails['PreviousQuaterOne'],performaceDetails['PreviousQuaterTwo'], performaceDetails['PreviousQuaterThree'],performaceDetails['PreviousQuaterFour']],
+            data: performaceDetails['PreviousQuaterOne'],
           },
         ],
         chart: {
@@ -534,7 +554,7 @@ font: {
         },
         colors: ['#188ae2', '#F08FC9'],
         xaxis: {
-          categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
+          categories: this.period_type,
           axisBorder: {
             show: true,
             color: '#f7f7f7'

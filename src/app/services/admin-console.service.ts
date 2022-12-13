@@ -426,8 +426,8 @@ export class AdminConsoleService {
       if(loggedInUser.hasOwnProperty('org_data') && loggedInUser.org_data[0].type !== 'admin'){
         //orgAdmin
         this.breadCrumbs.next([
-          {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
-          {label: `${event.url?.split('/')[3][0]== '1' ? 'HSA' : (event.url.split('/')[3][0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: event.url,},
+          {label: `Home`, path: `/${event.url?.split('/')[1]}/dashboard`,},
+          {label: `${event.url?.split('/')[3][0]== '1' ? 'HSA' : (event.url.split('/')[3][0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `/${event.url?.split('/')[1]}/pilotdashboard/${event.url.split('/')[3][0]}`},
           {label: `Report`, path: event.url, active: true}
         ])
       }
@@ -452,7 +452,7 @@ export class AdminConsoleService {
 
       this.breadCrumbs.next([
 
-        {label: `Home`, path: `/${event.url?.split('/')[1]}/home`,},
+        {label: `Home`, path: `/home`,},
 
         {label: `${event.url?.split('/')[2]== '1' ? 'HSA' : (event.url.split('/')[2] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `/vitals-dashboard/${event.url.split('/')[2]}`,},
 

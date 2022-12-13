@@ -974,7 +974,7 @@ padding-top:10px">
                                 <a href="javascript:void(0);" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                <div style="    border: 1px solid #4B515F;" class="kanban_style" ngbDropdownMenu>
                                     <a  [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <a href="javascript:void(0);" (click)="openUserForm(toggleModal2); setValue(person)" ngbDropdownItem>Create Users</a>
                                     <a [routerLink]="['/userdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Users List</a>

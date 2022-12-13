@@ -129,9 +129,9 @@
                             Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}} <i class="mdi mdi-chevron-down"></i>
                         </a>
                         <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                            <!-- <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a> -->
+                            <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
                         <a (click)="fetchTimely(season.prodId,'monthly')" ngbDropdownItem>Current vs Previous Month</a>
-                        <!-- <a  (click)="fetchTimely(season.prodId,'quaterly')"ngbDropdownItem>Current vs Previous Quater</a> -->
+                        <a  (click)="fetchTimely(season.prodId,'quaterly')"ngbDropdownItem>Current vs Previous Quarter</a>
                         <a (click)="fetchTimely(season.prodId,'yearly')" ngbDropdownItem>Current vs Previous Year</a>
     
                         </div>
