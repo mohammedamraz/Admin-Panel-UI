@@ -649,8 +649,9 @@ export class PilotDashboardComponent implements OnInit {
 
   }
 
-  orgEdit(content: TemplateRef<NgbModal>): void {    
-    this.createEditproc(this.products,this.productsWhole);
+  orgEdit(content: TemplateRef<NgbModal>): void { 
+    const filterObj = this.productsWhole.filter((e:any) => e.product_id == this.productId);
+    this.createEditproc(this.products,filterObj);
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
 
@@ -673,7 +674,7 @@ export class PilotDashboardComponent implements OnInit {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<=0 ? 0 : this.daysLefts(el.end_date)+1,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -751,7 +752,7 @@ export class PilotDashboardComponent implements OnInit {
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
-        this.activeWizard2=this.activeWizard2+1;
+        this.activeWizard2=this.activeWizard2+2;
         this.created = true;
       },
       error: (err) => {
