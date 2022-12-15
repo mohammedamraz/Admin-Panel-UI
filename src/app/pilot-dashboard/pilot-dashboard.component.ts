@@ -391,7 +391,7 @@ export class PilotDashboardComponent implements OnInit {
       this.period_data = [0,0,0,0,0,0,0];
 
     }
-    else if(period == 'quaterly'){
+    else if(period == 'quarterly'){
       this.period_type = ['M1','M2','M3'];
       this.period_data = [0,0,0];
 

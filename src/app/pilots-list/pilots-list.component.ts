@@ -45,19 +45,6 @@ export class PilotsListComponent implements OnInit {
           return doc
         })
         // }
-        // else{
-        //   this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-        //   this.total_org=doc.total
-        //   this.currentPage=doc.page
-        //   this.total_pages=doc.total_pages
-
-        //   this.vitalsDetails=doc.data;
-        //   this.length=this.vitalsDetails.length
-        //   this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-    
-        //   return doc
-        // })
-        // }
       })
     })
 
@@ -81,18 +68,6 @@ export class PilotsListComponent implements OnInit {
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
         return doc})
       // }
-      // else{
-      //   this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-      //   this.total_org=doc.total
-      //   this.currentPage=doc.page
-      //   this.total_pages=doc.total_pages
-  
-      //   this.vitalsDetails=doc.data;
-      //   this.length=this.vitalsDetails.length
-      //   this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-  
-      //   return doc})
-      // }
     })
          
   }
@@ -111,18 +86,6 @@ export class PilotsListComponent implements OnInit {
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
   
         return doc})
-      // }
-      // else{
-      //   this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-      //   this.total_org=doc.total
-      //   this.currentPage=doc.page
-      //   this.total_pages=doc.total_pages
-  
-      //   this.vitalsDetails=doc.data;
-      //   this.length=this.vitalsDetails.length
-      //   this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-  
-      //   return doc})
       // }
     })
      
@@ -143,18 +106,6 @@ export class PilotsListComponent implements OnInit {
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
   
         return doc})
-      // }
-      // else{
-      //   this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-      //   this.total_org=doc.total
-      //   this.currentPage=doc.page
-      //   this.total_pages=doc.total_pages
-  
-      //   this.vitalsDetails=doc.data;
-      //   this.length=this.vitalsDetails.length
-      //   this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-  
-      //   return doc})
       // }
     })
      
