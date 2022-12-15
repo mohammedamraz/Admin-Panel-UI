@@ -34,6 +34,7 @@ fileName='ExcelSheet.xlsx';
 page:any=1;
 perpage:any=1000;
 organization_name:any=''
+product_name=''
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -46,7 +47,9 @@ organization_name:any=''
   user_name:any
   email:any
   mobile:any
-  designation:any
+  designation:any;
+  period_type : any = [];
+  period_data : any  = []
 
   
   ngOnInit(): void {        
@@ -180,6 +183,26 @@ organization_name:any=''
 
   fetchPerformanceDetails(prodId:any,period:any){
     
+    if(period == 'monthly'){
+      this.period_type = ['W1','W2','W3','W4','W5'];
+      this.period_data = [0,0,0,0,0];
+
+    }
+    else if(period == 'weekly'){
+      this.period_type = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      this.period_data = [0,0,0,0,0,0,0];
+
+    }
+    else if(period == 'quarterly'){
+      this.period_type = ['M1','M2','M3'];
+      this.period_data = [0,0,0];
+
+    }
+    else {
+      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    }
     return new Promise((resolve, reject) => {
       this.adminService.fetchUserPerformanceChart(this.userId,prodId,period).subscribe((doc:any)=>{
       let performaceDetails:any={}      
@@ -187,14 +210,14 @@ organization_name:any=''
       performaceDetails['currentMonth'] = doc[0].total_org_tests ? doc[0].total_org_tests : 0;
       performaceDetails['previousMonth'] = doc[1].total_org_tests ? doc[1].total_org_tests : 0;
       performaceDetails['varience'] = doc[2].variance ? doc[2].variance : 0;
-      performaceDetails['quaterOne'] = doc[0].quarter_one_tests ? doc[0].quarter_one_tests : 0;
-      performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
-      performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
-      performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
-      performaceDetails['PreviousQuaterOne'] = doc[1].quarter_one_tests ? doc[1].quarter_one_tests: 0 ;
-      performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
-      performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
-      performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
+      performaceDetails['quaterOne'] = doc[0].quarterData ? doc[0].quarterData : this.period_data;
+      // performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
+      // performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
+      // performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
+      performaceDetails['PreviousQuaterOne'] = doc[1].quarterData ? doc[1].quarterData: this.period_data ;
+      // performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
+      // performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
+      // performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
       performaceDetails['name'] =  prodId === 1 ? 'HSA' : (prodId === 2 ? 'Vitals':'RUW' )
       performaceDetails['currentUserEmail'] = doc[0].user_email;
       performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NA':doc[0].user_name;
@@ -207,12 +230,12 @@ organization_name:any=''
           {
             name: 'Series A',
             type: 'area',
-            data: [performaceDetails['quaterOne'],performaceDetails['quaterTwo'], performaceDetails['quaterThree'], performaceDetails['quaterFour']],
+            data: performaceDetails['quaterOne'],
           },
           {
             name: 'Series B',
             type: 'line',
-            data: [performaceDetails['PreviousQuaterOne'],performaceDetails['PreviousQuaterTwo'], performaceDetails['PreviousQuaterThree'],performaceDetails['PreviousQuaterFour']],
+            data: performaceDetails['PreviousQuaterOne'],
           },
         ],
         chart: {
@@ -248,7 +271,7 @@ organization_name:any=''
         },
         colors: ['#188ae2', '#F08FC9'],
         xaxis: {
-          categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
+          categories: this.period_type,
           axisBorder: {
             show: true,
             color: '#f7f7f7'
@@ -392,7 +415,11 @@ organization_name:any=''
     this.authenticationService.logout();
     this.reloadCurrentPage();
   }
-  exportexcel(data:any) {
+  exportexcel(data:any,prodId:any) {
+    if(Number(prodId) === 2){
+    
+      this.product_name= Number(prodId) === 1 ? 'HSA' : (Number(prodId) === 2 ? 'Vitals':'RUW')
+
 
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
 
@@ -431,7 +458,7 @@ organization_name:any=''
     })
 
     const filteredData = stepData
-    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+'  DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
@@ -536,5 +563,6 @@ organization_name:any=''
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
 }
+  }
 
 }

@@ -65,6 +65,9 @@ export class PilotDashboardComponent implements OnInit {
   productsWhole: any;
   loggedInUser : any = {};
   orgLogin : boolean = false;
+  product_name='';
+  period_type : any = [];
+  period_data : any  = []
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -142,6 +145,8 @@ export class PilotDashboardComponent implements OnInit {
     Promise.all(requests).then(body => { 
         body.forEach(res => {
         this.graphArray.push(res)
+        console.log('graphyyy',this.graphArray);
+        
         })
      });
 
@@ -192,7 +197,13 @@ export class PilotDashboardComponent implements OnInit {
     })
 
   }
-  exportexcel(data:any) {
+  exportexcel(data:any,prodId:any) {
+
+    if(prodId==2){
+      console.log('product id',prodId)
+     this.product_name= prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW')
+      
+
     const filteredDataMap = data.filter((doc:any) => doc.policy_number!==null)
     const stepData = filteredDataMap.map((doc:any) =>{
   
@@ -229,7 +240,7 @@ export class PilotDashboardComponent implements OnInit {
     })
   
     const filteredData = stepData
-    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+' DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
@@ -334,6 +345,7 @@ export class PilotDashboardComponent implements OnInit {
     XLSX.utils.sheet_add_json(ws, filteredData, { origin: 'A4', skipHeader: true });
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
+  }
 }
 
   fetchGraphs(prodId:any,date:any){
@@ -369,7 +381,26 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   fetchPerformanceDetails(prodId:any,period:any){
-    
+    if(period == 'monthly'){
+      this.period_type = ['W1','W2','W3','W4','W5'];
+      this.period_data = [0,0,0,0,0];
+
+    }
+    else if(period == 'weekly'){
+      this.period_type = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+      this.period_data = [0,0,0,0,0,0,0];
+
+    }
+    else if(period == 'quarterly'){
+      this.period_type = ['M1','M2','M3'];
+      this.period_data = [0,0,0];
+
+    }
+    else {
+      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    }
     return new Promise((resolve, reject) => {
       this.adminService.fetchPerformanceChart(this.orgId,prodId,period).subscribe((doc:any)=>{
       let performaceDetails:any={}
@@ -377,14 +408,14 @@ export class PilotDashboardComponent implements OnInit {
       performaceDetails['currentMonth'] = doc[0].total_org_tests ? doc[0].total_org_tests : 0;
       performaceDetails['previousMonth'] = doc[1].total_org_tests ? doc[1].total_org_tests : 0;
       performaceDetails['varience'] = doc[2].variance ? doc[2].variance : 0;
-      performaceDetails['quaterOne'] = doc[0].quarter_one_tests ? doc[0].quarter_one_tests : 0;
-      performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
-      performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
-      performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
-      performaceDetails['PreviousQuaterOne'] = doc[1].quarter_one_tests ? doc[1].quarter_one_tests: 0 ;
-      performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
-      performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
-      performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
+      performaceDetails['quaterOne'] = doc[0].quarterData ? doc[0].quarterData : this.period_data;
+      // performaceDetails['quaterTwo'] = doc[0].quarter_two_tests ? doc[0].quarter_two_tests : 0;
+      // performaceDetails['quaterThree'] = doc[0].quarter_three_tests ? doc[0].quarter_three_tests : 0;
+      // performaceDetails['quaterFour'] = doc[0].quarter_four_tests ? doc[0].quarter_four_tests : 0;
+      performaceDetails['PreviousQuaterOne'] = doc[1].quarterData ? doc[1].quarterData: this.period_data ;
+      // performaceDetails['PreviousQuaterTwo'] = doc[1].quarter_two_tests ? doc[1].quarter_two_tests : 0;
+      // performaceDetails['PreviousQuaterThree'] = doc[1].quarter_three_tests ? doc[1].quarter_three_tests: 0;
+      // performaceDetails['PreviousQuaterFour'] = doc[1].quarter_four_tests ? doc[1].quarter_four_tests : 0;
       performaceDetails['name'] =  prodId === '1' ? 'HSA' : (prodId === '2' ? 'Vitals':'RUW' )
       performaceDetails['currentUserEmail'] = doc[0].user_email;
       performaceDetails['currentUserNmae'] = doc[0].user_name==undefined?'NA':doc[0].user_name;
@@ -397,12 +428,12 @@ export class PilotDashboardComponent implements OnInit {
           {
             name: 'Series A',
             type: 'area',
-            data: [performaceDetails['quaterOne'],performaceDetails['quaterTwo'], performaceDetails['quaterThree'], performaceDetails['quaterFour']],
+            data: performaceDetails['quaterOne'],
           },
           {
             name: 'Series B',
             type: 'line',
-            data: [performaceDetails['PreviousQuaterOne'],performaceDetails['PreviousQuaterTwo'], performaceDetails['PreviousQuaterThree'],performaceDetails['PreviousQuaterFour']],
+            data: performaceDetails['PreviousQuaterOne'],
           },
         ],
         chart: {
@@ -438,7 +469,7 @@ export class PilotDashboardComponent implements OnInit {
         },
         colors: ['#188ae2', '#F08FC9'],
         xaxis: {
-          categories: ['Q1', 'Q2', 'Q3', 'Q4' ],
+          categories: this.period_type,
           axisBorder: {
             show: true,
             color: '#f7f7f7'
@@ -618,8 +649,9 @@ export class PilotDashboardComponent implements OnInit {
 
   }
 
-  orgEdit(content: TemplateRef<NgbModal>): void {    
-    this.createEditproc(this.products,this.productsWhole);
+  orgEdit(content: TemplateRef<NgbModal>): void { 
+    const filterObj = this.productsWhole.filter((e:any) => e.product_id == this.productId);
+    this.createEditproc(this.products,filterObj);
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
 
@@ -642,7 +674,7 @@ export class PilotDashboardComponent implements OnInit {
 
     const list = OrgProducts.map((el:any) => {return {
       fedoscore: el.fedoscore,
-      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
+      pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<=0 ? 0 : this.daysLefts(el.end_date)+1,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
       web_url: el.web_url,
@@ -720,7 +752,7 @@ export class PilotDashboardComponent implements OnInit {
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
-        this.activeWizard2=this.activeWizard2+1;
+        this.activeWizard2=this.activeWizard2+2;
         this.created = true;
       },
       error: (err) => {

@@ -661,7 +661,7 @@
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                <div style="    border: 1px solid #4B515F;" class = "kanban_style" ngbDropdownMenu>
                                     <a [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" ngbDropdownItem>Org Info</a>
                                     <div style="display: flex;
                                     align-items: center;"><div style="display: flex;" *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)

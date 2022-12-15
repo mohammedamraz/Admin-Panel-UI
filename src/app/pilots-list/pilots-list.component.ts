@@ -21,6 +21,8 @@ export class PilotsListComponent implements OnInit {
   total_org:any;
   snapshotParam:any = "initial value";
   currentPage:any;
+  activeStatusOptions:any= ['All Pilots', 'Active Pilots','Expired Pilots']
+  activeStatusValue: any= this.activeStatusOptions[1]
 
   constructor(private readonly adminService: AdminConsoleService,public service: AdvancedTableService,private route: ActivatedRoute) { }
 
@@ -30,8 +32,8 @@ export class PilotsListComponent implements OnInit {
     this.route.params.subscribe((val:any)=>{
       this.snapshotParam = val.id;
       this.route.queryParams.subscribe((params:any)=>{
-        if(params.status =='active'){
-          this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
+        // if(this.activeStatusValue != 'All Pilots'){
+          this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries,STATUS[this.activeStatusValue]).subscribe((doc:any) =>{
           this.total_org=doc.total
           this.currentPage=doc.page
           this.total_pages=doc.total_pages
@@ -42,20 +44,7 @@ export class PilotsListComponent implements OnInit {
     
           return doc
         })
-        }
-        else{
-          this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-          this.total_org=doc.total
-          this.currentPage=doc.page
-          this.total_pages=doc.total_pages
-
-          this.vitalsDetails=doc.data;
-          this.length=this.vitalsDetails.length
-          this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-    
-          return doc
-        })
-        }
+        // }
       })
     })
 
@@ -68,8 +57,8 @@ export class PilotsListComponent implements OnInit {
     this.pagenumber=val
 
     this.route.queryParams.subscribe((params:any)=>{
-      if(params.status =='active'){
-        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
+      // if(this.activeStatusValue != 'All Pilots'){
+        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries,STATUS[this.activeStatusValue]).subscribe((doc:any) =>{
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
@@ -78,19 +67,7 @@ export class PilotsListComponent implements OnInit {
         this.length=this.vitalsDetails.length
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
         return doc})
-      }
-      else{
-        this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
-        this.total_org=doc.total
-        this.currentPage=doc.page
-        this.total_pages=doc.total_pages
-  
-        this.vitalsDetails=doc.data;
-        this.length=this.vitalsDetails.length
-        this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-  
-        return doc})
-      }
+      // }
     })
          
   }
@@ -98,8 +75,8 @@ export class PilotsListComponent implements OnInit {
   onFilter (data:any) {
     this.entries=data.value
     this.route.queryParams.subscribe((params:any)=>{
-      if(params.status =='active'){
-        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
+      // if(this.activeStatusValue != 'All Pilots'){
+        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries,STATUS[this.activeStatusValue]).subscribe((doc:any) =>{
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
@@ -109,19 +86,27 @@ export class PilotsListComponent implements OnInit {
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
   
         return doc})
-      }
-      else{
-        this.adminService.fetchVitalsByPage(this.snapshotParam,this.pagenumber,this.entries).subscribe((doc:any) =>{
+      // }
+    })
+     
+      
+  }
+
+  onActiveStatus(data :any) {
+    this.activeStatusValue=data.value
+    this.route.queryParams.subscribe((params:any)=>{
+      // if(this.activeStatusValue != 'All Pilots'){
+        this.adminService.fetchVitalsActiveByPage(this.snapshotParam,this.pagenumber,this.entries,STATUS[this.activeStatusValue]).subscribe((doc:any) =>{
         this.total_org=doc.total
         this.currentPage=doc.page
         this.total_pages=doc.total_pages
   
-        this.vitalsDetails=doc.data;
+        this.vitalsDetails=doc.data; 
         this.length=this.vitalsDetails.length
         this.vitalsDetails = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
   
         return doc})
-      }
+      // }
     })
      
       
@@ -135,4 +120,10 @@ export class PilotsListComponent implements OnInit {
     return days_difference;
   }
 
+}
+
+export const STATUS: any ={
+  'Active Pilots': 'active',
+  'Expired Pilots': 'expired',
+  'All Pilots': ''
 }

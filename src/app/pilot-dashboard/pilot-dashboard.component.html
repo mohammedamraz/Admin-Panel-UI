@@ -400,7 +400,7 @@
                     </a>
                     <div ngbDropdownMenu>
                         <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
-                        <a href="javascript:void(0);" (click)="exportexcel(season.data)" ngbDropdownItem>Download Excel Report</a>
+                        <a href="javascript:void(0);" (click)="exportexcel(season.data,season.prodId)" ngbDropdownItem>Download Excel Report</a>
                     </div>
 
                 </div>
@@ -434,7 +434,7 @@
                     <img src="./assets/images/excel-icone.png"> &nbsp;
                     <a style="font-size: 1.2rem;
                     margin: 0;
-                    color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data)">Download Excel Report</a>
+                    color: #ADB5BD;text-decoration-line: underline; cursor: pointer;" (click)="exportexcel(season.data,season.prodId)">Download Excel Report</a>
                    
                    
                   </div>
@@ -474,9 +474,9 @@
                         Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}}  <i class="mdi mdi-chevron-down"></i>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownLink">
-                        <!-- <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a> -->
+                        <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
                         <a (click)="fetchTimely(season.prodId,'monthly')" ngbDropdownItem>Current vs Previous Month</a>
-                        <!-- <a  (click)="fetchTimely(season.prodId,'quaterly')"ngbDropdownItem>Current vs Previous Quater</a> -->
+                        <a  (click)="fetchTimely(season.prodId,'quarterly')"ngbDropdownItem>Current vs Previous Quarter</a>
                         <a (click)="fetchTimely(season.prodId,'yearly')" ngbDropdownItem>Current vs Previous Year</a>
 
                     </div>
@@ -582,7 +582,8 @@
 
 </div>
 
-<div *ngIf="show" class="overlay">
+<div *ngIf="orgLogin==true">
+        <div *ngIf="show" class="overlay">
     <div class="card" style="background-color: #EC6661;margin-bottom: 0;">
         <div class="card-body" style="   min-width: min-content;border-radius: 4px;    background-color: #EC6661;  display: grid;
         grid-gap: 2rem;">
@@ -608,6 +609,7 @@
 
     </div> 
 </div>
+</div>
 
 
 <ng-template #toggleModal2 let-modal style="width: auto;">
@@ -627,7 +629,7 @@
                         class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(8rem , 5fr)); background-color: #313844;">
            
-                        <li [ngbNavItem]="1">
+                        <!-- <li [ngbNavItem]="1">
                             <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <span class=" d-sm-inline">Products</span>
                             </a>
@@ -663,11 +665,11 @@
     
                                     </div>
                                 </ng-template>
-                        </li>
+                        </li> -->
 
                         <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
-                            <li [ngbNavItem]="2+i">
-                            <a [ngStyle]=" activeWizard2 > 2+i ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                            <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <!-- <i class="mdi mdi-face-profile me-1"></i> -->
                                 <span class=" d-sm-inline">Config {{season.product_name}}</span>
                             </a>
@@ -810,19 +812,19 @@
                                                   {{errorOrgMessage}}
                                                 
                                               </div>
-                        <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
+                        <!-- <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
                             <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
                                 [disabled]="activeWizard2===1">Previous</button>
-                        </li>
+                        </li> -->
                         <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
                             <button type="button"    style="width: 100px;"  class="btn btn-secondary mt-4" (click)="modal.dismiss('');listorg=3;listdetails=[]; reloadPage();"
                                 >Close</button>
                         </li>
                         <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
-                            <button type="button" (click)="activeWizard2=activeWizard2+1" style="width: 100px;" class="btn btn-info"
-                                *ngIf="activeWizard2<list-1">Next</button>
+                            <!-- <button type="button" (click)="activeWizard2=activeWizard2+1" style="width: 100px;" class="btn btn-info"
+                                *ngIf="activeWizard2<list-1">Next</button> -->
                             <button type="button" class="btn btn-secondary" (click)="checkingProductOrgForm()" style="width: 100px;" class="btn btn-info"
-                                *ngIf="activeWizard2 == list-1">Submit</button>
+                                *ngIf="activeWizard2 < list">Submit</button>
                         </li>
                     </ul>
     

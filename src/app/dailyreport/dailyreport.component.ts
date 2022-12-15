@@ -30,6 +30,7 @@ export class DailyreportComponent implements OnInit {
   created_date : any = ''
   todayDate=new Date();
   organization_name:any=''
+  product_name=''
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -77,6 +78,7 @@ export class DailyreportComponent implements OnInit {
     return days_difference;
   }
   exportexcel() {
+
     if(this.userId == undefined){
       this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,1,100000).subscribe((doc:any)=>{
         this.tableDataForExcel = doc[0].data.data;
@@ -92,7 +94,12 @@ export class DailyreportComponent implements OnInit {
     });
   }
 }
-  newExport(){    
+  newExport(){  
+    this.product_name= this.prodId === '1' ? 'HSA' : (this.prodId === '2' ? 'Vitals':'RUW')
+
+    if(this.prodId=='2'){ 
+      
+
     const filteredDataMap = this.tableDataForExcel.filter((doc:any) => doc.policy_number!==null)
     const stepData = filteredDataMap.map((doc:any) =>{
       delete doc.tests;
@@ -127,7 +134,7 @@ export class DailyreportComponent implements OnInit {
     })
 
     const filteredData = stepData
-    const Heading = [[this.organization_name+'  VITALS DAILY SCAN REPORT'],[
+    const Heading = [[this.organization_name+' '+this.product_name+'  VITALS DAILY SCAN REPORT'],[
       'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
     ]
     ];
@@ -233,6 +240,7 @@ export class DailyreportComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     XLSX.writeFile(wb, this.fileName);
 }
+  }
 loadPage(val:any){
   
   

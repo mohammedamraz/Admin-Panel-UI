@@ -54,3 +54,12 @@
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     
 }
+
+.kanban_style {
+
+    top: -330% !important;
+
+    right: 100% !important;
+    // z-index: 9999;
+
+}

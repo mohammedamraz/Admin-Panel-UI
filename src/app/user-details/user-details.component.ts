@@ -75,9 +75,23 @@ export class UserDetailsComponent implements OnInit {
   activeStatusValue: any= this.activeStatusOptions[1]
   changeButton:boolean=false
   userProductEdited:any=[];
+  orglogin : boolean = false;
+  userlogin : boolean = false;
+
 
 
   ngOnInit(): void {
+
+    let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
+    if(data.hasOwnProperty('orglogin')){
+      // if(data.orglogin){
+        this.orglogin=true;
+      // }
+      // else{
+      //   this.orglogin=true;
+      //   this.userlogin=false;
+      // }
+    }
     this.route.params.subscribe((val:any) =>{   
       this.prod = val.prodId;
       this.snapshotParam = val.orgId;
@@ -119,7 +133,7 @@ export class UserDetailsComponent implements OnInit {
         this.productsData= res[0].product[selected];
         this.product= res[0].product;
         this.show = false;
-        if(res[0].type!='admin'&&this.productsData.status == "Expired"){
+        if(this.orglogin == true && res[0].type!='admin'&&this.productsData.status == "Expired"){
           this.show = true;
         }
       }})
