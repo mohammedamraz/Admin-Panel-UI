@@ -713,7 +713,7 @@ font: {
     }})
     this.list=2+OrgProducts.length
     this.products = product;
-    this.listdetails = list;    
+    this.listdetails = list;   
 
     // if(this.orglogin){
 
@@ -828,6 +828,11 @@ resendInvitationMail(data:any){
   orgEdit(content: TemplateRef<NgbModal>): void {
     this.createEditproc(this.products,this.product);
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
+  }
+  orgEditing(content: TemplateRef<NgbModal>,data:any): void {
+   const filterObj = this.product.filter((e) => e.product_id == data);
+   this.createEditproc(this.products,filterObj);
+   this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' ,size:'lg' });
   }
   
 
