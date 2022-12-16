@@ -681,7 +681,6 @@ font: {
   }
 
   createEditproc(products:any,OrgProducts:any){
-
     this.orgProd = [];  
    const product = products.map((doc:any)=>{
       const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
@@ -708,7 +707,9 @@ font: {
       product_id: el.product_id,
       event_mode:el.event_mode,
       ios_access:el.ios_access,
-      mobile_access :el.mobile_access
+      mobile_access :el.mobile_access,
+      // enable_kiosk :el.enable_kiosk? el.enable_kiosk : true,
+      // kiosk_user : el.kiosk_user
 
     }})
     this.list=2+OrgProducts.length
@@ -1091,6 +1092,28 @@ resendInvitationMail(data:any){
     }
   }
 
+  event_kiosc(event:any, product:any){
+    console.log("asd",event.target.checked)
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].enable_kiosk = true; 
+      console.log("inside",this.listdetails[selected].enable_kiosk) 
+      console.log("inside",this.listdetails) 
+      console.log("inside",[selected]);
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.listdetails[selected].enable_kiosk= false;  
+      console.log("outside",this.listdetails[selected].enable_kiosk) 
+
+    }
+  }
+
+  checkInputValue(value: any, product : any){
+    const selected =this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].kiosk_user = value;
+   
+}
 
   checkingOrgForm(){
 
@@ -1131,6 +1154,8 @@ resendInvitationMail(data:any){
         event_mode: el.event_mode,
         ios_access: el.ios_access ? el.ios_access:false ,
         mobile_access: el.mobile_access ? el.mobile_access:false,
+        enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
+        kiosk_user: el.kiosk_user ? el.kiosk_user:'',
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1151,6 +1176,8 @@ resendInvitationMail(data:any){
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+    data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
