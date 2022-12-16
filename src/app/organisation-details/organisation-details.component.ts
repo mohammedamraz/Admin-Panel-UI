@@ -106,7 +106,8 @@ export class OrganisationDetailsComponent implements OnInit {
   stateValue='';
   product_name='';
   period_type : any = [];
-  period_data : any  = []
+  period_data : any  = [];
+  kiosk_users : any;
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -892,36 +893,36 @@ resendInvitationMail(data:any){
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 
-  demoFunction(event:any, product:string){
-    if(product==='hsa'){
-      this.OrgForm.controls['ruw'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='ruw'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='vitals'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['ruw'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(event.target.checked){
-      this.list=4;
-      let details={name:product, index:this.list-1}
-      this.listdetails.push(details)
-    }
-    else{
-      this.list--;
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-  }
+  // demoFunction(event:any, product:string){
+  //   if(product==='hsa'){
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='ruw'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='vitals'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(event.target.checked){
+  //     this.list=4;
+  //     let details={name:product, index:this.list-1}
+  //     this.listdetails.push(details)
+  //   }
+  //   else{
+  //     this.list--;
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  // }
 
 
   updateProduct(event:any, productId:string){
@@ -951,36 +952,36 @@ resendInvitationMail(data:any){
     }
   }
 
-  demoPrgFunction(event:any, product:string){
-    if(product==='hsa'){
-      this.OrgForm.controls['ruw'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='ruw'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='vitals'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['ruw'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(event.target.checked){
-      this.listorg=4;
-      let details={name:product, index:this.list-1}
-      this.listdetails.push(details)
-    }
-    else{
-      this.listorg--;
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-  }
+  // demoPrgFunction(event:any, product:string){
+  //   if(product==='hsa'){
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='ruw'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='vitals'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(event.target.checked){
+  //     this.listorg=4;
+  //     let details={name:product, index:this.list-1}
+  //     this.listdetails.push(details)
+  //   }
+  //   else{
+  //     this.listorg--;
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  // }
 
   checkingForm(){
     this.basicWizardForm.removeControl('ruw');
@@ -1083,35 +1084,34 @@ resendInvitationMail(data:any){
   eventmode(event:any, product:any){
     console.log("asd",event.target.checked)
     if(event.target.checked ==  true){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].event_mode = 1;  
     }
     else if (event.target.checked===false){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].event_mode=0;  
     }
   }
 
   event_kiosc(event:any, product:any){
-    console.log("asd",event.target.checked)
     if(event.target.checked ==  true){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      this.kiosk_users = [];
+   this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe((doc:any)=>{
+    doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+  })
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].enable_kiosk = true; 
-      console.log("inside",this.listdetails[selected].enable_kiosk) 
-      console.log("inside",this.listdetails) 
-      console.log("inside",[selected]);
     }
     else if (event.target.checked===false){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].enable_kiosk= false;  
-      console.log("outside",this.listdetails[selected].enable_kiosk) 
 
     }
   }
 
   checkInputValue(value: any, product : any){
-    const selected =this.listdetails.findIndex(obj=>obj.name===product);
-    this.listdetails[selected].kiosk_user = value;
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].kiosk_user = value.value;
    
 }
 
@@ -1155,7 +1155,7 @@ resendInvitationMail(data:any){
         ios_access: el.ios_access ? el.ios_access:false ,
         mobile_access: el.mobile_access ? el.mobile_access:false,
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
-        kiosk_user: el.kiosk_user ? el.kiosk_user:'',
+        kiosk_user: el.kiosk_user ? el.kiosk_user:null,
       }
     });
     console.log('dalsdfj',this.listdetails)
