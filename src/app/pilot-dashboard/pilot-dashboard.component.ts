@@ -736,6 +736,8 @@ export class PilotDashboardComponent implements OnInit {
         event_mode: el.event_mode,
         ios_access: el.ios_access ,
         mobile_access: el.mobile_access,
+        enable_kiosk: el.enable_kiosk,
+        kiosk_user: el.kiosk_user,
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -755,6 +757,8 @@ export class PilotDashboardComponent implements OnInit {
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+    data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
     
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
@@ -830,7 +834,7 @@ event_kiosc(event:any, product:any){
   if(event.target.checked ==  true){
     const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
     this.listdetails[selected].enable_kiosk = true; 
-    this.selectedValue=this.listdetails[selected].pilot_duration;
+    this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];
   }
   else if (event.target.checked===false){
     const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
