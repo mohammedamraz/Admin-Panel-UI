@@ -743,6 +743,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div>
+                                                    <div style="padding-bottom:1rem">
+                                                        <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
+                                                        <div class="form-check form-switch" style=" display: grid;">
+                                                            <input type="checkbox"  class="form-check-input" [ngModel]="season.enable_kiosk" [ngModelOptions]="{standalone: true}" (change)="event_kiosc($event,season.product_name)"> 
+                                                        </div>
+                                                    </div>
+                
+                
+                                                    <div class="form-floating mb-3"  *ngIf="season.enable_kiosk">
+                                                        <!-- <input   type="text" class="form-control" id="season.kiosc_user" style=" height: 3rem; color: #9BA6AC; width : auto;" 
+                                                            name="userName" placeholder="City"  required="'"  [(ngModel)]="season.kiosk_user"  [ngModelOptions]="{standalone: true}" (blur)="checkInputValue(season.kiosk_user,season.product_name)"> 
+                                                            <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Kiosk User</label> -->
+                                                            <select #kiosk_user (change)="checkInputValue(kiosk_user,season.product_name)" style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:auto; background-color: #383E4A;
+                                                            border: 1px solid #444C5B;">
+                                                            <option [selected]>  {{selectedValue}} </option>
+                                                            <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
+                                                            </select>
+                                                            
+                                                    </div>  
+                                                </div>
                                          
                                             <!-- <div style="margin-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>
