@@ -108,6 +108,7 @@ export class OrganisationDetailsComponent implements OnInit {
   period_type : any = [];
   period_data : any  = [];
   kiosk_users : any;
+  selectedValue:string=''
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -682,6 +683,10 @@ font: {
   }
 
   createEditproc(products:any,OrgProducts:any){
+    this.kiosk_users = [];
+    this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+   })
     this.orgProd = [];  
    const product = products.map((doc:any)=>{
       const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
@@ -1094,14 +1099,13 @@ resendInvitationMail(data:any){
     }
   }
 
-  event_kiosc(event:any, product:any){
+  event_kiosc(event:any, product:any){  
     if(event.target.checked ==  true){
-      this.kiosk_users = [];
-   this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe((doc:any)=>{
-    doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
-  })
       const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].enable_kiosk = true; 
+      this.selectedValue=this.listdetails[selected].pilot_duration;
+   
+
     }
     else if (event.target.checked===false){
       const selected =this.listdetails.findIndex(obj=>obj.product_name===product);

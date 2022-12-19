@@ -14,6 +14,7 @@ import { AuthenticationService } from '../core/service/auth.service';
 export class PilotDashboardComponent implements OnInit {
   products:any
   orgId:any=0;
+  selectedValue:String='';
   productId:any=0;
   product:any={};
   tableData:any[]=[];
@@ -68,6 +69,7 @@ export class PilotDashboardComponent implements OnInit {
   product_name='';
   period_type : any = [];
   period_data : any  = []
+  kiosk_users: any = []
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -657,6 +659,11 @@ export class PilotDashboardComponent implements OnInit {
 
   createEditproc(products:any,OrgProducts:any){
 
+    this.kiosk_users = [];
+    this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+   })
+
     this.orgProd = []; 
    const product = products.map((doc:any)=>{
     const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
@@ -810,7 +817,27 @@ export class PilotDashboardComponent implements OnInit {
       this.listdetails[selected].event_mode=0;  
     }
   }
+  checkInputValue(value: any, product : any){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].kiosk_user = value.value;
+    // console.log("eventValue",eventValue.target.value)
+    
+   
+}
+event_kiosc(event:any, product:any){
+  console.log('orgid',this.orgId);
 
+  if(event.target.checked ==  true){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].enable_kiosk = true; 
+    this.selectedValue=this.listdetails[selected].pilot_duration;
+  }
+  else if (event.target.checked===false){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].enable_kiosk= false;  
+
+  }
+}
   
 }
   
