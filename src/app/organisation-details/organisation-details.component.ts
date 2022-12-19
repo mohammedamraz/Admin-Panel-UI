@@ -929,14 +929,15 @@ resendInvitationMail(data:any){
     if(event.target.checked){
       const data = {
         fedoscore: false,
-        pilot_duration: 15,
+        pilot_duration: 0,
         product_name:parseInt(productId) === 1 ? 'HSA' : (parseInt(productId) === 2 ? 'Vitals':'RUW' ), 
         web_access: false,
         web_url: '',
         web_fedoscore: false,
         product_junction_id: '',
         checked:true,
-        product_id:productId
+        product_id:productId,
+        event_mode : '0'
       }
       this.list++;
       this.listdetails.push(data);
