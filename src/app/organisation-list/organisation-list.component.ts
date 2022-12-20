@@ -678,23 +678,6 @@ export class OrganisationListComponent implements OnInit {
 
   get form1() { return this.basicWizardForm.controls; }
 
-  // paginate(): void {
-  //   console.log("paginate")
-  //   this.service.totalRecords = this.tableData.length;
-  //   if (this.service.totalRecords === 0) {
-  //     this.service.startIndex = 0;
-  //   }
-  //   else {
-  //     this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
-  //     console.log("page in paginate",this.service.startIndex)
-  //     console.log("page in paginate",this.service.page)
-  //     console.log("page in paginate",this.service.pageSize)
-  //   }
-  //   this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
-  //   if (this.service.endIndex > this.service.totalRecords) {
-  //     this.service.endIndex = this.service.totalRecords;
-  //   }
-  // }
 
   ngstyle(){
     const stone = {'background': '#3B4F5F',
