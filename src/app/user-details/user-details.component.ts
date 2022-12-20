@@ -204,17 +204,29 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateStatus(data:any,userData:any){
+
+    if(this.activeStatusValue == 'Active Users'){
+      this.userList = this.userList.filter(obj => obj.id != userData.id);      
+    }
+    else if(this.activeStatusValue == 'Inactive Users'){
+      this.userList = this.userList.filter(obj => obj.id != userData.id);
+    }
+    else if(this.activeStatusValue == 'All Users'){
+      const selected = this.userList.findIndex(obj => obj.id === userData.id);
+      this.userList[selected].is_deleted = !data;
+    }
+
     this.adminService.patchUserStatus(userData.id, data).subscribe({
       next: (res) => {
         if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
           next: (res) =>{
-            this.reloadCurrentPage();
+            // this.reloadCurrentPage();
           },
           error : (err)=>{
-            this.reloadCurrentPage();
+            // this.reloadCurrentPage();
           }
         })
-        this.reloadCurrentPage();
+        // this.reloadCurrentPage();
       }
     })
 

@@ -529,6 +529,18 @@ export class OrganisationListComponent implements OnInit {
   }
 
   updateStatus(data:any,orgData:any){
+    
+    if(this.activeStatusValue == 'Active Org'){
+      this.tabDAta = this.tabDAta.filter(obj => obj.id != orgData.id);      
+    }
+    else if(this.activeStatusValue == 'Inactive Org'){
+      this.tabDAta = this.tabDAta.filter(obj => obj.id != orgData.id);
+    }
+    else if(this.activeStatusValue == 'All Org'){
+      const selected = this.tabDAta.findIndex(obj => obj.id === orgData.id);
+      this.tabDAta[selected].is_deleted = !data;
+    }
+    
     this.adminService.patchOrgStatus(orgData.id, data).subscribe({
       next: (res) => {
         if(data) {
@@ -540,7 +552,7 @@ export class OrganisationListComponent implements OnInit {
               product_junction_id:el.id,
               product_id: el.product_id,
               web_access: el.web_access,
-              web_url: el.web_access ? el.web_url :'',
+              web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode
             }
@@ -550,10 +562,10 @@ export class OrganisationListComponent implements OnInit {
 
           this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
             next: (res) =>{
-              this.reloadCurrentPage();
+              // this.reloadCurrentPage();
             },
             error : (err)=>{
-              this.reloadCurrentPage();
+              // this.reloadCurrentPage();
             }
           })
         }
@@ -565,7 +577,7 @@ export class OrganisationListComponent implements OnInit {
               product_junction_id:el.id,
               product_id: el.product_id,
               web_access: el.web_access,
-              web_url: el.web_access ? el.web_url :'',
+              web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode
             }
@@ -573,7 +585,7 @@ export class OrganisationListComponent implements OnInit {
           this.updatePilotDuration(orgData.id,data,prod);
 
         }
-        this.reloadCurrentPage();
+        // this.reloadCurrentPage();
       },
     })
 

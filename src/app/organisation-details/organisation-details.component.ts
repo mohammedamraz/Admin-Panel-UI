@@ -797,6 +797,10 @@ font: {
  }
 
  updateStatus(data:any,userData:any){
+
+  const selected = this.tableData.findIndex(obj => obj.id === userData.id);
+  this.tableData[selected].is_deleted = !data;
+
   this.adminService.patchUserStatus(userData.id, data).subscribe({
     next: async (res) => {
       console.log('the success=>',data);
@@ -807,10 +811,10 @@ font: {
         },
         error : (err)=>{
           console.log("ewdfsxc",err)
-          this.reloadCurrentPage();
+          // this.reloadCurrentPage();
         }
       })
-      this.reloadCurrentPage();
+      // this.reloadCurrentPage();
     }
   })
 
