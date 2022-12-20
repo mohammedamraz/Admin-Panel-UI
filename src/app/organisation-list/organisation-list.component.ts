@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { COUNTRIES } from '../home/data';
 import { Employee } from '../pages/tables/advanced/advance.model';
@@ -70,14 +71,20 @@ export class OrganisationListComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private readonly adminService: AdminConsoleService,
+    private router: Router,
     public service: AdvancedTableService,
     private sanitizer: DomSanitizer, 
+    private _route: ActivatedRoute,
 
 
   ) { }
 
   ngOnInit(): void {
-    
+    this._route.queryParams.subscribe((params:any) => {
+      console.log('params => ',params)
+      JSON.stringify(params) === '{}' ? null : this.loadPage(params.page)
+    })
+
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.total_org=doc.total
@@ -160,9 +167,17 @@ export class OrganisationListComponent implements OnInit {
  
 
   loadPage(val:any){
-    this.pagenumber=val
+    this.pagenumber=val;
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    });
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
+      this.page = this.pagenumber
       this.total_org=doc.total
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
@@ -663,19 +678,23 @@ export class OrganisationListComponent implements OnInit {
 
   get form1() { return this.basicWizardForm.controls; }
 
-  paginate(): void {
-    this.service.totalRecords = this.tableData.length;
-    if (this.service.totalRecords === 0) {
-      this.service.startIndex = 0;
-    }
-    else {
-      this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
-    }
-    this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
-    if (this.service.endIndex > this.service.totalRecords) {
-      this.service.endIndex = this.service.totalRecords;
-    }
-  }
+  // paginate(): void {
+  //   console.log("paginate")
+  //   this.service.totalRecords = this.tableData.length;
+  //   if (this.service.totalRecords === 0) {
+  //     this.service.startIndex = 0;
+  //   }
+  //   else {
+  //     this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
+  //     console.log("page in paginate",this.service.startIndex)
+  //     console.log("page in paginate",this.service.page)
+  //     console.log("page in paginate",this.service.pageSize)
+  //   }
+  //   this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
+  //   if (this.service.endIndex > this.service.totalRecords) {
+  //     this.service.endIndex = this.service.totalRecords;
+  //   }
+  // }
 
   ngstyle(){
     const stone = {'background': '#3B4F5F',

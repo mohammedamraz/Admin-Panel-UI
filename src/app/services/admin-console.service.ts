@@ -261,7 +261,7 @@ export class AdminConsoleService {
         { label: 'Home', path: 'home',active: true},
       ])
     }
-    if(event.url == '/orgList'){
+    if(event.url.split('?')[0] == '/orgList'){
       this.breadCrumbs.next([
           { label: 'Home', path: 'home' },
           { label: 'Organisations List', path: 'orgList', active: true },
