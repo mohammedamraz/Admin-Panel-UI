@@ -82,21 +82,21 @@ export class OrganisationListComponent implements OnInit {
   ngOnInit(): void {
     this._route.queryParams.subscribe((params:any) => {
       console.log('params => ',params)
-      JSON.stringify(params) === '{}' ? null : this.loadPage(params.page)
+      JSON.stringify(params) === '{}' ? null : [this.pagenumber= params.page, this.entries = params.entry , this.activeStatusValue = params.status]
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+      ((doc:any) =>{ 
+        this.page = this.pagenumber
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        this.tabDAta=doc.data;
+        this.length=this.tabDAta.length
+        this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      
+        return doc
+      });
     })
-
-    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-    ((doc:any) =>{ 
-      this.total_org=doc.total
-      this.currentPage=doc.page
-      this.total_pages=doc.total_pages
-
-      this.tabDAta=doc.data;
-      this.length=this.tabDAta.length
-      this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-
-      return doc
-    });
     this.columns = this.tabDAta;
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products= doc.filter((doc: { id: number; }) => doc.id !=  1);return doc})
@@ -174,7 +174,7 @@ export class OrganisationListComponent implements OnInit {
         status : this.activeStatusValue,
         entry : this.entries
       },
-    });
+    }); 
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
       this.page = this.pagenumber
@@ -190,6 +190,15 @@ export class OrganisationListComponent implements OnInit {
 
   onFilter (data:any) {
       this.entries=data.value
+      this.router.navigate([], {
+        queryParams: {
+          page: this.pagenumber,
+          status : this.activeStatusValue,
+          entry : this.entries
+        },
+        
+      }
+      );
 
       this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
@@ -519,6 +528,13 @@ export class OrganisationListComponent implements OnInit {
     
   onActiveStatus(data :any){
     this.activeStatusValue=data.value
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    });
 
       this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 import { AdvancedTableService } from '../shared/advanced-table/advanced-table.service';
@@ -30,6 +30,8 @@ export class UserDetailsComponent implements OnInit {
     public service: AdvancedTableService,
     private modalService: NgbModal,
     private fb: FormBuilder,
+    private _route: ActivatedRoute,
+    private router: Router,
 
   ) { }
 
@@ -99,31 +101,38 @@ export class UserDetailsComponent implements OnInit {
       this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
       this.adminService.fetchVitalsCount(temp).subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
       this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc;return doc});
-      if(this.prod == undefined) {
+
+      this._route.queryParams.subscribe((params:any) => {
+        JSON.stringify(params) === '{}' ? null : [this.pagenumber= params.page, this.entries = params.entry , this.activeStatusValue = params.status]
+        if(this.prod == undefined) {
+          
+         
+          this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+          ((doc:any) =>{ 
+            this.page = this.pagenumber
+            this.total_user=doc.total
+              this.currentPage=doc.page
+              this.total_pages=doc.total_pages
+              
+              this.userList=doc.data;
+              this.length=this.userList.length
+              this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
         
-        this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-        ((doc:any) =>{ 
-          this.total_user=doc.total
+              return doc});
+        }
+        else {
+          this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
+          ((doc:any) =>{ 
+            this.page = this.pagenumber
+            this.total_user=doc.total
             this.currentPage=doc.page
             this.total_pages=doc.total_pages
-            
             this.userList=doc.data;
-            this.length=this.userList.length
-            this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      
+            this.length=this.userList.length      
+        
             return doc});
-      }
-      else {
-        this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
-        ((doc:any) =>{ 
-          this.total_user=doc.total
-          this.currentPage=doc.page
-          this.total_pages=doc.total_pages
-          this.userList=doc.data;
-          this.length=this.userList.length      
-      
-          return doc});
-      }
+        }
+      })
       
     this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
@@ -173,6 +182,13 @@ export class UserDetailsComponent implements OnInit {
 
   loadPage(val:any){
     this.pagenumber=val
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    });
   
     if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
@@ -248,6 +264,13 @@ export class UserDetailsComponent implements OnInit {
 
   onFilter (data:any) {
       this.entries=data.value
+      this.router.navigate([], {
+        queryParams: {
+          page: this.pagenumber,
+          status : this.activeStatusValue,
+          entry : this.entries
+        },
+      });
 
       if(this.prod == undefined) {
         this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
@@ -281,6 +304,14 @@ export class UserDetailsComponent implements OnInit {
 
   onActiveStatus(data :any){
     this.activeStatusValue=data.value
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    });
+
       
       if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
