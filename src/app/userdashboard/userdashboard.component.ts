@@ -199,7 +199,7 @@ product_name=''
 
     }
     else {
-      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_type = ['1','2','3','4','5','6','7','8','9','10','11','12'];  
       this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
 
     }
@@ -228,12 +228,12 @@ product_name=''
       performaceDetails['graph']={
         series: [
           {
-            name: 'Series A',
+            name: 'Current',
             type: 'area',
             data: performaceDetails['quaterOne'],
           },
           {
-            name: 'Series B',
+            name: 'Previous',
             type: 'line',
             data: performaceDetails['PreviousQuaterOne'],
           },
