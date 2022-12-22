@@ -287,7 +287,7 @@ export class AdminConsoleService {
           this.breadCrumbs.next([
             { label: 'Home', path: 'home' },
             { label: 'Organisations List', path: 'orgList' },
-            { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
+            { label: name, path: `/orgdetails/${event.url.slice(13,).split('?')[0]}`},
             { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
         ])
         },
@@ -301,7 +301,7 @@ export class AdminConsoleService {
     ])
     }
 
-    if(event.url?.slice(3,)=='/userdetails'){
+    if(event.url?.slice(3,).split('?')[0]=='/userdetails'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
         { label: 'Users List', path: `${event.url.split('/')[1]}/userdetails`, active: true},
@@ -366,7 +366,7 @@ export class AdminConsoleService {
     if(event.url?.split('/')[2] == 'userlist'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
-        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`},
+        { label: `${event.url.split('/')[3].split('?')[0] == '1' ? 'HSA' : (event.url.split('/')[3].split('?')[0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3].split('?')[0]}`},
         { label: `User List`, path: `${event.url}`, active: true},
       ])
     }
