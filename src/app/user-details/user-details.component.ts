@@ -35,9 +35,9 @@ export class UserDetailsComponent implements OnInit {
 
   ) { }
 
-  snapshotParam:any = "initial value";
-  prod:any = '';
-  userList:any[]=[];
+  snapshotParam: any = "initial value";
+  prod: any = '';
+  userList: any[] = [];
   userEditForm!: FormGroup;
   userForm!: FormGroup;
   list: number = 3;
@@ -105,15 +105,23 @@ export class UserDetailsComponent implements OnInit {
       this._route.queryParams.subscribe((params:any) => {
         JSON.stringify(params) === '{}' ? null : [this.pagenumber= params.page, this.entries = params.entry , this.activeStatusValue = params.status]
         if(this.prod == undefined) {
-          
-         
+
+
           this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
           ((doc:any) =>{ 
-            this.page = this.pagenumber
-            this.total_user=doc.total
-              this.currentPage=doc.page
-              this.total_pages=doc.total_pages
-              
+              this.page = this.pagenumber
+              this.total_user = doc.total
+              this.currentPage = doc.page
+              this.total_pages = doc.total_pages
+              this.userList = doc.data;
+              this.userList.map((doc: any) => {
+                var newArray = doc.tests
+                var result = newArray.find((item: any) => item.product_id === 2);
+                const v = Object.assign(doc, {vitalsTest:result.total_tests})
+              })
+              this.length = this.userList.length
+              this.userList = doc.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id);
+
               this.userList=doc.data;
               this.length=this.userList.length
               this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
@@ -123,28 +131,33 @@ export class UserDetailsComponent implements OnInit {
         else {
           this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
           ((doc:any) =>{ 
-            this.page = this.pagenumber
-            this.total_user=doc.total
-            this.currentPage=doc.page
-            this.total_pages=doc.total_pages
-            this.userList=doc.data;
-            this.length=this.userList.length      
-        
+              this.page = this.pagenumber
+              this.total_user = doc.total
+              this.currentPage = doc.page
+              this.total_pages = doc.total_pages
+              this.userList = doc.data;
+              this.userList.map((doc: any) => {
+                var newArray = doc.tests
+                var result = newArray.find((item: any) => item.product_id === 2);
+                const v = Object.assign(doc, {vitalsTest:result.total_tests})
+              })
+              this.length = this.userList.length
+
             return doc});
         }
       })
-      
-    this.adminService.fetchOrgById(this.snapshotParam).subscribe({
+
+      this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
         this.tableData=res
         this.userOrganisationName= res[0].organization_name;
         const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.prod);
         this.productsData= res[0].product[selected];
         this.product= res[0].product;
-        this.show = false;
+          this.show = false;
         if(this.orglogin == true && res[0].type!='admin'&&this.productsData.status == "Expired"){
-          this.show = true;
-        }
+            this.show = true;
+          }
       }})
 
       this.list=4;
@@ -189,7 +202,7 @@ export class UserDetailsComponent implements OnInit {
         entry : this.entries
       },
     });
-  
+
     if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
@@ -198,9 +211,14 @@ export class UserDetailsComponent implements OnInit {
       this.total_user=doc.total
       this.userList=doc.data;
       this.length=this.userList.length
+      this.userList.map((doc: any) => {
+        var newArray = doc.tests
+        var result = newArray.find((item: any) => item.product_id === 2);
+        const v = Object.assign(doc, {vitalsTest:result.total_tests})
+      })
       this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-      
-      return doc
+
+          return doc
     });}
       else{
         this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
@@ -210,13 +228,18 @@ export class UserDetailsComponent implements OnInit {
           this.total_user=doc.total
 
           this.userList=doc.data;
+          this.userList.map((doc: any) => {
+            var newArray = doc.tests
+            var result = newArray.find((item: any) => item.product_id === 2);
+            const v = Object.assign(doc, {vitalsTest:result.total_tests})
+          })
           this.length=this.userList.length
-          
+
           return doc
 
 
       })}   
-    
+
   }
 
   updateStatus(data:any,userData:any){
@@ -253,24 +276,24 @@ export class UserDetailsComponent implements OnInit {
     this.errorMessageResendInvitation = 'Invitation Successfully resent!'
     this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
       next: (res) =>{
-        
+
       },
       error : (err)=>{
-  
+
       }
     })
-  
-    }
+
+  }
 
   onFilter (data:any) {
       this.entries=data.value
-      this.router.navigate([], {
-        queryParams: {
-          page: this.pagenumber,
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
           status : this.activeStatusValue,
           entry : this.entries
-        },
-      });
+      },
+    });
 
       if(this.prod == undefined) {
         this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
@@ -280,9 +303,14 @@ export class UserDetailsComponent implements OnInit {
         this.total_user=doc.total
         this.userList=doc.data;
         this.length=this.userList.length
+        this.userList.map((doc: any) => {
+          var newArray = doc.tests
+          var result = newArray.find((item: any) => item.product_id === 2);
+          const v = Object.assign(doc, {vitalsTest:result.total_tests})
+        })
         this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-        
-        return doc
+
+          return doc
       });}
         else{
           this.adminService.fetchUserOfOrgProd(this.snapshotParam,this.prod,this.entries,this.pagenumber,ACTIVE[this.activeStatusValue]).subscribe
@@ -292,14 +320,19 @@ export class UserDetailsComponent implements OnInit {
             this.total_user=doc.total
 
             this.userList=doc.data;
+            this.userList.map((doc: any) => {
+              var newArray = doc.tests
+              var result = newArray.find((item: any) => item.product_id === 2);
+              const v = Object.assign(doc, {vitalsTest:result.total_tests})
+            })
             this.length=this.userList.length
-            
-            return doc
-  
-  
+
+          return doc
+
+
         })}
 
-      
+
   }
 
   onActiveStatus(data :any){
@@ -312,7 +345,7 @@ export class UserDetailsComponent implements OnInit {
       },
     });
 
-      
+
       if(this.prod == undefined) {
       this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
@@ -321,9 +354,14 @@ export class UserDetailsComponent implements OnInit {
       this.currentPage=doc.page
       this.total_user=doc.total
       this.userList=doc.data; 
+      this.userList.map((doc: any) => {
+        var newArray = doc.tests
+        var result = newArray.find((item: any) => item.product_id === 2);
+        const v = Object.assign(doc, {vitalsTest:result.total_tests})
+      })
       this.length=this.userList.length
-      
-      return doc
+
+          return doc
     },(error)=>{
       this.userList=[];
     });}
@@ -335,6 +373,11 @@ export class UserDetailsComponent implements OnInit {
           this.currentPage=doc.page
           this.total_user=doc.total
           this.userList=doc.data;
+          this.userList.map((doc: any) => {
+            var newArray = doc.tests
+            var result = newArray.find((item: any) => item.product_id === 2);
+            const v = Object.assign(doc, {vitalsTest:result.total_tests})
+          })
           this.length=this.userList.length
 
           return doc
@@ -342,7 +385,7 @@ export class UserDetailsComponent implements OnInit {
       })}
 
   }
- 
+
   checkingForm(){
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
@@ -374,9 +417,9 @@ export class UserDetailsComponent implements OnInit {
   }
 
 
-  
+
   demoFunction(event:any, product:any){
-   
+
     if(event.target.checked){
       this.list++;
       let details={
@@ -419,7 +462,7 @@ export class UserDetailsComponent implements OnInit {
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
-       
+
         this.created = true;
         this.user_name=res.user_name
         this.activeWizard2 = this.activeWizard2 + 1;
@@ -438,21 +481,21 @@ export class UserDetailsComponent implements OnInit {
   }
   ngstyle(){
     const stone = {'background': '#3B4F5F',
-     'border': '1px solid #3E596D',
-     'color': '#5FB6DB',
+      'border': '1px solid #3E596D',
+      'color': '#5FB6DB',
      'pointer-events': this.created ? 'none':'auto'
     }
- 
-   
- 
-   return stone
-   }
- 
- 
+
+
+
+    return stone
+  }
+
+
    nextDisabled(){
-     return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid  
-   }
- 
+    return this.basicWizardForm.controls['organization_name'].valid && this.basicWizardForm.controls['admin_name'].valid && this.basicWizardForm.controls['designation'].valid && this.basicWizardForm.controls['organization_email'].valid && this.basicWizardForm.controls['organization_mobile'].valid
+  }
+
    checkUserFirstForm(){
     this.formSubmitted=true;
 
@@ -465,31 +508,31 @@ export class UserDetailsComponent implements OnInit {
       }
       else{
       let data ={
-        email: this.userForm.value['email'],
+          email: this.userForm.value['email'],
         mobile: '+91'+ this.userForm.value['mobile']
-    };
+        };
 
-      this.adminService.fetchUserDataIfExists(data).subscribe({
+        this.adminService.fetchUserDataIfExists(data).subscribe({
 
         next: (data:any)=>{    
 
           this.activeWizard2=this.activeWizard2+1;
           this.showLiveAlertNextButton=false;
-        },
+          },
 
-        error: (err) => {
+          error: (err) => {
           this.errorMessageAPI=err;
           this.showLiveAlertAPI=true;
           this.errorMessageNextButton='';
           this.showLiveAlertNextButton=false;
 
-        },
+          },
 
-    })
+        })
+      }
+    }
   }
-  }
-}
-   change() {
+  change() {
     this.thirdParty = this.notThirdParty;
     this.notThirdParty = !this.notThirdParty;
 
@@ -506,7 +549,7 @@ export class UserDetailsComponent implements OnInit {
     this.userForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
       this.changeButton=true
       this.addTpafunc=false
-   })
+    })
 
   }
   addTpa() {
@@ -533,8 +576,8 @@ export class UserDetailsComponent implements OnInit {
           this.codeList.push(doc[i].tpa_name)
         }
 
-      } 
-        ; return doc;
+      }
+      ; return doc;
     })
 
     this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
@@ -553,19 +596,19 @@ export class UserDetailsComponent implements OnInit {
   }
   reloadCurrentPage() {
     window. location. reload();
-    }
+  }
 
     updateEditUserProd(event:any, product:any){
       const selected = this.userProduct.findIndex(obj=>obj.product_id===product.product_id)
       if(event.target.checked){
-        this.userProduct[selected].checked = true;
-        this.userProductEdited.push(this.userProduct[selected]);
+      this.userProduct[selected].checked = true;
+      this.userProductEdited.push(this.userProduct[selected]);
       }else{
-        this.userProduct[selected].checked = false;
+      this.userProduct[selected].checked = false;
         const index = this.userProductEdited.findIndex((obj:any)=>obj.product_id===product.product_id)
         this.userProductEdited.splice(index,1)
-      }
     }
+  }
 
     editUserForm(data:any){
     console.log('the persons data =>',data)
@@ -592,12 +635,12 @@ export class UserDetailsComponent implements OnInit {
       if(found){
         doc['checked'] = true;
         doc['noPenetration']=true;
-        
+
       }
       else{
         doc['checked'] = false;
         doc['noPenetration']=false;
-        
+
       }
       const selected = data.tests.findIndex((el:any)=>el.product_id.toString()==doc.product_id.toString())
       doc['junctionId']= selected === -1 ? '' : data.tests[selected].id;
@@ -612,8 +655,8 @@ export class UserDetailsComponent implements OnInit {
 
   editUser(){ 
     if(this.userEditForm.controls['mobile'].valid &&this.userEditForm.controls['user_name'].valid && this.userEditForm.controls['designation'].valid ){
-    const data = JSON.parse(JSON.stringify(this.userEditForm.value));;
-    data.mobile = ('+91' + this.userEditForm.value.mobile).toString();
+      const data = JSON.parse(JSON.stringify(this.userEditForm.value));;
+      data.mobile = ('+91' + this.userEditForm.value.mobile).toString();
     data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
     data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
     data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
@@ -625,17 +668,17 @@ export class UserDetailsComponent implements OnInit {
       next: (res:any) => {
         this.activeWizard2=this.activeWizard2+1;
 
-      },
-      error: (err) => {
+        },
+        error: (err) => {
         this.errorMessageAPI=err;
         this.showLiveAlertAPI=true;
 
-      },
-      complete: () => { }
-    });
+        },
+        complete: () => { }
+      });
 
+    }
   }
-}
 
 }
 

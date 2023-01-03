@@ -349,7 +349,7 @@ padding-top:10px">
                         <td>{{person.mobile.slice(3,14)}}</td>
                         <td>{{person.third_party_org_name != null ? (person.third_party_org_name==''? 'Direct':person.third_party_org_name+ '(TPA)') :'Direct'}}</td>
                         <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
-                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
+                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.vitalsTest}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>

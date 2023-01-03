@@ -21,6 +21,10 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}org/count`);
   }
 
+  fetchUnreadOrganisationCount(){
+    return this.http.get(`${API_URL}org/count?is_web=true`);
+  }
+
   fetchVitalsCount(productName:any){
     return this.http.get(`${API_URL}count?product=${productName}`) ;
   }
@@ -174,6 +178,11 @@ export class AdminConsoleService {
     
     return this.http.patch(`${API_URL}org/register/status/${id}`,{});
   }
+
+  updateReadStatus(id:any){
+    
+    return this.http.patch(`${API_URL}org/register/status/${id}?is_web=true`,{});
+  }
   
   updateUserRegister(id:any){
     
@@ -184,6 +193,12 @@ export class AdminConsoleService {
     
     return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_deleted=${is_deleted}`)   
   }
+
+  fetchAllUnreadOrgByPage(num:any,item:any,is_read:any){
+    
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_read=${is_read}&is_web=true`)   
+  }
+
   fetchAllUserOfOrgByPage(id:string,num:any,item:any,is_deleted:any){
     return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
   }

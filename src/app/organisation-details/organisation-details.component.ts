@@ -184,6 +184,12 @@ export class OrganisationDetailsComponent implements OnInit {
         this.createGraphArrayItems(this.product,this.dateSelected);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc.data;
+            console.log("firstt tabledataaaaaaaa",this.tableData);
+            this.tableData.map((doc: any) => {
+              var newArray = doc.tests
+              var result = newArray.find((item: any) => item.product_id === 2);
+              const v = Object.assign(doc, {vitalsTest:result.total_tests})
+            })
           }
         )
         },
@@ -193,7 +199,14 @@ export class OrganisationDetailsComponent implements OnInit {
     })
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-      (doc:any) => {this.tableData=doc.data;}
+      (doc:any) => {this.tableData=doc.data;
+        console.log("second dataaa",this.tableData);
+        this.tableData.map((doc: any) => {
+          var newArray = doc.tests
+          var result = newArray.find((item: any) => item.product_id === 2);
+          const v = Object.assign(doc, {vitalsTest:result.total_tests})
+        })        
+      }
     )
 
     this.OrgForm = this.fb.group({

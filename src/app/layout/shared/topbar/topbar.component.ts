@@ -42,6 +42,8 @@ export class TopbarComponent implements OnInit {
   username:string='';
   usernameRole : string = '';
   superAdmin:boolean=false;
+  count:any=''
+  notification:boolean=false;
 
 
   @Input() layoutType: string = 'vertical';
@@ -76,6 +78,7 @@ export class TopbarComponent implements OnInit {
       if(this.loggedInUser.org_data[0].type == 'admin'){
         this.username = this.loggedInUser.org_data[0].admin_name.split(" ", 2)[0];
           this.usernameRole = '(Super Admin)'
+          this.notification=true          
           // this.superAdmin=true
         
       }
@@ -89,6 +92,10 @@ export class TopbarComponent implements OnInit {
     }
     this.loggedInUser = this.authService.currentUser();
 
+    this.adminService.fetchUnreadOrganisationCount().subscribe((doc:any)=>{
+      console.log("all org",doc.data.length);
+      this.count=doc['total_organizations_count'];      
+    })
 
   }
 
