@@ -14,6 +14,7 @@ import { AuthenticationService } from '../core/service/auth.service';
 export class PilotDashboardComponent implements OnInit {
   products:any
   orgId:any=0;
+  selectedValue:String='';
   productId:any=0;
   product:any={};
   tableData:any[]=[];
@@ -68,6 +69,7 @@ export class PilotDashboardComponent implements OnInit {
   product_name='';
   period_type : any = [];
   period_data : any  = []
+  kiosk_users: any = []
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -397,7 +399,7 @@ export class PilotDashboardComponent implements OnInit {
 
     }
     else {
-      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_type = ['1','2','3','4','5','6','7','8','9','10','11','12'];  
       this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
 
     }
@@ -426,12 +428,12 @@ export class PilotDashboardComponent implements OnInit {
       performaceDetails['graph']={
         series: [
           {
-            name: 'Series A',
+            name: 'Current',
             type: 'area',
             data: performaceDetails['quaterOne'],
           },
           {
-            name: 'Series B',
+            name: 'Previous',
             type: 'line',
             data: performaceDetails['PreviousQuaterOne'],
           },
@@ -657,6 +659,11 @@ export class PilotDashboardComponent implements OnInit {
 
   createEditproc(products:any,OrgProducts:any){
 
+    this.kiosk_users = [];
+    this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+   })
+
     this.orgProd = []; 
    const product = products.map((doc:any)=>{
     const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
@@ -729,6 +736,8 @@ export class PilotDashboardComponent implements OnInit {
         event_mode: el.event_mode,
         ios_access: el.ios_access ,
         mobile_access: el.mobile_access,
+        enable_kiosk: el.enable_kiosk,
+        kiosk_user: el.kiosk_user,
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -748,6 +757,8 @@ export class PilotDashboardComponent implements OnInit {
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+    data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
     
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
@@ -810,7 +821,27 @@ export class PilotDashboardComponent implements OnInit {
       this.listdetails[selected].event_mode=0;  
     }
   }
+  checkInputValue(value: any, product : any){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].kiosk_user = value.value;
+    // console.log("eventValue",eventValue.target.value)
+    
+   
+}
+event_kiosc(event:any, product:any){
+  console.log('orgid',this.orgId);
 
+  if(event.target.checked ==  true){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].enable_kiosk = true; 
+    this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];
+  }
+  else if (event.target.checked===false){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].enable_kiosk= false;  
+
+  }
+}
   
 }
   

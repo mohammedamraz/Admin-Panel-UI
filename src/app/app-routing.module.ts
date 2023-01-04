@@ -22,6 +22,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
 import { GuestListComponent } from './guest-list/guest-list.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 
 
 const routes: Routes = [
@@ -131,6 +132,11 @@ const routes: Routes = [
         path: 'guestlist/:prodId',
         canActivate: [OrgGuard],
         component: GuestListComponent
+      },
+      {
+        path: 'notificationList',
+        canActivate: [OrgGuard],
+        component: NotificationListComponent
       }
     
     ]

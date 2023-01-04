@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { COUNTRIES } from '../home/data';
 import { Employee } from '../pages/tables/advanced/advance.model';
@@ -70,26 +71,32 @@ export class OrganisationListComponent implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private readonly adminService: AdminConsoleService,
+    private router: Router,
     public service: AdvancedTableService,
     private sanitizer: DomSanitizer, 
+    private _route: ActivatedRoute,
 
 
   ) { }
 
   ngOnInit(): void {
-    
-    this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-    ((doc:any) =>{ 
-      this.total_org=doc.total
-      this.currentPage=doc.page
-      this.total_pages=doc.total_pages
-
-      this.tabDAta=doc.data;
-      this.length=this.tabDAta.length
-      this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
-
-      return doc
-    });
+    this._route.queryParams.subscribe((params:any) => {
+      console.log('params => ',params)
+      JSON.stringify(params) === '{}' ? null : [this.pagenumber= params.page, this.entries = params.entry , this.activeStatusValue = params.status]
+      this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+      ((doc:any) =>{ 
+        this.page = this.pagenumber
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        this.tabDAta=doc.data;
+        this.length=this.tabDAta.length
+        this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+      
+        return doc
+      });
+    })
     this.columns = this.tabDAta;
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products= doc.filter((doc: { id: number; }) => doc.id !=  1);return doc})
@@ -160,9 +167,17 @@ export class OrganisationListComponent implements OnInit {
  
 
   loadPage(val:any){
-    this.pagenumber=val
+    this.pagenumber=val;
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    }); 
     this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
+      this.page = this.pagenumber
       this.total_org=doc.total
       this.total_pages=doc.total_pages
       this.currentPage=doc.page
@@ -175,6 +190,15 @@ export class OrganisationListComponent implements OnInit {
 
   onFilter (data:any) {
       this.entries=data.value
+      this.router.navigate([], {
+        queryParams: {
+          page: this.pagenumber,
+          status : this.activeStatusValue,
+          entry : this.entries
+        },
+        
+      }
+      );
 
       this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
@@ -504,6 +528,13 @@ export class OrganisationListComponent implements OnInit {
     
   onActiveStatus(data :any){
     this.activeStatusValue=data.value
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.activeStatusValue,
+        entry : this.entries
+      },
+    });
 
       this.adminService.fetchAllOrgByPage(this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
     ((doc:any) =>{ 
@@ -529,6 +560,18 @@ export class OrganisationListComponent implements OnInit {
   }
 
   updateStatus(data:any,orgData:any){
+    
+    if(this.activeStatusValue == 'Active Org'){
+      this.tabDAta = this.tabDAta.filter(obj => obj.id != orgData.id);      
+    }
+    else if(this.activeStatusValue == 'Inactive Org'){
+      this.tabDAta = this.tabDAta.filter(obj => obj.id != orgData.id);
+    }
+    else if(this.activeStatusValue == 'All Org'){
+      const selected = this.tabDAta.findIndex(obj => obj.id === orgData.id);
+      this.tabDAta[selected].is_deleted = !data;
+    }
+    
     this.adminService.patchOrgStatus(orgData.id, data).subscribe({
       next: (res) => {
         if(data) {
@@ -540,7 +583,7 @@ export class OrganisationListComponent implements OnInit {
               product_junction_id:el.id,
               product_id: el.product_id,
               web_access: el.web_access,
-              web_url: el.web_access ? el.web_url :'',
+              web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode
             }
@@ -550,10 +593,10 @@ export class OrganisationListComponent implements OnInit {
 
           this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
             next: (res) =>{
-              this.reloadCurrentPage();
+              // this.reloadCurrentPage();
             },
             error : (err)=>{
-              this.reloadCurrentPage();
+              // this.reloadCurrentPage();
             }
           })
         }
@@ -565,7 +608,7 @@ export class OrganisationListComponent implements OnInit {
               product_junction_id:el.id,
               product_id: el.product_id,
               web_access: el.web_access,
-              web_url: el.web_access ? el.web_url :'',
+              web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode
             }
@@ -573,7 +616,7 @@ export class OrganisationListComponent implements OnInit {
           this.updatePilotDuration(orgData.id,data,prod);
 
         }
-        this.reloadCurrentPage();
+        // this.reloadCurrentPage();
       },
     })
 
@@ -651,19 +694,6 @@ export class OrganisationListComponent implements OnInit {
 
   get form1() { return this.basicWizardForm.controls; }
 
-  paginate(): void {
-    this.service.totalRecords = this.tableData.length;
-    if (this.service.totalRecords === 0) {
-      this.service.startIndex = 0;
-    }
-    else {
-      this.service.startIndex = ((this.service.page - 1) * this.service.pageSize) + 1;
-    }
-    this.service.endIndex = Number((this.service.page - 1) * this.service.pageSize + this.service.pageSize);
-    if (this.service.endIndex > this.service.totalRecords) {
-      this.service.endIndex = this.service.totalRecords;
-    }
-  }
 
   ngstyle(){
     const stone = {'background': '#3B4F5F',

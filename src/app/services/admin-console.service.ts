@@ -21,6 +21,10 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}org/count`);
   }
 
+  fetchUnreadOrganisationCount(){
+    return this.http.get(`${API_URL}org/count?is_web=true`);
+  }
+
   fetchVitalsCount(productName:any){
     return this.http.get(`${API_URL}count?product=${productName}`) ;
   }
@@ -174,6 +178,11 @@ export class AdminConsoleService {
     
     return this.http.patch(`${API_URL}org/register/status/${id}`,{});
   }
+
+  updateReadStatus(id:any){
+    
+    return this.http.patch(`${API_URL}org/register/status/${id}?is_web=true`,{});
+  }
   
   updateUserRegister(id:any){
     
@@ -184,6 +193,12 @@ export class AdminConsoleService {
     
     return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_deleted=${is_deleted}`)   
   }
+
+  fetchAllUnreadOrgByPage(num:any,item:any,is_read:any){
+    
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_read=${is_read}&is_web=true`)   
+  }
+
   fetchAllUserOfOrgByPage(id:string,num:any,item:any,is_deleted:any){
     return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
   }
@@ -261,7 +276,7 @@ export class AdminConsoleService {
         { label: 'Home', path: 'home',active: true},
       ])
     }
-    if(event.url == '/orgList'){
+    if(event.url?.split('?')[0] == '/orgList'){
       this.breadCrumbs.next([
           { label: 'Home', path: 'home' },
           { label: 'Organisations List', path: 'orgList', active: true },
@@ -287,7 +302,7 @@ export class AdminConsoleService {
           this.breadCrumbs.next([
             { label: 'Home', path: 'home' },
             { label: 'Organisations List', path: 'orgList' },
-            { label: name, path: `/orgdetails/${event.url.slice(13,)}`},
+            { label: name, path: `/orgdetails/${event.url.slice(13,).split('?')[0]}`},
             { label: 'Users List', path: `/userdetails/${event.url.slice(13,)}`, active: true },
         ])
         },
@@ -301,7 +316,7 @@ export class AdminConsoleService {
     ])
     }
 
-    if(event.url?.slice(3,)=='/userdetails'){
+    if(event.url?.slice(3,).split('?')[0]=='/userdetails'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
         { label: 'Users List', path: `${event.url.split('/')[1]}/userdetails`, active: true},
@@ -366,7 +381,7 @@ export class AdminConsoleService {
     if(event.url?.split('/')[2] == 'userlist'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
-        { label: `${event.url.split('/')[3] == '1' ? 'HSA' : (event.url.split('/')[3] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3]}`},
+        { label: `${event.url.split('/')[3].split('?')[0] == '1' ? 'HSA' : (event.url.split('/')[3].split('?')[0] === '2' ? 'Vitals':'RUW' )} Dashboard`, path: `${event.url.split('/')[1]}/pilotdashboard/${event.url.split('/')[3].split('?')[0]}`},
         { label: `User List`, path: `${event.url}`, active: true},
       ])
     }

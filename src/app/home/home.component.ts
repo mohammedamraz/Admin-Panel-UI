@@ -277,6 +277,10 @@ export class HomeComponent implements OnInit {
     }
 
     updateStatus(data:any,orgData:any){
+
+      const selected = this.tabDAta.findIndex(obj => obj.id === orgData.id);
+      this.tabDAta[selected].is_deleted = !data;
+      
       this.adminService.patchOrgStatus(orgData.id, data).subscribe({
         next: (res) => {
           if(data) {
@@ -297,10 +301,10 @@ export class HomeComponent implements OnInit {
   
             this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
               next: (res) =>{
-                this.reloadCurrentPage();
+                // this.reloadCurrentPage();
               },
               error : (err)=>{
-                this.reloadCurrentPage();
+                // this.reloadCurrentPage();
               }
             })
           }
@@ -320,7 +324,7 @@ export class HomeComponent implements OnInit {
             this.updatePilotDuration(orgData.id,data,prod);
   
           }
-          this.reloadCurrentPage();
+          // this.reloadCurrentPage();
         },
       })
       

@@ -106,7 +106,9 @@ export class OrganisationDetailsComponent implements OnInit {
   stateValue='';
   product_name='';
   period_type : any = [];
-  period_data : any  = []
+  period_data : any  = [];
+  kiosk_users : any;
+  selectedValue:string=''
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -182,6 +184,12 @@ export class OrganisationDetailsComponent implements OnInit {
         this.createGraphArrayItems(this.product,this.dateSelected);
         this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
           (doc:any) => {this.tableData=doc.data;
+            console.log("firstt tabledataaaaaaaa",this.tableData);
+            this.tableData.map((doc: any) => {
+              var newArray = doc.tests
+              var result = newArray.find((item: any) => item.product_id === 2);
+              const v = Object.assign(doc, {vitalsTest:result.total_tests})
+            })
           }
         )
         },
@@ -191,7 +199,14 @@ export class OrganisationDetailsComponent implements OnInit {
     })
 
     this.adminService.fetchLatestUserOfOrg(this.snapshotParam).subscribe(
-      (doc:any) => {this.tableData=doc.data;}
+      (doc:any) => {this.tableData=doc.data;
+        console.log("second dataaa",this.tableData);
+        this.tableData.map((doc: any) => {
+          var newArray = doc.tests
+          var result = newArray.find((item: any) => item.product_id === 2);
+          const v = Object.assign(doc, {vitalsTest:result.total_tests})
+        })        
+      }
     )
 
     this.OrgForm = this.fb.group({
@@ -482,7 +497,7 @@ font: {
 
     }
     else {
-      this.period_type = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      this.period_type = ['1','2','3','4','5','6','7','8','9','10','11','12'];  
       this.period_data = [0,0,0,0,0,0,0,0,0,0,0,0];
 
     }
@@ -512,12 +527,12 @@ font: {
       performaceDetails['graph']={
         series: [
           {
-            name: 'Series A',
+            name: 'Current',
             type: 'area',
             data: performaceDetails['quaterOne'],
           },
           {
-            name: 'Series B',
+            name: 'Previous',
             type: 'line',
             data: performaceDetails['PreviousQuaterOne'],
           },
@@ -681,7 +696,10 @@ font: {
   }
 
   createEditproc(products:any,OrgProducts:any){
-
+    this.kiosk_users = [];
+    this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+   })
     this.orgProd = [];  
    const product = products.map((doc:any)=>{
       const found = OrgProducts.some((el:any)=>el.product_id === doc.id.toString());
@@ -708,7 +726,9 @@ font: {
       product_id: el.product_id,
       event_mode:el.event_mode,
       ios_access:el.ios_access,
-      mobile_access :el.mobile_access
+      mobile_access :el.mobile_access,
+      // enable_kiosk :el.enable_kiosk? el.enable_kiosk : true,
+      // kiosk_user : el.kiosk_user
 
     }})
     this.list=2+OrgProducts.length
@@ -790,6 +810,10 @@ font: {
  }
 
  updateStatus(data:any,userData:any){
+
+  const selected = this.tableData.findIndex(obj => obj.id === userData.id);
+  this.tableData[selected].is_deleted = !data;
+
   this.adminService.patchUserStatus(userData.id, data).subscribe({
     next: async (res) => {
       console.log('the success=>',data);
@@ -800,10 +824,10 @@ font: {
         },
         error : (err)=>{
           console.log("ewdfsxc",err)
-          this.reloadCurrentPage();
+          // this.reloadCurrentPage();
         }
       })
-      this.reloadCurrentPage();
+      // this.reloadCurrentPage();
     }
   })
 
@@ -891,50 +915,51 @@ resendInvitationMail(data:any){
     this.modalService.open(content, { centered: true,keyboard : false, backdrop : 'static' });
   }
 
-  demoFunction(event:any, product:string){
-    if(product==='hsa'){
-      this.OrgForm.controls['ruw'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='ruw'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='vitals'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['ruw'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(event.target.checked){
-      this.list=4;
-      let details={name:product, index:this.list-1}
-      this.listdetails.push(details)
-    }
-    else{
-      this.list--;
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-  }
+  // demoFunction(event:any, product:string){
+  //   if(product==='hsa'){
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='ruw'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='vitals'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(event.target.checked){
+  //     this.list=4;
+  //     let details={name:product, index:this.list-1}
+  //     this.listdetails.push(details)
+  //   }
+  //   else{
+  //     this.list--;
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  // }
 
 
   updateProduct(event:any, productId:string){
     if(event.target.checked){
       const data = {
         fedoscore: false,
-        pilot_duration: 15,
+        pilot_duration: 0,
         product_name:parseInt(productId) === 1 ? 'HSA' : (parseInt(productId) === 2 ? 'Vitals':'RUW' ), 
         web_access: false,
         web_url: '',
         web_fedoscore: false,
         product_junction_id: '',
         checked:true,
-        product_id:productId
+        product_id:productId,
+        event_mode : '0'
       }
       this.list++;
       this.listdetails.push(data);
@@ -950,36 +975,36 @@ resendInvitationMail(data:any){
     }
   }
 
-  demoPrgFunction(event:any, product:string){
-    if(product==='hsa'){
-      this.OrgForm.controls['ruw'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='ruw'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['vitals'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(product==='vitals'){
-      this.OrgForm.controls['hsa'].setValue(false);
-      this.OrgForm.controls['ruw'].setValue(false);
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-    if(event.target.checked){
-      this.listorg=4;
-      let details={name:product, index:this.list-1}
-      this.listdetails.push(details)
-    }
-    else{
-      this.listorg--;
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails.splice(selected,1);
-    }
-  }
+  // demoPrgFunction(event:any, product:string){
+  //   if(product==='hsa'){
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='ruw'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['vitals'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(product==='vitals'){
+  //     this.OrgForm.controls['hsa'].setValue(false);
+  //     this.OrgForm.controls['ruw'].setValue(false);
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  //   if(event.target.checked){
+  //     this.listorg=4;
+  //     let details={name:product, index:this.list-1}
+  //     this.listdetails.push(details)
+  //   }
+  //   else{
+  //     this.listorg--;
+  //     const selected =this.listdetails.findIndex(obj=>obj.name===product);
+  //     this.listdetails.splice(selected,1);
+  //   }
+  // }
 
   checkingForm(){
     this.basicWizardForm.removeControl('ruw');
@@ -1082,15 +1107,35 @@ resendInvitationMail(data:any){
   eventmode(event:any, product:any){
     console.log("asd",event.target.checked)
     if(event.target.checked ==  true){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].event_mode = 1;  
     }
     else if (event.target.checked===false){
-      const selected =this.listdetails.findIndex(obj=>obj.name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
       this.listdetails[selected].event_mode=0;  
     }
   }
 
+  event_kiosc(event:any, product:any){  
+    if(event.target.checked ==  true){
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+      this.listdetails[selected].enable_kiosk = true; 
+      this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];
+   
+
+    }
+    else if (event.target.checked===false){
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+      this.listdetails[selected].enable_kiosk= false;  
+
+    }
+  }
+
+  checkInputValue(value: any, product : any){
+    const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].kiosk_user = value.value;
+   
+}
 
   checkingOrgForm(){
 
@@ -1131,6 +1176,8 @@ resendInvitationMail(data:any){
         event_mode: el.event_mode,
         ios_access: el.ios_access ? el.ios_access:false ,
         mobile_access: el.mobile_access ? el.mobile_access:false,
+        enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
+        kiosk_user: el.kiosk_user ? el.kiosk_user:null,
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1151,6 +1198,8 @@ resendInvitationMail(data:any){
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+    data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {

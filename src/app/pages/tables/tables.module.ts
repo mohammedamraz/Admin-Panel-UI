@@ -11,6 +11,7 @@ import { QuillModule } from 'ngx-quill';
 import { DailyreportComponent } from 'src/app/dailyreport/dailyreport.component';
 import { GuestListComponent } from 'src/app/guest-list/guest-list.component';
 import { HomeComponent } from 'src/app/home/home.component';
+import { NotificationListComponent } from 'src/app/notification-list/notification-list.component';
 import { OrganisationDetailsComponent } from 'src/app/organisation-details/organisation-details.component';
 import { OrganisationListComponent } from 'src/app/organisation-list/organisation-list.component';
 import { PilotDashboardComponent } from 'src/app/pilot-dashboard/pilot-dashboard.component';
@@ -43,7 +44,9 @@ import { TablesRoutingModule } from './tables-routing.module';
     SettingsComponent,
     ProfileComponent,
     DailyreportComponent,
-    GuestListComponent
+    GuestListComponent,
+    NotificationListComponent
+
 
     
   ],

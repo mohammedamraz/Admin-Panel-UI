@@ -351,18 +351,18 @@ padding-top:10px">
                                                 <div style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
                                                     <div class="form-check form-switch" style=" display: grid;">
-                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.product_name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3" *ngIf="season.event_mode!='0'"  >
                                                     <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
                                                     <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
                                                         <div >
-                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.product_name,1)"[checked]="season.event_mode==1"   />
                                               <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
                                             </div>
                                             <div >
-                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.product_name,2)"  [checked]="season.event_mode==2"   />
                                               <label class="form-check-label" for="customRadio1"
                                                 >&nbsp;Vitals Dashboard</label>
                                             </div>
@@ -398,6 +398,27 @@ padding-top:10px">
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input" [ngModel]="season.enable_kiosk" [ngModelOptions]="{standalone: true}" (change)="event_kiosc($event,season.product_name)"> 
+                                                    </div>
+                                                </div>
+            
+            
+                                                <div class="form-floating mb-3"  *ngIf="season.enable_kiosk">
+                                                    <!-- <input   type="text" class="form-control" id="season.kiosc_user" style=" height: 3rem; color: #9BA6AC; width : auto;" 
+                                                        name="userName" placeholder="City"  required="'"  [(ngModel)]="season.kiosk_user"  [ngModelOptions]="{standalone: true}" (blur)="checkInputValue(season.kiosk_user,season.product_name)"> 
+                                                        <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Kiosk User</label> -->
+                                                        <select [value]='country' #kiosk_user (change)="checkInputValue(kiosk_user,season.product_name)" style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:auto; background-color: #383E4A;
+                                                        border: 1px solid #444C5B;">
+                                                        <option [selected]>  {{selectedValue}} </option>
+                                                        <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
+                                                        </select>
+                                                        
+                                                </div>  
+                                            </div>
                                          
                                             <!-- <div style="margin-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>
@@ -1337,7 +1358,7 @@ padding-top:10px">
                         <td >{{person.mobile.slice(3,14)}}</td>
                         <td>{{person.third_party_org_name != null ? (person.third_party_org_name==''? 'Direct':person.third_party_org_name+ '(TPA)') :'Direct'}}</td>
                         <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
-                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
+                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.vitalsTest}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
@@ -1762,21 +1783,22 @@ padding-top:10px">
                                                 </div>
                                             </div> -->
                                             <div *ngIf="season.product_name === 'Vitals'" >
+                                                <!-- {{season.event_mode}} season -->
                                                 <div style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
                                                     <div class="form-check form-switch" style=" display: grid;">
-                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.product_name)"  [ngModel]="season.event_mode!=='0'?true:false" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3" *ngIf="season.event_mode!='0'"  >
                                                     <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
                                                     <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
                                                         <div >
-                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
+                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.product_name,1)"[checked]="season.event_mode==1"   />
                                               <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
                                             </div>
                                             <div >
-                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
+                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.product_name,2)"  [checked]="season.event_mode==2"   />
                                               <label class="form-check-label" for="customRadio1"
                                                 >&nbsp;Vitals Dashboard</label>
                                             </div>
@@ -1811,6 +1833,26 @@ padding-top:10px">
                                                             <label class="form-check-label" for="customckeck1">WebApp</label>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div>
+                                                    <div style="padding-bottom:1rem">
+                                                        <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
+                                                        <div class="form-check form-switch" style=" display: grid;">
+                                                            <input type="checkbox"  class="form-check-input" [ngModel]="season.enable_kiosk" [ngModelOptions]="{standalone: true}" (change)="event_kiosc($event,season.product_name)"> 
+                                                        </div>
+                                                    </div>
+                
+                                                    <div class="form-floating mb-3"  *ngIf="season.enable_kiosk"> 
+                                                        <!-- <input   type="text" class="form-control" id="season.kiosc_user" style=" height: 3rem; color: #9BA6AC; width : auto;" 
+                                                            name="userName" placeholder="City"  required="'"  [(ngModel)]="season.kiosk_user"  [ngModelOptions]="{standalone: true}" (blur)="checkInputValue(season.kiosk_user,season.product_name)">  -->
+                                                            <!-- <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Kiosk User</label> -->
+                                                            <select [value]='country' #kiosk_user (change)="checkInputValue(kiosk_user,season.product_name)" style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:auto; background-color: #383E4A;
+                                                        border: 1px solid #444C5B;">
+                                                        <option [selected]>  {{selectedValue}} </option>
+                                                        <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
+                                                        </select>
+                                                            
+                                                    </div>  
                                                 </div>
                                          
                                             <!-- <div style="margin-bottom: 1rem;">
