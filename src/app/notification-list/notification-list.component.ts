@@ -83,12 +83,16 @@ export class NotificationListComponent implements OnInit {
   }
 
   markAllAsRead(){
-    this.tableData.map((doc:any)=>{
-      console.log("doc",doc)
-      // const v = Object.assign(doc, {vitalsTest:2})
-      this.updateReadStatus(doc.id)
-    }
-    )
+    this.adminService.fetchAllUnreadOrgByPage(1,1000000,false).subscribe((doc:any)=>{
+      console.log("orglist",doc);
+      doc.map((doc:any)=>{
+        console.log("doc",doc)
+        // const v = Object.assign(doc, {vitalsTest:2})
+        this.updateReadStatus(doc.id)
+      }
+      )
+    })
+    
   }
 
   updateReadStatus(id : any){
