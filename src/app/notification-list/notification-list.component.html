@@ -56,7 +56,7 @@
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;text-align:center"  *ngFor="let person of tableData;let indexOfelement=index;">
-                        <th scope="row">{{indexOfelement+1}}</th>
+                        <th scope="row">{{entries *(page-1)+indexOfelement+1}}</th>
                         <td>{{person.created_date | date: 'dd/MM/yyyy'}}</td>
                         <td>{{'New Vital Sign Up'}}</td>
                         <td>{{person.organization_name}}</td>
