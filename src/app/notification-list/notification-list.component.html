@@ -68,11 +68,11 @@
                         <td style="color:#F08F8F;" *ngIf="person.is_register===false">{{'Inactive'}}</td>
 
                         <td class="option">
-                            <div class=" float-end" ngbDropdown placement="bottom-end" >
+                            <div *ngIf="person.is_read == false" class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
-                                <div *ngIf="person.is_read == false" style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                <div  style="    border: 1px solid #4B515F;" ngbDropdownMenu>
                                     <a   href="javascript:void(0);" (click)="updateReadStatus(person.id)" ngbDropdownItem>Mark as Read</a>
                                     <!-- <a *ngIf="person.data.length!=0" (click)="exportexcel(person.data)"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>                             -->
                         </div>

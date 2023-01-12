@@ -93,7 +93,6 @@ export class TopbarComponent implements OnInit {
     this.loggedInUser = this.authService.currentUser();
 
     this.adminService.fetchUnreadOrganisationCount().subscribe((doc:any)=>{
-      console.log("all org",doc.data.length);
       this.count=doc['total_organizations_count'];      
     })
 

@@ -62,7 +62,8 @@ export class NotificationListComponent implements OnInit {
   
       // this.tableData = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
         
-      return doc
+      return doc},(err:any)=>{
+        this.tableData = [];
     })
 
 
@@ -98,6 +99,9 @@ export class NotificationListComponent implements OnInit {
   }
 
   updateReadStatus(id : any){
+    if(this.readStatusValue == 'Unread'){
+      this.tableData = this.tableData.filter((obj: { id: any; }) => obj.id != id);      
+    }
     console.log("inside update status")
     this.adminService.updateReadStatus(id).subscribe({
       next : (doc) =>{
@@ -112,6 +116,6 @@ export class NotificationListComponent implements OnInit {
 }
 
   export const ACTIVE: any = {
-    'Read': 'false',
-    'Unread': 'true',
+    'Read': 'true',
+    'Unread': 'false',
   }
