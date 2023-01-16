@@ -701,11 +701,11 @@ margin-top: -28px;">
                                         </div>
                                         <div class="mb-3" style="display: grid; grid-template-columns: auto auto" >
                                         <div class="form-check">
-                                          <input type="radio" id="customRadio1" name="customRadio" (change)="change()" [checked]="notThirdParty"  class="form-check-input" />
+                                          <input type="radio" id="customRadio1" name="customRadio" (change)="change(false)" [checked]="notThirdParty"  class="form-check-input" />
                                           <label class="form-check-label" for="customRadio1">Own Employee</label>
                                         </div>
                                         <div class="form-check">
-                                          <input type="radio" id="customRadio2" name="customRadio" (change)="change()" [checked]="thirdParty"  class="form-check-input" />
+                                          <input type="radio" id="customRadio2" name="customRadio" (change)="change(true)" [checked]="thirdParty"  class="form-check-input" />
                                           <label class="form-check-label" for="customRadio1"
                                             >Employee of TPA</label
                                           >

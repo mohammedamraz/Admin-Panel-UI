@@ -584,9 +584,15 @@ export class HomeComponent implements OnInit {
     this.activeWizard1 =1;
    }
 
-   change() {
-    this.thirdParty = this.notThirdParty;
-    this.notThirdParty = !this.notThirdParty;
+   change(val:any) {
+    if(val==true){
+      this.thirdParty=true;
+      this.notThirdParty=false;
+    }
+    else if(val==false){
+      this.notThirdParty=true;
+      this.thirdParty=false
+    }
   }
 
   inputTpa() {
