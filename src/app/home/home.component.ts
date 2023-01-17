@@ -440,6 +440,8 @@ export class HomeComponent implements OnInit {
       }
         break;  
       case 4:  
+      console.log('inside console')
+      console.log('inside console',this.listdetails.length)
       if(this.listdetails.length>0 ){
         this.activeWizard1+= 1; 
       }
@@ -542,10 +544,10 @@ export class HomeComponent implements OnInit {
     let satisfied1 = false;
     let satisfied2 = false;
     if(prod.productaccess_web===true){
-      var specialChars = new RegExp(/^[a-zA-Z]+$/);
-      if((prod.web_url).length>2&&specialChars.test(prod.web_url)==true){ 
+      // var specialChars = new RegExp(/^[a-zA-Z]+$/);
+      // if((prod.web_url).length>2&&specialChars.test(prod.web_url)==true){ 
         satisfied1=true;       
-      }
+      // }
     }
     else{
       satisfied1=true;

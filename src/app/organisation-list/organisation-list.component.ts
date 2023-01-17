@@ -365,12 +365,12 @@ export class OrganisationListComponent implements OnInit {
     let satisfied1 = false;
     let satisfied2 = false;
     if(prod.productaccess_web===true){
-      var specialChars = new RegExp(/^[a-zA-Z]+$/);
-      console.log("length",(prod.web_url).length)
-      console.log("special char",specialChars.test(prod.web_url));
-      if((prod.web_url).length>2&&specialChars.test(prod.web_url)==true){
+      // var specialChars = new RegExp(/^[a-zA-Z]+$/);
+      // console.log("length",(prod.web_url).length)
+      // console.log("special char",specialChars.test(prod.web_url));
+      // if((prod.web_url).length>2&&specialChars.test(prod.web_url)==true){
         satisfied1=true;
-      }
+      // }
     }
     else{
       satisfied1=true;
