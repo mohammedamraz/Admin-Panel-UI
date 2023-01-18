@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private readonly adminService: AdminConsoleService,
     private cdr: ChangeDetectorRef,
+    private authenticationService: AuthenticationService,
     private route: Router
   ) {
     this.data = this.route.getCurrentNavigation()?.extras?.queryParams?.['data'];
@@ -67,6 +68,7 @@ export class RegisterComponent implements OnInit {
         this.adminService.signup({username:this.signUpForm.value.email,password:this.signUpForm.value.password,email:this.signUpForm.value.email})
         .subscribe({
           next: (data: any) => {
+        this.authenticationService.logout();
             this.error = '';
             sessionStorage.setItem('currentUser', JSON.stringify(data) );
             this.adminService.orgAdmin({username: this.signUpForm.value.email, password:this.signUpForm.value.password }).pipe(first())

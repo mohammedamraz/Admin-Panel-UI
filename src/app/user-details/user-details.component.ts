@@ -184,6 +184,7 @@ export class UserDetailsComponent implements OnInit {
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
         product_id: [''],
+        role : [''],
         third_party_org_name: ['',Validators.required],
 
       });
@@ -458,6 +459,7 @@ export class UserDetailsComponent implements OnInit {
 
 
   checkingUserForm(){
+    this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
     this.adminService.createUser(this.userForm.value).subscribe({
