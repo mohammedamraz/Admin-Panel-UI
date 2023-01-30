@@ -102,14 +102,13 @@ product_name=''
             next:(res:any) =>{  
               this.organization_name=res[0].organization_name
               const spotted =res[0].product.findIndex((obj:any)=>obj.product_id.toString() === this.prodId);
-
+              if(this.loggedInUser.user_data){
+                if(res[0].is_deleted){
+                  this.open(<TemplateRef<NgbModal>><unknown>this.input);
+                }
+              }
               if(this.prodId==undefined){
                 this.createGraphArrayItems(this.products,this.dateSelected);
-                      if(this.loggedInUser.user_data){
-                        if(res[0].is_deleted){
-                          this.open(<TemplateRef<NgbModal>><unknown>this.input);
-                        }
-        }
                 
 
               }

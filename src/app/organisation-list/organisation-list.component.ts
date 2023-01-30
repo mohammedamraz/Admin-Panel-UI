@@ -469,11 +469,11 @@ export class OrganisationListComponent implements OnInit {
   checkingForm(){
 
     const selectedIndex = this.listdetails.findIndex(obj=>obj.prod_id===2);
-    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
-      this.errorMessage='Web url in Vitals is a mandatory field';
-      this.showLiveAlert=true;
-    }
-    else{
+    // if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.productaccess_web){
+    //   this.errorMessage='Web url in Vitals is a mandatory field';
+    //   this.showLiveAlert=true;
+    // }
+    // else{
     var data = new FormData();
     data.append('organization_name',this.basicWizardForm.value.organization_name);
     data.append('designation', this.basicWizardForm.value.designation);
@@ -509,7 +509,7 @@ export class OrganisationListComponent implements OnInit {
       },
       complete: () => { }
     });
-  }
+  // }
   } 
 
   resendInvitationMail(data:any){
