@@ -70,6 +70,7 @@ export class PilotDashboardComponent implements OnInit {
   period_type : any = [];
   period_data : any  = []
   kiosk_users: any = []
+  tabDAta:any[]=[];
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -90,6 +91,7 @@ export class PilotDashboardComponent implements OnInit {
       this.productId = val.Id;
       this.adminService.fetchOrgById(this.orgId).subscribe({
         next:(res:any) =>{
+          this.tabDAta=res;          
           this.id= res[0].id;
           this.organization_name=res[0].organization_name
           this.created_date= new Date(res[0].created_date);
@@ -138,6 +140,22 @@ export class PilotDashboardComponent implements OnInit {
     }
 
     this.createEditproc(this.products,this.product);
+
+
+  }
+
+  closeUser(){
+    let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
+    this.adminService.sendEmailNotification(data).subscribe({
+      next: (res:any) => {
+        console.debug(res)
+       }   ,
+       error : (err:any)=>{
+        console.debug(err)
+       }
+      
+    });
 
 
   }

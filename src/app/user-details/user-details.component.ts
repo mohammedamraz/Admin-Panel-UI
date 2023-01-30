@@ -149,7 +149,7 @@ export class UserDetailsComponent implements OnInit {
 
       this.adminService.fetchOrgById(this.snapshotParam).subscribe({
       next:(res:any) =>{
-        this.tableData=res
+        this.tableData=res        
         this.userOrganisationName= res[0].organization_name;
         const selected =res[0].product.findIndex((obj:any)=>obj.product_id===this.prod);
         this.productsData= res[0].product[selected];
@@ -189,6 +189,21 @@ export class UserDetailsComponent implements OnInit {
       });
 
 
+    });
+
+  }
+  sendEmail(){
+
+    let data={ organisation_admin_name:this.tableData[0].admin_name,organisation_admin_email:this.tableData[0].organization_email,
+      organisation_admin_mobile:this.tableData[0].organization_mobile,designation:this.tableData[0].designation,organisation_name:this.tableData[0].organization_name,expired_date:this.tableData[0].product[0].end_date.slice(0,10)}
+    this.adminService.sendEmailNotification(data).subscribe({
+      next: (res:any) => {
+        console.debug(res)
+       }   ,
+       error : (err:any)=>{
+        console.debug(err)
+       }
+      
     });
 
   }
