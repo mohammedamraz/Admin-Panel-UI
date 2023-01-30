@@ -728,13 +728,13 @@ font: {
       event_mode:el.event_mode,
       ios_access:el.ios_access,
       mobile_access :el.mobile_access,
-      // enable_kiosk :el.enable_kiosk? el.enable_kiosk : true,
-      // kiosk_user : el.kiosk_user
+      enable_kiosk :el.enable_kiosk,
+      kiosk_user : el.kiosk_user
 
     }})
     this.list=2+OrgProducts.length
     this.products = product;
-    this.listdetails = list;   
+    this.listdetails = list;       
 
     // if(this.orglogin){
 
@@ -1126,9 +1126,9 @@ resendInvitationMail(data:any){
 
   event_kiosc(event:any, product:any){  
     if(event.target.checked ==  true){
-      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
+      const selected =this.listdetails.findIndex(obj=>obj.product_name===product);  
       this.listdetails[selected].enable_kiosk = true; 
-      this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];
+      this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];     
    
 
     }
