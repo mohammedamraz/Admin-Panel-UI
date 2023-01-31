@@ -1,6 +1,6 @@
 {
     "/sales/api/": {
-        "target": "https://dev.services.fedo.health/",
+        "target": "https://fedo.ai/",
         "secure": false,
         "changeOrigin": true,
         "headers": {
