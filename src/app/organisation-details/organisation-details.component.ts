@@ -1129,6 +1129,7 @@ resendInvitationMail(data:any){
       const selected =this.listdetails.findIndex(obj=>obj.product_name===product);  
       this.listdetails[selected].enable_kiosk = true; 
       this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];     
+      this.listdetails[selected].kiosk_user = this.selectedValue;
    
 
     }
