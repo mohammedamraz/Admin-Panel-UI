@@ -698,8 +698,11 @@ font: {
 
   createEditproc(products:any,OrgProducts:any){
     this.kiosk_users = [];
-    this.adminService.fetchAllUserOfOrg(this.snapshotParam).subscribe((doc:any)=>{
-     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+    this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,1,10000,'').subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {
+      this.kiosk_users.push(doc.email)
+    
+    })
    })
     this.orgProd = [];  
    const product = products.map((doc:any)=>{

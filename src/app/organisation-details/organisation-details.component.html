@@ -873,7 +873,10 @@ padding-top:10px">
                     <div class="text-center">
                         <p style="margin: 0;"><b class="fw-normal" style="color: #82B4F3;font-size: xxx-large;font-weight: bolder;">{{product.count}}</b> Scans</p>
                         <div class=" card-body" style="padding:0;text-align: -webkit-center;">
-                            <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p>
+                            <!-- <p class="fw-normal" style="color: #82B4F3;    margin: 0;">Fedo {{product.productName}}</p> -->
+                            <a class="fw-normal" style="color: #82B4F3;    margin: 0;" href="javascript:void(0);" [routerLink]="'/'+snapshotParam+'/pilotdashboard/'+product.product_id" >Fedo {{product.productName}}</a>
+
+
                             <ngb-progressbar style="margin-top: 0;    margin: 0;" [type]="product.status =='Expired' ? 'danger':'warning'" [type]="(product.status =='Expired' ) ? 'danger':'warning'" [value]="(product.status =='Expired' ) ? 100 :(product.pilot_duration-daysLefts(product.end_date) < 0? 0 : product.pilot_duration-daysLefts(product.end_date))" [max]=" (product.status =='Expired' ) ? 100:product.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                             <p *ngIf="product.status =='Active'"  style="margin-bottom: 0.5rem;">
                       {{daysLefts(product.end_date)}} 
@@ -1090,10 +1093,10 @@ padding-top:10px">
     
     
 
-<ng-template *ngIf="orglogin==false" ngFor let-season [ngForOf]="graphArray" let-i=index> 
+<ng-template *ngIf=false ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
     <div class="row"  >
-    <div class="col-xl-6 " style="display: inline-grid;"   >
+    <div class="col-xl-6 " style="display: inline-grid;" >
         <div class="card layout-style" style="background: #313844; border-radius:10px">
             
                 <div class="card-body">

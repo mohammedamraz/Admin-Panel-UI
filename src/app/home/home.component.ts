@@ -325,6 +325,25 @@ export class HomeComponent implements OnInit {
             this.updatePilotDuration(orgData.id,data,prod);
   
           }
+          this.adminService.fetchAllUserOfOrgByPage(orgData.id,1,10000,'').subscribe((doc:any)=>{
+            doc.data.map((el:any)=>{
+              const user_id=el.id
+              this.adminService.patchUserStatus(el.id, data).subscribe({
+                next: (res) => {
+               console.debug(res)
+                },
+                error:(err)=>{
+                  console.debug(err)
+                }
+                
+              })
+              
+  
+              
+            })
+            
+            
+          })
           // this.reloadCurrentPage();
         },
       })

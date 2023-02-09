@@ -92,7 +92,6 @@ export class OrganisationListComponent implements OnInit {
   
         this.tabDAta=doc.data;
         this.length=this.tabDAta.length
-        this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       
         return doc
       });
@@ -590,7 +589,7 @@ export class OrganisationListComponent implements OnInit {
           });
 
           this.updatePilotDuration(orgData.id,data,prod);
-
+            
           this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
             next: (res) =>{
               // this.reloadCurrentPage();
@@ -616,6 +615,25 @@ export class OrganisationListComponent implements OnInit {
           this.updatePilotDuration(orgData.id,data,prod);
 
         }
+        this.adminService.fetchAllUserOfOrgByPage(orgData.id,1,10000,'').subscribe((doc:any)=>{
+          doc.data.map((el:any)=>{
+            const user_id=el.id
+            this.adminService.patchUserStatus(el.id, data).subscribe({
+              next: (res) => {
+             console.debug(res)
+              },
+              error:(err)=>{
+                console.debug(err)
+              }
+              
+            })
+            
+
+            
+          })
+          
+          
+        })
         // this.reloadCurrentPage();
       },
     })

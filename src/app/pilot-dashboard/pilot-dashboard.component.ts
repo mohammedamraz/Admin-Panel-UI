@@ -680,8 +680,11 @@ export class PilotDashboardComponent implements OnInit {
   createEditproc(products:any,OrgProducts:any){
 
     this.kiosk_users = [];
-    this.adminService.fetchAllUserOfOrg(this.orgId).subscribe((doc:any)=>{
-     doc.data.map((doc: any)=> {this.kiosk_users.push(doc.email)})
+    this.adminService.fetchAllUserOfOrgByPage(this.orgId,1,10000,'').subscribe((doc:any)=>{
+     doc.data.map((doc: any)=> {
+      this.kiosk_users.push(doc.email)
+    
+    })
    })
 
     this.orgProd = []; 
