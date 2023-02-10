@@ -183,6 +183,7 @@ export class UserDetailsComponent implements OnInit {
         email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
+        is_web : [false],
         product_id: [''],
         role : [''],
         third_party_org_name: ['',Validators.required],
@@ -477,7 +478,8 @@ export class UserDetailsComponent implements OnInit {
     this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
-    this.adminService.createUser(this.userForm.value).subscribe({
+    if(this.userForm.value.is_web == undefined || this.userForm.value.is_web == false){
+      this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
 
         this.created = true;
@@ -491,6 +493,25 @@ export class UserDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
+  else {
+    Object.assign(this.userForm.value, { password: "Test@123" } );
+    this.adminService.createUserDirect(this.userForm.value).subscribe({
+      next: (res:any) => {
+
+        this.created = true;
+        this.user_name=res.user_name
+        this.activeWizard2 = this.activeWizard2 + 1;
+      },
+      error: (err) => {
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
+
+      },
+      complete: () => { }
+    });
+  }
+    
   }
 
   open(content: TemplateRef<NgbModal>): void {

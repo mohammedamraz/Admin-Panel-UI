@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
         organization_email:['',[Validators.required,Validators.email]],
         organization_mobile:['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         fedo_score:[false],
+        is_web : [false],
         hsa:[false],
         ruw:[false],
         vitals:[false],
@@ -100,6 +101,8 @@ export class HomeComponent implements OnInit {
         product_id: [''],
         role : [''],
         third_party_org_name: ['',Validators.required],
+        is_web : [false],
+
 
       });
 
@@ -224,6 +227,7 @@ export class HomeComponent implements OnInit {
     data.append('address',this.basicWizardForm.value.address);
     this.image==''? null:data.append('file', this.image, this.image.name)
     console.log('the date we have =>', data)
+    if(this.basicWizardForm.value.is_web == undefined || this.basicWizardForm.value.is_web == false){
     this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.activeWizard1=this.activeWizard1+1;
@@ -237,7 +241,24 @@ export class HomeComponent implements OnInit {
 
       },
       complete: () => { }
-    });
+    });}
+    else 
+    {
+    data.append('password','Test@123');
+    this.adminService.createOrgDirect(data).subscribe({
+        next: (res:any) => {
+          this.activeWizard1=this.activeWizard1+1;
+          this.created = true;
+          this.org_name = res[0].organization_name;
+  
+        },
+        error: (err) => {
+          this.errorMessage=err;
+          this.showLiveAlert=true;
+  
+        },
+        complete: () => { }
+      });}
     }
   // }
 
@@ -647,7 +668,8 @@ export class HomeComponent implements OnInit {
     this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
-    this.adminService.createUser(this.userForm.value).subscribe({
+    if(this.userForm.value.is_web == undefined || this.userForm.value.is_web == false){
+      this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {     
         this.created = true;
         this.user_name=res.user_name
@@ -659,7 +681,23 @@ export class HomeComponent implements OnInit {
 
       },
       complete: () => { }
-    });
+    });}
+    else{
+      Object.assign(this.userForm.value, { password: "Test@123" } );
+      this.adminService.createUserDirect(this.userForm.value).subscribe({
+        next: (res:any) => {     
+          this.created = true;
+          this.user_name=res.user_name
+          this.activeWizard2 = this.activeWizard2 + 1;
+        },
+        error: (err) => {
+          this.errorMessageAPI = err;
+          this.showLiveAlertAPI = true;
+  
+        },
+        complete: () => { }
+      });
+    }
   }
 
   setValue(doc: any){

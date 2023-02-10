@@ -105,6 +105,7 @@ export class OrganisationListComponent implements OnInit {
       admin_name:['',Validators.required],
       organization_email:['',[Validators.required,Validators.email]],
       organization_mobile:['',[Validators.required,  Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      is_web : [false],
       fedo_score:[false],
       hsa:[false],
       ruw:[false],
@@ -495,7 +496,8 @@ export class OrganisationListComponent implements OnInit {
     data.append('city',this.basicWizardForm.value.city);
     data.append('address',this.basicWizardForm.value.address);
     this.image==''? null:data.append('file', this.image, this.image.name)
-    this.adminService.createOrg(data).subscribe({
+    if(this.basicWizardForm.value.is_web == undefined || this.basicWizardForm.value.is_web == false){
+      this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.org_name = res[0].organization_name;
         this.activeWizard2=this.activeWizard2+1;
@@ -507,7 +509,24 @@ export class OrganisationListComponent implements OnInit {
 
       },
       complete: () => { }
-    });
+    });}
+    else 
+    {
+    data.append('password','Test@123');
+    this.adminService.createOrgDirect(data).subscribe({
+        next: (res:any) => {
+          this.activeWizard2=this.activeWizard2+1;
+          this.created = true;
+          this.org_name = res[0].organization_name;
+  
+        },
+        error: (err) => {
+          this.errorMessage=err;
+          this.showLiveAlert=true;
+  
+        },
+        complete: () => { }
+      });}
   // }
   } 
 

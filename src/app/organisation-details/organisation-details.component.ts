@@ -245,7 +245,8 @@ export class OrganisationDetailsComponent implements OnInit {
         org_id: [''],
         product_id: [''],
         role : [''] ,  
-        third_party_org_name: ['',Validators.required],
+      is_web : [false],
+      third_party_org_name: ['',Validators.required],
 
     });
    
@@ -1015,7 +1016,7 @@ resendInvitationMail(data:any){
     this.basicWizardForm.removeControl('hsa');
     this.basicWizardForm.removeControl('vitals');
     this.basicWizardForm.controls['organization_name'].setValue(this.organization_name);
-    this.adminService.createUser(this.basicWizardForm.value).subscribe({
+      this.adminService.createUser(this.basicWizardForm.value).subscribe({
       next: (res:any) => {
         this.user_name=res[0].user_name
 
@@ -1028,7 +1029,7 @@ resendInvitationMail(data:any){
       },
       complete: () => { }
     });
-  } 
+  }
   change(val:any) {
     if(val==true){
       this.thirdParty=true;
@@ -1093,7 +1094,8 @@ resendInvitationMail(data:any){
     this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
     this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
-    this.adminService.createUser(this.userForm.value).subscribe({
+    if(this.userForm.value.is_web == undefined || this.userForm.value.is_web == false){
+      this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
         this.user_name = res.user_name
         console.log('the success=>', res);
@@ -1108,6 +1110,25 @@ resendInvitationMail(data:any){
       },
       complete: () => { }
     });
+  }
+  else{
+    Object.assign(this.userForm.value, { password: "Test@123" } );
+    this.adminService.createUserDirect(this.userForm.value).subscribe({
+      next: (res:any) => {
+        this.user_name = res.user_name
+        console.log('the success=>', res);
+        this.activeWizard1 = this.activeWizard1 + 1;
+        this.created = true;
+      },
+      error: (err) => {
+        console.log('the failure=>', err);
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
+
+      },
+      complete: () => { }
+    });
+  }
   }
 
   setEventMode(event: any,product:any,value:any){

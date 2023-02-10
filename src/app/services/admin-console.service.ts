@@ -56,6 +56,11 @@ export class AdminConsoleService {
   createOrg(data:any){
     return this.http.post(`${API_URL}org`,data) ;
   }
+
+  createOrgDirect(data:any){
+    return this.http.post(`${API_URL}org/direct`,data) ;
+  }
+
   fetchOrgById(id:number){
     return this.http.get(`${API_URL}org/${id}`);
   }
@@ -67,6 +72,11 @@ export class AdminConsoleService {
       data.mobile='+91'+data.mobile;
     return this.http.post(`${API_URL}users`,data) ;
   }
+
+  createUserDirect(data:any){
+    data.mobile='+91'+data.mobile;
+  return this.http.post(`${API_URL}users/direct`,data) ;
+}
 
   patchOrg(id:number,data:any){
     
