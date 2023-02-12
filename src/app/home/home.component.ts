@@ -102,6 +102,9 @@ export class HomeComponent implements OnInit {
         role : [''],
         third_party_org_name: ['',Validators.required],
         is_web : [false],
+        hsa:[false],
+        ruw:[false],
+        vitals:[false],
 
 
       });
@@ -667,7 +670,13 @@ export class HomeComponent implements OnInit {
   checkingUserForm(){
     this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
-    this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
+    if(this.notThirdParty == true){
+      this.userForm.value.third_party_org_name == null
+    }
+    else if (this.thirdParty == true){
+      Object.assign(this.userForm.value, { tpa_name: this.userForm.value.third_party_org_name } );
+      this.userForm.value.third_party_org_name == null
+    }
     if(this.userForm.value.is_web == undefined || this.userForm.value.is_web == false){
       this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {     
@@ -714,7 +723,7 @@ export class HomeComponent implements OnInit {
       }  
         ; return doc;
     })
-    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'hsa' : (val.product_id === '2' ? 'vitals':'ruw' ), product_id: val.product_id}))
   }
 
   updateUserProd(event:any, product:any){

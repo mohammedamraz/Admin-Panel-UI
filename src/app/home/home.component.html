@@ -788,7 +788,7 @@ margin-top: -28px;">
                         </li>
                         <li [ngbNavItem]="2">
                             <a [ngStyle]=" activeWizard2 > 2 ? ngstyle():null" style="pointer-events:none" ngbNavLink class="rounded-0 pt-2 pb-2">
-                                <span class=" d-sm-inline">Products</span>
+                                <span class=" d-sm-inline">Products</span> 
                             </a>
 
                                           <ng-template ngbNavContent>
@@ -809,12 +809,13 @@ margin-top: -28px;">
                                                                 grid-gap: 1rem; margin-top: 0.5rem;">
                                                                     <div class="avatar-md">
                                                                         <span class="avatar-title bg-soft-secondary text-secondary font-20 rounded-circle">
-                                                                            F{{season.product_name.charAt(0)}}
+                                                                            F{{season.product_name.charAt(0).toUpperCase()}}
                                                                         </span>
                                                                     </div>
-                                                                    <p class="text-muted mb-1">Fedo {{season.product_name}}</p>
+                                                            <p class="text-muted mb-1">Fedo {{season.product_name === 'vitals' ? 'Vitals' : season.product_name.toUpperCase()}}</p>
+                                                            <!-- <p class="text-muted mb-1">Fedo {{season.product_name}}</p> -->
                                                                     <div class="form-check form-switch" style=" display: grid;justify-items: center;">
-                                                                        <input type="checkbox"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
+                                                                        <input type="checkbox" formControlName="{{season.product_name}}"  (change)="updateUserProd($event,season)" class="form-check-input" id="customSwitch1">
                                                                     </div>
                                                                 </div>
                                                             </div>
