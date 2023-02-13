@@ -183,9 +183,13 @@ export class UserDetailsComponent implements OnInit {
         email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
+        is_web : [false],
         product_id: [''],
         role : [''],
         third_party_org_name: ['',Validators.required],
+        hsa:[false],
+        ruw:[false],
+        vitals:[false],
 
       });
 
@@ -476,8 +480,15 @@ export class UserDetailsComponent implements OnInit {
   checkingUserForm(){
     this.userForm.value.role == ''
     this.userForm.controls['product_id'].setValue(this.selectedUserProducts.map(value => value.product_id).toString());
-    this.userForm.value.third_party_org_name == null  ?     this.userForm.removeControl('third_party_org_name'): null;
-    this.adminService.createUser(this.userForm.value).subscribe({
+    if(this.notThirdParty == true){
+      this.userForm.value.third_party_org_name == null
+    }
+    else if (this.thirdParty == true){
+      Object.assign(this.userForm.value, { tpa_name: this.userForm.value.third_party_org_name } );
+      this.userForm.value.third_party_org_name == null
+    }
+    if(this.userForm.value.is_web == undefined || this.userForm.value.is_web == false){
+      this.adminService.createUser(this.userForm.value).subscribe({
       next: (res:any) => {
 
         this.created = true;
@@ -491,6 +502,25 @@ export class UserDetailsComponent implements OnInit {
       },
       complete: () => { }
     });
+  }
+  else {
+    Object.assign(this.userForm.value, { password: "Test@123" } );
+    this.adminService.createUserDirect(this.userForm.value).subscribe({
+      next: (res:any) => {
+
+        this.created = true;
+        this.user_name=res.user_name
+        this.activeWizard2 = this.activeWizard2 + 1;
+      },
+      error: (err) => {
+        this.errorMessageAPI = err;
+        this.showLiveAlertAPI = true;
+
+      },
+      complete: () => { }
+    });
+  }
+    
   }
 
   open(content: TemplateRef<NgbModal>): void {
@@ -575,6 +605,33 @@ export class UserDetailsComponent implements OnInit {
     })
 
   }
+  editInputTpa() {
+    this.userEditForm.get('third_party_org_name')?.value
+    if (this.codeList.includes(this.userEditForm.get('third_party_org_name')?.value)) {
+      this.showButton = false;
+    }
+    else {
+      this.showButton = true;
+      this.changeButton=true
+
+    }
+    this.userEditForm.get("third_party_org_name")?.valueChanges.subscribe(x => {
+        this.changeButton=true
+        this.addTpafunc=false
+      })
+
+  }
+  editAddTpa() {
+    this.addTpafunc=true;
+    this.changeButton=false
+
+    let input = this.userEditForm.get('third_party_org_name')?.value
+    let org_id = this.organaization_id
+    this.adminService.addTpa({ tpa_name: input, org_id: org_id }).subscribe((doc: any) => {  console.log("what is response",doc) ; return doc;
+      
+    })
+  }
+  
   addTpa() {
     this.addTpafunc=true;
     let input = this.userForm.get('third_party_org_name')?.value
@@ -603,7 +660,7 @@ export class UserDetailsComponent implements OnInit {
       ; return doc;
     })
 
-    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = doc.product.map((val: any) =>({product_name: val.product_id === '1' ? 'hsa' : (val.product_id === '2' ? 'vitals':'ruw' ), product_id: val.product_id}))
     console.log('see manaf', this.userProduct)
   }
 
@@ -635,14 +692,24 @@ export class UserDetailsComponent implements OnInit {
 
     editUserForm(data:any){
     console.log('the persons data =>',data)
+    this.organaization_id=data.org_id
     this.userEditForm = this.fb.group({
       email:[data.email,[Validators.email]],
       mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
       user_name:[data.user_name,[Validators.required]],
       designation:[data.designation,[Validators.required]],
-      third_party_org_name:[data.third_party_org_name, Validators.required]
+      third_party_org_name:[data.tpa_name, Validators.required]
     })
     this.userId = data.id
+    this.adminService.fetchTpa(this.organaization_id).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+      ; return doc;
+    })
     this.open(<TemplateRef<NgbModal>><unknown>this.input3);
     if(this.userEditForm.value.third_party_org_name == null){
       this.notThirdParty = true;
@@ -683,7 +750,13 @@ export class UserDetailsComponent implements OnInit {
     data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
     data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
     data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
-    data['third_party_org_name'] = this.thirdParty ? data['third_party_org_name']:null; 
+    if(this.notThirdParty == true){
+      data['third_party_org_name'] = null;
+    }
+    else if (this.thirdParty == true){
+      data['tpa_name'] = data['third_party_org_name']
+      data['third_party_org_name'] = null;
+    }
 
     console.log('list => ',this.userProduct)
     console.log('full form => ',data)

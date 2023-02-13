@@ -92,7 +92,6 @@ export class OrganisationListComponent implements OnInit {
   
         this.tabDAta=doc.data;
         this.length=this.tabDAta.length
-        this.tabDAta = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       
         return doc
       });
@@ -106,6 +105,7 @@ export class OrganisationListComponent implements OnInit {
       admin_name:['',Validators.required],
       organization_email:['',[Validators.required,Validators.email]],
       organization_mobile:['',[Validators.required,  Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      is_web : [false],
       fedo_score:[false],
       hsa:[false],
       ruw:[false],
@@ -496,19 +496,37 @@ export class OrganisationListComponent implements OnInit {
     data.append('city',this.basicWizardForm.value.city);
     data.append('address',this.basicWizardForm.value.address);
     this.image==''? null:data.append('file', this.image, this.image.name)
-    this.adminService.createOrg(data).subscribe({
+    if(this.basicWizardForm.value.is_web == undefined || this.basicWizardForm.value.is_web == false){
+      this.adminService.createOrg(data).subscribe({
       next: (res:any) => {
         this.org_name = res[0].organization_name;
         this.activeWizard2=this.activeWizard2+1;
         this.created = true;
       },
       error: (err) => {
-        this.errorMessage=err;
-        this.showLiveAlert=true;
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
 
       },
       complete: () => { }
-    });
+    });}
+    else 
+    {
+    data.append('password','Test@123');
+    this.adminService.createOrgDirect(data).subscribe({
+        next: (res:any) => {
+          this.activeWizard2=this.activeWizard2+1;
+          this.created = true;
+          this.org_name = res[0].organization_name;
+  
+        },
+        error: (err) => {
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
+  
+        },
+        complete: () => { }
+      });}
   // }
   } 
 
@@ -590,7 +608,7 @@ export class OrganisationListComponent implements OnInit {
           });
 
           this.updatePilotDuration(orgData.id,data,prod);
-
+            
           this.adminService.sendEmailOnceOrgIsBackActive({organisation_admin_name:orgData.admin_name,organisation_admin_email:orgData.organization_email,email:orgData.organization_email}).subscribe({
             next: (res) =>{
               // this.reloadCurrentPage();
@@ -616,6 +634,25 @@ export class OrganisationListComponent implements OnInit {
           this.updatePilotDuration(orgData.id,data,prod);
 
         }
+        this.adminService.fetchAllUserOfOrgByPage(orgData.id,1,10000,'').subscribe((doc:any)=>{
+          doc.data.map((el:any)=>{
+            const user_id=el.id
+            this.adminService.patchUserStatus(el.id, data).subscribe({
+              next: (res) => {
+             console.debug(res)
+              },
+              error:(err)=>{
+                console.debug(err)
+              }
+              
+            })
+            
+
+            
+          })
+          
+          
+        })
         // this.reloadCurrentPage();
       },
     })
