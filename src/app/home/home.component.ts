@@ -239,8 +239,8 @@ export class HomeComponent implements OnInit {
 
       },
       error: (err) => {
-        this.errorMessage=err;
-        this.showLiveAlert=true;
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
 
       },
       complete: () => { }
@@ -256,8 +256,8 @@ export class HomeComponent implements OnInit {
   
         },
         error: (err) => {
-          this.errorMessage=err;
-          this.showLiveAlert=true;
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
   
         },
         complete: () => { }

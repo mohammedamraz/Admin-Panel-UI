@@ -504,8 +504,8 @@ export class OrganisationListComponent implements OnInit {
         this.created = true;
       },
       error: (err) => {
-        this.errorMessage=err;
-        this.showLiveAlert=true;
+        this.errorMessageAPI=err;
+        this.showLiveAlertAPI=true;
 
       },
       complete: () => { }
@@ -521,8 +521,8 @@ export class OrganisationListComponent implements OnInit {
   
         },
         error: (err) => {
-          this.errorMessage=err;
-          this.showLiveAlert=true;
+          this.errorMessageAPI=err;
+          this.showLiveAlertAPI=true;
   
         },
         complete: () => { }
