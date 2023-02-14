@@ -1245,7 +1245,7 @@ resendInvitationMail(data:any){
         ios_access: el.ios_access ? el.ios_access:false ,
         mobile_access: el.mobile_access ? el.mobile_access:false,
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
-        kiosk_user: el.kiosk_user ? el.kiosk_user:null,
+        kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1261,7 +1261,6 @@ resendInvitationMail(data:any){
     data.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
     data.append('product_id',prod.map((value:any) => value.product_id).toString());
     data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
-    // data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());

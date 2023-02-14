@@ -375,13 +375,13 @@
                 </div>
             </div>
                 <div class="download-style " >
-                <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
+                <a *ngIf="product.mobile_access == true"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
+                <a *ngIf="product.ios_access == true"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                <a *ngIf="product.web_access == true"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
                     <button  style="height: 3.5rem;width: auto; background-color: black;  border-radius: 11px;"> <img src="./assets/images/Button - WebApp.png" style="height: 3rem;"></button>
                 </a>
                 </div>
@@ -767,8 +767,8 @@
                                                             <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Kiosk User</label> -->
                                                             <select #kiosk_user (change)="checkInputValue(kiosk_user,season.product_name)" style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:auto; background-color: #383E4A;
                                                             border: 1px solid #444C5B;">
-                                                            <option [selected]>  {{selectedValue}} </option>
-                                                            <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
+                                                        <option [selected]>  {{selectedValue ? selectedValue : season.kiosk_user}} </option>
+                                                        <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
                                                             </select>
                                                             
                                                     </div>  

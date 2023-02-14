@@ -752,13 +752,15 @@ export class PilotDashboardComponent implements OnInit {
       pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<=0 ? 0 : this.daysLefts(el.end_date)+1,
       product_name: el.product_id === '1' ? 'HSA' : (el.product_id === '2' ? 'Vitals':'RUW' ),
       web_access: el.web_access,
-      web_url: el.web_url,
+      // web_url: el.web_url,
       web_fedoscore:el.web_fedoscore,
       product_junction_id: el.id,
       product_id: el.product_id,
       event_mode:el.event_mode,
       ios_access:el.ios_access,
-      mobile_access :el.mobile_access
+      mobile_access :el.mobile_access,      
+      enable_kiosk :el.enable_kiosk,
+      kiosk_user : el.kiosk_user
 
     }})
     this.list=2+OrgProducts.length
@@ -798,29 +800,28 @@ export class PilotDashboardComponent implements OnInit {
         pilot_duration: el.pilot_duration,
         product_junction_id:el.product_junction_id,
         product_id: el.product_id,
-        web_access: el.web_access,
-        web_url: el.web_access ? el.web_url :'',
+        web_access: el.web_access ? el.web_access:false ,
+        // web_url: el.web_access ? el.web_url :'',
         web_fedoscore: el.web_access ? el.web_fedoscore:false,
         event_mode: el.event_mode,
-        ios_access: el.ios_access ,
-        mobile_access: el.mobile_access,
-        enable_kiosk: el.enable_kiosk,
-        kiosk_user: el.kiosk_user,
+        ios_access: el.ios_access ? el.ios_access:false ,
+        mobile_access: el.mobile_access ? el.mobile_access:false,
+        enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
+        kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
-    if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
-      this.errorOrgMessage='web url must be provided';
-      this.showOrgLiveAlert=true;    
-    }
-    else{
+    // if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
+    //   this.errorOrgMessage='web url must be provided';
+    //   this.showOrgLiveAlert=true;    
+    // }
+    // else{
     let data = new FormData();
     data.append('fedo_score',prod.map((value:any) => value.fedo_score).toString());
     data.append('pilot_duration',prod.map((value:any) => value.pilot_duration).toString());
     data.append('product_junction_id',prod.filter(((value:any)=> value.product_junction_id == '' ? false : true)).map((value:any) => value.product_junction_id).toString());
     data.append('product_id',prod.map((value:any) => value.product_id).toString());
     data.append('productaccess_web',prod.map((value:any) => value.web_access).toString());
-    data.append('web_url',prod.map((value:any) => value.web_url).toString());
     data.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     data.append('event_mode',prod.map((value:any) => value.event_mode).toString());
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
@@ -840,7 +841,7 @@ export class PilotDashboardComponent implements OnInit {
       },
       complete: () => { }
     });
-  } 
+  // } 
   }
 
   reloadPage(){
@@ -903,6 +904,7 @@ event_kiosc(event:any, product:any){
     const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
     this.listdetails[selected].enable_kiosk = true; 
     this.selectedValue=this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user : this.kiosk_users[0];
+    this.listdetails[selected].kiosk_user = this.selectedValue;
   }
   else if (event.target.checked===false){
     const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
