@@ -1,19 +1,18 @@
 <div class="card" style="background: #313844;">
     <div ngbDropdown placement="bottom-end">
         <h4 class="mt-0 header-title" style="color: white;padding: 1rem;">Daily Scan Report of {{date | date}}</h4>
-        <div style="    grid-template-columns:  max-content max-content;grid-gap:2rem;display: grid;">
+        <div class="row">
 
-            <div style="padding-left: 1rem;">
+            <div class="col-xl-3 col-md-4"  style="padding-left:3rem;">
                 <label class="form-label me-1" style="color: #9BA6AC;">Show
-                    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"   name="pageSize" style="    background-color: #313844;
-                    border-color: #49565d;"
+                    <select class="form-select form-select-sm ms-1 me-1 d-inline form-control"   name="pageSize" style="width: 5rem;"
                         id="event-category" required #idd [(ngModel)]="entries"   (change)="onFilter($event.target)">
                         <option *ngFor="let option of pageSizeOptions" #id [value]="option"  >{{option}}</option>
                     </select>
                     entries</label>
             </div>   
-               <div class="col-sm-6" >
-                <input style="width: auto;  background-color: #383E4A;" class="form-control" id="example-date" [(ngModel)]='date' (change)="checkDate(date)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date">
+               <div class="col-xl-2 col-md-2" style="padding-left: 3rem;" >
+                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='date' (change)="checkDate(date)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date">
             </div>
     
             

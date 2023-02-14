@@ -351,12 +351,12 @@ margin-top: -28px;">
                         <td scope="row">{{entries *(page-1)+i+1}}</td>
                         <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
                         <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
-                        <td>{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
-                        <td>{{person.email}}</td>
-                        <td>{{person.mobile.slice(3,14)}}</td>
-                        <td>{{person.tpa_name != null ? (person.tpa_name==''? 'Direct':person.tpa_name+ '(TPA)') :'Direct'}}</td>
-                        <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
-                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.vitalsTest||0}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.email}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.mobile.slice(3,14)}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.tpa_name != null ? (person.tpa_name==''? 'Direct':person.tpa_name+ '(TPA)') :'Direct'}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;text-align: -webkit-center; color: #F2CA65;">{{person.vitalsTest||0}}</td>
                         <td class="option">
                             <div class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
@@ -385,6 +385,8 @@ margin-top: -28px;">
                     </tr>
                 </tbody>
             </table>
+            <p style="margin-top: 0.5rem;
+            text-align-last: left;">OA - Organization Admin</p>
             <div *ngIf="userList.length === 0"><p style="text-align: -webkit-center;">No Records Found</p></div>
             <div class="d-flex flex-wrap justify-content-center align-items-center justify-content-sm-between mt-2" style="color: #9BA6AC">
                 <div *ngIf="(currentPage*entries)<=total_user">

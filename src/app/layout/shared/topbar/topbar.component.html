@@ -10,7 +10,7 @@
                     role="button" ngbDropdownToggle>
                     <i  class="fe-bell noti-icon"></i>
                     
-                    <span  class="badge bg-danger rounded-circle noti-icon-badge">{{count}}</span>
+                    <span *ngIf="count>0"  class="badge bg-danger rounded-circle noti-icon-badge">{{count}}</span>
                 </a>
             </li>    
          

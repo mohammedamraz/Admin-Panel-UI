@@ -8,7 +8,7 @@ const MENU_ITEMS: MenuItem[] = [
         label: 'Home',
         isTitle: false,
         icon: 'mdi mdi-home',
-        badge: { variant: 'success', text: '9+' },
+        badge: { variant: 'success', text: '' },
         url: '/home',
     },
 
