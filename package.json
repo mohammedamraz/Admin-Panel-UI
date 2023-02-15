@@ -1,6 +1,6 @@
 {
   "name": "fedo-admin-ui",
-  "version": "0.0.1-rc.55",
+  "version": "0.0.1-rc.56",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
