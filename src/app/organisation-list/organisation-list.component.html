@@ -641,8 +641,8 @@ margin-top: -28px;">
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of tabDAta ;let i=index;">
                         <th scope="row">{{entries *(page-1)+i+1}}</th>
-                        <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
-                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                        <td *ngIf="person.is_deleted===false"><div class="tooltip-new"><img src="./assets/images/User Status - Active.png"><span class="tooltiptext">Active Organisation</span></div></td>
+                        <td *ngIf="person.is_deleted===true"><div class="tooltip-new"><img src="./assets/images/User Status - Inactive.png"><span class="tooltiptext">Inactive Organisation</span></div></td>
                         <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;"  >{{person.organization_name}}</td>
                         <td [routerLink]="['/orgdetails', person.id]" href="javascript:void(0);" style="cursor: pointer;">
                             <div style="    display: grid;

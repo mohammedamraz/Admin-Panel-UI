@@ -132,3 +132,26 @@
     right: 100% !important;
 
 }
+.tooltip-new {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-new .tooltiptext {
+    visibility: hidden;
+    width: 130px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: -30px;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+  .tooltip-new:hover .tooltiptext {
+    visibility: visible;
+  }

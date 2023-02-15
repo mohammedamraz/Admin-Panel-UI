@@ -349,8 +349,8 @@ margin-top: -28px;">
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;" *ngFor="let person of userList ;let i=index;">
                         <td scope="row">{{entries *(page-1)+i+1}}</td>
-                        <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
-                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                        <td *ngIf="person.is_deleted===false"><div class="tooltip-new"><img src="./assets/images/User Status - Active.png">  <span class="tooltiptext">Active User</span></div></td>
+                        <td *ngIf="person.is_deleted===true"><div class="tooltip-new"><img src="./assets/images/User Status - Inactive.png"> <span class="tooltiptext">Inactive User</span></div></td>
                         <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
                         <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.email}}</td>
                         <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.mobile.slice(3,14)}}</td>
