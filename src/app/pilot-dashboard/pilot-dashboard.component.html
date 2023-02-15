@@ -375,13 +375,13 @@
                 </div>
             </div>
                 <div class="download-style " >
-                <a *ngIf="product.url.mobile_url !== null"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
+                <a *ngIf="product.mobile_access == true"  class='cursor-pointer' style="cursor: pointer;" (click)="playstore(product.url,'mobile')" >
                     <img src="./assets/images/get-it-on-google-play-google-play-badge-png-logos-23 1.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.ios_url !== null"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
+                <a *ngIf="product.ios_access == true"  class='cursor-pointer' (click)="playstore(product,'ios')" style="" >
                     <img src="./assets/images/Button - iOS App Download.png" style="height: 3.5rem;width: 9.3rem;">
                 </a>
-                <a *ngIf="product.url.web_url !== null"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
+                <a *ngIf="product.web_access == true"  class='cursor-pointer' (click)="playstore(product.url,'web')" >
                     <button  style="height: 3.5rem;width: auto; background-color: black;  border-radius: 11px;"> <img src="./assets/images/Button - WebApp.png" style="height: 3rem;"></button>
                 </a>
                 </div>
@@ -424,15 +424,15 @@
                             display: inline-flex;margin-top: 3rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
-                        <p style="font-size: 1.2rem;margin: 0;">Total Scans</p>
-                        <p style="font-size: 1.2rem;margin: 0;">Standard Mode Scans</p>
-                        <p style="font-size: 1.2rem;margin: 0;">Event Mode Scans</p>
-                    </div>
-                    <div  style=" align-self: center; color:#F5F5F5;display: grid;
-                    grid-gap: .45rem;">
-                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #F2CA65; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.totalScans}}</p></div>
-                        <div class="grid-class"><p>: &nbsp; </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.standardModeScans}}</p></div>
-                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #FF9632; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.eventModeScans}}</p></div>
+                    <p style="font-size:20px;margin: 0;">Total Scans</p>
+                    <p style="font-size:20px;margin: 0;">Standard Mode Scans</p>
+                    <p style="font-size:20px;margin: 0;">Event Mode Scans</p>
+                </div>
+                <div  style=" align-self: center; color:#F5F5F5;display: grid;
+                grid-gap: .40rem;">
+                    <p style="color: #F2CA65; font-size: 1.7rem; font-weight: 500; margin: 0;"><span style="font-size: 1.6rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.totalScans}}</p>
+                     <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"><span style="font-size: 1.6rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.standardModeScans}}</p>
+                    <p style="color: #FF9632; font-size: 1.7rem; font-weight: 500; margin: 0;"><span style="font-size: 1.6rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.eventModeScans}}</p>
                     </div>
                 </div>
                 <div style="    margin-top: 4rem;">
@@ -478,7 +478,7 @@
                         ngbDropdownToggle>
                         Current vs Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}}  <i class="mdi mdi-chevron-down"></i>
                     </a>
-                    <div ngbDropdownMenu aria-labelledby="dropdownLink">
+                    <div ngbDropdownMenu aria-labelledby="dropdownLink" style="cursor:pointer">
                         <a (click)="fetchTimely(season.prodId,'weekly')" ngbDropdownItem>Current vs Previous Week</a>
                         <a (click)="fetchTimely(season.prodId,'monthly')" ngbDropdownItem>Current vs Previous Month</a>
                         <a  (click)="fetchTimely(season.prodId,'quarterly')"ngbDropdownItem>Current vs Previous Quarter</a>
@@ -506,17 +506,16 @@
                 <div style="display: grid;grid-template-columns:max-content max-content;grid-gap: 1rem;">
                     <div style=" align-self: center; color:#ADB5BD;display: grid;
                     grid-gap: 1rem;">
-                        <p style="font-size: 1.2rem;margin: 0;">Current Month</p>
-                        <p style="font-size: 1.2rem;margin: 0;">Previous Month</p>
+                        <p style="font-size: 1.2rem;margin: 0;">Current {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}}</p>
+                        <p style="font-size: 1.2rem;margin: 0;">Previous {{season.performance.period.charAt(0).toUpperCase()+season.performance.period.slice(1).slice(0,-2)}}</p>
                         <p style="font-size: 1.2rem;margin: 0;">Variance</p>
                     </div>
-                    <div  style=" align-self: center; color:#F5F5F5;display: grid;
-                    grid-gap: .45rem;">
-                        <div class="grid-class"><p>: &nbsp;  </p> <p style="color: #82B4F3; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.currentMonth}}</p></div>
-                        <div class="grid-class"><p>: &nbsp; </p> <p style="color: #F08FC9; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.previousMonth}}</p></div>
-                        <div class="grid-class"><p>: &nbsp;  </p> <p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-up"></i></p>
-                            <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.6rem; font-weight: 500; margin: 0;"> {{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-down"></i></p>
-                            <p *ngIf="season.performance.varience==0 || season.performance.varience=='' " style="color:#FF9632 ; font-size: 1.7rem; font-weight: 500; margin: 0;"> {{season.performance.varience}}%</p>
+                    <div  style=" align-self: center; color:#F5F5F5;display: grid;">
+                        <div class="grid-class"> <p style="color: #82B4F3; font-size: 1.8rem; font-weight: 500; margin: 0;"><span style="font-size: 1.7rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.performance.currentMonth}}</p></div>
+                        <div class="grid-class"><p style="color: #F08FC9; font-size: 1.8rem; font-weight: 500; margin: 0;"><span style="font-size: 1.7rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.performance.previousMonth}}</p></div>
+                        <div class="grid-class"><p *ngIf="season.performance.varience>0" style="color: #5AC172; font-size: 1.8rem; font-weight: 500; margin: 0;"><span style="font-size: 1.7rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-up"></i></p>
+                            <p *ngIf="season.performance.varience<0" style="color:red ; font-size: 1.6rem; font-weight: 500; margin: 0;"><span style="font-size: 1.7rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.performance.varience.toFixed(1)}}%<i class="fe-arrow-down"></i></p>
+                            <p *ngIf="season.performance.varience==0 || season.performance.varience=='' " style="color:#FF9632 ; font-size: 1.8rem; font-weight: 500; margin: 0;"><span style="font-size: 1.7rem; font-weight: 500; margin: 0;color:#ADB5BD; vertical-align: top;">:</span>&nbsp;{{season.performance.varience}}%</p>
                         </div>
                     </div>
                 </div>
@@ -768,8 +767,8 @@
                                                             <label for="floatingInput" style="font-size: 0.8rem ;   color: #9BA6AC;" class="form-label" i18n>Kiosk User</label> -->
                                                             <select #kiosk_user (change)="checkInputValue(kiosk_user,season.product_name)" style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:auto; background-color: #383E4A;
                                                             border: 1px solid #444C5B;">
-                                                            <option [selected]>  {{selectedValue}} </option>
-                                                            <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
+                                                        <option [selected]>  {{selectedValue ? selectedValue : season.kiosk_user}} </option>
+                                                        <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
                                                             </select>
                                                             
                                                     </div>  
