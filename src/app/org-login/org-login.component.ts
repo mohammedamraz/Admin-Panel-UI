@@ -12,7 +12,7 @@ import { AdminConsoleService } from '../services/admin-console.service';
 })
 export class OrgLoginComponent implements OnInit {
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required,]],
+    email: ['', [Validators.required,Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}\\s{0,}?$")]],
     password: ['', Validators.required],
     rememberMe:[true]
   });

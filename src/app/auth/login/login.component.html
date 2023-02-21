@@ -42,7 +42,7 @@
     <div class="mb-3">
       <div class="form-floating ">
       <input class="form-control" type="email" id="emailaddress" required i18n-placeholder
-        placeholder="Enter your email" formControlName="email"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+        placeholder="Enter your email" formControlName="email" 
         [ngClass]="{'is-invalid': formValues['email'].touched && formValues['email'].invalid || formSubmitted && formValues['email'].invalid}" style=" height: 3rem;" />
       <label for="floatingInput" class="form-label" i18n>Email address</label>
 

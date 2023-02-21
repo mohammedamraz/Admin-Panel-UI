@@ -20,7 +20,7 @@ export class RecoverPasswordComponent implements OnInit {
   });
 
   resetForm: FormGroup = this.fb.group({
-    email:[''],
+    email:['',[Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}\\s{0,}?$")]],
     password:['',[Validators.required]],
     confirmPassword:['',[Validators.required]],
     ConfirmationCode:['',[Validators.required]]
@@ -58,6 +58,7 @@ export class RecoverPasswordComponent implements OnInit {
    * On form submit
    */
   onSubmit(): void {
+    if(this.resetForm.controls["email"].status==="VALID"){
     this.formSubmitted = true;
     if(this.orgLogin == false){
       this.adminService.forgotPassword({username: this.resetForm.value.email})
@@ -94,6 +95,7 @@ export class RecoverPasswordComponent implements OnInit {
       }
 
     }
+  }
 
 
 

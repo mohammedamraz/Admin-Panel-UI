@@ -103,7 +103,7 @@ export class OrganisationListComponent implements OnInit {
     this.basicWizardForm = this.fb.group({
       organization_name:[''],
       admin_name:['',Validators.required],
-      organization_email:['',[Validators.required,Validators.email]],
+      organization_email:['',[Validators.required,Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}\\s{0,}?$")]],
       organization_mobile:['',[Validators.required,  Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
       is_web : [false],
       fedo_score:[false],
