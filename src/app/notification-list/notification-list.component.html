@@ -65,7 +65,7 @@
                         <td>{{person.organization_email}}</td>
                         <td >{{person.organization_mobile.slice(3,14)}}</td>
                         <td style="color:#F08F8F;" *ngIf="person.is_deleted===true">{{'Inactive'}}</td>
-                        <td style="color:#5AC172;" *ngIf="person.is_deleted===false">{{'Verified'}}</td>
+                        <td style="color:#5AC172;" *ngIf="person.is_deleted===false">{{'Activated'}}</td>
 
                         <td class="option">
                             <div *ngIf="person.is_read == false || person.is_deleted===true"  class=" float-end" ngbDropdown placement="bottom-end" >
