@@ -76,7 +76,6 @@ padding-top:10px">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"
                                                         name="userName" placeholder="Email Address" required formControlName="email"
-                                                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                                                     [ngClass]="{'is-invalid':userForm.controls['email'].touched && userForm.controls['email'].invalid || formSubmitted && userForm.controls['email'].invalid}">
                                                     <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Email Address</label>
                                                     
@@ -167,7 +166,7 @@ padding-top:10px">
                                               </div>
 
                                               <div style="padding-bottom:1rem">
-                                                        <h5 class="header-title" style="color: #AEB5BC;">No Sign-Up flow</h5>
+                                                        <h5 class="header-title" style="color: #AEB5BC;">Do not notify User</h5>
                                                         <div class="form-check form-switch" style=" display: grid;">
                                                             <input type="checkbox"  class="form-check-input" id="customSwitch1" formControlName="is_web">
                                                         </div>
@@ -1362,8 +1361,8 @@ padding-top:10px">
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tableData;let indexOfelement=index;">
                         <td scope="row">{{indexOfelement+1}}</td>
-                        <td *ngIf="person.is_deleted===false"><img src="./assets/images/User Status - Active.png"></td>
-                        <td *ngIf="person.is_deleted===true"><img src="./assets/images/User Status - Inactive.png"></td>
+                        <td *ngIf="person.is_deleted===false"><div class="tooltip-new"><img src="./assets/images/User Status - Active.png"> <span class="tooltiptext">Active User</span></div></td>
+                        <td *ngIf="person.is_deleted===true"><div class="tooltip-new"><img src="./assets/images/User Status - Inactive.png"> <span class="tooltiptext">Inactive User</span></div></td>
                         <td style="cursor:pointer" [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);">{{person.user_name&&person.type=='OrgAdmin'? person.user_name + ' (OA)': person.user_name}}</td>
                         <td style="cursor:pointer" [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);">{{person.email}}</td>
                         <td style="cursor:pointer" [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" >{{person.mobile.slice(3,14)}}</td>

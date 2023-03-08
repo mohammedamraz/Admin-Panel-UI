@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
         admin_name:['',Validators.required],
-        organization_email:['',[Validators.required,Validators.email]],
+        organization_email:['',[Validators.required,Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,7}\\s{0,}?$")]],
         organization_mobile:['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         fedo_score:[false],
         is_web : [false],
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
       this.userForm =this.fb.group({
         user_name: ['',Validators.required],
         designation: ['',Validators.required],
-        email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+        email: ['', [Validators.required, Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,7}\\s{0,}?$")]],
         mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         org_id: [''],
         product_id: [''],

@@ -112,7 +112,7 @@ export class PilotDashboardComponent implements OnInit {
         this.userForm =this.fb.group({
           user_name: ['',Validators.required],
           designation: ['',Validators.required],
-          email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+          email: ['', [Validators.required, Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,7}\\s{0,}?$")]],
           mobile: ['',[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
           org_id: [this.orgId],
           is_web : [false],
