@@ -168,7 +168,7 @@
                                                     
                                                   </div>
                                                   <div style="padding-bottom:1rem">
-                                                    <h5 class="header-title" style="color: #AEB5BC;">No Sign-Up flow</h5>
+                                                    <h5 class="header-title" style="color: #AEB5BC;">Do not notify User</h5>
                                                     <div class="form-check form-switch" style=" display: grid;">
                                                         <input type="checkbox"  class="form-check-input" id="customSwitch1" formControlName="is_web">
                                                     </div>
@@ -403,7 +403,7 @@
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <a href="javascript:void(0);" [routerLink]="'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
+                        <a href="javascript:void(0);" [routerLink] = "'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
                         <a href="javascript:void(0);" (click)="exportexcel(season.data,season.prodId)" ngbDropdownItem>Download Excel Report</a>
                     </div>
 

@@ -64,16 +64,30 @@
                         <td>{{person.designation}}</td>
                         <td>{{person.organization_email}}</td>
                         <td >{{person.organization_mobile.slice(3,14)}}</td>
-                        <td style="color:#5AC172;" *ngIf="person.is_register===true">{{'Verified'}}</td>
-                        <td style="color:#F08F8F;" *ngIf="person.is_register===false">{{'Inactive'}}</td>
+                        <td style="color:#F08F8F;" *ngIf="person.is_deleted===true">{{'Inactive'}}</td>
+                        <td style="color:#5AC172;" *ngIf="person.is_deleted===false">{{'Verified'}}</td>
 
                         <td class="option">
-                            <div *ngIf="person.is_read == false" class=" float-end" ngbDropdown placement="bottom-end" >
+                            <div *ngIf="person.is_read == false || person.is_deleted===true"  class=" float-end" ngbDropdown placement="bottom-end" >
                                 <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
                                     <i class="mdi mdi-dots-vertical"></i>
                                 </a>
                                 <div  style="    border: 1px solid #4B515F;" ngbDropdownMenu>
-                                    <a   href="javascript:void(0);" (click)="updateReadStatus(person.id)" ngbDropdownItem>Mark as Read</a>
+                                    <a *ngIf="person.is_read == false"  href="javascript:void(0);" (click)="updateReadStatus(person.id)" ngbDropdownItem>Mark as Read</a>
+                                    <div *ngIf="person.is_deleted===true" style="display: flex;
+                                    align-items: center;">
+                                    <!-- <div style="display: flex;" *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)
+                                        
+                                </div> -->
+                                    <div  href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)
+                                    </div>
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                </div>
+                            </div>
+
+
+                                    
                                     <!-- <a *ngIf="person.data.length!=0" (click)="exportexcel(person.data)"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>                             -->
                         </div>
 

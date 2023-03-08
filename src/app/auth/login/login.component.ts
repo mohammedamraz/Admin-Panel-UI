@@ -17,7 +17,7 @@ import { AdminConsoleService } from 'src/app/services/admin-console.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required,Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,5}\\s{0,}?$")]],
+    email: ['', [Validators.required,Validators.pattern("^\\s{0,}?[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,7}\\s{0,}?$")]],
     password: ['', Validators.required,],
     rememberMe:[true]
   });
