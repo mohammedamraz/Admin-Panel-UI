@@ -565,6 +565,7 @@ export class UserDetailsComponent implements OnInit {
 
           this.activeWizard2=this.activeWizard2+1;
           this.showLiveAlertNextButton=false;
+          this.showLiveAlertAPI = false
           },
 
           error: (err) => {

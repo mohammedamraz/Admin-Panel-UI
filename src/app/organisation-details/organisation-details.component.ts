@@ -1344,7 +1344,6 @@ clearform(){
    checkUserFirstForm(){
 
     this.formSubmitted=true;
-
     if(this.userForm.controls['user_name'].valid && this.userForm.controls['designation'].valid && this.userForm.controls['email'].valid && this.userForm.controls['mobile'].valid && (this.thirdParty==true || this.notThirdParty== true)){
 
       if(this.thirdParty==true && (this.userForm.controls['third_party_org_name'].value==null || this.userForm.controls['third_party_org_name'].value.length < 3)){
@@ -1365,6 +1364,7 @@ clearform(){
         next: (data:any)=>{    
           this.activeWizard1=this.activeWizard1+1;
           this.showLiveAlertNextButton=false;
+          this.showLiveAlertAPI = false
         },
 
         error: (err) => {
