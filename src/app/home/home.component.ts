@@ -776,6 +776,7 @@ export class HomeComponent implements OnInit {
         next: (data:any)=>{    
           this.activeWizard2=this.activeWizard2+1;
           this.showLiveAlertNextButton=false;
+          this.showLiveAlertAPI = false
         },
 
         error: (err) => {
