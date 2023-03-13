@@ -1205,10 +1205,30 @@ resendInvitationMail(data:any){
    
 }
 
-  checkingOrgForm(){
+  checkingOrgForm(modal_name : string){
 
     this.OrgDetailsEditForm = true
-    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
+    if(modal_name == 'admin'){
+      if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid  ){ 
+
+        this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
+          next: (res) => {
+            console.log('the success=>',res);
+            this.activeWizard2=this.activeWizard2+1;
+            this.created=true;
+          },
+          error: (err) => {
+            console.log('the failure=>',err);
+            this.errorOrgMessage=err;
+            this.showOrgLiveAlert=true;
+          },
+          complete: () => { }
+        });
+      }
+
+    }
+    else {
+    if( this.OrgForm.controls['organization_name'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
@@ -1224,6 +1244,7 @@ resendInvitationMail(data:any){
       complete: () => { }
     });
   }
+}
   }
 
   reloadPage(){
@@ -1398,7 +1419,7 @@ clearform(){
   closeUser(){
     
     let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
-      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:new Date().toISOString().split("T")[0]}
     this.adminService.sendEmailNotification(data).subscribe({
       next: (res:any) => {
        this.authenticationService.logout();
