@@ -606,7 +606,10 @@ export class OrganisationListComponent implements OnInit {
               web_access: el.web_access,
               web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
-              event_mode: el.event_mode
+              event_mode: el.event_mode,
+              is_application_number:el.is_application_number,
+              attempts:el.attempts,
+              is_pilot_duration:el.is_pilot_duration
             }
           });
 
@@ -631,7 +634,10 @@ export class OrganisationListComponent implements OnInit {
               web_access: el.web_access,
               web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
-              event_mode: el.event_mode
+              event_mode: el.event_mode,
+              is_application_number :el.is_application_number ? el.is_application_number :false,
+              attempts: el.attempts ? el.attempts:0,
+              is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
             }
           });
           this.updatePilotDuration(orgData.id,data,prod);
@@ -673,6 +679,9 @@ export class OrganisationListComponent implements OnInit {
     datachunk.append('web_url',prod.map((value:any) => value.web_url).toString());
     datachunk.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     datachunk.append('event_mode',prod.map((value:any) => value.event_mode).toString());
+    data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
+    data.append('attempts',prod.map((value:any) => value.attempts).toString());
+    data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
 
     this.adminService.patchOrgDetails(id, datachunk).subscribe({
       next: (res) => {
