@@ -220,6 +220,9 @@ export class HomeComponent implements OnInit {
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
+    data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
+    data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
+    data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
     data.append('productaccess_mobile',this.listdetails.map(value=>value.productaccess_mobile).toString());
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
@@ -277,7 +280,7 @@ export class HomeComponent implements OnInit {
   eventmode(event:any, product:any){
     if(event.target.checked ==  true){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails[selected].event_mode = null;  
+      this.listdetails[selected].event_mode = 1;  
     }
     else if (event.target.checked===false){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -421,7 +424,10 @@ export class HomeComponent implements OnInit {
         scans:0,
         ios_access:false,
         productaccess_web: false,
-        productaccess_mobile: false
+        productaccess_mobile: false,
+        is_application_number : false,
+        is_pilot_duration:true,
+        attempts:0
 
 
       };
