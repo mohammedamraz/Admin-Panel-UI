@@ -610,7 +610,7 @@
             </p>
 
             <div style="text-align:center">
-                <button type="button" style="width: 100px;background: #3C424F;border: 1px solid #FFFFFF; border-radius: 4px;" (click)="closeUser()" class="btn btn-info" >Notify Fedo</button>
+                <button type="button" style="width: 22rem;background: #3C424F;border: 1px solid #FFFFFF; border-radius: 4px;" (click)="closeUser()" class="btn btn-info" >Notify Fedo</button>
             </div>
         </div>
 
@@ -772,6 +772,13 @@
                                                             
                                                     </div>  
                                                 </div>
+                                                <div>
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Application Number</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_application_number" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+
                                          
                                             <!-- <div style="margin-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>

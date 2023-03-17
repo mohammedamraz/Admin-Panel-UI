@@ -736,7 +736,11 @@ font: {
       ios_access:el.ios_access,
       mobile_access :el.mobile_access,
       enable_kiosk :el.enable_kiosk,
-      kiosk_user : el.kiosk_user
+      kiosk_user : el.kiosk_user,
+      is_application_number:el.is_application_number,
+      attempts:el.attempts,
+      is_pilot_duration:el.is_pilot_duration
+      
 
     }})
     this.list=2+OrgProducts.length
@@ -1205,10 +1209,30 @@ resendInvitationMail(data:any){
    
 }
 
-  checkingOrgForm(){
+  checkingOrgForm(modal_name : string){
 
     this.OrgDetailsEditForm = true
-    if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['organization_name'].valid &&this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
+    if(modal_name == 'admin'){
+      if(this.OrgForm.controls['organization_mobile'].valid && this.OrgForm.controls['admin_name'].valid && this.OrgForm.controls['designation'].valid  ){ 
+
+        this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
+          next: (res) => {
+            console.log('the success=>',res);
+            this.activeWizard2=this.activeWizard2+1;
+            this.created=true;
+          },
+          error: (err) => {
+            console.log('the failure=>',err);
+            this.errorOrgMessage=err;
+            this.showOrgLiveAlert=true;
+          },
+          complete: () => { }
+        });
+      }
+
+    }
+    else {
+    if( this.OrgForm.controls['organization_name'].valid && this.OrgForm.controls['country'].valid && this.OrgForm.controls['state'].valid &&this.OrgForm.controls['address'].valid && this.OrgForm.controls['zip'].valid && this.OrgForm.controls['city'].valid ){ 
 
     this.adminService.patchOrg(this.id, this.OrgForm.value).subscribe({
       next: (res) => {
@@ -1224,6 +1248,7 @@ resendInvitationMail(data:any){
       complete: () => { }
     });
   }
+}
   }
 
   reloadPage(){
@@ -1246,6 +1271,9 @@ resendInvitationMail(data:any){
         mobile_access: el.mobile_access ? el.mobile_access:false,
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
         kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
+        is_application_number :el.is_application_number ? el.is_application_number :false,
+        attempts: el.attempts ? el.attempts:0,
+        is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
       }
     });
     console.log('dalsdfj',this.listdetails)
@@ -1267,6 +1295,9 @@ resendInvitationMail(data:any){
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
     data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
+    data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
+    data.append('attempts',prod.map((value:any) => value.attempts).toString());
+    data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
@@ -1398,7 +1429,7 @@ clearform(){
   closeUser(){
     
     let data={ organisation_admin_name:this.tabDAta[0].admin_name,organisation_admin_email:this.tabDAta[0].organization_email,
-      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:this.tabDAta[0].product[0].end_date.slice(0,10)}
+      organisation_admin_mobile:this.tabDAta[0].organization_mobile,designation:this.tabDAta[0].designation,organisation_name:this.tabDAta[0].organization_name,expired_date:new Date().toISOString().split("T")[0]}
     this.adminService.sendEmailNotification(data).subscribe({
       next: (res:any) => {
        this.authenticationService.logout();

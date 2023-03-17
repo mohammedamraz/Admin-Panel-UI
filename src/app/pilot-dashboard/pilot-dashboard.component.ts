@@ -761,7 +761,11 @@ export class PilotDashboardComponent implements OnInit {
       ios_access:el.ios_access,
       mobile_access :el.mobile_access,      
       enable_kiosk :el.enable_kiosk,
-      kiosk_user : el.kiosk_user
+      kiosk_user : el.kiosk_user,
+      is_application_number:el.is_application_number,
+      attempts:el.attempts,
+      is_pilot_duration:el.is_pilot_duration
+      
 
     }})
     this.list=2+OrgProducts.length
@@ -809,6 +813,9 @@ export class PilotDashboardComponent implements OnInit {
         mobile_access: el.mobile_access ? el.mobile_access:false,
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
         kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
+        is_application_number :el.is_application_number ? el.is_application_number :false,
+        attempts: el.attempts ? el.attempts:0,
+        is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -829,6 +836,9 @@ export class PilotDashboardComponent implements OnInit {
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
     data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
+    data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
+    data.append('attempts',prod.map((value:any) => value.attempts).toString());
+    data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
     
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
