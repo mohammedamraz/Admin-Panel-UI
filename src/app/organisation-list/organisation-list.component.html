@@ -456,6 +456,7 @@ margin-top: -28px;">
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
+                                            </div>
                                                 <div *ngIf="season.name === 'vitals'" >
                                                     <div style="padding-bottom:1rem">
                                                         <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
@@ -464,7 +465,6 @@ margin-top: -28px;">
                                                         </div>
                                                     </div>
                                             </div>
-                                        </div>
                                             <div *ngIf="season.name ==='vitals'" style="padding-bottom:1rem">
                                                 <h4 class="header-title" style="color: white;">Enable Application Number</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
