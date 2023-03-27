@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 
@@ -29,11 +30,20 @@ export class NotificationListComponent implements OnInit {
 
   constructor(
     private readonly adminService: AdminConsoleService,
+    private _route: ActivatedRoute,
+    private router: Router,
+
+
   ) { }
 
   ngOnInit(): void {
+    this._route.queryParams.subscribe((params:any) => {
+      console.log('params => ',params)
+      JSON.stringify(params) === '{}' ? null : [this.pagenumber= params.page, this.entries = params.entry , this.readStatusValue = params.status]
+      console.log('hey mannu',params);
   this.adminService.fetchAllUnreadOrgByPage(this.pagenumber,this.entries,ACTIVE[this.readStatusValue]).subscribe((doc:any)=>{
     console.log("orglist",doc);
+    this.page = this.pagenumber
     this.total_org=doc.total
     this.currentPage=doc.page
     this.total_pages=doc.total_pages
@@ -44,6 +54,7 @@ export class NotificationListComponent implements OnInit {
     // this.tableData = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
       
     return doc
+  });
     
     
   })
@@ -159,7 +170,8 @@ export class NotificationListComponent implements OnInit {
 
   fetchOgrlist(){
     this.adminService.fetchAllUnreadOrgByPage(this.pagenumber,this.entries,ACTIVE[this.readStatusValue]).subscribe((doc:any)=>{
-      console.log("orglist",doc);
+      this.page = this.pagenumber
+      console.log("pagesssssssssssssssssssssssssssssssss",this.page);
       this.total_org=doc.total
       this.currentPage=doc.page
       this.total_pages=doc.total_pages
@@ -181,11 +193,26 @@ export class NotificationListComponent implements OnInit {
   }
   onFilter(data:any){
     this.entries=data.value
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.readStatusValue,
+        entry : this.entries
+      },
+    }); 
     this.fetchOgrlist()
   }
   loadPage(val:any){
-    console.log('loadpage',val);
+    console.log('loadpage',);
     this.pagenumber=val;
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.readStatusValue,
+        entry : this.entries
+      },
+      
+    }); 
     this.fetchOgrlist()
     
 
@@ -193,6 +220,14 @@ export class NotificationListComponent implements OnInit {
   onReadStatus(data:any){
     console.log('read status',data.value);
     this.readStatusValue=data.value
+    this.router.navigate([], {
+      queryParams: {
+        page: this.pagenumber,
+        status : this.readStatusValue,
+        entry : this.entries
+      },
+    }); 
+    
     this.fetchOgrlist()
   }
 
