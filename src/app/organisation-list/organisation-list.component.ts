@@ -386,7 +386,7 @@ export class OrganisationListComponent implements OnInit {
       this.validation=true;
     }
 
-    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
+    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0&&prod.pilotduration_value==1||((prod.attempts!=null&&prod.pilotduration_value==2&&prod.attempts!=0)))){
       if(this.activeWizard2===this.list-1){
         this.checkingForm();
       }
@@ -487,7 +487,9 @@ export class OrganisationListComponent implements OnInit {
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
     data.append('productaccess_mobile',this.listdetails.map(value=>value.productaccess_mobile).toString());
-
+    data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
+    data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
+    data.append('enable_questionnaire',this.listdetails.map(value=>value.enable_questionnaire).toString());
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     data.append('country',this.basicWizardForm.value.country);
@@ -575,6 +577,15 @@ export class OrganisationListComponent implements OnInit {
     if(this.listdetails[selected].event_mode!=null){
       this.validation=false
     }
+  }
+
+  pilotduration(event: any,product:any,value:any){
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].pilotduration_value = value ;
+    // if(this.listdetails[selected].event_mode!=null){
+    //   this.validation=false
+    // }
+    
   }
 
   updateStatus(data:any,orgData:any){
@@ -706,9 +717,9 @@ export class OrganisationListComponent implements OnInit {
         index:this.list-1, 
         pilot_duration:0,
         fedo_score:false,
-        web_fedoscore:false,
+        // web_fedoscore:false,
         productaccess_web: false,
-        web_url:'',
+        // web_url:'',
         event:false,
         event_mode:0,
         pressed:false,
@@ -716,7 +727,12 @@ export class OrganisationListComponent implements OnInit {
         scans:0,
         ios_access:false,
         // productaccess_web: false,
-        productaccess_mobile: false
+        productaccess_mobile: false,
+        attempts : 0,
+        is_pilot_duration : false,
+        pilotduration_value : 0,
+        is_application_number : false,
+        enable_questionnaire : false
 
       };
       this.listdetails.push(details);

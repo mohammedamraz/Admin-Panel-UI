@@ -220,6 +220,7 @@ export class HomeComponent implements OnInit {
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
     data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
+    data.append('enable_questionnaire',this.listdetails.map(value=>value.enable_questionnaire).toString());
     data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
     data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
@@ -437,7 +438,9 @@ export class HomeComponent implements OnInit {
         attempts : 0,
         is_pilot_duration : false,
         pilotduration_value : 0,
-        is_application_number : false
+        is_application_number : false,
+        enable_questionnaire : false
+        
 
 
       };
@@ -578,6 +581,7 @@ export class HomeComponent implements OnInit {
       this.activeWizard1=4;
     }else{
       this.makeMove();
+
     }
 
   }
@@ -624,7 +628,9 @@ export class HomeComponent implements OnInit {
       this.validation=true;
     }
     
-    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
+    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0&&prod.pilotduration_value==1)||((prod.attempts!=null&&prod.pilotduration_value==2&&prod.attempts!=0))){
+      
+      
       if(this.activeWizard1===this.list-1){
         this.checkingForm();
       }
@@ -634,6 +640,17 @@ export class HomeComponent implements OnInit {
         this.activeWizard1 = this.activeWizard1+1;
       }
     }
+    // else if(prod.attempts!=0&&prod.pilotduration_value==2){
+    //   if(this.activeWizard1===this.list-1){
+    //     this.checkingForm();
+    //   }
+    //   else{
+        
+    //     this.validation=false;
+    //     this.activeWizard1 = this.activeWizard1+1;
+    //   }
+    // }
+
     
   }
 
