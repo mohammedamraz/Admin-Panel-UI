@@ -393,15 +393,44 @@ margin-top: -28px;">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;padding-bottom:0">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Specify Pilot Duration (Days):</h4>
-                                                    <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio" [(ngModel)]="season.is_pilot_duration" [ngModelOptions]="{standalone: true}"  value="true" id="customckeck1" checked (change)="pilotduration($event,season.name,1)">
+                                                            <label class="form-check-label" for="customckeck1">Days</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio" [(ngModel)]="season.is_pilot_duration" [ngModelOptions]="{standalone: true}"  value="false" id="customckeck1" checked (change)="pilotduration($event,season.name,2)">
+                                                            <label class="form-check-label" for="customckeck1">Attempts</label>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="season.pilotduration_value == 1"><ngx-slider  [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}"
                                                         [options]="{
                                                             floor: 0,
                                                             ceil: 90
                                                         }"></ngx-slider>
-                                                        <div *ngIf="season.pilot_duration==0&&season.pressed" style="color:  #F08F8F;">
+
+                                                        <!-- <div *ngIf="season.pilot_duration==0&&season.pressed" style="color:  #F08F8F;">
                                                             Mandatory field
-                                                          </div>
+                                                          </div> -->
+                                                        </div>
+                                                          <div *ngIf="season.pilotduration_value == 2">
+                                                            
+                                                            <div class="form-floating ">
+                                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC; width: 50%;"
+                                                                    name="userName" placeholder="Zip" required [(ngModel)]="season.attempts" [ngModelOptions]="{standalone: true}" >
+                                                                    <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Attempts</label> 
+                                                                    
+                                                            </div>
+                                                            
+                                                        </div>
                                                 </div> <!-- end card-body -->
+                                                 
+                                                <div *ngIf="season.pilotduration_value == 0||season.pilotduration_value == 1&&season.pilot_duration==0||season.pilotduration_value == 2&&(season.attempts==null||season.attempts==0)"  style="color:  #F08F8F;">
+                                                    Mandatory field
+                                                  </div>
                                             </div> <!-- end card-->
                                             <!-- <div style="margin-bottom:1rem ;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score:</h4>
@@ -430,24 +459,15 @@ margin-top: -28px;">
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
-                                                <!-- <div class="mb-3" *ngIf="season.event_mode!=0"  >
-                                                    <h4 class="header-title" style="color: #AEB5BC;">Event Mode Ends With:</h4>
-                                                    <div style="display: grid; grid-template-columns: max-content max-content;grid-gap:1rem">
-                                                        <div >
-                                              <input type="radio" class="form-check-input" id="customRadio1" (click)="setEventMode($event,season.name,1)"[checked]="season.event_mode==1"   />
-                                              <label class="form-check-label" for="customRadio1">&nbsp;Thank You Popup</label>
                                             </div>
-                                            <div >
-                                              <input type="radio" class="form-check-input" id="customRadio2" (click)="setEventMode($event,season.name,2)"  [checked]="season.event_mode==2"   />
-                                              <label class="form-check-label" for="customRadio1">&nbsp;Vitals Dashboard</label>
-                                            </div>
-                                            <div *ngIf="season.pressed&&validation==true" style="color:  #F08F8F;">
-                                                Mandatory field
-                                              </div>
+
+                                            <!-- <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                     </div>
-                                      </div> -->
-                                            </div>
+                                                </div> -->
 
                                         </div>
                                         <div class="card-body" style="padding: 0;margin-top:1.5rem;margin-left: 1rem;" >
@@ -457,20 +477,51 @@ margin-top: -28px;">
                                                     <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedo_score" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                 </div>
                                             </div>
-                                                <div *ngIf="season.name === 'vitals'" >
-                                                    <div style="padding-bottom:1rem">
-                                                        <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
-                                                        <div class="form-check form-switch" style=" display: grid;">
-                                                            <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Event Mode:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="eventmode($event,season.name)" [(ngModel)]="season.event_mode" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Application Number:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.is_application_number" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="season.name === 'vitals'" >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Questionnaire:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.enable_questionnaire" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div  *ngIf="season.name ==='vitals'">
+                                                <div style="margin-bottom:1rem;"    >
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Apps:</h4>
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.productaccess_mobile" [ngModelOptions]="{standalone: true}"  value="0" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">Android</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.ios_access" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">iOS</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="checkbox" [(ngModel)]="season.productaccess_web" [ngModelOptions]="{standalone: true}"  value="" id="customckeck1" checked>
+                                                            <label class="form-check-label" for="customckeck1">WebApp</label>
                                                         </div>
                                                     </div>
-                                            </div>
-                                            <div *ngIf="season.name ==='vitals'" style="padding-bottom:1rem">
-                                                <h4 class="header-title" style="color: white;">Enable Application Number</h4>
-                                                <div class="form-check form-switch" style=" display: grid;">
-                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_application_number" [ngModelOptions]="{standalone: true}" id="customSwitch1">
-                                                </div>
-                                        </div>
+                                                </div> -->
 
                                             <!-- <div style="margin-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>

@@ -219,6 +219,10 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
+    data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
+    data.append('enable_questionnaire',this.listdetails.map(value=>value.enable_questionnaire).toString());
+    data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
+    data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
     data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
     // data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
@@ -277,10 +281,19 @@ export class HomeComponent implements OnInit {
     
   }
 
+  pilotduration(event: any,product:any,value:any){
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].pilotduration_value = value ;
+    // if(this.listdetails[selected].event_mode!=null){
+    //   this.validation=false
+    // }
+    
+  }
+
   eventmode(event:any, product:any){
     if(event.target.checked ==  true){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails[selected].event_mode = 1;  
+      this.listdetails[selected].event_mode = 1;
     }
     else if (event.target.checked===false){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -438,9 +451,12 @@ export class HomeComponent implements OnInit {
         ios_access:false,
         productaccess_web: false,
         productaccess_mobile: false,
+        attempts : 0,
+        is_pilot_duration : false,
+        pilotduration_value : 0,
         is_application_number : false,
-        // is_pilot_duration:true,
-        // attempts:0
+        enable_questionnaire : false
+        
 
 
       };
@@ -581,6 +597,7 @@ export class HomeComponent implements OnInit {
       this.activeWizard1=4;
     }else{
       this.makeMove();
+
     }
 
   }
@@ -627,7 +644,9 @@ export class HomeComponent implements OnInit {
       this.validation=true;
     }
     
-    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
+    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0&&prod.pilotduration_value==1)||((prod.attempts!=null&&prod.pilotduration_value==2&&prod.attempts!=0))){
+      
+      
       if(this.activeWizard1===this.list-1){
         this.checkingForm();
       }
@@ -637,6 +656,17 @@ export class HomeComponent implements OnInit {
         this.activeWizard1 = this.activeWizard1+1;
       }
     }
+    // else if(prod.attempts!=0&&prod.pilotduration_value==2){
+    //   if(this.activeWizard1===this.list-1){
+    //     this.checkingForm();
+    //   }
+    //   else{
+        
+    //     this.validation=false;
+    //     this.activeWizard1 = this.activeWizard1+1;
+    //   }
+    // }
+
     
   }
 
