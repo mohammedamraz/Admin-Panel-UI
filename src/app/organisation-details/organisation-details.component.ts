@@ -127,7 +127,9 @@ export class OrganisationDetailsComponent implements OnInit {
       this.open(<TemplateRef<NgbModal>><unknown>this.input2);
     }
 
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc;return doc});
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc.filter((doc: { id: number; }) => doc.id !=  1);return doc});
+
+
     
     let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!);
     if(data.hasOwnProperty('orglogin')){
@@ -738,8 +740,10 @@ font: {
       enable_kiosk :el.enable_kiosk,
       kiosk_user : el.kiosk_user,
       is_application_number:el.is_application_number,
-      // attempts:el.attempts,
-      // is_pilot_duration:el.is_pilot_duration
+      attempts:el.attempts,
+      is_pilot_duration:el.is_pilot_duration,
+      enable_questionnaire:el.is_questionnaire,
+      is_change : true
       
 
     }})
@@ -971,7 +975,12 @@ resendInvitationMail(data:any){
         product_junction_id: '',
         checked:true,
         product_id:productId,
-        event_mode : '0'
+        event_mode : '0',
+        is_pilot_duration : null,
+        attempts : 0,
+        is_application_number : false,
+        enable_questionnaire : false,
+        is_change : true
       }
       this.list++;
       this.listdetails.push(data);
@@ -1174,6 +1183,24 @@ resendInvitationMail(data:any){
     const selected = this.listdetails.findIndex(obj=>obj.product_name===product);
     this.listdetails[selected].event_mode = value ;
   }
+  pilotduration(event: any,product:any,value:any){    
+    const selected = this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].is_pilot_duration = value ;
+    if(value){
+      this.listdetails[selected].attempts = 0 ;
+      
+    }
+    if(!value){
+      this.listdetails[selected].pilot_duration = 0 ;
+      
+    }
+
+    // if(this.listdetails[selected].event_mode!=null){
+    //   this.validation=false
+    // }
+    
+  }
+
 
   eventmode(event:any, product:any){
     console.log("asd",event.target.checked)
@@ -1272,11 +1299,12 @@ resendInvitationMail(data:any){
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
         kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
         is_application_number :el.is_application_number ? el.is_application_number :false,
-        // attempts: el.attempts ? el.attempts:0,
-        // is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
+        attempts: el.attempts ? el.attempts:0,
+        is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+        enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
+        is_change : true
       }
     });
-    console.log('dalsdfj',this.listdetails)
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
     // if(this.listdetails[selectedIndex]?.web_url  == '' && this.listdetails[selectedIndex]?.web_access){
     //   this.errorOrgMessage='web url must be provided';
@@ -1296,8 +1324,11 @@ resendInvitationMail(data:any){
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
     data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
     data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
-    // data.append('attempts',prod.map((value:any) => value.attempts).toString());
-    // data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    data.append('attempts',prod.map((value:any) => value.attempts).toString());
+    data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());    
+    data.append('is_change',prod.map((value:any) => value.is_change).toString());    
+    
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({
       next: (res) => {
@@ -1525,6 +1556,7 @@ clearform(){
     data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
     data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
     data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
+    data['attempts'] = 10;
     if(this.notThirdParty == true){
       data['third_party_org_name'] = null;
     }

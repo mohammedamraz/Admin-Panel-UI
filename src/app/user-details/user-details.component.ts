@@ -751,6 +751,7 @@ export class UserDetailsComponent implements OnInit {
     data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
     data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
     data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
+    data['attempts'] = 10;
     if(this.notThirdParty == true){
       data['third_party_org_name'] = null;
     }

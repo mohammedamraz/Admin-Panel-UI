@@ -588,6 +588,14 @@ export class OrganisationListComponent implements OnInit {
     // if(this.listdetails[selected].event_mode!=null){
     //   this.validation=false
     // }
+    if(value==1){
+      this.listdetails[selected].attempts = 0 ;
+      
+    }
+    if(value==2){
+      this.listdetails[selected].pilot_duration = 0 ;
+      
+    }
     
   }
 
@@ -618,9 +626,15 @@ export class OrganisationListComponent implements OnInit {
               web_url: el.web_url ? el.web_url :'',
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode,
-              is_application_number:el.is_application_number,
-              // attempts:el.attempts,
-              // is_pilot_duration:el.is_pilot_duration
+              ios_access: el.ios_access ? el.ios_access:false ,
+              enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
+              mobile_access: el.mobile_access ? el.mobile_access:false,
+              is_application_number:el.is_application_number ? el.is_application_number:false,
+              attempts:el.attempts ?el.attempts:0,
+              is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+              enable_questionnaire:el.is_questionnaire ? el.is_questionnaire:false,
+              kiosk_user:el.kiosk_user ? el.kiosk_user:null,
+              is_change : false
             }
           });
 
@@ -647,8 +661,14 @@ export class OrganisationListComponent implements OnInit {
               web_fedoscore: el.web_access ? el.web_fedoscore:false,
               event_mode: el.event_mode,
               is_application_number :el.is_application_number ? el.is_application_number :false,
-              // attempts: el.attempts ? el.attempts:0,
-              // is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
+              attempts: el.attempts ? el.attempts:0,
+              is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+              enable_questionnaire:el.is_questionnaire ? el.is_questionnaire:false,
+              ios_access:el.ios_access ? el.ios_access:false,
+              mobile_access:el.mobile_access ? el.mobile_access:false,
+              enable_kiosk:el.enable_kiosk ? el.enable_kiosk:false,
+              kiosk_user:el.kiosk_user ? el.kiosk_user:null,
+              is_change : false,
             }
           });
           this.updatePilotDuration(orgData.id,data,prod);
@@ -690,9 +710,16 @@ export class OrganisationListComponent implements OnInit {
     datachunk.append('web_url',prod.map((value:any) => value.web_url).toString());
     datachunk.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
     datachunk.append('event_mode',prod.map((value:any) => value.event_mode).toString());
-    data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
-    // data.append('attempts',prod.map((value:any) => value.attempts).toString());
-    // data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    datachunk.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
+    datachunk.append('attempts',prod.map((value:any) => value.attempts).toString());
+    datachunk.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    datachunk.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());   
+    datachunk.append('is_change',prod.map((value:any) => value.is_change).toString());   
+    datachunk.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+    datachunk.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+    datachunk.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+    datachunk.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString()); 
+
 
     this.adminService.patchOrgDetails(id, datachunk).subscribe({
       next: (res) => {
