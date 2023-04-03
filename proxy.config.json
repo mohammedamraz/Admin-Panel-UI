@@ -1,6 +1,6 @@
 {
     "/sales/api/": {
-        "target": "https://absli.fedo.ai/",
+        "target": "https://fedo.ai/",
         "secure": false,
         "changeOrigin": true,
         "headers": {

@@ -683,6 +683,22 @@ export class PilotDashboardComponent implements OnInit {
     }
 
   }
+  pilotduration(event: any,product:any,value:any){
+    const selected = this.listdetails.findIndex(obj=>obj.product_name===product);
+    this.listdetails[selected].is_pilot_duration = value ;
+    if(value){
+      this.listdetails[selected].attempts = 0 ;
+      
+    }
+    if(!value){
+      this.listdetails[selected].pilot_duration = 0 ;
+      
+    }
+    // if(this.listdetails[selected].event_mode!=null){
+    //   this.validation=false
+    // }
+    
+  }
 
   checkUserFirstForm(){
     this.formSubmitted=true;
@@ -763,8 +779,11 @@ export class PilotDashboardComponent implements OnInit {
       enable_kiosk :el.enable_kiosk,
       kiosk_user : el.kiosk_user,
       is_application_number:el.is_application_number,
-      // attempts:el.attempts,
-      // is_pilot_duration:el.is_pilot_duration
+      attempts:el.attempts,
+      is_pilot_duration:el.is_pilot_duration,
+      enable_questionnaire:el.is_questionnaire,
+      is_change:true
+      
       
 
     }})
@@ -814,8 +833,10 @@ export class PilotDashboardComponent implements OnInit {
         enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
         kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
         is_application_number :el.is_application_number ? el.is_application_number :false,
-        // attempts: el.attempts ? el.attempts:0,
-        // is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
+        attempts: el.attempts ? el.attempts:0,
+        is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+        enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
+        is_change: true
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -837,8 +858,11 @@ export class PilotDashboardComponent implements OnInit {
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
     data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
     data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
-    // data.append('attempts',prod.map((value:any) => value.attempts).toString());
-    // data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    data.append('attempts',prod.map((value:any) => value.attempts).toString());
+    data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+    data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());
+    data.append('is_change',prod.map((value:any) => value.is_change).toString());
+
     
 
     this.adminService.patchOrgDetails(this.id, data).subscribe({

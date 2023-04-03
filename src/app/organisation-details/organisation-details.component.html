@@ -341,11 +341,38 @@ padding-top:10px">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration (Days):</h4>
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio"   value="true" id="customckeck1" [checked]="season.is_pilot_duration==true" (change)="pilotduration($event,season.product_name,true)">
+                                                            <label class="form-check-label" for="customckeck1">Days</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio"   value="false" id="customckeck1" [checked]="season.is_pilot_duration==false" (change)="pilotduration($event,season.product_name,false)">
+                                                            <label class="form-check-label" for="customckeck1">Attempts</label>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="season.is_pilot_duration==true">
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
                                                         [options]="{
                                                             floor: 0,
                                                             ceil: 90    
                                                         }"></ngx-slider>
+                                                    </div>
+
+                                                    <div *ngIf="season.is_pilot_duration==false">
+                                                            
+                                                        <div class="form-floating ">
+                                                            <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC; width: 50%;"
+                                                                name="userName" placeholder="Zip" required [(ngModel)]="season.attempts" [ngModelOptions]="{standalone: true}" >
+                                                                <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Attempts</label> 
+                                                                
+                                                        </div>
+                                                        
+                                                    </div>
+
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
                                             <!-- <div style="padding-bottom:1rem">
@@ -392,7 +419,7 @@ padding-top:10px">
                                             <!-- </div> -->
                                         </div>
                                         <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " >
-                                            <div>
+                                            <div style="padding-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch1">
@@ -409,13 +436,20 @@ padding-top:10px">
                                             <div *ngIf="season.product_name === 'Vitals'" >
                                                 
                                                 <div>
-                                                    <div>
+                                                    <div style="padding-bottom: 1rem;">
                                                         <h4 class="header-title" style="color: #AEB5BC;">Enable Application Number</h4>
                                                         <div class="form-check form-switch" style=" display: grid;">
                                                             <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_application_number" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                         </div>
                                                     </div>
 
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Questionnaire:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.enable_questionnaire" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div> 
+                                                </div>
+                                                
                                                 <div style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
                                                     <div class="form-check form-switch" style=" display: grid;">
@@ -1793,11 +1827,36 @@ padding-top:10px">
                                             <div class="card">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     <h4 class="header-title" style="color: white;">Specify Pilot Duration (Days):</h4>
+                                                    <div style="    display: grid;
+                                                    grid-template-columns: max-content max-content max-content;
+                                                    grid-gap: 1rem;
+                                                    color: #AEB5BC;">
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio"   value="true" id="customckeck1" [checked]="season.is_pilot_duration==true" (change)="pilotduration($event,season.product_name,true)">
+                                                            <label class="form-check-label" for="customckeck1">Days</label>
+                                                        </div>
+                                                        <div class="form-check mb-2 form-check-primary">
+                                                            <input class="form-check-input" type="radio"   value="false" id="customckeck1" [checked]="season.is_pilot_duration==false" (change)="pilotduration($event,season.product_name,false)">
+                                                            <label class="form-check-label" for="customckeck1">Attempts</label>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="season.is_pilot_duration==true">
                                                     <ngx-slider [value]="35" [(ngModel)]="season.pilot_duration" [ngModelOptions]="{standalone: true}" 
                                                         [options]="{
                                                             floor: 0,
                                                             ceil: 90    
                                                         }"></ngx-slider>
+                                                        </div>
+                                                        <div *ngIf="season.is_pilot_duration==false">
+                                                            
+                                                            <div class="form-floating ">
+                                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC; width: 50%;"
+                                                                    name="userName" placeholder="Zip" required [(ngModel)]="season.attempts" [ngModelOptions]="{standalone: true}" >
+                                                                    <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Attempts</label> 
+                                                                    
+                                                            </div>
+                                                            
+                                                        </div>
                                                 </div> <!-- end card-body -->
                                             </div> <!-- end card-->
                                             <!-- <div style="padding-bottom:1rem">
@@ -1846,7 +1905,7 @@ padding-top:10px">
                                             </div>
                                         </div>
                                         <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " >
-                                            <div>
+                                            <div style="padding-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;">Enable Fedo Score</h4>
                                                 <div class="form-check form-switch" style=" display: grid;">
                                                     <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.fedoscore" [ngModelOptions]="{standalone: true}" id="customSwitch1">
@@ -1860,12 +1919,18 @@ padding-top:10px">
                                                     </div>
                                                 </div>
                                                 
-                                                <div>
+                                                <div  style="padding-bottom:1rem">
                                                     <h4 class="header-title" style="color: #AEB5BC;">Enable Application Number</h4>
                                                     <div class="form-check form-switch" style=" display: grid;">
                                                         <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_application_number" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                     </div>
                                                 </div>
+                                                 <div style="padding-bottom:1rem">
+                                                        <h4 class="header-title" style="color: #AEB5BC;">Enable Questionnaire:</h4>
+                                                        <div class="form-check form-switch" style=" display: grid;">
+                                                            <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.enable_questionnaire" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                        </div>
+                                                    </div>
                                                 <div>
                                                     <div style="padding-bottom:1rem">
                                                         <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
@@ -1884,8 +1949,12 @@ padding-top:10px">
                                                         <option value="" *ngFor="let c of kiosk_users" [value]='c' >  {{c}} </option>
                                                         </select>
                                                             
-                                                    </div>  
+                                                    </div> 
+                                                    
                                                 </div>
+
+                                                
+
                                          
                                             <!-- <div style="margin-bottom: 1rem;">
                                                 <h4 class="header-title" style="color: #AEB5BC;margin:0">Limit Scans</h4>

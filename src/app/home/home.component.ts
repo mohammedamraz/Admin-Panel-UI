@@ -219,6 +219,10 @@ export class HomeComponent implements OnInit {
     data.append('product_id',this.listdetails.map(value=>value.prod_id).toString());
     data.append('productaccess_web',this.listdetails.map(value=>value.productaccess_web).toString());
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
+    data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
+    data.append('enable_questionnaire',this.listdetails.map(value=>value.enable_questionnaire).toString());
+    data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
+    data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
     data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
     // data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
@@ -277,10 +281,28 @@ export class HomeComponent implements OnInit {
     
   }
 
+  pilotduration(event: any,product:any,value:any){    
+    const selected = this.listdetails.findIndex(obj=>obj.name===product);
+    this.listdetails[selected].pilotduration_value = value ;    
+    if(value==1){
+      this.listdetails[selected].attempts = 0 ;
+      
+    }
+    if(value==2){
+      this.listdetails[selected].pilot_duration = 0 ;
+      
+    }
+
+    // if(this.listdetails[selected].event_mode!=null){
+    //   this.validation=false
+    // }
+    
+  }
+
   eventmode(event:any, product:any){
     if(event.target.checked ==  true){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
-      this.listdetails[selected].event_mode = 1;  
+      this.listdetails[selected].event_mode = 1;
     }
     else if (event.target.checked===false){
       const selected =this.listdetails.findIndex(obj=>obj.name===product);
@@ -321,10 +343,16 @@ export class HomeComponent implements OnInit {
                 web_access: el.web_access,
                 web_url: el.web_access ? el.web_url :'',
                 web_fedoscore: el.web_access ? el.web_fedoscore:false,
+                ios_access: el.ios_access ? el.ios_access:false ,
+                mobile_access: el.mobile_access ? el.mobile_access:false,
                 event_mode: el.event_mode,
+                enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
                 is_application_number:el.is_application_number?el.is_application_number :false,
-                // attempts: el.attempts ? el.attempts:0,
-                // is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
+                attempts: el.attempts ? el.attempts:0,
+                is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+                enable_questionnaire:el.is_questionnaire ? el.is_questionnaire:false,
+                kiosk_user:el.kiosk_user ? el.kiosk_user:null,
+                is_change :false
 
 
               }
@@ -342,7 +370,7 @@ export class HomeComponent implements OnInit {
             })
           }
           else{
-            const prod:any = orgData.product.map((el:any)=>{
+            const prod:any = orgData.product.map((el:any)=>{         
               return {
                 fedo_score:el.fedoscore,
                 pilot_duration: el.pilot_duration-(this.daysLefts(el.end_date))<0 ? 0 : this.daysLefts(el.end_date)+1,
@@ -353,8 +381,14 @@ export class HomeComponent implements OnInit {
                 web_fedoscore: el.web_access ? el.web_fedoscore:false,
                 event_mode: el.event_mode,
                 is_application_number:el.is_application_number?el.is_application_number :false,
-                // attempts: el.attempts ? el.attempts:0,
-                // is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:true
+                attempts: el.attempts ? el.attempts:0,
+                is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
+                enable_questionnaire:el.is_questionnaire ? el.is_questionnaire:false,
+                ios_access:el.ios_access ? el.ios_access:false,
+                mobile_access:el.mobile_access ? el.mobile_access:false,
+                enable_kiosk:el.enable_kiosk ? el.enable_kiosk:false,
+                kiosk_user:el.kiosk_user ? el.kiosk_user:null,
+                is_change:false 
               }
             });
             this.updatePilotDuration(orgData.id,data,prod);
@@ -400,8 +434,14 @@ export class HomeComponent implements OnInit {
       datachunk.append('web_fedoscore',prod.map((value:any) => value.web_fedoscore).toString());
       datachunk.append('event_mode',prod.map((value:any) => value.event_mode).toString());
       datachunk.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
-      // datachunk.append('attempts',prod.map((value:any) => value.attempts).toString());
-      // datachunk.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+      datachunk.append('attempts',prod.map((value:any) => value.attempts).toString());
+      datachunk.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
+      datachunk.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());   
+      datachunk.append('is_change',prod.map((value:any) => value.is_change).toString());   
+      datachunk.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
+      datachunk.append('ios_access',prod.map((value:any) => value.ios_access).toString());
+      datachunk.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
+      datachunk.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString()); 
 
 
   
@@ -438,9 +478,12 @@ export class HomeComponent implements OnInit {
         ios_access:false,
         productaccess_web: false,
         productaccess_mobile: false,
+        attempts : 0,
+        is_pilot_duration : false,
+        pilotduration_value : 0,
         is_application_number : false,
-        // is_pilot_duration:true,
-        // attempts:0
+        enable_questionnaire : false
+        
 
 
       };
@@ -581,6 +624,7 @@ export class HomeComponent implements OnInit {
       this.activeWizard1=4;
     }else{
       this.makeMove();
+
     }
 
   }
@@ -627,7 +671,9 @@ export class HomeComponent implements OnInit {
       this.validation=true;
     }
     
-    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0)){
+    if(satisfied1&&satisfied2&&(prod.pilot_duration!=0&&prod.pilotduration_value==1)||((prod.attempts!=null&&prod.pilotduration_value==2&&prod.attempts!=0))){
+      
+      
       if(this.activeWizard1===this.list-1){
         this.checkingForm();
       }
@@ -637,6 +683,17 @@ export class HomeComponent implements OnInit {
         this.activeWizard1 = this.activeWizard1+1;
       }
     }
+    // else if(prod.attempts!=0&&prod.pilotduration_value==2){
+    //   if(this.activeWizard1===this.list-1){
+    //     this.checkingForm();
+    //   }
+    //   else{
+        
+    //     this.validation=false;
+    //     this.activeWizard1 = this.activeWizard1+1;
+    //   }
+    // }
+
     
   }
 
