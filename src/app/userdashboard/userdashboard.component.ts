@@ -35,6 +35,7 @@ page:any=1;
 perpage:any=1000;
 organization_name:any=''
 product_name=''
+reportDate:any=new Date().toISOString().substring(0, 10);
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -378,6 +379,7 @@ product_name=''
    }
 
   checkdate(event:any,prodId:any,date:any){
+    this.reportDate=date
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
     Promise.all(promise).then(body => { 

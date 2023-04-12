@@ -78,7 +78,7 @@
 
                 </div>
             </div>            
-            <h4 class="mt-0 header-title" style="color: white;">Recent 5 Pilots</h4>
+            <h4 class="mt-0 header-title" style="color: white;cursor:pointer"  href="javascript:void(0);" [routerLink]="['/vitalsList/'+snapshotParam]" >Recent 5 Pilots</h4>
 
             <div class="table-responsive" >
                 <table class="table advanced-table table-nowrap mb-0">
@@ -131,7 +131,7 @@
 
                 </div>
             </div>            
-            <h4 class="mt-0 header-title" style="color: white;">Recent 5 Guest Scans</h4>
+            <h4 class="mt-0 header-title" style="color: white;cursor:pointer "  href="javascript:void(0);" [routerLink]="['/guestlist/'+snapshotParam]">Recent 5 Guest Scans</h4>
 
             <div class="table-responsive" >
                 <table class="table advanced-table table-nowrap mb-0">
@@ -146,6 +146,7 @@
                             <th style="    text-align: -webkit-center;">First Scan</th>
                             <th >Last Scan</th>
                             <th >Tests</th>
+                            <th></th>
                             
                         </tr>
                     </thead>
@@ -160,6 +161,18 @@
                             <td>{{(person.first_scan| date: 'dd/MM/yyyy')?person.first_scan:'NA'}}</td>
                             <td>{{(person.last_scan| date: 'dd/MM/yyyy')?person.last_scan : 'NA'}}</td>
                             <td style="cursor: pointer;    text-align: -webkit-center;color: #F2CA65;">{{person.total_tests_viu?person.total_tests_viu:'NA'}}</td>
+                            <td class="option">
+                                <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                    <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </a>
+                                    <div style="    border: 1px solid #4B515F;" ngbDropdownMenu>
+                                        <a (click)="enableScan(person.email,person.name,person.attempts)"   href="javascript:void(0);" ngbDropdownItem>Enable Additional Scans</a>
+                                        <a *ngIf="person.data.length!=0" (click)="exportexcel(person.data)"  href="javascript:void(0);" ngbDropdownItem>Download Report</a>                            
+                            </div>
+    
+                                </div> 
+                            </td>
                         </tr>
 
                     </tbody>
@@ -170,3 +183,69 @@
         </div>
 
     </div>
+    <ng-template #toggleModal6 let-modal>
+        <div class="card" style="background-color: #282E38;margin-bottom: 0;">
+            <div class="card-body" style="    background-color: #282E38;min-width: min-content;">
+                <div class=" float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');reloadCurrentPage()" ngbDropdownToggle>
+                        <i class="mdi mdi-close"></i>
+                    </a>
+                </div>      
+                <div *ngIf = "template"   >
+                <h4 style="color: white;">Enable Additional Scans</h4>
+    
+                <div style="    
+                border-radius: 6px;
+                height: auto;
+                width: auto;
+                
+        padding: 0.5rem;
+                background-color: #3C424F   ;">
+            <p style="    margin: 0;
+            text-align: center;color:#AEB5BC">You are enabling additional scans for </p>
+            <p style="    margin: 0;
+            text-align: center;color:#FFFFFF">{{user_name}} ({{user_email}})</p>
+            </div>
+        
+                <form>
+                    <div id="basicwizard">
+    
+                        <div class="card">
+                            <div class="card-body" style="padding-left: 0;padding-bottom:0">
+                                <h4 class="header-title" style="color: #AEB5BC;">How many Additional Scans you want to enable?</h4>
+                                <ngx-slider  [(ngModel)]="attempts" [ngModelOptions]="{standalone: true}"
+                                    [options]="{
+                                        floor: 0,
+                                        ceil: 10
+                                    }"></ngx-slider>
+    
+                            </div> 
+                        </div> 
+                        <ul class="list-inline mb-0 wizard" >
+                            <li class="next list-inline-item float-end" *ngIf="activeWizard2 == 1">
+                                <button type="button" style="width: 100px;" class="btn btn-info" (click)="guestUpdate()">Submit</button>
+                            </li>
+                            <li class="next list-inline-item " *ngIf="activeWizard2 == 1">
+                                <button type="button" style="width: 100px;" class="btn btn-secondary" (click)="modal.dismiss('')" >Close</button>
+                            </li>
+                        </ul>
+                    </div> 
+                </form>
+        
+            </div>
+            <div *ngIf="!template">
+                <h4 style="color: white;">Enable Additional Scans</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center">
+                                <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                <h3 class="mt-0" style="color: #fff;">Success !</h3>
+                                <p style="color: #AEB5BC;" class="w-75 mb-2 mx-auto">You have successfully enabled additional scans for {{user_name}}. A notification email has already been sent to the user.</p>
+                                <button type="button" style="width: 100px;" class="btn btn-info mt-3" (click)="modal.dismiss('');reloadCurrentPage();" >Close</button>
+                            </div>
+                        </div>
+                    </div> 
+            </div>
+        </div>      
+        </div> 
+    </ng-template>

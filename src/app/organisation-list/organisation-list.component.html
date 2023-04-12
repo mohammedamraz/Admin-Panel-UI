@@ -709,7 +709,7 @@ margin-top: -28px;">
                                 <ng-template ngFor let-season [ngForOf]="person.product" let-i=index>      
                                     <div class="">
                                         <div class=" ">
-                                            Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="person.is_deleted===false&&season.status =='Expired'" style="color: #F08F8F;">{{season.status}}</span><span *ngIf="person.is_deleted===false&&season.status =='Active'" style="color: green;">{{season.status}}</span><span *ngIf="person.is_deleted===true" style="color: #F08F8F;">Inactive</span>)
+                                            Fedo {{season.product_id === '1' ? 'HSA' : (season.product_id === '2' ? 'Vitals':'RUW' )}} (<span *ngIf="season.status =='Expired'" style="color: #F08F8F;">{{season.status}}</span><span *ngIf="season.status =='Active'" style="color: green;">{{season.status}}</span>)
                                             <ngb-progressbar style="margin-top: 0;" [type]="(season.status =='Expired' ) ? 'danger':'warning'" [value]="(season.status =='Expired' ) ? 100 :(season.pilot_duration-daysLefts(season.end_date) < 0? 0 : season.pilot_duration-daysLefts(season.end_date))" [max]=" (season.status =='Expired' ) ? 100:season.pilot_duration" class=" progress-bar-alt-warning progress-sm"></ngb-progressbar>
                                         </div>
                                     </div>

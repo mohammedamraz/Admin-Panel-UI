@@ -912,7 +912,7 @@ padding-top:10px">
 <h4 *ngIf="orglogin === true" style="color: white;">Your Fedo Products</h4>
 <h4 *ngIf="orglogin === false" style="color: white;">Fedo Products</h4>
     <div class="row mb-2"  >
-        <div class="col-xl-3 col-md-4" *ngFor="let product of orgProd;let indexOfelement=index;">
+        <div class="col-xl-3 col-md-4" style="display: inline-grid;" *ngFor="let product of orgProd;let indexOfelement=index;">
             <div class="card" style="background: #313844;border-radius:10px"  >
                 <div class="card-body widget-user">
                     <div class="float-end" ngbDropdown placement="bottom-end">
@@ -1389,7 +1389,7 @@ padding-top:10px">
                 <i class="mdi mdi-plus"></i>
             </a>
         </div>            
-        <h4 class="mt-0 header-title"  style="color: white;">Recent 5 Users</h4>
+        <h4 class="mt-0 header-title"  style="color: white;cursor:pointer" href="javascript:void(0);" [routerLink]="orglogin ? '/'+id+'/userdetails':'/userdetails/'+id">Recent 5 Users</h4>
 
         <div class="table-responsive" >
             <table class="table advanced-table table-nowrap mb-0">
