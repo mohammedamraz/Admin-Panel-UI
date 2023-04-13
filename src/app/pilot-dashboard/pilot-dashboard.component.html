@@ -403,7 +403,7 @@
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
                     <div ngbDropdownMenu>
-                        <a href="javascript:void(0);" [routerLink] = "'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
+                        <a href="javascript:void(0);" [routerLink] = "'/'+orgId+'/report/'+season.prodId" [queryParams]="{ created_date : created_date,organization_name : organization_name ,report_date:this.reportDate}" ngbDropdownItem>View Report</a>
                         <a href="javascript:void(0);" (click)="exportexcel(season.data,season.prodId)" ngbDropdownItem>Download Excel Report</a>
                     </div>
 
@@ -553,29 +553,57 @@
                 <i class="mdi mdi-plus"></i>
             </a>
         </div>            
-        <h4 class="mt-0 header-title" (click)="open(toggleModal1)" style="color: white;">Recent 5 Users</h4>
+        <h4 class="mt-0 header-title"  style="color: white;cursor:pointer" href="javascript:void(0);" [routerLink]="'/'+orgId+'/userlist/'+productId">Recent 5 Users</h4>
         <div class="table-responsive" >
             <table class="table advanced-table table-nowrap mb-0">
                 <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                     <tr  style="border-color: #49565d;" >
                         <th>#</th>
+                        <th></th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Employee Of</th>
                         <th style="    text-align: -webkit-center;">Created Date</th>
                         <th style="    text-align: -webkit-center;">Total Tests</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d;"  *ngFor="let person of tableData;let indexOfelement=index;">
                         <td scope="row">{{indexOfelement+1}}</td>
-                        <td>{{person.user_name}}</td>
-                        <td>{{person.email}}</td>
-                        <td >{{person.mobile.slice(3,14)}}</td>
-                        <td>{{person.tpa_name != null ? (person.tpa_name==''? 'Direct':person.tpa_name + '(TPA)') :'Direct'}}</td>
-                        <td style="    text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
-                        <td style="    text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
+                        <td *ngIf="person.is_deleted===false"><div class="tooltip-new"><img src="./assets/images/User Status - Active.png">  <span class="tooltiptext">Active User</span></div></td>
+                        <td *ngIf="person.is_deleted===true"><div class="tooltip-new"><img src="./assets/images/User Status - Inactive.png"> <span class="tooltiptext">Inactive User</span></div></td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.user_name}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.email}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;" >{{person.mobile.slice(3,14)}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;">{{person.tpa_name != null ? (person.tpa_name==''? 'Direct':person.tpa_name + '(TPA)') :'Direct'}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;text-align: -webkit-center;">{{person.created_date | date: 'dd/MM/yyyy'}}</td>
+                        <td [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" style="cursor: pointer;text-align: -webkit-center; color: #F2CA65;">{{person.tests[0]?.total_tests!==null?person.tests[0].total_tests:0}}</td>
+                          <td class="option">
+                            <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div style="    border: 1px solid #4B515F;" class="kanban_style" ngbDropdownMenu>
+                                    <a [routerLink]="'/'+person.org_id+'/home/'+person.id"  href="javascript:void(0);" ngbDropdownItem>User Info</a>
+                                    <!-- <a (click)="editUserForm(person)"  href="javascript:void(0);" ngbDropdownItem>Edit User</a> -->
+                                <div style="display: flex;
+                                    align-items: center;">
+                                    <div *ngIf="person.is_deleted===false" href="javascript:void(0);"  ngbDropdownItem>Status (<span style="color: green;">Active</span> / Inactive)</div>
+                                    <div *ngIf="person.is_deleted===true" href="javascript:void(0);"  ngbDropdownItem>Status (Active / <span style="color:red;">Inactive</span>)</div>
+                                    
+                                    <div class="form-check form-switch" >
+                                        <input type="checkbox" [(ngModel)]="!person.is_deleted" [ngModelOptions]="{standalone: true}" class="form-check-input" (ngModelChange)="updateStatus($event,person)"  id="customSwitch1">
+                                </div>
+                            </div>
+                            <div *ngIf="person.is_register===false" href="javascript:void(0);" style="cursor: pointer;" (click)="resendInvitationMail(person)"  ngbDropdownItem>Resend Invitation
+
+                            </div>
+                        </div>
+
+                            </div> 
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -791,6 +819,12 @@
                                                         <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.enable_questionnaire" [ngModelOptions]="{standalone: true}" id="customSwitch1">
                                                     </div>
                                                 </div>
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable SMS:</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.enable_sms" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
                                                 <div>
                                                     <div style="padding-bottom:1rem">
                                                         <h4 class="header-title" style="color: #AEB5BC;">Enable Kiosk</h4>
@@ -907,4 +941,5 @@
         </div> <!-- end card-body -->
     </div> <!-- end card-->
 </ng-template>
+
 

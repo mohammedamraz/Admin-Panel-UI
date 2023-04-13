@@ -743,6 +743,8 @@ font: {
       attempts:el.attempts,
       is_pilot_duration:el.is_pilot_duration,
       enable_questionnaire:el.is_questionnaire,
+      enable_sms:el.enable_sms,
+
       is_change : true
       
 
@@ -1283,6 +1285,16 @@ resendInvitationMail(data:any){
   }
 
   checkingProductOrgForm(){
+    const poodId=this.listdetails[0].product_id
+    const filterObj = this.product.filter((e) => e.product_id == poodId);
+
+    if(this.listdetails[0].attempts == filterObj[0].attempts){
+    
+      this.listdetails[0].is_change = false 
+      
+    }
+
+    
     
     const prod:any = this.listdetails.map((el:any)=>{
       return {
@@ -1302,7 +1314,9 @@ resendInvitationMail(data:any){
         attempts: el.attempts ? el.attempts:0,
         is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
         enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
-        is_change : true
+        enable_sms:el.enable_sms ? el.enable_sms:false,
+
+        is_change : el.is_change ? el.is_change:false
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -1326,7 +1340,9 @@ resendInvitationMail(data:any){
     data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
     data.append('attempts',prod.map((value:any) => value.attempts).toString());
     data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
-    data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());    
+    data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());   
+    data.append('enable_sms',prod.map((value:any) => value.enable_sms).toString());   
+ 
     data.append('is_change',prod.map((value:any) => value.is_change).toString());    
     
 

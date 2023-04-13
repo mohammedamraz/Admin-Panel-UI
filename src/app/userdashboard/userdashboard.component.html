@@ -56,7 +56,7 @@
                         </a>
                     
                         <div ngbDropdownMenu>
-                            <a href="javascript:void(0);" [routerLink]="'/'+userId+'/report/'+season.prodId" [queryParams]="{userId: userId , created_date : created_date,organization_name : organization_name }" ngbDropdownItem>View Report</a>
+                            <a href="javascript:void(0);" [routerLink]="'/'+userId+'/report/'+season.prodId" [queryParams]="{userId: userId , created_date : created_date,organization_name : organization_name,report_date:this.reportDate }" ngbDropdownItem>View Report</a>
                             <a href="javascript:void(0);" (click)="exportexcel(season.data,season.prodId)" ngbDropdownItem>Download Excel Report</a>
                         </div>
     

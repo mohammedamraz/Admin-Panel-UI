@@ -5,6 +5,7 @@ import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminConsoleService } from '../services/admin-console.service';
 import * as XLSX from 'xlsx-js-style'; 
 import { AuthenticationService } from '../core/service/auth.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-pilot-dashboard',
@@ -12,6 +13,7 @@ import { AuthenticationService } from '../core/service/auth.service';
   styleUrls: ['./pilot-dashboard.component.scss']
 })
 export class PilotDashboardComponent implements OnInit {
+  userEditForm!: FormGroup;
   products:any
   orgId:any=0;
   selectedValue:String='';
@@ -27,6 +29,7 @@ export class PilotDashboardComponent implements OnInit {
   errorMessage='';
   thirdParty=false;
   notThirdParty: boolean =false;
+  showLiveAlertResendInvitation =false;
   codeList: any[] = [];
   showButton: boolean = true;
   addTpafunc:boolean=false;
@@ -71,6 +74,16 @@ export class PilotDashboardComponent implements OnInit {
   period_data : any  = []
   kiosk_users: any = []
   tabDAta:any[]=[];
+  reportDate:any=new Date().toISOString().substring(0, 10);
+  userId:any
+  userProductEdited:any=[];
+  @ViewChild('toggleModal6', { static: true }) input3!: ElementRef;
+  errorMessageResendInvitation = ' ';
+  activeStatusOptions:any= ['All Users', 'Active Users','Inactive Users'];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+  activeStatusValue: any= this.activeStatusOptions[1];
+
+
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -223,6 +236,108 @@ export class PilotDashboardComponent implements OnInit {
     })
 
   }
+  editUserForm(data:any){
+    console.log('the persons data =>',data)
+    this.orgId=data.org_id
+    this.userEditForm = this.fb.group({
+      email:[data.email,[Validators.email]],
+      mobile:[parseInt(data.mobile.slice(3,)),[Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]  ],
+      user_name:[data.user_name,[Validators.required]],
+      designation:[data.designation,[Validators.required]],
+      third_party_org_name:[data.tpa_name, Validators.required]
+    })
+    this.userId = data.id
+    this.adminService.fetchTpa(this.orgId).subscribe((doc: any) => {
+      for (let i = 0; i <= doc.length - 1; i++) {
+        if (doc[i].tpa_name != null) {
+          this.codeList.push(doc[i].tpa_name)
+        }
+
+      }
+      ; return doc;
+    })
+    this.open(<TemplateRef<NgbModal>><unknown>this.input3);
+    if(this.userEditForm.value.third_party_org_name == null){
+      this.notThirdParty = true;
+    }
+    else{
+      this.thirdParty =true;
+    }
+
+
+    this.userProduct = this.product.map((val: any) =>({product_name: val.product_id === '1' ? 'HSA' : (val.product_id === '2' ? 'Vitals':'RUW' ), product_id: val.product_id}))
+    this.userProduct = this.userProduct.map((doc:any)=>{
+      const found = data.tests.some((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      if(found){
+        doc['checked'] = true;
+        doc['noPenetration']=true;
+
+      }
+      else{
+        doc['checked'] = false;
+        doc['noPenetration']=false;
+
+      }
+      const selected = data.tests.findIndex((el:any)=>el.product_id.toString()==doc.product_id.toString())
+      doc['junctionId']= selected === -1 ? '' : data.tests[selected].id;
+      doc.checked ? this.userProductEdited.push(doc):null;
+      return doc
+
+    })
+
+
+
+  }
+  resendInvitationMail(data:any){
+    this.showLiveAlertResendInvitation = true;
+    this.errorMessageResendInvitation = 'Invitation Successfully resent!'
+    this.adminService.ResendInvitationMailForUser({name:data.user_name,email:data.email,user_id: data.id,url:this.tableData[0].url,organisation_name:this.tableData[0].organization_name}).subscribe({
+      next: (res) =>{
+
+      },
+      error : (err)=>{
+
+      }
+    })
+
+  }
+  updateStatus(data:any,userData:any){
+    console.log('active ',this.tableData,userData.id);
+
+    const selected = this.tableData.findIndex(obj => obj.id === userData.id);
+      this.tableData[selected].is_deleted = !data;
+    
+    
+
+    // if(this.activeStatusValue == 'Active Users'){
+    //   this.userList = this.userList.filter(obj => obj.id != userData.id);  
+    //   console.log('list',this.userList);
+          
+    // }
+    // else if(this.activeStatusValue == 'Inactive Users'){
+    //   this.userList = this.userList.filter(obj => obj.id != userData.id);
+    // }
+    // else if(this.activeStatusValue == 'All Users'){
+    //   const selected = this.userList.findIndex(obj => obj.id === userData.id);
+    //   this.userList[selected].is_deleted = !data;
+    // }
+
+    this.adminService.patchUserStatus(userData.id, data).subscribe({
+      next: (res) => {
+        if(data) this.adminService.sendEmailOnceUserIsBackActive({name:userData.user_name,email:userData.email}).subscribe({
+          next: (res) =>{
+            // this.reloadCurrentPage();
+          },
+          error : (err)=>{
+            // this.reloadCurrentPage();
+          }
+        })
+        // this.reloadCurrentPage();
+      }
+    })
+
+  }
+
   exportexcel(data:any,prodId:any) {
 
     if(prodId==2){
@@ -534,6 +649,7 @@ export class PilotDashboardComponent implements OnInit {
     })
   }
   checkdate(event:any,prodId:any,date:any){
+   this.reportDate=date
     const index = this.graphArray.findIndex(prod => prodId === prod.prodId);
     const promise = [this.fetchgraphdetails(prodId,new Date(date).toISOString().substring(0, 10))];
     Promise.all(promise).then(body => { 
@@ -782,6 +898,8 @@ export class PilotDashboardComponent implements OnInit {
       attempts:el.attempts,
       is_pilot_duration:el.is_pilot_duration,
       enable_questionnaire:el.is_questionnaire,
+      enable_sms:el.enable_sms,
+
       is_change:true
       
       
@@ -817,6 +935,17 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   checkingProductOrgForm(){
+
+
+    if(this.product.attempts==this.listdetails[0].attempts){
+      this.listdetails[0].is_change=false
+      
+      
+
+    }
+    
+    
+    
     
     const prod:any = this.listdetails.map((el:any)=>{
       return {
@@ -836,7 +965,9 @@ export class PilotDashboardComponent implements OnInit {
         attempts: el.attempts ? el.attempts:0,
         is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
         enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
-        is_change: true
+        enable_sms:el.enable_sms ? el.enable_sms:false,
+
+        is_change : el.is_change ? el.is_change:false
       }
     });
     const selectedIndex = this.listdetails.findIndex(obj=>obj.product_id==='2');
@@ -861,6 +992,8 @@ export class PilotDashboardComponent implements OnInit {
     data.append('attempts',prod.map((value:any) => value.attempts).toString());
     data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
     data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());
+    data.append('enable_sms',prod.map((value:any) => value.enable_sms).toString());
+
     data.append('is_change',prod.map((value:any) => value.is_change).toString());
 
     

@@ -15,7 +15,7 @@ export class DailyreportComponent implements OnInit {
   prodId='';
   page=1
   pageNumber:any = 1;
-  date = new Date().toISOString().substring(0, 10);
+  // date = new Date().toISOString().substring(0, 10);
   tableData:any=[];
   pageSizeOptions: number[] = [10, 20,30,40,50,60,70,80,90,100];
   entries:any=this.pageSizeOptions[0]
@@ -31,6 +31,7 @@ export class DailyreportComponent implements OnInit {
   todayDate=new Date();
   organization_name:any=''
   product_name=''
+  reportDate:any
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -45,12 +46,15 @@ export class DailyreportComponent implements OnInit {
         this.userId = val.userId;
         this.created_date = val.created_date
         this.organization_name=val.organization_name;
+        this.reportDate=val.report_date
+
          
       })
   
       
       if(this.userId == undefined){
-        this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        this.adminService.fetchDailyScan(this.orgId,this.prodId,this.reportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+                    
           this.tableData = doc[0].data.data;
           this.totalPages=doc[0].data.total_pages        
           this.currentPage=doc[0].data.page         
@@ -59,7 +63,7 @@ export class DailyreportComponent implements OnInit {
         })
       }
       else{
-        this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.reportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
           this.tableData = doc[0].data.data;
           this.totalPages=doc[0].data.total_pages
           this.total_user=doc[0].data.total
@@ -80,7 +84,7 @@ export class DailyreportComponent implements OnInit {
   exportexcel() {
 
     if(this.userId == undefined){
-      this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,1,100000).subscribe((doc:any)=>{
+      this.adminService.fetchDailyScan(this.orgId,this.prodId,this.reportDate,1,100000).subscribe((doc:any)=>{
         this.tableDataForExcel = doc[0].data.data;
         this.newExport()
       });
@@ -88,7 +92,7 @@ export class DailyreportComponent implements OnInit {
   }
   else
   {
-    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,1,1000000).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.reportDate,1,1000000).subscribe((doc:any)=>{
         this.tableDataForExcel = doc[0].data.data;
       this.newExport()
     });
@@ -247,7 +251,7 @@ loadPage(val:any){
   this.pageNumber=val
   if(this.userId == undefined){
      
-    this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchDailyScan(this.orgId,this.prodId,this.reportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -255,7 +259,7 @@ loadPage(val:any){
   
     })
   }else{
-    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.reportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -271,14 +275,14 @@ onFilter(data:any){
   this.entries=data.value
   if(this.userId == undefined){
      
-    this.adminService.fetchDailyScan(this.orgId,this.prodId,this.date,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchDailyScan(this.orgId,this.prodId,this.reportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total  
     })
   }else{
-    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.date,this.page,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchUsersDailyScan(this.userId,this.prodId,this.reportDate,this.page,this.entries).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -309,6 +313,10 @@ checkDate(date:any){
   })
 }
 
+}
+
+downloadPDF(url : any){
+  window.open(url)
 }
 
 }
