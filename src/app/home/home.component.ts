@@ -221,6 +221,8 @@ export class HomeComponent implements OnInit {
     data.append('event_mode',this.listdetails.map(value=>value.event_mode).toString());
     data.append('is_application_number',this.listdetails.map(value=>value.is_application_number).toString());
     data.append('enable_questionnaire',this.listdetails.map(value=>value.enable_questionnaire).toString());
+    data.append('enable_sms',this.listdetails.map(value=>value.enable_sms).toString());
+
     data.append('is_pilot_duration',this.listdetails.map(value=>value.is_pilot_duration).toString());
     data.append('attempts',this.listdetails.map(value=>value.attempts).toString());
     data.append('ios_access',this.listdetails.map(value=>value.ios_access).toString());
@@ -351,6 +353,7 @@ export class HomeComponent implements OnInit {
                 attempts: el.attempts ? el.attempts:0,
                 is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
                 enable_questionnaire:el.is_questionnaire ? el.is_questionnaire:false,
+                enable_sms:el.enable_sms ? el.enable_sms:false,
                 kiosk_user:el.kiosk_user ? el.kiosk_user:null,
                 is_change :false
 
@@ -387,6 +390,7 @@ export class HomeComponent implements OnInit {
                 ios_access:el.ios_access ? el.ios_access:false,
                 mobile_access:el.mobile_access ? el.mobile_access:false,
                 enable_kiosk:el.enable_kiosk ? el.enable_kiosk:false,
+                enable_sms:el.enable_sms ? el.enable_sms:false,
                 kiosk_user:el.kiosk_user ? el.kiosk_user:null,
                 is_change:false 
               }
@@ -437,6 +441,8 @@ export class HomeComponent implements OnInit {
       datachunk.append('attempts',prod.map((value:any) => value.attempts).toString());
       datachunk.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
       datachunk.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());   
+      datachunk.append('enable_sms',prod.map((value:any) => value.enable_sms).toString());   
+
       datachunk.append('is_change',prod.map((value:any) => value.is_change).toString());   
       datachunk.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
       datachunk.append('ios_access',prod.map((value:any) => value.ios_access).toString());
@@ -482,7 +488,8 @@ export class HomeComponent implements OnInit {
         is_pilot_duration : false,
         pilotduration_value : 0,
         is_application_number : false,
-        enable_questionnaire : false
+        enable_questionnaire : false,
+        enable_sms : false
         
 
 

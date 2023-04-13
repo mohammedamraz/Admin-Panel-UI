@@ -315,5 +315,9 @@ checkDate(date:any){
 
 }
 
+downloadPDF(url : any){
+  window.open(url)
+}
+
 }
 
