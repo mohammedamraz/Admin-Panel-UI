@@ -74,7 +74,7 @@
                         <td style="color: #82B4F3 ;">{{person.bmi}}</td>
                         <td style="color: #82B4F3 ;">{{person.smoker_accuracy}}{{person.smoker_accuracy > 50 ? ' (Smoker)':' (Non-Smoker)'}}</td>
                         <td style="color: #82B4F3 ;">{{person.rbs  }}</td> 
-                        <td style="cursor:pointer" *ngIf="person.pdf_location!=null || person.pdf_location!='NA'" > <img src="./assets/images/pdf.png" alt="" style="height:25px"(click)="downloadPDF(person.pdf_location)"></td> 
+                        <td style="cursor:pointer" *ngIf="person.pdf_location!=null && person.pdf_location!='NA'" > <img src="./assets/images/pdf.png" alt="" style="height:25px"(click)="downloadPDF(person.pdf_location)"></td> 
                         <td style="color: #82B4F3 ;" *ngIf="person.pdf_location==null || person.pdf_location=='NA'" > NA</td> 
 
 
