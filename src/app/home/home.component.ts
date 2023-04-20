@@ -520,12 +520,26 @@ export class HomeComponent implements OnInit {
               organization_email: this.basicWizardForm.value.organization_email,
               organization_mobile: '+91'+ this.basicWizardForm.value.organization_mobile
           };
+          let user_data = {
+            email: this.basicWizardForm.value.organization_email,
+            mobile: '+91'+ this.basicWizardForm.value.organization_mobile
+        };
+          
           
       this.adminService.fetchOrgData(data).subscribe({
           next: (data:any)=>{    
-            this.activeWizard1 = this.activeWizard1+1;
-            this.errorMessageAPI='';
-            this.showLiveAlertAPI=false;
+            this.adminService.fetchUserDataIfExists(user_data).subscribe({
+              next: (data:any)=>{    
+                this.activeWizard1 = this.activeWizard1+1;
+                this.errorMessageAPI='';
+                this.showLiveAlertAPI=false;
+              },
+              error:(data:any)=>{
+                console.log("error where")
+                this.errorMessageAPI=data;
+                this.showLiveAlertAPI=true;
+              }
+            })
           },
           error:(data:any)=>{
             this.errorMessageAPI=data;
