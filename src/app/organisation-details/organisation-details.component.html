@@ -1707,9 +1707,40 @@ padding-top:10px">
                                         </ng-template>
                                          
                         </li>
+                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                            <li [ngbNavItem]="3+i">
+                            <a [ngStyle]=" activeWizard1 > 2+i ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class=" d-sm-inline">Config {{season.product_name}}</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div class="row grid-container ">
+                                        <div class="">
+                                            <div class="card">
+                                                <div class="card-body" style="padding-left: 0;">
+                                                    
+                                                            
+                                                            <div class="form-floating ">
+                                                                <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC; width: 50%;"
+                                                                    name="userName" placeholder="Zip" required [(ngModel)]="season.attempts" [ngModelOptions]="{standalone: true}" >
+                                                                    <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Attempts</label> 
+                                                                    
+                                                            </div>
+                                                            
+                                                        
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                </ng-template>
+                        </li>
+                        </ng-template>
 
 
-                        <li [ngbNavItem]="3">
+
+                        <li [ngbNavItem]="list_number">
                             <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <span class=" d-sm-inline">Finish</span>
                             </a>
@@ -1735,12 +1766,12 @@ padding-top:10px">
                         <div id="liveAlertPlaceholder">
                             <ngb-alert type="warning" *ngIf="showLiveAlertAPI" (closed)="showLiveAlertAPI = false">{{errorMessageAPI}}</ngb-alert>
                         </div>
-                        <li class="previous list-inline-item" *ngIf="activeWizard1 == 2">
-                            <button class="btn btn-secondary" (click)="activeWizard1=1" 
+                        <li class="previous list-inline-item" *ngIf="!(activeWizard1 == list_number)">
+                            <button class="btn btn-secondary" (click)="activeWizard1=activeWizard1-1" 
                                 >Previous</button>
                  
                         </li>
-                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 3">
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard1 == list_number">
                         <!-- <li class="next " style="text-align: center;" *ngIf="activeWizard1 == 2"> -->
                             <div style="    display: grid;
                             grid-template-columns: min-content max-content;
@@ -1750,10 +1781,10 @@ padding-top:10px">
                                     >Close</button>
                             </div>
                         </li>
-                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 2">
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == list_number-1">
                             <button type="button" style="width: 100px;" class="btn btn-info" (click)="editUser()">Submit</button>
                         </li>
-                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 == 1">
+                        <li class="next list-inline-item float-end" *ngIf="activeWizard1 < list_number-1">
                             <button type="button" style="width: 100px;" (click)="activeWizard1=activeWizard1+1" class="btn btn-info">Next</button>
                         </li>
                     </ul>

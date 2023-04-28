@@ -679,7 +679,7 @@ margin-top: -28px;">
             </div>
         </div>
         <div class="col-xl-2 col-md-2" *ngIf="activeStatusOptions.length">
-            <div class="text--start">
+            <div class="text--start" style="margin-bottom: 0.5rem;">
                     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="    background-color: #313844;
                     border-color: #49565d;"
                         id="event-category" required #idd [(ngModel)]="activeStatusValue"  (change)="onActiveStatus($event.target)">
@@ -687,6 +687,13 @@ margin-top: -28px;">
                     </select>
             </div>
         </div>
+        <div class="col-xl-3 col-md-2"></div>
+
+        <div class="col-xl-2 col-md-3"  style="    display: -webkit-box;">
+            <div class="search-box float-end " style="display: inline-flex;">
+                <input class="form-control" placeholder="Search..." (change)="searchOrg($event)"><span class="icon fa fa-search" style="align-self: center;margin-left:1rem; cursor:pointer" (click)="searchOrg($event);"></span>
+        </div>
+    </div>
                 
         </div>
 

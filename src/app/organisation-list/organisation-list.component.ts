@@ -62,6 +62,7 @@ export class OrganisationListComponent implements OnInit {
   stateValue='';
   locationValue='';
   countryList=COUNTRIES
+  org_search = '';
 
 
 
@@ -821,6 +822,26 @@ export class OrganisationListComponent implements OnInit {
 
    reloadCurrentPage() {
     window. location. reload();
+    }
+
+
+    searchOrg(event : any){
+      if(event.target.value != null) this.org_search = event.target.value
+      else if(this.org_search.length > 0){
+        this.adminService.fetchAllOrgByPage(2,50,ACTIVE[this.activeStatusValue]).subscribe
+      ((doc:any) =>{ 
+        this.page = this.pagenumber
+        this.total_org=doc.total
+        this.currentPage=doc.page
+        this.total_pages=doc.total_pages
+  
+        this.tabDAta=doc.data;
+        this.length=this.tabDAta.length
+      
+        return doc
+      });
+      }
+      
     }
 
   
