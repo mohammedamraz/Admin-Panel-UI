@@ -80,6 +80,7 @@ export class UserDetailsComponent implements OnInit {
   orglogin : boolean = false;
   userlogin : boolean = false;
   list_number : number = 3;
+  org_search = '';
 
 
 
@@ -797,6 +798,33 @@ this.userProductEdited[selected_data]['attempts']= selected_data === -1 ? 0 : li
       });
 
     }
+  }
+
+  searchOrg(event : any){
+    if(event.target.value != null) this.org_search = event.target.value
+    else if(this.org_search.length > 0){
+      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
+          ((doc:any) =>{ 
+              this.page = this.pagenumber
+              this.total_user = doc.total
+              this.currentPage = doc.page
+              this.total_pages = doc.total_pages
+              this.userList = doc.data;
+              this.userList.map((doc: any) => {
+                var newArray = doc.tests
+                var result = newArray.find((item: any) => item.product_id === 2);
+                const v = Object.assign(doc, {vitalsTest:result.total_tests})
+              })
+              this.length = this.userList.length
+              this.userList = doc.sort((a: { id: number; }, b: { id: number; }) => b.id - a.id);
+
+              this.userList=doc.data;
+              this.length=this.userList.length
+              this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
+        
+              return doc});
+    }
+    
   }
 
 }
