@@ -68,10 +68,12 @@ export class LoginComponent implements OnInit {
         else{
           this.error = 'Invalid email or password';
 
+          window.stop();
         }
       },
         error: (error: string) => {
           this.error = 'Invalid email or password';
+          window.stop();
         }});
 
 

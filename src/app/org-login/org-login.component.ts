@@ -81,13 +81,16 @@ export class OrgLoginComponent implements OnInit {
           this.adminConsoleService.httpLoading$.next(true);
           this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
         } 
-        else { this.error = 'Invalid email or password';}
+        else { this.error = 'Invalid email or password';
+        window.stop();
+      }
 
         
         },
         error: (error: string) => {
           
           this.error = 'Invalid email or password';
+          window.stop();
 
         }});
 
