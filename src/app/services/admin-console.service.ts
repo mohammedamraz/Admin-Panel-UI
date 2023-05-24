@@ -85,10 +85,10 @@ export class AdminConsoleService {
 
   }
 
-  patchOrgStatus(id:number,data:any){
+  patchOrgStatus(id:number, orgData : any , data:any){
 
     
-    return this.http.patch(`${API_URL}org/${id}`,{is_deleted:!data});
+    return this.http.patch(`${API_URL}org/${id}`,{is_deleted:!data, organization_mobile : orgData.organization_mobile , admin_name : orgData.admin_name});
 
   }
 
@@ -204,6 +204,11 @@ export class AdminConsoleService {
     return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_deleted=${is_deleted}`)   
   }
 
+  fetchAllOrgByName(num:any,item:any,name:any){
+    
+    return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&name=${name}`)   
+  }
+
   fetchAllUnreadOrgByPage(num:any,item:any,is_read:any){
     
     return this.http.get(`${API_URL}/org?page=${num}&per_page=${item}&is_read=${is_read}&is_web=true`)   
@@ -211,6 +216,10 @@ export class AdminConsoleService {
 
   fetchAllUserOfOrgByPage(id:string,num:any,item:any,is_deleted:any){
     return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&is_deleted=${is_deleted}`);
+  }
+  
+  fetchAllUserOfOrgByName(id:string,num:any,item:any,name:any){
+    return this.http.get(`${API_URL}users/${id}?page=${num}&per_page=${item}&name=${name}`);
   }
 
   fetchVitalsByPage(id:any,num:any,item:any){

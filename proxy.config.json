@@ -1,6 +1,6 @@
 {
     "/sales/api/": {
-        "target": "https://fedo.ai/",
+        "target": "https://admin.dev.demo.fedo.ai/",
         "secure": false,
         "changeOrigin": true,
         "headers": {

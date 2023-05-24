@@ -803,8 +803,8 @@ this.userProductEdited[selected_data]['attempts']= selected_data === -1 ? 0 : li
   searchOrg(event : any){
     if(event.target.value != null) this.org_search = event.target.value
     else if(this.org_search.length > 0){
-      this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,this.pagenumber,this.entries,ACTIVE[this.activeStatusValue]).subscribe
-          ((doc:any) =>{ 
+      this.adminService.fetchAllUserOfOrgByName(this.snapshotParam,this.pagenumber,this.entries,this.org_search).subscribe
+          ({ next : (doc:any) => { 
               this.page = this.pagenumber
               this.total_user = doc.total
               this.currentPage = doc.page
@@ -822,7 +822,19 @@ this.userProductEdited[selected_data]['attempts']= selected_data === -1 ? 0 : li
               this.length=this.userList.length
               this.userList = doc.sort((a: { id: number; },b: { id: number; })=> b.id-a.id);
         
-              return doc});
+              return doc}
+            ,
+            error : (err : any)=> {
+              this.userList = [];
+              this.page = 0
+              this.total_user = 0
+              this.currentPage = 0
+              this.total_pages = 0
+              this.length = 0
+
+            }
+            });
+            
     }
     
   }

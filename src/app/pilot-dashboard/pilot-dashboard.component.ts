@@ -899,6 +899,20 @@ export class PilotDashboardComponent implements OnInit {
       is_pilot_duration:el.is_pilot_duration,
       enable_questionnaire:el.is_questionnaire,
       enable_sms:el.enable_sms,
+      enable_beta : el.enable_beta,
+      is_heart_rate : el.is_heart_rate,
+      is_stress : el.is_stress,
+      is_bmi : el.is_bmi,
+      is_smoker : el.is_smoker,
+      is_hrv : el.is_hrv,
+      is_respiration : el.is_respiration,
+      is_bp : el.is_bp,
+      is_spo2 : el.is_spo2,
+      is_ecg : el.is_ecg,
+      is_cholesterol : el.is_cholesterol,
+      is_dashboard : el.is_dashboard,
+      is_rbs : el.is_rbs,
+      is_haemoglobin : el.is_haemoglobin,
 
       is_change:true
       
@@ -966,6 +980,20 @@ export class PilotDashboardComponent implements OnInit {
         is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
         enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
         enable_sms:el.enable_sms ? el.enable_sms:false,
+        enable_beta : el.enable_beta,
+        is_heart_rate : el.is_heart_rate ? el.is_heart_rate : false,
+        is_stress : el.is_stress ? el.is_stress : false,
+        is_bmi : el.is_bmi ? el.is_bmi : false,
+        is_smoker : el.is_smoker ? el.is_smoker : false,
+        is_hrv : el.is_hrv ? el.is_hrv : false,
+        is_respiration : el.is_respiration ? el.is_respiration : false,
+        is_bp : el.is_bp ? el.is_bp : false,
+        is_spo2 : el.is_spo2 ? el.is_spo2 : false,
+        is_ecg : el.is_ecg ? el.is_ecg : false,
+        is_cholesterol : el.is_cholesterol ? el.is_cholesterol : false,
+        is_dashboard : el.is_dashboard ? el.is_dashboard : false,
+        is_rbs : el.is_rbs ? el.is_rbs : false,
+        is_haemoglobin : el.is_haemoglobin ? el.is_haemoglobin : false,
 
         is_change : el.is_change ? el.is_change:false
       }
@@ -993,6 +1021,20 @@ export class PilotDashboardComponent implements OnInit {
     data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
     data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());
     data.append('enable_sms',prod.map((value:any) => value.enable_sms).toString());
+    data.append('enable_beta',prod.map((value:any) => value.enable_beta).toString());
+    data.append('is_heart_rate',prod.map((value:any) => value.is_heart_rate).toString());
+    data.append('is_stress',prod.map((value:any) => value.is_stress).toString());
+    data.append('is_bmi',prod.map((value:any) => value.is_bmi).toString());
+    data.append('is_smoker',prod.map((value:any) => value.is_smoker).toString());
+    data.append('is_hrv',prod.map((value:any) => value.is_hrv).toString());
+    data.append('is_respiration',prod.map((value:any) => value.is_respiration).toString());
+    data.append('is_bp',prod.map((value:any) => value.is_bp).toString());
+    data.append('is_spo2',prod.map((value:any) => value.is_spo2).toString());
+    data.append('is_ecg',prod.map((value:any) => value.is_ecg).toString());
+    data.append('is_cholesterol',prod.map((value:any) => value.is_cholesterol).toString());
+    data.append('is_dashboard',prod.map((value:any) => value.is_dashboard).toString());
+    data.append('is_haemoglobin',prod.map((value:any) => value.is_haemoglobin).toString());
+    data.append('is_rbs',prod.map((value:any) => value.is_rbs).toString());
 
     data.append('is_change',prod.map((value:any) => value.is_change).toString());
 

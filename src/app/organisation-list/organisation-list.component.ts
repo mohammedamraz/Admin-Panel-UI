@@ -628,7 +628,7 @@ export class OrganisationListComponent implements OnInit {
       this.tabDAta[selected].is_deleted = !data;
     }
     
-    this.adminService.patchOrgStatus(orgData.id, data).subscribe({
+    this.adminService.patchOrgStatus(orgData.id, orgData , data).subscribe({
       next: (res) => {
         if(data) {
 
@@ -828,8 +828,19 @@ export class OrganisationListComponent implements OnInit {
     searchOrg(event : any){
       if(event.target.value != null) this.org_search = event.target.value
       else if(this.org_search.length > 0){
-        this.adminService.fetchAllOrgByPage(2,50,ACTIVE[this.activeStatusValue]).subscribe
+        this.adminService.fetchAllOrgByName(this.pagenumber,this.entries,this.org_search).subscribe
       ((doc:any) =>{ 
+
+        if(!doc.data){
+          this.page = 0
+        this.total_org=0
+        this.currentPage=0
+        this.total_pages=0
+        this.tabDAta = [];
+        
+        this.length=0
+        }
+        else{
         this.page = this.pagenumber
         this.total_org=doc.total
         this.currentPage=doc.page
@@ -839,6 +850,7 @@ export class OrganisationListComponent implements OnInit {
         this.length=this.tabDAta.length
       
         return doc
+      }
       });
       }
       

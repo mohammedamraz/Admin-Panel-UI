@@ -333,7 +333,7 @@ export class HomeComponent implements OnInit {
       const selected = this.tabDAta.findIndex(obj => obj.id === orgData.id);
       this.tabDAta[selected].is_deleted = !data;
       
-      this.adminService.patchOrgStatus(orgData.id, data).subscribe({
+      this.adminService.patchOrgStatus(orgData.id, orgData , data).subscribe({
         next: (res) => {
           if(data) {
             const prod:any = orgData.product.map((el:any)=>{

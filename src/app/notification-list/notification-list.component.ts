@@ -65,7 +65,7 @@ export class NotificationListComponent implements OnInit {
     console.log("id", this.tableData[selected].is_deleted)
       this.tableData[selected].is_deleted = !data;
       
-      this.adminService.patchOrgStatus(orgData.id, data).subscribe({
+      this.adminService.patchOrgStatus(orgData.id, orgData , data).subscribe({
         next: (res) => {
           if(data) {
             const prod:any = orgData.product.map((el:any)=>{

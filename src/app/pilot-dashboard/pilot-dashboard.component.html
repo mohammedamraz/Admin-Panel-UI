@@ -390,6 +390,28 @@
     </div>
 </div> 
 
+<div class="row">
+    <div *ngIf="product.product_id == '2'" class="col-xl-4 col-md-6" style="display: grid">
+        <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
+            <div class="card-body widget-user">
+                <div style="grid-auto-flow: column;
+                display: grid; grid-template-columns: auto auto;">
+                <div>
+                <h4 class="mt-0 header-title" style="color: white;">Config Vital Params</h4>
+                </div>
+                <div class=" float-end" ngbDropdown placement="bottom-end" style="    place-self: self-end;
+                align-self: center;">
+                <a *ngIf="orgLogin==false" (click)="orgEdit(toggleModal3);" href="javascript:void(0)"  class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                    <i class="mdi mdi-pencil"></i>
+                </a>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <ng-template ngFor let-season [ngForOf]="graphArray" let-i=index> 
 
     <div class="row"  >
@@ -878,6 +900,195 @@
                                                   </div>
 
                                             </div> -->
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </ng-template>
+                        </li>
+                        </ng-template>
+
+                        <li [ngbNavItem]="list">
+                            <a style="pointer-events: none;" ngbNavLink class="rounded-0 pt-2 pb-2" style="pointer-events: none;">
+                                <span class=" d-sm-inline">Finish</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all" style="color: #fff;"></i></h2>
+                                            <h3 class="mt-0" style="color: #fff;">Success !</h3>
+    
+                                            <p class="w-75 mb-2 mx-auto" style="color: #AEB5BC">Your changes have been saved successfully.</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </ng-template>
+                            
+                        </li>
+                    </ul>
+    
+                    <div [ngbNavOutlet]="basicWizard" class="b-0 mb-0 pt-0"></div>
+                    <ul class="list-inline mb-0 wizard" >
+                        <div *ngIf="showOrgLiveAlert" class="mb-3" style="width: 100%;
+                                        margin-top: 0.25rem;
+                                        font-size: 0.75rem;
+                                        color: #F08F8F;">
+
+                                                  {{errorOrgMessage}}
+                                                
+                                              </div>
+                        <!-- <li class="previous list-inline-item" *ngIf="!(activeWizard2 == list)">
+                            <button class="btn btn-secondary" (click)="activeWizard2=activeWizard2-1" *ngIf="activeWizard2 !== list"
+                                [disabled]="activeWizard2===1">Previous</button>
+                        </li> -->
+                        <li class="next " style="text-align: center;" *ngIf="activeWizard2 == list">
+                            <button type="button"    style="width: 100px;"  class="btn btn-secondary mt-4" (click)="modal.dismiss('');listorg=3;listdetails=[]; reloadPage();"
+                                >Close</button>
+                        </li>
+                        <li class="next list-inline-item float-end" *ngIf="!(activeWizard2 == list)">
+                            <!-- <button type="button" (click)="activeWizard2=activeWizard2+1" style="width: 100px;" class="btn btn-info"
+                                *ngIf="activeWizard2<list-1">Next</button> -->
+                            <button type="button" class="btn btn-secondary" (click)="checkingProductOrgForm()" style="width: 100px;" class="btn btn-info"
+                                *ngIf="activeWizard2 < list">Submit</button>
+                        </li>
+                    </ul>
+    
+    
+    
+                </div> <!-- end #basicwizard-->
+            </form>
+    
+        </div> <!-- end card-body -->
+    </div> <!-- end card-->
+</ng-template>
+
+<ng-template #toggleModal3 let-modal style="width: auto;">
+    <div class="card" style="background-color: #282E38;margin-bottom: 0;    margin: 0;">
+        <div class="card-body" style="     min-width: min-content;   background-color: #282E38;">
+            <div class=" float-end" ngbDropdown placement="bottom-end">
+                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" (click)="modal.dismiss('');basicWizardForm.reset();list=3; reloadPage();" ngbDropdownToggle>
+                    <i class="mdi mdi-close"></i>
+                </a>
+            </div>            
+            <h4 style="color: white;">Edit Vital Parameters</h4>
+    
+            <form >
+                <div id="basicwizard">
+    
+                    <ul ngbNav #basicWizard="ngbNav" [(activeId)]="activeWizard2"
+                        class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(8rem , 5fr)); background-color: #313844;">
+                        <ng-template ngFor let-season [ngForOf]="listdetails" let-i=index>                        
+                            <li [ngbNavItem]="1">
+                            <a [ngStyle]=" activeWizard2 > 1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+                                <!-- <i class="mdi mdi-face-profile me-1"></i> -->
+                                <span class=" d-sm-inline">Config {{season.product_name}}</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                    <div class="row grid-container ">
+                                        <div class="">
+                                            <div class="card">
+                                                <div class="card-body" style="padding-left: 0;">
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Smoker</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input" [(ngModel)]="season.is_smoker" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+    
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Heart Rate</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input" [(ngModel)]="season.is_heart_rate" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+    
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Stress</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_stress" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable BMI</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_bmi" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+    
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable HRV</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_hrv" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+    
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Respiration</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_respiration" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+    
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable BP</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_bp" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                
+                                        </div>
+                                        <div class="card-body" style="padding: 0;margin-top:1.5rem; margin-left: 1rem; " >
+                                            
+
+                                            <div style="padding-bottom: 1rem;">
+                                                <h4 class="header-title" style="color: #AEB5BC;">Enable SPO2</h4>
+                                                <div class="form-check form-switch" style=" display: grid;">
+                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_spo2" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                </div>
+                                            </div>
+
+                                            
+                                            
+                                            <div  >
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable ECG</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"(change)="next=!next"  [(ngModel)]="season.is_ecg" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div style="padding-bottom: 1rem;">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Cholesterol</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_cholesterol" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+
+                                    
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable Dashboard</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.is_dashboard" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div style="padding-bottom:1rem">
+                                                    <h4 class="header-title" style="color: #AEB5BC;">Enable RBS</h4>
+                                                    <div class="form-check form-switch" style=" display: grid;">
+                                                        <input type="checkbox"  class="form-check-input"  [(ngModel)]="season.is_rbs" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div style="padding-bottom:1rem">
+                                                        <h4 class="header-title" style="color: #AEB5BC;">Enable Haemoglobin</h4>
+                                                        <div class="form-check form-switch" style=" display: grid;">
+                                                            <input type="checkbox"  class="form-check-input" [(ngModel)]="season.is_haemoglobin" [ngModelOptions]="{standalone: true}" (change)="event_kiosc($event,season.product_name)"> 
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                         </div>
