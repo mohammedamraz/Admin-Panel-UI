@@ -11,12 +11,14 @@
                     </select>
                     entries</label>
             </div>   
-               <div class="col-xl-2 col-md-2" style="padding-left: 3rem;" >
-                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='reportDate' (change)="checkDate(reportDate)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date">
+               <div class="col-xl-2 col-md-3" style="padding-left: 3rem;" >
+                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='reportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" (keydown)="disableTyping($event)">
+            </div>
+            <div class="col-xl-2 col-md-3" style="padding-left: 3rem;" >
+                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='lastReportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{reportDate|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" (keydown)="disableTyping($event)">
             </div>
     
             
-
         </div>
         <div class="row">     
         </div>
@@ -33,6 +35,7 @@
                 <thead style=" font-weight: 700;   color: #9BA6AC;     border-color: #9BA6AC;">
                     <tr style="border-color: #49565d;text-align: center;">
                         <th>#</th>
+                        <th></th>
                         <th>Application No.</th>
                         <th>Applicant Name</th>
                         <th>Scan For</th>
@@ -50,13 +53,14 @@
                         <th>BMI</th>
                         <th>Smoker</th>
                         <th>Random Blood Sugar</th>
-                        <th></th>
 
                     </tr>
                 </thead>
                 <tbody style=" font-weight: 400;  color: #9BA6AC;    border-color: #49565d;">
                     <tr class="over-hover" style="border-color: #49565d; text-align: center;" *ngFor="let person of tableData ;let i=index;    ">
                         <td >{{entries *(page-1)+i+1}}</td> 
+                        <td style="cursor:pointer" *ngIf="person.pdf_location!=null && person.pdf_location!='NA'" > <img src="./assets/images/pdf.png" alt="" style="height:25px"(click)="downloadPDF(person.pdf_location)"></td> 
+                        <td style="color: #82B4F3 ;" *ngIf="person.pdf_location==null || person.pdf_location=='NA'" > NA</td> 
                         <td>{{person.policy_number}}</td>
                         <td>{{person.name}}</td>
                         <td>{{person.for_whom}}</td>
@@ -74,8 +78,6 @@
                         <td style="color: #82B4F3 ;">{{person.bmi}}</td>
                         <td style="color: #82B4F3 ;">{{person.smoker_accuracy}}{{person.smoker_accuracy > 50 ? ' (Smoker)':' (Non-Smoker)'}}</td>
                         <td style="color: #82B4F3 ;">{{person.rbs  }}</td> 
-                        <td style="cursor:pointer" *ngIf="person.pdf_location!=null && person.pdf_location!='NA'" > <img src="./assets/images/pdf.png" alt="" style="height:25px"(click)="downloadPDF(person.pdf_location)"></td> 
-                        <td style="color: #82B4F3 ;" *ngIf="person.pdf_location==null || person.pdf_location=='NA'" > NA</td> 
 
 
                     </tr>

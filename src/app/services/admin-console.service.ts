@@ -556,6 +556,15 @@ export class AdminConsoleService {
       return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
 
+    fetchOrgScanByDateRange(orgId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}/range/org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`)
+    }
+    fetchUserScanByDateRange(userId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any){
+
+      return this.http.get(`${API_PRODUCTS_TESTS}/range/user?user_id=${userId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`)
+    }
+
     fetchPerformanceChart(orgId:any, prodId:any, period:any){
       
       return this.http.get(`${API_PRODUCTS_TESTS}tests/org?org_id=${orgId}&product_id=${prodId}&period=${period}`)
