@@ -706,9 +706,10 @@ font: {
   createEditproc(products:any,OrgProducts:any){
     this.kiosk_users = [];
     this.adminService.fetchAllUserOfOrgByPage(this.snapshotParam,1,10000,'').subscribe((doc:any)=>{
-     doc.data.map((doc: any)=> {
-      this.kiosk_users.push(doc.email)
-    
+      const selected =this.listdetails.findIndex(obj => obj.product_name==='Vitals');      
+      const names = this.listdetails[selected].kiosk_user ? this.listdetails[selected].kiosk_user.split(',').map((e:any)=>e.replace(/'/g,'')) : '';
+      doc.data.map((doc: any)=> { 
+      this.kiosk_users.push({email: doc.email, selected: names.includes(doc.email)})  
     })
    })
     this.orgProd = [];  
@@ -1234,8 +1235,9 @@ resendInvitationMail(data:any){
   }
 
   checkInputValue(value: any, product : any){
+    this.kiosk_users[value.target.selectedIndex].selected = !this.kiosk_users[value.target.selectedIndex].selected
     const selected =this.listdetails.findIndex(obj=>obj.product_name===product);
-    this.listdetails[selected].kiosk_user = value.value;
+    this.listdetails[selected].kiosk_user = this.kiosk_users.filter((el:any)=>el.selected).map((el:any) => `'${el.email}'`);
    
 }
 
@@ -1309,8 +1311,8 @@ resendInvitationMail(data:any){
         event_mode: el.event_mode,
         ios_access: el.ios_access ? el.ios_access:false ,
         mobile_access: el.mobile_access ? el.mobile_access:false,
-        enable_kiosk: el.enable_kiosk ? el.enable_kiosk:false,
-        kiosk_user: el.enable_kiosk ? el.kiosk_user:null,
+        enable_kiosk: el.kiosk_user && el.kiosk_user.length > 0 ? el.enable_kiosk : false,
+        kiosk_user: el.enable_kiosk ? el.kiosk_user:'',
         is_application_number :el.is_application_number ? el.is_application_number :false,
         attempts: el.attempts ? el.attempts:0,
         is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
@@ -1337,7 +1339,7 @@ resendInvitationMail(data:any){
     data.append('productaccess_mobile',prod.map((value:any) => value.mobile_access).toString());
     data.append('ios_access',prod.map((value:any) => value.ios_access).toString());
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
-    data.append('kiosk_user',prod.map((value:any) => value.kiosk_user).toString());
+    data.append('kiosk_user',prod.map((value:any) =>'['+ value.kiosk_user +']').toString());
     data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
     data.append('attempts',prod.map((value:any) => value.attempts).toString());
     data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
