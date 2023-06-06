@@ -39,10 +39,12 @@
                         <th>Application No.</th>
                         <th>Applicant Name</th>
                         <th>Scan For</th>
+                        <th *ngIf="orgId == '63'">Mobile Number</th>
                         <th style="    text-align: -webkit-center;">Age</th>
                         <th style="    text-align: -webkit-center;">Gender</th>
                         <th>City</th>
                         <th>Signed In User</th>
+                        <th *ngIf="orgId == '63'">Scanned Time</th>
                         <th>Heart Rate</th>
                         <th>Blood Pressure</th>
                         <th>Stress</th>
@@ -64,10 +66,12 @@
                         <td>{{person.policy_number}}</td>
                         <td>{{person.name}}</td>
                         <td>{{person.for_whom}}</td>
+                        <td *ngIf="orgId == '63'">{{person.mobile ? person.mobile : 'NA'}}</td>
                         <td>{{person.age}}</td>
                         <td>{{person.gender}}</td>
                         <td>{{person.city}}</td>
                         <td>{{person.username}}</td>
+                        <td *ngIf="orgId == '63'">{{person.test_time ? person.test_time : 'NA'}}</td>
                         <td style="color: #82B4F3 ;">{{person.heart_rate + 'bpm'}}</td>
                         <td style="color: #82B4F3 ;">{{person.systolic+ ' / ' +person.diastolic}}</td>
                         <td style="color: #82B4F3 ;">{{person.stress}}</td>
