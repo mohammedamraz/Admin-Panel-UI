@@ -373,6 +373,8 @@ export class PilotDashboardComponent implements OnInit {
         spo2:doc.spo2,
         hrv:doc.hrv,
         bmi:doc.bmi,
+        haemoglobin:doc.haemoglobin,
+        rbs:doc.rbs,
         smoker_rate :doc['smoker_rate'],
         smoker_status : doc['smoker_status']
         
@@ -382,7 +384,7 @@ export class PilotDashboardComponent implements OnInit {
   
     const filteredData = stepData
     const Heading = [[this.organization_name+' '+this.product_name+' DAILY SCAN REPORT'],[
-      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI',	'Smoker', '',
+      'Date',	'Logged In User',	'Application No.',	'Scan For',	'Name' ,	'Age'	,'Gender',	'City ',	'Heart Rate','Blood Pressure','',	'Stress',	'Respiration Rate',	'Spo2',	'HRV',	'BMI', 'Haemoglobin', 'RBS',	'Smoker', '',
     ]
     ];
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -390,8 +392,8 @@ export class PilotDashboardComponent implements OnInit {
     XLSX.utils.sheet_add_aoa(ws, Heading);
     XLSX.utils.sheet_add_aoa(ws, [['systolic']],{origin:'J3'});
     XLSX.utils.sheet_add_aoa(ws, [['diastolic']],{origin:'K3'});
-    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'R3'});
-    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'Q3'});
+    XLSX.utils.sheet_add_aoa(ws, [['status']],{origin:'S3'});
+    XLSX.utils.sheet_add_aoa(ws, [['%']],{origin:'T3'});
     const merge = [
       { s: { r: 1, c: 9 }, e: { r: 1, c: 10 } }, { s: { r: 1, c: 23 }, e: { r: 1, c: 24 } } 
     ];
