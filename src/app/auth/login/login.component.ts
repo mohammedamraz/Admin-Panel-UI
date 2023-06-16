@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   error: string = '';
   returnUrl: string = '/';
   loading: boolean = false;
+  // data : any = []
 
   constructor (
     private route: ActivatedRoute,
@@ -33,9 +34,17 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private readonly adminService: AdminConsoleService,
 
-  ) { }
+  ) { 
+    // this.data = this.router.getCurrentNavigation()?.extractedUrl?.queryParams;
+
+  }
 
   ngOnInit(): void {
+    // if(this.data.username != undefined || null){
+    // this.loginForm.controls['email'].setValue(this.data.username)
+    // this.loginForm.controls['password'].setValue(this.data.password)
+    // this.onSubmit();
+    // }
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this.returnUrl;
   }
 

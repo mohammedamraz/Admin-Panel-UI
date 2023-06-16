@@ -683,8 +683,26 @@ export class PilotDashboardComponent implements OnInit {
   }
 
   playstore(data:any,url_type:string){
-    if(url_type=="mobile") {let redirectWindow = window.open(data.mobile_url);}
-    if(url_type=="web") {let redirectWindow = window.open(data.web_url);}
+    if(url_type=="mobile") {
+      // const fallbackUrl = url; // Play Store URL
+
+      // Check if the app is already installed
+      const openApp = () => window.open('instagram://app', '_self');
+    
+      // Create an iframe to check if the custom URL scheme can be opened
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.onload = openApp;
+      iframe.onerror = () => window.open(data.mobile_url, '_blank');
+    
+      // Add the iframe to the DOM
+      document.body.appendChild(iframe);
+    
+      // Trigger the load event to check if the custom URL scheme can be opened
+      iframe.src = 'instagram://app';
+      // let redirectWindow = window.open(data.mobile_url);
+    }
+    if(url_type=="web") {let redirectWindow = window.open('https://fedo.ai/products/vitals/webapp/basic-information');}
   }
 
   open(content: TemplateRef<NgbModal>): void {
