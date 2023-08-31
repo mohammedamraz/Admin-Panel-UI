@@ -23,6 +23,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
 import { GuestListComponent } from './guest-list/guest-list.component';
 import { NotificationListComponent } from './notification-list/notification-list.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 
 const routes: Routes = [
@@ -137,7 +138,14 @@ const routes: Routes = [
         path: 'notificationList',
         canActivate: [OrgGuard],
         component: NotificationListComponent
-      }
+      },
+      {
+        path: 'admin-dashboard',
+        canActivate: [OrgGuard],
+        component: AdminDashboardComponent
+    
+    
+      },
     
     ]
   },
@@ -152,6 +160,9 @@ const routes: Routes = [
     canActivate: [OrgGuard],
     component: UserDetailsComponent
   },
+
+  
+  
   
   
   {

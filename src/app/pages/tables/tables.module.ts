@@ -26,6 +26,7 @@ import { FormsRoutingModule } from '../forms/forms-routing.module';
 import { TableAdvancedComponent } from './advanced/advanced.component';
 import { TableBasicComponent } from './basic/basic.component';
 import { TablesRoutingModule } from './tables-routing.module';
+import { AdminDashboardComponent } from 'src/app/admin-dashboard/admin-dashboard.component';
 
 
 
@@ -45,7 +46,8 @@ import { TablesRoutingModule } from './tables-routing.module';
     ProfileComponent,
     DailyreportComponent,
     GuestListComponent,
-    NotificationListComponent
+    NotificationListComponent,
+    AdminDashboardComponent
 
 
     

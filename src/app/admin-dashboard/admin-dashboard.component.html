@@ -1,0 +1,328 @@
+<div class="row" style="margin-bottom: 1rem;">
+    <div class="col-xl-3 col-md-3">
+
+    </div>
+    <div class="col-xl-3 col-md-3"  style="    display: -webkit-box;">
+        <div class="search-box float-end " style="display: inline-flex;">
+            <input class="form-control" placeholder="Search..."><span class="icon fa fa-search" style="align-self: center; cursor:pointer;margin-left:1rem"></span>
+    </div>
+</div>
+<div class="col-xl-3 col-md-3" style="    text-align-last: center;" >
+<select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline" (change)="checkOrgValue($event)"  name="pageSize" style="background-color: #313844;
+border-color: #49565d;"
+    id="event-category" required #idd [(ngModel)]="activeOrgValue" >
+    <option *ngFor="let option of OrgOptions" #id [value]="option"  >{{option}}</option>
+</select>
+
+</div>
+<div class="col-xl-3 col-md-3" style="    text-align-last: center;">
+    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="background-color: #313844;
+    border-color: #49565d;"
+        id="event-category" required #idd [(ngModel)]="activeStatusValue" >
+        <option *ngFor="let option of activeStatusOptions" #id [value]="option"  >{{option}}</option>
+    </select>
+    
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;" >
+            <div class="card-body widget-user">
+                <div class="text-center">
+                    <h5 style="color: #ADB5BD;">Total Scans Till Now</h5>
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{"18787"}}</h2>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="text-center">
+                    <h5 style="color: #ADB5BD;">Scans For the month</h5>
+                    <h2 class="fw-normal" style="color: #F08FC9;">{{"1874"}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card" style="background: #313844;;" >
+            <div class="card-body widget-user">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h5 style="color: #ADB5BD;">Scans Today</h5>
+                    <h2 class="fw-normal" style="color: #FF9632;">4550</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-6" >
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-4" style="color: #ADB5BD;">Escation/Outages</h4>
+                <div id="bar-chart-stacked">
+                    <apx-chart class="apex-charts" [series]="barChartOptions2.series!" [chart]="barChartOptions2.chart!"
+                        [colors]="barChartOptions2.colors!" [plotOptions]="barChartOptions2.plotOptions!"
+                        [xaxis]="barChartOptions2.xaxis!" [stroke]="barChartOptions2.stroke!"
+                        [fill]="barChartOptions2.fill!" [yaxis]="barChartOptions2.yaxis!"
+                        [tooltip]="barChartOptions2.tooltip!" [legend]="barChartOptions2.legend!"
+                        [states]="barChartOptions2.states!" [grid]="barChartOptions2.grid!"></apx-chart>
+                </div>
+                <div style="color: #ADB5BD;">
+                    <table class="custom-table">
+                        <tr>
+                            <td>Outage</td>
+                            <td>Server</td>
+                            <td>Client</td>
+                            <td>Internet</td>
+                        </tr>
+                        <tr>
+                            <td>29%</td>
+                            <td>12%</td>
+                            <td>43%</td>
+                            <td>22%</td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        </div>
+    </div>
+   
+
+    <div class="col-xl-6" style="display: inline-grid;">
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+
+        <div class="card">
+            <div class="card-body">
+                <!-- <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
+                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
+                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
+                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
+                    </div>
+                </div> -->
+
+                <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN PER MONTH</h4>
+                <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN FOR THE MONTH BY ORGS</h4>
+
+
+                <!-- <div class="chartCard"> -->
+
+                <!-- <div class="chartjs-chart chartBox" style="height: 300px;">
+                    <canvas id="bar-chart" #barChart baseChart [data]="barChartOptions.data!"
+                        [type]="barChartOptions.type!" [options]="barChartOptions.chartOptions!"></canvas>
+                </div> -->
+                <div class="container" >
+                <div class="container-body" id="cbody">
+                    <canvas id="canvas">{{barChartOptions}}</canvas>
+                  </div>
+                  <!-- </div> -->
+            </div>
+        </div>
+        </div>
+
+    </div><!-- end col-->
+
+</div>
+</div>
+<!-- end row -->
+
+
+<div class="row">
+    <div *ngIf="orglogin === false" class="col-xl-6">
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+        <div class="card">
+            <div class="card-body">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
+                    </div>
+                </div>
+
+                <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;">Scans by Industry</h4>
+
+                <div class="chartjs-chart" style="height: 300px;">
+                    <canvas id="pie-chart" #pieChart baseChart [data]="pieChartOptions.data!"
+                        [type]="pieChartOptions.type!" [options]="pieChartOptions.chartOptions!"></canvas>
+                </div>
+                <div *ngIf="orglogin === false" style="margin-top: 1rem; color:#ADB5BD">
+                    <table class="custom-table">
+                        <tr>
+                            <td>LIFE</td>
+                            <td>GI</td>
+                            <td>Hospital</td>
+                            <td>Public Health</td>
+                            <td>Bank</td>
+                            <td>Health Tech</td>
+
+
+                        </tr>
+                        <tr>
+                            <td>29%</td>
+                            <td>12%</td>
+                            <td>43%</td>
+                            <td>22%</td>
+                            <td>41%</td>
+                            <td>32%</td>
+                        </tr>
+                    </table>
+                    
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+    </div><!-- end col-->
+    <div *ngIf="orglogin === false  " class="col-xl-6" style="display:inline-grid">
+        <div class="card layout-style" style="background: #313844; border-radius:10px">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="float-end" ngbDropdown placement="bottom-end">
+                    <a href="javascript:void(0);" class="arrow-none card-drop" ngbDropdownToggle>
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <div ngbDropdownMenu>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Action</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Another action</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Something else</a>
+                        <!-- item-->
+                        <a href="javascript:void(0);" ngbDropdownItem>Separated link</a>
+                    </div>
+                </div>
+
+                <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;text-align: center;">Total Scans by Month</h4>
+
+                <div class="chartjs-chart" style="height: 300px;">
+                    <canvas id="lineChart" #chart1 baseChart [data]="lineChartOptions.data!"
+                        [type]="lineChartOptions.type!" [options]="lineChartOptions.chartOptions!"></canvas>
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+    </div><!-- end col-->
+
+
+
+</div>
+
+<div *ngIf="orglogin == true" class="row">
+
+<div class="col-xl-3 col-md-12">
+    <div class="card" style="background: #313844;" >
+        <div class="card-body widget-user">
+            <div class="text-center">
+                <h5 style="color: #ADB5BD;">No Of Admins</h5>
+                <h2 class="fw-normal" style="color: #82B4F3;">{{"5"}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="col-xl-2 col-md-12"></div> -->
+<div class="col-xl-9 col-md-12">
+    <div class="card" style="background: #313844;" >
+        <div class="card-body widget-user">
+            <div class="text-center">
+                <h5 style="color: #ADB5BD;">Vitals Displayed</h5>
+                <!-- <h2 class="fw-normal" style="color: #82B4F3;">{{"18787"}}</h2> -->
+                  <div class="row">
+                    <!-- <div class="col-md-3">
+                        <img src="./assets/images/users/user-2.jpg" alt="image" class="img-fluid avatar-xl rounded">  
+                        <img src="./assets/images/users/user-3.jpg" alt="image" class="img-fluid avatar-sm rounded mt-2">
+                    </div>
+                    <div class="col-md-3">
+                        <img src="./assets/images/users/user-4.jpg" alt="image" class="img-fluid avatar-md rounded" />    
+                    </div>
+
+                    <div class="col-md-3">
+                        <img src="./assets/images/icon-attachments/Stress.png" alt="image" class="img-fluid avatar-lg rounded" /> 
+                    </div> -->
+
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Blood Pressure.png" alt="image" class="img-fluid avatar-lg  rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Blood Sugar.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2" >
+                        <img src="./assets/images/icon-attachments/BMI.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2" >
+                        <img src="./assets/images/icon-attachments/Body fat %.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Cholestrol.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/ECG.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Fedo Score.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Haemoglobin.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Heart Rate.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Height to waist ratio.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/HRV.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/PRQ.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Respiration Rate.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Smoking.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/SP02.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                    <div class="col-md-2">
+                        <img src="./assets/images/icon-attachments/Stress.png" alt="image" class="img-fluid avatar-lg rounded" />
+                    </div>
+                </div> <!-- end row-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
