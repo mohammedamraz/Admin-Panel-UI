@@ -117,9 +117,9 @@ export class DailyreportComponent implements OnInit {
       doc['smoker_rate'] = doc.smoker_accuracy;
       delete doc.smoker_accuracy;
       let date = new Date(doc.test_date);
-      doc['test_date'] = date.setDate(date.getDate() + 1)
+      let new_date = date.setDate(date.getDate() + 1);
       return {
-        date:new Date(doc.test_date).toISOString().split("T")[0],
+        date:new Date(new_date).toISOString().split("T")[0],
         username:doc.username,
         applicationNumber:doc.policy_number,
         scanFor:doc.for_whom,

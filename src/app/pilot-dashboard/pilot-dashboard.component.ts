@@ -356,8 +356,10 @@ export class PilotDashboardComponent implements OnInit {
       doc['smoker_status'] = doc.smoker_accuracy > 50 ?'Smoker': 'Non Smoker';
       doc['smoker_rate'] = doc.smoker_accuracy;
       delete doc.smoker_accuracy;
+      let date = new Date(doc.test_date);
+      let new_date = date.setDate(date.getDate() + 1);
       return {
-        date:new Date(doc.test_date).toISOString().split("T")[0],
+        date:new Date(new_date).toISOString().split("T")[0],
         username:doc.username,
         applicationNumber:doc.policy_number,
         scanFor:doc.for_whom,
