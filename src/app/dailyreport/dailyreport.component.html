@@ -17,6 +17,12 @@
             <div class="col-xl-2 col-md-3" style="padding-left: 3rem;" >
                 <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='lastReportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{reportDate|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" (keydown)="disableTyping($event)">
             </div>
+            <div class="col-xl-2 col-md-3"  style="    display: -webkit-box;">
+            <div class="search-box float-end " style="display: inline-flex;">
+                <!-- <input class="form-control" placeholder="Search..." ><span class="icon fa fa-search" style="align-self: center;margin-left:1rem; cursor:pointer" ></span> -->
+                <input class="form-control" placeholder="Search..." (change)="searchByApplicationNumber($event)"><span class="icon fa fa-search" style="align-self: center;margin-left:1rem; cursor:pointer" (click)="searchByApplicationNumber($event);"></span>
+        </div>
+    </div>
     
             
         </div>
@@ -55,6 +61,7 @@
                         <th>BMI</th>
                         <th>Smoker</th>
                         <th>Random Blood Sugar</th>
+                        <!-- <th></th> -->
 
                     </tr>
                 </thead>
@@ -82,6 +89,16 @@
                         <td style="color: #82B4F3 ;">{{person.bmi}}</td>
                         <td style="color: #82B4F3 ;">{{person.smoker_accuracy}}{{person.smoker_accuracy > 50 ? ' (Smoker)':' (Non-Smoker)'}}</td>
                         <td style="color: #82B4F3 ;">{{person.rbs  }}</td> 
+                        <!-- <td class="option">
+                            <div class=" float-end" ngbDropdown placement="bottom-end" >
+                                <a href="javascript:void(0)" class="dropdown-toggle arrow-none card-drop" ngbDropdownToggle>
+                                    <i class="mdi mdi-dots-vertical"></i>
+                                </a>
+                                <div style="    border: 1px solid #4B515F;" class="kanban_style" ngbDropdownMenu>
+                                    <a (click)="saveasPDFinAWS(person)"   href="javascript:void(0);" ngbDropdownItem>Save As PDF</a>
+                                    </div>
+                            </div>
+                            </td> -->
 
 
                     </tr>

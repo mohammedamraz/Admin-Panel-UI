@@ -556,13 +556,15 @@ export class AdminConsoleService {
       return this.http.get(`${API_PRODUCTS_TESTS}users?user_id=${userId}&product_id=${prodId}&test_date=${date}&page=${pageNo}&per_page=${perPage}`)
     }
 
-    fetchOrgScanByDateRange(orgId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any){
+    fetchOrgScanByDateRange(orgId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any,policy_number : any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}/range/org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`)
+      if(policy_number == '') return this.http.get(`${API_PRODUCTS_TESTS}range/org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`);
+      else return this.http.get(`${API_PRODUCTS_TESTS}range/org?org_id=${orgId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}&policy_number=${policy_number}`);
     }
-    fetchUserScanByDateRange(userId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any){
+    fetchUserScanByDateRange(userId:any, prodId:any, date:any,last_date:any,pageNo:any,perPage:any,policy_number : any){
 
-      return this.http.get(`${API_PRODUCTS_TESTS}/range/user?user_id=${userId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`)
+      if(policy_number == '') return this.http.get(`${API_PRODUCTS_TESTS}range/user?user_id=${userId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}`)
+      else return this.http.get(`${API_PRODUCTS_TESTS}range/user?user_id=${userId}&product_id=${prodId}&test_date=${date}&test_end_date=${last_date}&page=${pageNo}&per_page=${perPage}&policy_number=${policy_number}`)
     }
 
     fetchPerformanceChart(orgId:any, prodId:any, period:any){
@@ -576,6 +578,11 @@ export class AdminConsoleService {
     }
     updateGuestUser(data:any){
       return this.http.patch(`${ADMIN_URL}user`,data)
+     
+    }
+
+    saveAsPDFInAWS(test_data:any){
+      return this.http.post(`${API_URL}pre_signed/pdf/save`,test_data)
      
     }
 
