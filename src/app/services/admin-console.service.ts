@@ -272,6 +272,31 @@ export class AdminConsoleService {
 
 
 
+  fetchVitalsDashboard(){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?product_id=${2}`);
+  }
+  
+  fetchVitalsDashboardbyId(id:any){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?org_id=${id}&product_id=${2}`);
+  }
+
+  fetchScansByMonth(year:any){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}`); 
+  }
+
+  fetchScansByMonthByOrgId(year:any,id:any){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}&org_id=${id}`); 
+  }
+  fetchScansOfOrg(firstDate:any,secondDate:any){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/org?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
+  }
+  fetchScansOfIndustry(){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/industry`)
+  }
+
+
+
+
 
 
   breadcrumbs(event:any){

@@ -7,7 +7,7 @@
             <input class="form-control" placeholder="Search..."><span class="icon fa fa-search" style="align-self: center; cursor:pointer;margin-left:1rem"></span>
     </div>
 </div>
-<div class="col-xl-3 col-md-3" style="    text-align-last: center;" >
+<div *ngIf="loginOrg == true" class="col-xl-3 col-md-3" style="    text-align-last: center;" >
 <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline" (change)="checkOrgValue($event)"  name="pageSize" style="background-color: #313844;
 border-color: #49565d;"
     id="event-category" required #idd [(ngModel)]="activeOrgValue" >
@@ -31,7 +31,7 @@ border-color: #49565d;"
             <div class="card-body widget-user">
                 <div class="text-center">
                     <h5 style="color: #ADB5BD;">Total Scans Till Now</h5>
-                    <h2 class="fw-normal" style="color: #82B4F3;">{{"18787"}}</h2>
+                    <h2 class="fw-normal" style="color: #82B4F3;">{{totalScan}}</h2>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@ border-color: #49565d;"
             <div class="card-body widget-user">
                 <div class="text-center">
                     <h5 style="color: #ADB5BD;">Scans For the month</h5>
-                    <h2 class="fw-normal" style="color: #F08FC9;">{{"1874"}}</h2>
+                    <h2 class="fw-normal" style="color: #F08FC9;">{{monthScan}}</h2>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@ border-color: #49565d;"
                 </div>
                 <div class="text-center">
                     <h5 style="color: #ADB5BD;">Scans Today</h5>
-                    <h2 class="fw-normal" style="color: #FF9632;">4550</h2>
+                    <h2 class="fw-normal" style="color: #FF9632;">{{todayScan}}</h2>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@ border-color: #49565d;"
 
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mb-4" style="color: #ADB5BD;">Escation/Outages</h4>
+                <h4 class="header-title mb-4" style="color: #ADB5BD;">Escalation/Outages</h4>
                 <div id="bar-chart-stacked">
                     <apx-chart class="apex-charts" [series]="barChartOptions2.series!" [chart]="barChartOptions2.chart!"
                         [colors]="barChartOptions2.colors!" [plotOptions]="barChartOptions2.plotOptions!"
@@ -119,8 +119,8 @@ border-color: #49565d;"
                     </div>
                 </div> -->
 
-                <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN PER MONTH</h4>
-                <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN FOR THE MONTH BY ORGS</h4>
+                <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY USERS</h4>
+                <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY ORGS</h4>
 
 
                 <!-- <div class="chartCard"> -->
@@ -201,7 +201,7 @@ border-color: #49565d;"
         </div>
 
     </div><!-- end col-->
-    <div *ngIf="orglogin === false  " class="col-xl-6" style="display:inline-grid">
+    <div class="col-xl-6" style="display:inline-grid">
         <div class="card layout-style" style="background: #313844; border-radius:10px">
 
         <div class="card">
@@ -225,8 +225,8 @@ border-color: #49565d;"
                 <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;text-align: center;">Total Scans by Month</h4>
 
                 <div class="chartjs-chart" style="height: 300px;">
-                    <canvas id="lineChart" #chart1 baseChart [data]="lineChartOptions.data!"
-                        [type]="lineChartOptions.type!" [options]="lineChartOptions.chartOptions!"></canvas>
+                    <canvas id="lineChart" #chart1 baseChart [data]="lineChart.data!"
+                        [type]="lineChart.type!" [options]="lineChart.chartOptions!"></canvas>
                 </div>
 
             </div>

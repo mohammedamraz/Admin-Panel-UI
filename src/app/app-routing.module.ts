@@ -146,6 +146,13 @@ const routes: Routes = [
     
     
       },
+      {
+        path: ':orgId/admin-dashboard',
+        canActivate: [OrgGuard],
+        component: AdminDashboardComponent
+    
+    
+      },
     
     ]
   },
