@@ -1,13 +1,13 @@
 <div class="row" style="margin-bottom: 1rem;">
-    <div class="col-xl-3 col-md-3">
+    <div class="col-xl-3 col-md-3 col-sm-4">
 
     </div>
-    <div class="col-xl-3 col-md-3"  style="    display: -webkit-box;">
+    <div class="col-xl-3  col-md-3  col-sm-4"  style="    display: -webkit-box;">
         <div class="search-box float-end " style="display: inline-flex;">
             <input class="form-control" placeholder="Search..."><span class="icon fa fa-search" style="align-self: center; cursor:pointer;margin-left:1rem"></span>
     </div>
 </div>
-<div *ngIf="loginOrg == true" class="col-xl-3 col-md-3" style="    text-align-last: center;" >
+<div *ngIf="loginOrg == true" class="col-xl-3 col-md-3  col-sm-4" style="    text-align-last: center;" >
 <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline" (change)="checkOrgValue($event)"  name="pageSize" style="background-color: #313844;
 border-color: #49565d;"
     id="event-category" required #idd [(ngModel)]="activeOrgValue" >
@@ -15,7 +15,7 @@ border-color: #49565d;"
 </select>
 
 </div>
-<div class="col-xl-3 col-md-3" style="    text-align-last: center;">
+<div class="col-xl-3 col-md-3  col-sm-4" style="    text-align-last: center;">
     <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="background-color: #313844;
     border-color: #49565d;"
         id="event-category" required #idd [(ngModel)]="activeStatusValue" >
@@ -69,6 +69,16 @@ border-color: #49565d;"
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title mb-4" style="color: #ADB5BD;">Escalation/Outages</h4>
+                <div class="date_container">
+                <div class="col-sm-6">
+                    <p>Start Date</p>
+                    <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                </div> 
+                <div class="col-sm-6">
+                    <p>End Date</p>
+                    <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                </div>
+            </div>
                 <div id="bar-chart-stacked">
                     <apx-chart class="apex-charts" [series]="barChartOptions2.series!" [chart]="barChartOptions2.chart!"
                         [colors]="barChartOptions2.colors!" [plotOptions]="barChartOptions2.plotOptions!"
@@ -121,7 +131,16 @@ border-color: #49565d;"
 
                 <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY USERS</h4>
                 <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY ORGS</h4>
-
+                <div class="date_container">
+                    <div class="col-sm-6">
+                        <p>Start Date</p>
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,endDate)"    name="date">
+                    </div> 
+                    <div class="col-sm-6">
+                        <p>End Date</p>
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='endDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,endDate)"   name="date">
+                    </div>
+                </div>
 
                 <!-- <div class="chartCard"> -->
 
@@ -167,6 +186,16 @@ border-color: #49565d;"
                 </div>
 
                 <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;">Scans by Industry</h4>
+                <div class="date_container">
+                    <div class="col-sm-6">
+                        <p>Start Date</p>
+                        <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                    </div> 
+                    <div class="col-sm-6">
+                        <p>End Date</p>
+                        <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                    </div>
+                </div>
 
                 <div class="chartjs-chart" style="height: 300px;">
                     <canvas id="pie-chart" #pieChart baseChart [data]="pieChartOptions.data!"
@@ -245,8 +274,8 @@ border-color: #49565d;"
     <div class="card" style="background: #313844;" >
         <div class="card-body widget-user">
             <div class="text-center">
-                <h5 style="color: #ADB5BD;">No Of Admins</h5>
-                <h2 class="fw-normal" style="color: #82B4F3;">{{"5"}}</h2>
+                <h5 style="color: #ADB5BD;">No Of Users</h5>
+                <h2 class="fw-normal" style="color: #82B4F3;">{{usersCount}}</h2>
             </div>
         </div>
     </div>

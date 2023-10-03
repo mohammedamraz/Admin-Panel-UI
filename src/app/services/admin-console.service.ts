@@ -293,6 +293,10 @@ export class AdminConsoleService {
   fetchScansOfIndustry(){
     return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/industry`)
   }
+  fetchScansOfUsers(id:any,firstDate:any,secondDate:any){
+    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/user?org_id=${id}&product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
+  }
+
 
 
 
