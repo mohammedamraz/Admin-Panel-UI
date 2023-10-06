@@ -272,32 +272,46 @@ export class AdminConsoleService {
 
 
 
-  fetchVitalsDashboard(){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?product_id=${2}`);
+  fetchVitalsDashboard(version_id:any){
+    if(version_id != '') return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?product_id=${2}&version_id=${version_id}`);
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?product_id=${2}`);
   }
   
-  fetchVitalsDashboardbyId(id:any){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?org_id=${id}&product_id=${2}`);
+  fetchVitalsDashboardbyId(id:any , version_id : any){
+    console.log("version id ion the admin",version_id)
+    if(version_id != '') return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?org_id=${id}&product_id=${2}&version_id=${version_id}`);
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board?org_id=${id}&product_id=${2}`);
   }
 
-  fetchScansByMonth(year:any){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}`); 
+  fetchScansByMonth(year:any , version_id : any){
+    console.log("version id ion the admin",version_id)
+    if(version_id != '')    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}&version_id=${version_id}`); 
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}`); 
   }
 
-  fetchScansByMonthByOrgId(year:any,id:any){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}&org_id=${id}`); 
+  fetchScansByMonthByOrgId(year:any,id:any , version_id : any){
+    console.log("version id ion the admin",version_id)
+    if(version_id != '')  return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}&org_id=${id}&version_id=${version_id}`); 
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/year?test_date=${year}&product_id=${2}&org_id=${id}`); 
   }
-  fetchScansOfOrg(firstDate:any,secondDate:any){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/org?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
+  fetchScansOfOrg(firstDate:any,secondDate:any , version_id : any){
+    if(version_id != '')  return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/org?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}&version_id=${version_id}`)
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/org?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
   }
-  fetchScansOfIndustry(){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/industry`)
+  fetchScansOfIndustry(firstDate : any , secondDate :any ,version_id : any){
+    if(version_id != '') return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/industry?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}&version_id=${version_id}`)
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/industry?product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
   }
-  fetchScansOfUsers(id:any,firstDate:any,secondDate:any){
-    return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/user?org_id=${id}&product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
+  fetchScansOfUsers(id:any,firstDate:any,secondDate:any, version_id : any){
+    if(version_id != '') return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/user?org_id=${id}&product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}&version_id=${version_id}`)
+    else return this.http.get(`${ADMIN_URL}product_tests/tests/admin/board/filterperiod/user?org_id=${id}&product_id=${2}&test_date=${firstDate}&test_end_date=${secondDate}`)
   }
-
-
+  fetchVersions(){
+    return this.http.get(`${ADMIN_URL}app_version`)
+  }
+  fetchIndustry(){
+    return this.http.get(`${ADMIN_URL}industry_type`)
+  }
 
 
 

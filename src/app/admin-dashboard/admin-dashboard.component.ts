@@ -15,129 +15,165 @@ import { newArray } from '@angular/compiler/src/util';
 export class AdminDashboardComponent {
   barChartOptions2: Partial<ApexChartOptions> = {};
   pieChartOptions!: ChartDataset;
-  lineChartOptions : ChartDataset  =
-  {
+  lineChartOptions: ChartDataset =
+    {
       type: 'line',
       data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September",'October',"November","December"],
-          datasets: [{
-              label: "Sales Analytics",
-              fill: false,
-              backgroundColor: "#10c469",
-              borderColor: "#10c469",
-              borderCapStyle: 'butt',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'miter',
-              pointBorderColor: "#039cfd",
-              pointBackgroundColor: "#fff",
-              pointBorderWidth: 1,
-              pointHoverRadius: 5,
-              pointHoverBackgroundColor: "#039cfd",
-              pointHoverBorderColor: "#eef0f2",
-              pointHoverBorderWidth: 2,
-              pointRadius: 1,
-              pointHitRadius: 10,
-              data: [10],
-              
-          }],
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", 'October', "November", "December"],
+        datasets: [{
+          label: "Sales Analytics",
+          fill: false,
+          backgroundColor: "#10c469",
+          borderColor: "#10c469",
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: "#039cfd",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "#039cfd",
+          pointHoverBorderColor: "#eef0f2",
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: [10],
+
+        }],
       },
       chartOptions: {
-          maintainAspectRatio: false,
-          plugins: {
-              filler: {
-                  propagate: false,
-              },
-              legend: {
-                  display: true,
-              },
-              tooltip: {
-                  intersect: false,
-              },
+        maintainAspectRatio: false,
+        plugins: {
+          filler: {
+            propagate: false,
           },
-          scales: {
-              y: {
-                  ticks: {
-                      stepSize: 10,
-                  },
-  
-              },
+          legend: {
+            display: true,
           },
+          tooltip: {
+            intersect: false,
+          },
+        },
+        scales: {
+          y: {
+            ticks: {
+              stepSize: 10,
+            },
+
+          },
+        },
       },
-  };
-  lineChart:any={}
+    };
+  lineChart: any = {}
   // barChart:any
-  activeStatusOptions:any= ['All Org', 'Active Org','Inactive Org'];
-  OrgOptions:any= ['All','ABSLI', 'CanaraHsbc','Aviva']
-  activeStatusValue: any= this.activeStatusOptions[1];
-  activeOrgValue: any= this.OrgOptions[0]
-  myChart :any
+  activeStatusOptions: any = [];
+  OrgOptions: any = []
+  activeStatusValue: any = '';
+  array: any = '';
+  newArray: any = '';
+  activeOrgValue: any = this.activeStatusOptions[1];
+  yearValue: any[] = [];
+  initialYearValue: any
+  myChart: any
   elementRef: any;
-  orglogin:boolean=false;
-  userlogin:boolean=true;
-  orgChange:boolean = false;
-  loginOrg:boolean = false;
-  usersCount:any=0;
-  created_date:any;
-  todayDate = new Date();
-  startDate:any = '2022-10-08'
-  endDate: any = '2023-10-08'
- 
+  orglogin: boolean = false;
+  userlogin: boolean = true;
+  orgChange: boolean = false;
+  loginOrg: boolean = false;
+  usersCount: any = 0;
+  created_date: any;
+  todayDate: any
+  startDate: any = '2022-10-08'
+  endDate = new Date().toISOString().split('T')[0]
+  configVitals: any[] = []
+  orgDetails: any[] = [];
+  verisons: any[] = []
 
 
 
-  totalScan:any;
-  monthScan:any;
-  todayScan:any;
-  snapshotParam:any;
+
+  totalScan: any;
+  monthScan: any;
+  todayScan: any;
+  snapshotParam: any;
+  year: any;
+  industryArray: any[] = [];
+  testsArray: any[] = []
 
 
-  monthlyScans:any[]=[];
-  public barChartOptions: any=[];
+  monthlyScans: any[] = [];
+  public barChartOptions: any = [];
   public newBarChart: any = [];
 
 
- 
- 
+
+
   constructor(private renderer: Renderer2,
     private readonly adminService: AdminConsoleService,
     private readonly route: ActivatedRoute,
-    ) { }
+  ) { }
 
 
 
-ngOnInit(): void {
-  console.log('hiiii ajnbvjvjhvjhvjhvjhvjhvjhna',this.todayDate);
+  ngOnInit(): void {
+
+    this.activeOrgValue = this.activeStatusOptions[0];
+    let date = new Date()
+    this.todayDate = date.toISOString().split('T')[0];
+
+
+    this.adminService.fetchVersions().subscribe((doc: any) => {
+      this.activeStatusOptions = doc;
+      const newObject = { version: 'All Versions', id: '' };
+      this.activeStatusOptions.unshift(newObject);
+
+    })
 
 
 
-  let data:any =  JSON.parse(sessionStorage.getItem('currentUser')!); 
-  console.log("-----------------gffg------------",data);
-   
-  console.log('-----------hsdhfsd-----------',data.hasOwnProperty('orglogin') );
-  
-  if(data.hasOwnProperty('orglogin')){
-    if(data.orglogin){
-      this.orglogin=true;
+    let data: any = JSON.parse(sessionStorage.getItem('currentUser')!);
+
+    if (data.hasOwnProperty('orglogin')) {
+      if (data.orglogin) {
+        this.orglogin = true;
+
+      }
 
     }
-  
-  }
-  else{
-    this.loginOrg = true
-  }
-  this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
-  console.log("----------snap-------",this.snapshotParam);
-  
+    else {
+      this.loginOrg = true
+    }
+
+    this.snapshotParam = this.route.snapshot.paramMap.get("orgId");
+    if (this.snapshotParam != null) {
+      this.adminService.fetchOrgById(this.snapshotParam).subscribe((doc: any) => {
+        const filterObj = doc[0].product.filter((e: any) => e.product_id == 2);
+        this.configVitals = filterObj
+      })
+    }
+    // Get the current year
+    this.year = new Date().getFullYear();
+
+    // Create an array of the last 10 years
+    this.yearValue = Array.from({ length: 10 }, (_, index) => this.year - index);
+    this.initialYearValue = this.yearValue[0]
 
 
-this.apiFuntions();
+    this.adminService.fetchIndustry().subscribe((doc: any) => {
+      this.industryArray = doc
 
-  this.barChartOptions2 = {
+
+    })
+
+
+    this.apiFuntions();
+
+
+    this.barChartOptions2 = {
       series: [
-        
+
         {
-          // name: 'Reborn Kid',
           data: [25, 12, 25, 24, 10],
         },
       ],
@@ -163,190 +199,298 @@ this.apiFuntions();
         },
         axisBorder: {
           show: false,
-      },
-      axisTicks: {
-        show: false,
-    },
-        
- 
-      
+        },
+        axisTicks: {
+          show: false,
+        },
+
+
+
       },
       yaxis: {
         show: false,
         axisBorder: {
           show: false,
           // color: '#10baee'
-      },
+        },
         // title: {
         //   text: undefined,
         // },
       },
-      colors: [ '#FF3131'],
-      
+      colors: ['#FF3131'],
+
     };
 
     this.pieChartOptions = {
-    type: 'pie',
-    data: {
+      type: 'pie',
+      data: {
         labels: [
-            "Life",
-            "GI",
-            "Hospital",
-            "Public Health",
-            "bank",
-            "Health Tech"
+          "Life",
+          "GI",
+          "Hospital",
+          "Public Health",
+          "bank",
+          "Health Tech"
         ],
         datasets: [
-            {
-                data: [200, 144, 100,150,250,170],
-                backgroundColor: [
-                    "#ff8acc",
-                    "#5b69bc",
-                    "#f1b53d",
-                    "#008080",
-                    "#EC6B56",
-                    "#AADEA7",
-                ],
-                hoverBackgroundColor: [
-                    "#ff8acc",
-                    "#5b69bc",
-                    "#f1b53d",
-                    "#008080",
-                    "#EC6B56",
-                    "#AADEA7",
-                ],
-                hoverBorderColor: "#fff"
-            }],
-    },
-    chartOptions: {
+          {
+            data: [200, 144, 100, 150, 250, 170],
+            backgroundColor: [
+              "#ff8acc",
+              "#5b69bc",
+              "#f1b53d",
+              "#008080",
+              "#EC6B56",
+              "#AADEA7",
+            ],
+            hoverBackgroundColor: [
+              "#ff8acc",
+              "#5b69bc",
+              "#f1b53d",
+              "#008080",
+              "#EC6B56",
+              "#AADEA7",
+            ],
+            hoverBorderColor: "#fff"
+          }],
+      },
+      chartOptions: {
         maintainAspectRatio: false,
+      }
     }
-}
-
-
-
-    
-  }
-  checkOrgValue(event:any){
-    console.log("events",event.target.value);
-    if(event.target.value =='All'){
-      this.orglogin = false
-      console.log("All change");
-      
-    }else
-    this.orglogin = true
-   
 
   }
+  checkOrgValue(event: any) {
 
-apiFuntions(){
-  
-  if(this.orglogin == true){
-    console.log("orglogin");
-    this.adminService.fetchVitalsDashboardbyId(this.snapshotParam).subscribe((doc:any)=>{
-      this.monthScan = doc.total_tests_this_month
-      this.todayScan = doc.total_tests_today
-      this.totalScan = doc.total_tests_till_now
-      
-    })
+    this.snapshotParam = event.value
+    this.lineChart = [];
 
-    this.adminService.fetchScansByMonthByOrgId(2023,this.snapshotParam).subscribe((doc:any)=>{
-    this.monthlyScans = doc.total_tests_this_month
-    this.updateLineChartData()
-    this.lineChart = this.lineChartOptions
-    })
-    console.log("org id",this.snapshotParam);
-    
+    if (event.value != '') {
+      this.orglogin = true
+      this.adminService.fetchVitalsDashboardbyId(this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
 
-    this.adminService.fetchScansOfUsers(this.snapshotParam,'2022-10-08','2023-09-10').subscribe((doc:any)=>{
+      })
 
-      this.usersCount = doc.length
-      
-      
-      const testsArray = doc.map((item:any) => item.tests);
-      const nameArray = doc.map((item:any) => item.user_name);
-      
-  
-      console.log("Tests Array:", testsArray);
-      console.log("Org Name Array:", nameArray);    
-      this.updateBarChartData(testsArray,nameArray)
-      
-    })
-    
+      this.adminService.fetchScansByMonthByOrgId(this.year, this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+      })
+
+      this.adminService.fetchScansOfUsers(this.snapshotParam, this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.usersCount = doc.length
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.user_name);
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+
+      this.adminService.fetchOrgById(this.snapshotParam).subscribe((doc: any) => {
+        const filterObj = doc[0].product.filter((e: any) => e.product_id == 2);
+        this.configVitals = filterObj
+
+      })
+    }
+    else {
+      this.orglogin = false;
+
+      this.adminService.fetchVitalsDashboard(this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
 
 
-    
+      })
+      this.adminService.fetchScansByMonth(this.year, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+
+
+      })
+
+      this.adminService.fetchScansOfOrg(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.orgDetails = doc;
+        const newObject = { org_name: 'All Organization', org_id: '' };
+
+        // Add the new object to the beginning of the array
+        this.orgDetails.unshift(newObject);
+
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.org_name);
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+      this.adminService.fetchScansOfIndustry(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.name_array = []
+        const testsArray = doc.map((item: any) => item.response_percentage);
+        this.testsArray = testsArray
+        doc.forEach((element: any) => {
+          const nameArray = this.industryArray.filter((item: any) => item.id == Number(element.industry_id));
+          this.name_array.push(nameArray[0].industry)
+        })
+
+        this.updatePieChart(testsArray, this.name_array)
+      })
+
+
+
+    }
+
+
   }
-  else{
-  console.log("login");
-  this.adminService.fetchVitalsDashboard().subscribe((doc:any)=>{
-    console.log("mydoc superadmin",doc);
-    this.monthScan = doc.total_tests_this_month
-    this.todayScan = doc.total_tests_today
-    this.totalScan = doc.total_tests_till_now
-    
-    
-  })
-  this.adminService.fetchScansByMonth(2023).subscribe((doc:any)=>{
-    console.log("iiiiiiiiiiiOiiiiiiiii",doc);
+  checkYear(event: any) {
+    this.lineChart = [];
+    this.year = event.target.value
 
-    
-    this.monthlyScans = doc.total_tests_this_month
-    this.updateLineChartData()
-    this.lineChart = this.lineChartOptions
-   
-    
-  })
+    if (this.orglogin == true) {
+      this.adminService.fetchScansByMonthByOrgId(this.year, this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions;
+        return this.lineChart;
+      })
+    }
+    else {
+      this.adminService.fetchScansByMonth(this.year, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        if (this.lineChartOptions.data && this.lineChartOptions.data.datasets) {
+          this.lineChartOptions.data.datasets[0].data = this.monthlyScans;
+        }
 
-  this.adminService.fetchScansOfOrg('2022-10-08','2023-09-10').subscribe((doc:any)=>{
-    console.log("newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww docyy",doc);
-    const testsArray = doc.map((item:any) => item.tests);
-    const nameArray = doc.map((item:any) => item.org_name);
-
-    console.log("Tests Array:", testsArray);
-    console.log("Org Name Array:", nameArray);    
-    this.updateBarChartData(testsArray,nameArray)
-  
-    
-    // this.barChart = this.barChartOptions
-    // console.log("---------------aaaaaaaaaaaa----------",this.barChart);
-    
-    
-    
-  })
-  this.adminService.fetchScansOfIndustry().subscribe((doc:any)=>{
-    console.log("pie chart",doc);
-    const testsArray = doc.map((item:any) => item.tests);
-    this.updatePieChart(testsArray)
-    
-  })
+        this.lineChart = this.lineChartOptions
+        return this.lineChart;
 
 
- 
-}
+      })
+
+    }
 
 
-
-}  
-
-updateLineChartData() {
-
-  if (this.lineChartOptions.data && this.lineChartOptions.data.datasets) {
-    this.lineChartOptions.data.datasets[0].data = this.monthlyScans;
   }
-  
 
-  // this.lineChartOptions.data?.datasets[0].data = this.monthlyScans
-  // this.lineChartOptions.data?.datasets
-  
-}
-updateBarChartData(test:any,name:any){
- this.barChartOptions = new Chart('canvas', {
-  type: 'bar',
-  data: {
-    labels: name,
-    datasets: [
-        {
+  name_array: any = [];
+
+  apiFuntions() {
+
+    if (this.orglogin == true) {
+      this.adminService.fetchVitalsDashboardbyId(this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
+
+      })
+
+      this.adminService.fetchScansByMonthByOrgId(this.year, this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+      })
+
+      this.adminService.fetchScansOfUsers(this.snapshotParam, this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.usersCount = doc.length
+
+
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.user_name);
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+
+
+
+
+    }
+    else {
+
+      this.adminService.fetchVitalsDashboard(this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
+
+
+      })
+      this.adminService.fetchScansByMonth(this.year, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+
+
+      })
+
+      this.adminService.fetchScansOfOrg(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.orgDetails = doc;
+        const newObject = { org_name: 'All Organization', org_id: '' };
+
+        // Add the new object to the beginning of the array
+        this.orgDetails.unshift(newObject);
+
+
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.org_name);
+        // this.OrgOptions = nameArray
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+      this.adminService.fetchScansOfIndustry(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.name_array = []
+
+        const testsArray = doc.map((item: any) => item.response_percentage);
+        this.testsArray = testsArray
+        doc.forEach((element: any) => {
+          const nameArray = this.industryArray.filter((item: any) => item.id == Number(element.industry_id));
+          this.name_array.push(nameArray[0].industry)
+        })
+
+        this.updatePieChart(testsArray, this.name_array)
+
+      })
+
+
+
+    }
+
+
+
+  }
+
+  updateLineChartData() {
+
+    if (this.lineChartOptions.data && this.lineChartOptions.data.datasets) {
+      this.lineChartOptions.data.datasets[0].data = this.monthlyScans;
+    }
+
+
+  }
+  updateBarChartData(test: any, name: any) {
+
+    this.barChartOptions = new Chart('canvas', {
+      type: 'bar',
+      data: {
+        labels: name,
+        datasets: [
+          {
             label: "Sales Analytics",
             backgroundColor: "#AD88F1",
             borderColor: "#AD88F1",
@@ -354,72 +498,213 @@ updateBarChartData(test:any,name:any){
             hoverBackgroundColor: "#AD88F1",
             hoverBorderColor: "#AD88F1",
             data: test
-        }
-    ],
-},
-  options: {
-    maintainAspectRatio: false,
-    scales: {
-      y: {
-        beginAtZero: true,
+          }
+        ],
       },
-    },
-  },
-});
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
 
     const containerBody = document.querySelector('.container-body') as HTMLElement;
     const totalLabels = this.barChartOptions.config._config.data.labels.length
-     if(totalLabels>5){
-      const newWidth = 450 + ((totalLabels-5)*70)
-      containerBody.style.width=`${newWidth}px`
+    if (totalLabels > 5) {
+      const newWidth = 450 + ((totalLabels - 5) * 70)
+      containerBody.style.width = `${newWidth}px`
 
 
-     }
-}
-  
-  updatePieChart(data: any){
-  this.pieChartOptions = {
-    type: 'pie',
-    data: {
-        labels: [
-            "Life",
-            "GI",
-            "Hospital",
-            "Public Health",
-            "bank",
-            "Health Tech"
-        ],
-        datasets: [
-            {
-                data: data,
-                backgroundColor: [
-                    "#ff8acc",
-                    "#5b69bc",
-                    "#f1b53d",
-                    "#008080",
-                    "#EC6B56",
-                    "#AADEA7",
-                ],
-                hoverBackgroundColor: [
-                    "#ff8acc",
-                    "#5b69bc",
-                    "#f1b53d",
-                    "#008080",
-                    "#EC6B56",
-                    "#AADEA7",
-                ],
-                hoverBorderColor: "#fff"
-            }],
-    },
-    chartOptions: {
-        maintainAspectRatio: false,
     }
-}
-}
-checkDate(startDate:any,endDate:any){
-  console.log("date",startDate,endDate);
-  
-}
+  }
+
+  updatePieChart(data: any, label: any) {
+    this.pieChartOptions = {
+      type: 'pie',
+      data: {
+        labels: label,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: [
+              "#ff8acc",
+              "#5b69bc",
+              "#f1b53d",
+              "#008080",
+              "#EC6B56",
+              "#AADEA7",
+            ],
+            hoverBackgroundColor: [
+              "#ff8acc",
+              "#5b69bc",
+              "#f1b53d",
+              "#008080",
+              "#EC6B56",
+              "#AADEA7",
+            ],
+            hoverBorderColor: "#fff"
+          }],
+      },
+      chartOptions: {
+        maintainAspectRatio: false,
+      }
+    }
+  }
+  checkDate(startDate: any, endDate: any) {
+    if (new Date(endDate) < new Date(startDate)) endDate = startDate;
+    this.startDate = startDate;
+    this.todayDate = endDate;
+    if (this.orglogin == true) {
+
+      this.adminService.fetchScansOfUsers(this.snapshotParam, this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.usersCount = doc.length
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.user_name);
+
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+
+    }
+    else {
+
+      this.adminService.fetchScansOfOrg(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.org_name);
+
+
+        this.updateBarChartData(testsArray, nameArray)
+
+
+      })
+      this.adminService.fetchScansOfIndustry(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.name_array = []
+        const testsArray = doc.map((item: any) => item.response_percentage);
+        this.testsArray = testsArray
+        doc.forEach((element: any) => {
+          const nameArray = this.industryArray.filter((item: any) => item.id == Number(element.industry_id));
+          this.name_array.push(nameArray[0].industry)
+        })
+
+
+
+        this.updatePieChart(testsArray, this.name_array)
+      })
+
+
+
+
+
+
+
+    }
+  }
+
+  checVersionValue(event: any) {
+    this.lineChart = [];
+
+
+    if (this.orglogin == true) {
+      this.adminService.fetchVitalsDashboardbyId(this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
+
+      })
+
+      this.adminService.fetchScansByMonthByOrgId(this.year, this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+      })
+
+      this.adminService.fetchScansOfUsers(this.snapshotParam, this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+
+        this.usersCount = doc.length
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.user_name);
+
+
+        this.updateBarChartData(testsArray, nameArray)
+
+      })
+
+
+
+
+
+    }
+    else {
+      this.adminService.fetchVitalsDashboard(this.activeStatusValue).subscribe((doc: any) => {
+        this.monthScan = doc.total_tests_this_month
+        this.todayScan = doc.total_tests_today
+        this.totalScan = doc.total_tests_till_now
+
+
+      })
+      this.adminService.fetchScansByMonth(this.year, this.activeStatusValue).subscribe((doc: any) => {
+        this.monthlyScans = doc.total_tests_this_month
+        this.updateLineChartData()
+        this.lineChart = this.lineChartOptions
+
+
+      })
+
+      this.adminService.fetchScansOfOrg(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.orgDetails = doc;
+        const newObject = { org_name: 'All Organization', org_id: '' };
+
+        // Add the new object to the beginning of the array
+        this.orgDetails.unshift(newObject);
+        if (this.barChartOptions) {
+          this.barChartOptions.destroy();
+        }
+
+
+        const testsArray = doc.map((item: any) => item.tests);
+        const nameArray = doc.map((item: any) => item.org_name);
+
+        this.updateBarChartData(testsArray, nameArray)
+
+
+
+      })
+      this.adminService.fetchScansOfIndustry(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
+        this.name_array = []
+        const testsArray = doc.map((item: any) => item.response_percentage);
+        doc.forEach((element: any) => {
+          const nameArray = this.industryArray.filter((item: any) => item.id == Number(element.industry_id));
+          this.name_array.push(nameArray[0].industry)
+        })
+
+        this.updatePieChart(testsArray, this.name_array)
+
+      })
+
+
+
+    }
+  }
 
 
 }

@@ -2,24 +2,27 @@
     <div class="col-xl-3 col-md-3 col-sm-4">
 
     </div>
-    <div class="col-xl-3  col-md-3  col-sm-4"  style="    display: -webkit-box;">
+    <!-- <div class="col-xl-3  col-md-3  col-sm-4"  style="    display: -webkit-box;">
         <div class="search-box float-end " style="display: inline-flex;">
             <input class="form-control" placeholder="Search..."><span class="icon fa fa-search" style="align-self: center; cursor:pointer;margin-left:1rem"></span>
     </div>
-</div>
-<div *ngIf="loginOrg == true" class="col-xl-3 col-md-3  col-sm-4" style="    text-align-last: center;" >
-<select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline" (change)="checkOrgValue($event)"  name="pageSize" style="background-color: #313844;
-border-color: #49565d;"
-    id="event-category" required #idd [(ngModel)]="activeOrgValue" >
-    <option *ngFor="let option of OrgOptions" #id [value]="option"  >{{option}}</option>
+</div> -->
+
+<div *ngIf="loginOrg == true"   class="col-xl-3 col-md-3  col-sm-4" style="    text-align-last: center;"  >
+<select  class="form-select form-select-sm  w-auto ms-1 me-1 d-inline" (change)="checkOrgValue($event.target)"  name="pageSize" style="background-color: #313844;
+border-color: #49565d;"id="event-category" required #idd [(ngModel)]="newArray" >
+  
+    <option *ngFor="let option of orgDetails" #id [value]="option.org_id"  >{{option.org_name }}</option>
 </select>
+
+
 
 </div>
 <div class="col-xl-3 col-md-3  col-sm-4" style="    text-align-last: center;">
-    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="background-color: #313844;
+    <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" (change)="checVersionValue($event.target)" style="background-color: #313844;
     border-color: #49565d;"
-        id="event-category" required #idd [(ngModel)]="activeStatusValue" >
-        <option *ngFor="let option of activeStatusOptions" #id [value]="option"  >{{option}}</option>
+        id="event-category" required #idd [(ngModel)]="array">
+        <option *ngFor="let option of activeStatusOptions" #id [value]="option.id"  >{{option.version}}</option>
     </select>
     
     </div>
@@ -68,15 +71,13 @@ border-color: #49565d;"
 
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title mb-4" style="color: #ADB5BD;">Escalation/Outages</h4>
+                <h4 class="header-title mb-3" style="color: #ADB5BD;">Escalation/Outages</h4>
                 <div class="date_container">
                 <div class="col-sm-6">
-                    <p>Start Date</p>
-                    <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                    <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
                 </div> 
                 <div class="col-sm-6">
-                    <p>End Date</p>
-                    <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                    <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='todayDate'   type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
                 </div>
             </div>
                 <div id="bar-chart-stacked">
@@ -129,16 +130,14 @@ border-color: #49565d;"
                     </div>
                 </div> -->
 
-                <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY USERS</h4>
-                <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">SCAN BY ORGS</h4>
+                <h4 *ngIf="orglogin == true" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">Scans By User</h4>
+                <h4 *ngIf="orglogin == false" class="header-title mt-0 mb-3" style="color:#ADB5BD;text-align: center;">Scans By Organization</h4>
                 <div class="date_container">
                     <div class="col-sm-6">
-                        <p>Start Date</p>
-                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,endDate)"    name="date">
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{endDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,todayDate)"    name="date">
                     </div> 
-                    <div class="col-sm-6">
-                        <p>End Date</p>
-                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='endDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,endDate)"   name="date">
+                    <div class="col-sm-6"> 
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='todayDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{endDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,todayDate)"   name="date">
                     </div>
                 </div>
 
@@ -149,7 +148,7 @@ border-color: #49565d;"
                         [type]="barChartOptions.type!" [options]="barChartOptions.chartOptions!"></canvas>
                 </div> -->
                 <div class="container" >
-                <div class="container-body" id="cbody">
+                <div class="container-body">
                     <canvas id="canvas">{{barChartOptions}}</canvas>
                   </div>
                   <!-- </div> -->
@@ -188,12 +187,10 @@ border-color: #49565d;"
                 <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;">Scans by Industry</h4>
                 <div class="date_container">
                     <div class="col-sm-6">
-                        <p>Start Date</p>
-                        <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'    type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{endDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,todayDate)"  name="date">
                     </div> 
                     <div class="col-sm-6">
-                        <p>End Date</p>
-                        <input style="width: auto;" class="form-control" id="example-date"  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}"  name="date">
+                        <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='todayDate'  type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{endDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,todayDate)"  name="date">
                     </div>
                 </div>
 
@@ -203,23 +200,15 @@ border-color: #49565d;"
                 </div>
                 <div *ngIf="orglogin === false" style="margin-top: 1rem; color:#ADB5BD">
                     <table class="custom-table">
-                        <tr>
-                            <td>LIFE</td>
-                            <td>GI</td>
-                            <td>Hospital</td>
-                            <td>Public Health</td>
-                            <td>Bank</td>
-                            <td>Health Tech</td>
+                        <tr  >
+                            <td *ngFor="let person of name_array">{{person}}</td>
+                         
 
 
                         </tr>
-                        <tr>
-                            <td>29%</td>
-                            <td>12%</td>
-                            <td>43%</td>
-                            <td>22%</td>
-                            <td>41%</td>
-                            <td>32%</td>
+                        <tr >
+                            <td *ngFor="let person of testsArray">{{person ? person  : 0}}%</td>
+                       
                         </tr>
                     </table>
                     
@@ -253,7 +242,13 @@ border-color: #49565d;"
 
                 <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;text-align: center;">Total Scans by Month</h4>
 
-                <div class="chartjs-chart" style="height: 300px;">
+                <select class="form-select form-select-sm  w-auto ms-1 me-1 d-inline"  name="pageSize" style="background-color: #313844;
+                border-color: #49565d;" (change)="checkYear($event)"
+                    id="event-category" required #idd [(ngModel)]="initialYearValue" >
+                    <option *ngFor="let option of yearValue" #id [value]="option"  >{{option}}</option>
+                </select>
+
+                <div class="chartjs-chart" style="height: 400px;">
                     <canvas id="lineChart" #chart1 baseChart [data]="lineChart.data!"
                         [type]="lineChart.type!" [options]="lineChart.chartOptions!"></canvas>
                 </div>
@@ -284,68 +279,56 @@ border-color: #49565d;"
 <div class="col-xl-9 col-md-12">
     <div class="card" style="background: #313844;" >
         <div class="card-body widget-user">
-            <div class="text-center">
+            <div class="text-center" *ngFor="let season of configVitals">
                 <h5 style="color: #ADB5BD;">Vitals Displayed</h5>
                 <!-- <h2 class="fw-normal" style="color: #82B4F3;">{{"18787"}}</h2> -->
                   <div class="row">
-                    <!-- <div class="col-md-3">
-                        <img src="./assets/images/users/user-2.jpg" alt="image" class="img-fluid avatar-xl rounded">  
-                        <img src="./assets/images/users/user-3.jpg" alt="image" class="img-fluid avatar-sm rounded mt-2">
-                    </div>
-                    <div class="col-md-3">
-                        <img src="./assets/images/users/user-4.jpg" alt="image" class="img-fluid avatar-md rounded" />    
-                    </div>
-
-                    <div class="col-md-3">
-                        <img src="./assets/images/icon-attachments/Stress.png" alt="image" class="img-fluid avatar-lg rounded" /> 
-                    </div> -->
-
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_bp">
                         <img src="./assets/images/icon-attachments/Blood Pressure.png" alt="image" class="img-fluid avatar-lg  rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_rbs">
                         <img src="./assets/images/icon-attachments/Blood Sugar.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2" >
+                    <div class="col-md-2" *ngIf="season.is_bmi" >
                         <img src="./assets/images/icon-attachments/BMI.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2" >
+                    <!-- <div class="col-md-2" *ngIf="season.is_bmi" >
                         <img src="./assets/images/icon-attachments/Body fat %.png" alt="image" class="img-fluid avatar-lg rounded" />
-                    </div>
-                    <div class="col-md-2">
+                    </div> -->
+                    <div class="col-md-2" *ngIf="season.is_cholesterol">
                         <img src="./assets/images/icon-attachments/Cholestrol.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_ecg">
                         <img src="./assets/images/icon-attachments/ECG.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.fedoscore">
                         <img src="./assets/images/icon-attachments/Fedo Score.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_haemoglobin">
                         <img src="./assets/images/icon-attachments/Haemoglobin.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.heart_rate">
                         <img src="./assets/images/icon-attachments/Heart Rate.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2" *ngIf="season.is_bmi">
                         <img src="./assets/images/icon-attachments/Height to waist ratio.png" alt="image" class="img-fluid avatar-lg rounded" />
-                    </div>
-                    <div class="col-md-2">
+                    </div> -->
+                    <div class="col-md-2"*ngIf="season.is_hrv">
                         <img src="./assets/images/icon-attachments/HRV.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2" *ngIf="season.is_bmi">
                         <img src="./assets/images/icon-attachments/PRQ.png" alt="image" class="img-fluid avatar-lg rounded" />
-                    </div>
-                    <div class="col-md-2">
+                    </div> -->
+                    <div class="col-md-2" *ngIf="season.is_respiration">
                         <img src="./assets/images/icon-attachments/Respiration Rate.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_smoker">
                         <img src="./assets/images/icon-attachments/Smoking.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_spo2">
                         <img src="./assets/images/icon-attachments/SP02.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" *ngIf="season.is_stress">
                         <img src="./assets/images/icon-attachments/Stress.png" alt="image" class="img-fluid avatar-lg rounded" />
                     </div>
                 </div> <!-- end row-->
