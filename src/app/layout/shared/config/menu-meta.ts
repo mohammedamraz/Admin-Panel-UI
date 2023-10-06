@@ -11,6 +11,16 @@ const MENU_ITEMS: MenuItem[] = [
         badge: { variant: 'success', text: '' },
         url: '/home',
     },
+    {
+        key: 'dashboard',
+        label: 'Vitlas Dashboard',
+        isTitle: false,
+        icon: 'mdi mdi-application',
+        badge: { variant: 'success', text: '' },
+        url: '/admin-dashboard',
+    },
+
+    
 
     // { key: 'apps', label: 'Apps', isTitle: true },
     {

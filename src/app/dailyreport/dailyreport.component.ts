@@ -33,6 +33,7 @@ export class DailyreportComponent implements OnInit {
   product_name=''
   reportDate:any
   lastReportDate:any
+  search_by_application : any ='';
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -55,7 +56,7 @@ export class DailyreportComponent implements OnInit {
   
       
       if(this.userId == undefined){
-        this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
                     
           this.tableData = doc[0].data.data;
           this.totalPages=doc[0].data.total_pages        
@@ -65,7 +66,7 @@ export class DailyreportComponent implements OnInit {
         })
       }
       else{
-        this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+        this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
           this.tableData = doc[0].data.data;
           this.totalPages=doc[0].data.total_pages
           this.total_user=doc[0].data.total
@@ -86,7 +87,7 @@ export class DailyreportComponent implements OnInit {
   exportexcel() {
 
     if(this.userId == undefined){
-      this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,1,1000000).subscribe((doc:any)=>{
+      this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,1,1000000,this.search_by_application).subscribe((doc:any)=>{
         this.tableDataForExcel = doc[0].data.data;
         this.newExport()
       });
@@ -94,12 +95,17 @@ export class DailyreportComponent implements OnInit {
   }
   else
   {
-    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,1,1000000).subscribe((doc:any)=>{
+    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,1,1000000,this.search_by_application).subscribe((doc:any)=>{
         this.tableDataForExcel = doc[0].data.data;
       this.newExport()
     });
   }
 }
+
+
+
+
+
   newExport(){  
     this.product_name= this.prodId === '1' ? 'HSA' : (this.prodId === '2' ? 'Vitals':'RUW')
 
@@ -257,7 +263,7 @@ loadPage(val:any){
   this.pageNumber=val
   if(this.userId == undefined){
      
-    this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -265,7 +271,7 @@ loadPage(val:any){
   
     })
   }else{
-    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -281,14 +287,14 @@ onFilter(data:any){
   this.entries=data.value
   if(this.userId == undefined){
      
-    this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
       this.total_user=doc[0].data.total  
     })
   }else{
-    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.page,this.entries).subscribe((doc:any)=>{
+    this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.page,this.entries,this.search_by_application).subscribe((doc:any)=>{
       this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
       this.totalPages=doc[0].data.total_pages
       this.currentPage=doc[0].data.page
@@ -305,14 +311,14 @@ checkDate(date:any,lastdate : any){
         
   if(this.userId == undefined){
      
-  this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+  this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
     this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
     this.totalPages=doc[0].data.total_pages
     this.currentPage=doc[0].data.page
     this.total_user=doc[0].data.total
   })
 }else{
-  this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries).subscribe((doc:any)=>{
+  this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
     this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
     this.totalPages=doc[0].data.total_pages
     this.currentPage=doc[0].data.page
@@ -320,6 +326,30 @@ checkDate(date:any,lastdate : any){
   })
 }
 
+}
+
+searchByApplicationNumber(event : any){
+  if(event.target.value != null) this.search_by_application = event.target.value
+  else if(this.search_by_application.length > 0){
+    if(this.userId == undefined){
+     
+      this.adminService.fetchOrgScanByDateRange(this.orgId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
+        this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
+        this.totalPages=doc[0].data.total_pages
+        this.currentPage=doc[0].data.page
+        this.total_user=doc[0].data.total
+      })
+    }else{
+      this.adminService.fetchUserScanByDateRange(this.userId,this.prodId,this.reportDate,this.lastReportDate,this.pageNumber,this.entries,this.search_by_application).subscribe((doc:any)=>{
+        this.tableData =  doc[0].data.data.filter((doc:any)=>doc.policy_number!==null)
+        this.totalPages=doc[0].data.total_pages
+        this.currentPage=doc[0].data.page
+        this.total_user=doc[0].data.total
+      })
+    }
+  }
+  else this.search_by_application = '';
+  
 }
 
 downloadPDF(url : any){
@@ -329,6 +359,28 @@ downloadPDF(url : any){
 disableTyping(event: KeyboardEvent) {
   event.preventDefault();
 }
+
+// saveasPDFinAWS(test_data : any){
+//   console.log("test data",test_data);
+//   const params = {
+//     fedo_app : 'Fedo Vitals',
+//     policy_number : test_data.policy_number,
+//     content : '"' + {
+//       heart_rate: test_data.heart_rate,
+//       bp: test_data.bp,
+//       bmi: test_data.bmi ,
+//       stress: test_data.stress,
+//       hrv: test_data.hrv ,
+//       respiration: test_data.respiration,
+//       blood_oxygen: test_data.blood_oxygen,
+//       rbs:test_data.rbs,
+//       hb : test_data.hb
+//     } + '"'
+//   };
+//   this.adminService.saveAsPDFInAWS(params).subscribe(doc =>{
+//     console.log("doc",doc)
+//   })
+// }
 
 }
 

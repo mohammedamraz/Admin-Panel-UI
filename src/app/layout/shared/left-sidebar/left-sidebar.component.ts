@@ -124,9 +124,22 @@ export class LeftSidebarComponent implements OnInit {
                       url: `guestlist/${product.id}`,
                       parentKey: 'apps-tasks',
                   },
-              ],  
-          }));
-          this.menuItems = [...tempProd,...prod]
+              ], 
+           
+          }
+          ))
+      
+          // tempProd.push(MENU_ITEMS[2]);
+          this.menuItems = [...tempProd,...prod,
+          {
+            
+              key: 'Vitals-dashboard',
+              label: 'Vitals Dashboard',
+              isTitle: false,
+              icon: 'mdi mdi-application',
+              url: '/admin-dashboard',
+          
+          }]
 
 
 
@@ -180,7 +193,14 @@ export class LeftSidebarComponent implements OnInit {
               icon: 'dripicons-gear',
               url: `/${this.loggedInUser.org_data[0].id}/settings`,
               // parentKey: 'apps-tasks',
-            })
+            },
+            {
+              key: 'task-kanban',
+              label: 'Vitals Dasboard',
+              icon: 'mdi mdi-application',
+              url: `/admin-dashboard`,
+            }
+            )       
           }});
 
         

@@ -22,7 +22,7 @@ export class ChartjsComponent implements OnInit {
   //chart config
   lineChartOptions!: ChartDataset;
   barChartOptions!: ChartDataset;
-  donutChartOptions!: ChartDataset;
+  donutChartOptions!:any;
   pieChartOptions!: ChartDataset;
   radarChartOptions!: ChartDataset;
   polarChartOptions!: ChartDataset;
