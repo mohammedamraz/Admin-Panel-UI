@@ -12,7 +12,7 @@
                     entries</label>
             </div>   
                <div class="col-xl-2 col-md-3" style="padding-left: 3rem;" >
-                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='reportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" (keydown)="disableTyping($event)">
+                <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='reportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" >
             </div>
             <div class="col-xl-2 col-md-3" style="padding-left: 3rem;" >
                 <input style="width: auto;  " class="form-control" id="example-date" [(ngModel)]='lastReportDate' (change)="checkDate(reportDate,lastReportDate)" min="{{reportDate|date:'yyyy-MM-dd'}}" max="{{todayDate|date:'yyyy-MM-dd'}}" type="date" name="date" (keydown)="disableTyping($event)">

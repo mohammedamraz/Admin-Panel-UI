@@ -198,7 +198,7 @@ export class LeftSidebarComponent implements OnInit {
               key: 'task-kanban',
               label: 'Vitals Dasboard',
               icon: 'mdi mdi-application',
-              url: `/admin-dashboard`,
+              url: `/${this.loggedInUser.org_data[0].id}/admin-dashboard`,
             }
             )       
           }});

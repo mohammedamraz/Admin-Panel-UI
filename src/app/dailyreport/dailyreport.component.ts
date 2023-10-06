@@ -42,9 +42,12 @@ export class DailyreportComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((val:any) =>{
+      console.log("new valuessss",val);
+      
       this.orgId = val.orgId;
       this.prodId = val.prodId;
       this.route.queryParams.subscribe((val:any) => {
+        console.log("new ------------",val);
         this.userId = val.userId;
         this.created_date = val.created_date
         this.organization_name=val.organization_name;

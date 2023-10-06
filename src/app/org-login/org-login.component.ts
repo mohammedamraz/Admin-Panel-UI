@@ -79,7 +79,7 @@ export class OrgLoginComponent implements OnInit {
             sessionStorage.setItem('currentUser', JSON.stringify(data) );
           }
           this.adminConsoleService.httpLoading$.next(true);
-          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/dashboard`]);
+          this.router.navigate([`${data.hasOwnProperty('user_data')? data.user_data[0].org_id : data.org_data[0].id }/admin-dashboard`]);
         } 
         else { this.error = 'Invalid email or password';
         window.stop();

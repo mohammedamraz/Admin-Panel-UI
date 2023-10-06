@@ -37,5 +37,13 @@
 .container-body{
     height: 450px;
 }  
+.date_container{
+  display: grid;
+  grid-template-columns: repeat(2, auto); 
+  gap: 20px; 
+  margin-bottom: 15px;
+}
+
+
 
 

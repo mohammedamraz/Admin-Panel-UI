@@ -64,6 +64,8 @@ export class LoginComponent implements OnInit {
       .subscribe({
        next: (data: any) => {
         this.authenticationService.logout();
+        console.log("......type......",data.org_data[0].type);
+        
          if(data.org_data[0].type === 'admin'){
           if(this.formValues['rememberMe'].value){
           localStorage.setItem("currentUser", JSON.stringify(data))
@@ -72,7 +74,7 @@ export class LoginComponent implements OnInit {
           else{
           sessionStorage.setItem('currentUser', JSON.stringify(data));
           }
-         this.router.navigate(['/home']);
+         this.router.navigate(['/admin-dashboard']);
         }
         else{
           this.error = 'Invalid email or password';
