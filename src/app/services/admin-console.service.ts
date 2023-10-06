@@ -338,6 +338,14 @@ export class AdminConsoleService {
         { label: 'Home', path: 'home',active: true},
       ])
     }
+
+    if(event.url == '/admin-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: 'home'},
+        { label: 'Dashboard', path: 'admin-dashboard',active: true},
+      ])
+    }
+
     if(event.url?.split('?')[0] == '/orgList'){
       this.breadCrumbs.next([
           { label: 'Home', path: 'home' },
@@ -372,9 +380,16 @@ export class AdminConsoleService {
 
     }
 
-    if(event.url?.slice(3,)=='/dashboard'){
+    if(event.url?.split('/')[2]=='dashboard'){
       this.breadCrumbs.next([
         { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`, active: true},
+    ])
+    }
+
+    if(event.url?.split('/')[2]=='admin-dashboard'){
+      this.breadCrumbs.next([
+        { label: 'Home', path: `${event.url.split('/')[1]}/dashboard`},
+        { label: 'Dashboard', path: `${event.url.split('/')[1]}/admin-dashboard`, active: true},
     ])
     }
 
@@ -410,7 +425,7 @@ export class AdminConsoleService {
   }
     }
 
-    if(event.url?.slice(3,)=='/settings'){
+    if(event.url?.split('/')[2]=='settings'){
       this.breadCrumbs.next([
         { label: 'Settings', path: `${event.url.split('/')[1]}/settings`},
         { label: 'Org Details', path: `${event.url.split('/')[1]}/settings`, active: true},

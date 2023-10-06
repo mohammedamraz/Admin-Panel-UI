@@ -174,7 +174,7 @@ export class AdminDashboardComponent {
       series: [
 
         {
-          data: [25, 12, 25, 24, 10],
+          data: [0, 0, 0, 0, 0],
         },
       ],
       chart: {
@@ -617,6 +617,7 @@ export class AdminDashboardComponent {
   checVersionValue(event: any) {
     this.lineChart = [];
 
+    this.activeStatusValue = event.value;
 
     if (this.orglogin == true) {
       this.adminService.fetchVitalsDashboardbyId(this.snapshotParam, this.activeStatusValue).subscribe((doc: any) => {
@@ -692,6 +693,7 @@ export class AdminDashboardComponent {
       this.adminService.fetchScansOfIndustry(this.startDate, this.todayDate, this.activeStatusValue).subscribe((doc: any) => {
         this.name_array = []
         const testsArray = doc.map((item: any) => item.response_percentage);
+        this.testsArray = testsArray
         doc.forEach((element: any) => {
           const nameArray = this.industryArray.filter((item: any) => item.id == Number(element.industry_id));
           this.name_array.push(nameArray[0].industry)
