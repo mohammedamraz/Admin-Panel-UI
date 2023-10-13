@@ -110,6 +110,10 @@ export class OrganisationDetailsComponent implements OnInit {
   kiosk_users : any;
   selectedValue:string=''
   list_number : number = 3;
+  industry:any = '';
+  industry_name  : any = '';
+  industryList : any = []
+  array : any = 1;
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -129,6 +133,8 @@ export class OrganisationDetailsComponent implements OnInit {
     }
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc.filter((doc: { id: number; }) => doc.id !=  1);return doc});
+    this.adminService.fetchIndustry().subscribe((doc:any)=>{console.log(doc);
+    ;this.industryList= doc;return doc})
 
 
     
@@ -148,12 +154,17 @@ export class OrganisationDetailsComponent implements OnInit {
         if(res[0].product.every((v:any)=>v.status==="Expired") && this.orglogin ){
           this.open(<TemplateRef<NgbModal>><unknown>this.input);
         }
+        console.log("result",res[0].industry_id);
+        
 
         this.tabDAta=res
         this.designation= res[0].designation;
         this.organization_name= res[0].organization_name;
         this.country= res[0].country ? res[0].country : 'NA';
         this.state= res[0].state ? res[0].state : 'NA';
+        this.industry= res[0].industry_id ? this.industryList[res[0].industry_id].id : 'NA';
+        this.industry_name= res[0].industry_id ? this.industryList[res[0].industry_id].industry : 'NA';
+
         this.address= res[0].address ? res[0].address : 'NA';
         this.city= res[0].city ? res[0].city : 'NA';
         this.zip= res[0].zip ? res[0].zip : 'NA';
@@ -221,6 +232,9 @@ export class OrganisationDetailsComponent implements OnInit {
       fedo_score:[this.fedo_score],
       url:[this.url],
       country:[this.country,[Validators.required]],
+      industry_id:[this.industry,[Validators.required]],
+      industry:[this.industry,[Validators.required]],
+
       state:[this.state,[Validators.required]],
       city:[this.city,[Validators.required]],
       address:[this.address,[Validators.required]],
@@ -823,6 +837,7 @@ font: {
     this.OrgForm.controls['designation'].setValue(this.designation);
     this.OrgForm.controls['url'].setValue(this.url);
     this.OrgForm.controls['country'].setValue(this.country);
+    this.OrgForm.controls['industry_id'].setValue(this.industry);
     this.OrgForm.controls['state'].setValue(this.state);
     this.OrgForm.controls['zip'].setValue(this.zip);
     this.OrgForm.controls['address'].setValue(this.address);
@@ -1244,6 +1259,9 @@ resendInvitationMail(data:any){
 }
 
   checkingOrgForm(modal_name : string){
+    console.log("the indusrty value",this.OrgForm.value['industry_id'])
+    this.OrgForm.value['industry_id'] = this.OrgForm.value['industry'];
+    console.log("the indusrty value",this.OrgForm.value['industry_id'])
 
     this.OrgDetailsEditForm = true
     if(modal_name == 'admin'){

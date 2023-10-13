@@ -586,7 +586,7 @@ padding-top:10px">
                         class="nav-pills nav-justified form-wizard-header mb-4" style="display: grid;
                         grid-template-columns: repeat(auto-fill, minmax(7rem , 5fr)); background-color: #313844;">
                         <li [ngbNavItem]="1">
-                            <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
+9                            <a [ngStyle]=" activeWizard2>1 ? ngstyle():null" ngbNavLink class="rounded-0 pt-2 pb-2">
                                 <span class=" d-sm-inline">Org Details</span>
                             </a>
                             <ng-template ngbNavContent>
@@ -688,7 +688,7 @@ padding-top:10px">
                                         </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md">
+                                            <div class="col-md-6">
                                                 <div class="form-floating ">
 
                                                 <input type="text" class="form-control" id="userName1" style="height: 3rem; margin-bottom: 1rem;color: #9BA6AC"
@@ -705,6 +705,54 @@ padding-top:10px">
                                                     </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-floating mb-3">
+
+ 
+
+                                                <select  style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:100%; background-color: #383E4A;
+
+                                                border: 1px solid #444C5B;" value='industry' formControlName="industry" [(ngModel)]="industry">
+                                              
+
+
+                                                    <option *ngFor="let c of industryList" [ngValue]='c.id'>  {{c.industry}} </option>
+
+                                                  </select>
+
+ 
+
+                                            <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC"  minlength="3"
+
+                                            oninput=" this.value = this.value.replace(/[0-9]/g,'')"
+
+                                            [ngClass]="{ 'is-invalid':OrgDetailsEditForm && OrgForm.controls['country'].invalid}"
+
+                                            name="userName" placeholder="Country" required formControlName="country">
+
+                                                <label for="floatingInput" style="font-size: 0.8rem;color: #9BA6AC" class="form-label" i18n>Country</label>
+
+                                                <div *ngIf="OrgDetailsEditForm && OrgForm.controls['country'].invalid " class="invalid-feedback">
+
+                                                    <div *ngIf="OrgForm.controls['country'].errors?.['required']" i18n>
+
+                                                        Mandatory field
+
+                                                      </div>
+
+                                                      <div *ngIf="OrgForm.controls['country'].errors?.['minlength']" i18n>
+
+                                                        Invalid Country format. Please enter Country
+
+                                                      </div>
+
+                                                </div> -->
+
+                                        </div>
+
+                                    </div>
                                     </div>
     
                                       
@@ -1030,6 +1078,13 @@ padding-top:10px">
                         font-weight: 400;
                         font-size: 1.2rem;
                         line-height: 22px;">{{address}}</p>
+                        <h4 style="color: #98a6ad;font-weight: 100;
+                        font-size:0.9rem ;">Industry</h4>
+                        <p class="sub-header" style=" color: #fff;
+                        margin-bottom: 0;
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                        line-height: 22px;">{{industry_name}}</p>
                     </div>
 
         </div>

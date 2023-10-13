@@ -235,7 +235,8 @@ margin-top: -28px;">
 
                                             </div>
                                         </div>
-                                        <div class="col-md">
+                                        <div class="row">
+                                        <div class="col-md-6">
                                             <div class="form-floating ">
                                                 <input type="text"  class="form-control" id="userName1" style="    height: 3rem;
                                                    color: #9BA6AC;" minlength="5"
@@ -258,6 +259,51 @@ margin-top: -28px;">
 
 
                                         </div>
+
+
+                                        <div class="col-md-6">
+
+                                            <div class="form-floating mb-3">
+
+                                                <select  style=" height: 3rem; color: #9BA6AC ; padding: 0 1rem;background:white;width:100%; background-color: #383E4A;
+
+                                                border: 1px solid #444C5B;"  formControlName="industry" [(ngModel)]="selectedIndustry" >
+                                                     <option value="" disabled selected>Select an industry</option>
+                                                    <option value="" *ngFor="let c of industryList" [ngValue]='c.id'>  {{c.industry}} </option>
+
+                                                  </select>
+
+                                                <!-- <input type="text" class="form-control" id="userName1" style=" height: 3rem;color: #9BA6AC;    " minlength="3"
+
+                                                oninput=" this.value = this.value.replace(/[0-9]/g,'')"
+
+                                                name="userName" placeholder="Country" requied formControlName="country"[ngClass]="{ 'is-invalid': form1['country'].touched&&form1['country'].invalid ||secondFormSubmitted  && form1['country'].invalid }">
+
+                                                    <label for="floatingInput" style="font-size: 0.8rem;    color: #9BA6AC;" class="form-label" i18n>Country</label>
+
+                                                  <div *ngIf="secondFormSubmitted && form1['country'].invalid || form1['country'].touched&&form1['country'].invalid " class="invalid-feedback">
+
+                                                    <div *ngIf="form1['country'].errors?.['required']" i18n>
+
+                                                        Mandatory field
+
+                                                      </div>
+
+                                                      <div *ngIf="form1['country'].errors?.['minlength']" i18n>
+
+                                                        Invalid Country format. Please enter Country
+
+                                                      </div>
+
+                                                </div>1 -->
+                                              
+
+                                            </div>
+
+                                        </div>
+
+                                
+                                </div>
     
                                       
                                     </div> <!-- end col -->

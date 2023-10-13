@@ -63,6 +63,8 @@ export class OrganisationListComponent implements OnInit {
   locationValue='';
   countryList=COUNTRIES
   org_search = '';
+  industryList : any = [];
+  selectedIndustry = ''
 
 
 
@@ -100,6 +102,8 @@ export class OrganisationListComponent implements OnInit {
     this.columns = this.tabDAta;
 
     this.adminService.fetchProducts().subscribe((doc:any)=>{this.products= doc.filter((doc: { id: number; }) => doc.id !=  1);return doc})
+    this.adminService.fetchIndustry().subscribe((doc:any)=>{this.industryList= doc;return doc} ) 
+
 
     this.basicWizardForm = this.fb.group({
       organization_name:[''],
@@ -116,6 +120,7 @@ export class OrganisationListComponent implements OnInit {
       pilot_duration:[''],
       product_name:[''],
       country:['',[Validators.required]],
+      industry:['',[Validators.required]],
       zip:['',[Validators.required,Validators.pattern("^[0-9]{6}$")]],
       state:['',[Validators.required]],
       city:['',[Validators.required]],
@@ -512,6 +517,7 @@ export class OrganisationListComponent implements OnInit {
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     data.append('country',this.basicWizardForm.value.country);
+    data.append('industry_id',this.basicWizardForm.value.industry);
     data.append('zip',this.basicWizardForm.value.zip.toString());
     data.append('state',this.basicWizardForm.value.state);
     data.append('city',this.basicWizardForm.value.city);

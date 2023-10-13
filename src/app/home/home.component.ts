@@ -57,6 +57,8 @@ export class HomeComponent implements OnInit {
   countryList=COUNTRIES;
   locationValue:any=''
   stateValue:any=''
+  industryList : any = [];
+  selectedIndustry = ''
 
   constructor(
     private readonly adminService: AdminConsoleService,
@@ -69,7 +71,8 @@ export class HomeComponent implements OnInit {
     this.adminService.fetchOrganisationCount().subscribe((doc:any)=>{this.organisationCount=doc['total_organizations_count']})
     this.adminService.fetchVitalsCount('vitals').subscribe((doc:any) =>{this.vitalsCount=doc['total_vitals_pilot_count']})
     this.adminService.fetchLatestOrg().subscribe((doc:any) =>{ this.tabDAta=doc.data});
-    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc.filter((doc: { id: number; }) => doc.id !=  1);doc.forEach( (prod:any) =>{this.fetchCounts(prod)})});    
+    this.adminService.fetchProducts().subscribe((doc:any)=>{this.products=doc.filter((doc: { id: number; }) => doc.id !=  1);doc.forEach( (prod:any) =>{this.fetchCounts(prod)})});  
+    this.adminService.fetchIndustry().subscribe((doc:any)=>{this.industryList= doc;return doc} ) 
 
       this.basicWizardForm = this.fb.group({
         organization_name:['',Validators.required],
@@ -86,6 +89,7 @@ export class HomeComponent implements OnInit {
         product_name:[''],
         url:['',[Validators.required]],
         country:['',[Validators.required]],
+        industry:['',[Validators.required]],
         zip:['',[Validators.required,Validators.pattern("^[0-9]{6}$")]],
         state:['',[Validators.required]],
         city:['',[Validators.required]],
@@ -233,6 +237,7 @@ export class HomeComponent implements OnInit {
     data.append('type','orgAdmin');
     data.append('url',this.basicWizardForm.value.url);
     data.append('country',this.basicWizardForm.value.country);
+    data.append('industry_id',this.basicWizardForm.value.industry);
     data.append('zip',this.basicWizardForm.value.zip.toString());
     data.append('state',this.basicWizardForm.value.state);
     data.append('city',this.basicWizardForm.value.city);
