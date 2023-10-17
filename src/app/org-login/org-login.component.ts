@@ -36,6 +36,8 @@ export class OrgLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || this.returnUrl;
+    this.authenticationService.logout();
+    
   }
 
   /**

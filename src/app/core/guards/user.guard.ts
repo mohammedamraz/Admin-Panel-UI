@@ -5,13 +5,15 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Navig
 import { AuthenticationService } from '../service/auth.service';
 import { AdminConsoleService } from 'src/app/services/admin-console.service';
 import { Observable, filter } from 'rxjs';
+import { stat } from 'fs';
 
 @Injectable({ providedIn: 'root' })
-export class OrgGuard implements CanActivate {
+export class UserGuard implements CanActivate {
   constructor(
     private readonly adminService: AdminConsoleService,
     private router: Router,
     private authenticationService: AuthenticationService
+
   ) { }
 
   currentUrl: any = '';
@@ -20,38 +22,30 @@ export class OrgGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): boolean | Observable<boolean> {
-    console.log("sdkhskldhflksdh")
-    // sessionStorage.clear();
-    // const currentUser = this.authenticationService.currentUser();
+
+  
+    
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser')!)
-    console.log("current user", currentUser);
 
-
+    // console.log("current user auth", currentUser?.org_data[0]?.id);
 
     if (!currentUser) {
-      console.log("where am i")
       this.router.navigate(['orgLogin']);
       return false;
     }
 
     else {
-      console.log("where exactly")
       // this.router.events
       //   .pipe(filter((event) => event instanceof NavigationEnd))
       //   .subscribe(() => {
-
-
-          this.currentUrl = state.url;
-
-
+          this.currentUrl = state.url;    
+          // const currentUser = JSON.parse(sessionStorage.getItem('currentUser')!);
+          
+          
           if ((currentUser as any).org_data) {
             if ((currentUser as any).org_data[0].type === 'orgAdmin') {
-              if (this.currentUrl.split('/')[1] != (currentUser as any).org_data[0].id) {
-                this.router.navigate([(currentUser as any).org_data[0].id + '/' + this.currentUrl.split('/')[2]]);        
-                return true;
-              }
-
-              else  return true;
+              this.router.navigate([(currentUser as any).org_data[0].id + '/dashboard']);
+              return true;
             } else if ((currentUser as any).org_data[0].type === 'admin') {
               this.router.navigate(['/home']);
               return true;
@@ -61,25 +55,29 @@ export class OrgGuard implements CanActivate {
               return false;
             }
           } else if ((currentUser as any).user_data) {
-            this.adminService
+            if (this.currentUrl.split('/')[1] != (currentUser as any).user_data[0].org_id) {
+              this.adminService
               .fetchUserProdById((currentUser as any).user_data[0].id)
               .subscribe({
                 next: (res: any) => {
                   this.router.navigate([
-                    (currentUser as any).user_data[0].id +
+                    (currentUser as any).user_data[0].org_id +
                     '/userdashboard/' +
                     res[0].product_id,
                   ]);
                 },
               });
-            return true;
+              return true;
+            }
+            else return true;
           } else {
-            return false;
+            return true;
           }
-        // });
-      // return true;
+      return true;
     }
   }
+
+
 }
 
 interface User {

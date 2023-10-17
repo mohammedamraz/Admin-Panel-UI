@@ -10,4 +10,5 @@ export class User {
     avatar?: string;
     location?: string;
     title?: string;
+  org_data?: any;
 }

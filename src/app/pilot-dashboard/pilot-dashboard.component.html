@@ -390,11 +390,11 @@
     </div>
 </div> 
 
-<div class="row">
+<div *ngIf="orgLogin==false" class="row">
     <div *ngIf="product.product_id == '2'" class="col-xl-4 col-md-6" style="display: grid">
         <div class="card pt-2 pb-2" style="background: #313844;border-radius: 10px;" >
             <div class="card-body widget-user">
-                <div style="grid-auto-flow: column;
+                <div  style="grid-auto-flow: column;
                 display: grid; grid-template-columns: auto auto;">
                 <div>
                 <h4 class="mt-0 header-title" style="color: white;">Config Vital Params</h4>

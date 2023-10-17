@@ -137,6 +137,7 @@ reportDate:any=new Date().toISOString().substring(0, 10);
   }
   async createGraphArrayItems(products:any,date:any){
 
+    this.graphArray = [];
     if(this.prodId==undefined){
       const requests = products.map((doc:any) =>
       this.fetchGraphs(doc.product_id,date));

@@ -23,7 +23,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { DailyreportComponent } from './dailyreport/dailyreport.component';
 import { GuestListComponent } from './guest-list/guest-list.component';
 import { NotificationListComponent } from './notification-list/notification-list.component';
+import { UserGuard } from './core/guards/user.guard';
+import { AuthguardGuard } from './core/guards/authguard.guard';
+import { MultiAdminGuard } from './core/guards/multi-admin.guard';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+
 
 
 const routes: Routes = [
@@ -50,93 +54,103 @@ const routes: Routes = [
         loadChildren: () => import('./apps/apps.module').then(m => m.AppsModule)
       },
       {
+        //super admin
         path:'home',
         canActivate: [AuthGuard],
         component: HomeComponent
       },
       {
-        path:'create',
-        canActivate: [AuthGuard],
-        component: CreateOrganizationComponent
-      },
-      {
+        // super admin
         path:'vitals-dashboard/:id',
         canActivate: [AuthGuard],
         component: VitalsDashboardComponent
       },
       {
+        // super admin
         path:'vitalsList/:id',
         canActivate: [AuthGuard],
         component: PilotsListComponent
       },
       {
+        // super admin
         path:'orgList',
         canActivate: [AuthGuard],
         component: OrganisationListComponent
       },
       {
+        // super admin
         path:'orgdetails/:orgId',
         canActivate: [AuthGuard],
         component: OrganisationDetailsComponent
       },
       {
+        // super admin
         path:'userdetails/:orgId',
         canActivate: [AuthGuard],
         component: UserDetailsComponent
       },
       {
+        // org admin
         path:':orgId/dashboard',
         canActivate: [OrgGuard],
         component: OrganisationDetailsComponent
       },
       {
+        // org admin
         path:':orgId/settings',
         canActivate: [OrgGuard],
         component: SettingsComponent
       },
       {
+        //org admin
         path: ':orgId/userdetails',
         canActivate: [OrgGuard],
         component: UserDetailsComponent
       },
       {
+        // super admin and org admin
         path: ':orgId/userlist/:prodId',
-        canActivate: [OrgGuard],
+        canActivate: [MultiAdminGuard],
         component: UserDetailsComponent
       },
       {
+        // super admin and org admin
         path: ':orgId/pilotdashboard/:Id',
-        canActivate: [OrgGuard],
+        canActivate: [MultiAdminGuard],
         component: PilotDashboardComponent
       },
       {
+        // user
         path: ':orgId/userdashboard/:Id',
-        canActivate: [OrgGuard],
+        canActivate: [UserGuard],
         component: UserdashboardComponent
       },
       {
         path: 'profile',
-        // canActivate: [OrgGuard],
+        canActivate: [AuthguardGuard],
         component: ProfileComponent
       },{
+        //super admin and org admin
         path: ':orgId/home/:userId',
-        canActivate: [OrgGuard],
+        canActivate: [MultiAdminGuard],
         component: UserdashboardComponent
       },
       {
         path:':orgId/report/:prodId',
-        canActivate: [OrgGuard],
+        canActivate: [AuthguardGuard],
         component: DailyreportComponent
 
       }
       ,{
+        // super admin
         path: 'guestlist/:prodId',
-        canActivate: [OrgGuard],
+        canActivate: [AuthGuard],
         component: GuestListComponent
       },
       {
+        //super admin
         path: 'notificationList',
-        canActivate: [OrgGuard],
+        canActivate: [AuthGuard],
         component: NotificationListComponent
       },
       {
@@ -157,19 +171,18 @@ const routes: Routes = [
     ]
   },
 
-  {
-    path:':orgId/dashboard',
-    canActivate: [OrgGuard],
-    component: OrganisationDetailsComponent
-  },
-  {
-    path: ':orgId/userdetails',
-    canActivate: [OrgGuard],
-    component: UserDetailsComponent
-  },
-
-  
-  
+  // {
+  //   //org admin
+  //   path:':orgId/dashboard',
+  //   canActivate: [OrgGuard],
+  //   component: OrganisationDetailsComponent
+  // },
+  // {
+  //   //org admin
+  //   path: ':orgId/userdetails',
+  //   canActivate: [OrgGuard],
+  //   component: UserDetailsComponent
+  // },
   
   
   {
