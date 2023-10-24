@@ -155,7 +155,7 @@ const routes: Routes = [
       },
       {
         path: 'admin-dashboard',
-        canActivate: [OrgGuard],
+        canActivate: [AuthGuard],
         component: AdminDashboardComponent
     
     

@@ -631,13 +631,19 @@ margin-top: -28px;">
                                                 <div class="card-body" style="padding-left: 0;">
                                                     
                                                             
-                                                            <div class="form-floating ">
+                                                            <div class="form-floating " style="padding-bottom:1rem">
                                                                 <input oninput="this.value=this.value.slice(0,this.maxLength)" matInput maxlength="6" type="number" class="form-control" id="userName1" style=" height: 3rem; color: #9BA6AC; width: 50%;"
                                                                     name="userName" placeholder="Zip" required [(ngModel)]="season.attempts" [ngModelOptions]="{standalone: true}" >
                                                                     <label for="floatingInput" style="font-size: 0.8rem;   color: #9BA6AC;" class="form-label" i18n>Attempts</label> 
                                                                     
                                                             </div>
                                                             
+                                                            <div style="padding-bottom: 1rem;">
+                                                                <h4 class="header-title" style="color: #AEB5BC;">Enable Dashboard</h4>
+                                                                <div class="form-check form-switch" style=" display: grid;">
+                                                                    <input type="checkbox" (change)="next=!next" class="form-check-input" [(ngModel)]="season.is_dashboard" [ngModelOptions]="{standalone: true}" id="customSwitch1">
+                                                                </div>
+                                                            </div>
                                                         
                                             </div>
 

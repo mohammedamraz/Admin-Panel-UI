@@ -167,7 +167,7 @@ border-color: #49565d;"id="event-category" required #idd [(ngModel)]="newArray" 
 
 
 <div class="row">
-    <div *ngIf="orglogin === false" class="col-xl-6">
+    <div *ngIf="orglogin === false" class="col-xl-6" style="display: inline-grid;">
         <div class="card layout-style" style="background: #313844; border-radius:10px">
         <div class="card">
             <div class="card-body">
@@ -187,7 +187,7 @@ border-color: #49565d;"id="event-category" required #idd [(ngModel)]="newArray" 
                     </div>
                 </div>
 
-                <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD;">Scans by Industry</h4>
+                <h4 class="header-title mt-0 mb-3" style="color: #ADB5BD; ">Scans by Industry</h4>
                 <div class="date_container">
                     <div class="col-sm-6">
                         <input style="width: auto;" class="form-control" id="example-date" [(ngModel)]='startDate'    type="date" min="{{created_date|date:'yyyy-MM-dd'}}" max="{{endDate|date:'yyyy-MM-dd'}}" (change)="checkDate(startDate,todayDate)"  name="date">
@@ -268,7 +268,7 @@ border-color: #49565d;"id="event-category" required #idd [(ngModel)]="newArray" 
 
 <div *ngIf="orglogin == true" class="row">
 
-<div class="col-xl-3 col-md-12">
+<div class="col-xl-3 col-md-12" style="display: inline-grid;">
     <div class="card" style="background: #313844;" >
         <div class="card-body widget-user">
             <div class="text-center">

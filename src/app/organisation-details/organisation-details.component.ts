@@ -114,6 +114,7 @@ export class OrganisationDetailsComponent implements OnInit {
   industry_name  : any = '';
   industryList : any = []
   array : any = 1;
+  usernext : boolean = false;
 
   constructor(
     private sanitizer: DomSanitizer, 
@@ -758,6 +759,7 @@ font: {
       enable_kiosk :el.enable_kiosk,
       kiosk_user : el.kiosk_user,
       is_application_number:el.is_application_number,
+      user_level_access:el.user_level_access,
       attempts:el.attempts,
       is_pilot_duration:el.is_pilot_duration,
       enable_questionnaire:el.is_questionnaire,
@@ -1000,6 +1002,7 @@ resendInvitationMail(data:any){
         is_pilot_duration : null,
         attempts : 0,
         is_application_number : false,
+        user_level_access : false,
         enable_questionnaire : false,
         is_change : true
       }
@@ -1334,6 +1337,7 @@ resendInvitationMail(data:any){
         enable_kiosk: el.kiosk_user && el.kiosk_user.length > 0 ? el.enable_kiosk : false,
         kiosk_user: el.enable_kiosk ? el.kiosk_user:'',
         is_application_number :el.is_application_number ? el.is_application_number :false,
+        user_level_access : el.user_level_access ? el.user_level_access :false,
         attempts: el.attempts ? el.attempts:0,
         is_pilot_duration:el.is_pilot_duration ? el.is_pilot_duration:false,
         enable_questionnaire:el.enable_questionnaire ? el.enable_questionnaire:false,
@@ -1361,6 +1365,7 @@ resendInvitationMail(data:any){
     data.append('enable_kiosk',prod.map((value:any) => value.enable_kiosk).toString());
     data.append('kiosk_user',prod.map((value:any) =>'['+ value.kiosk_user +']').toString());
     data.append('is_application_number',prod.map((value:any) => value.is_application_number).toString());
+    data.append('user_level_access',prod.map((value:any) => value.user_level_access).toString());
     data.append('attempts',prod.map((value:any) => value.attempts).toString());
     data.append('is_pilot_duration',prod.map((value:any) => value.is_pilot_duration).toString());
     data.append('enable_questionnaire',prod.map((value:any) => value.enable_questionnaire).toString());   
@@ -1578,13 +1583,15 @@ clearform(){
         
       }
       doc['attempts'] = 0
+      doc['is_dashboard'] = false;
 
-      let list = data.tests.filter((obj:any) => obj.is_pilot_duration == false );
+      let list = data.tests.filter((obj:any) => obj.product_id == 2 );
       list = list.map((el:any) => {
         return {
         product_name: el.product_id === 1 ? 'HSA' : (el.product_id === 2 ? 'Vitals':'RUW' ),
         product_junction_id: el.id,
         product_id: el.product_id,
+        is_dashboard:el.is_dashboard,
         attempts:el.attempts,
       }
         
@@ -1611,11 +1618,13 @@ clearform(){
     this.listdetails.map((list:any)=>{
       const selected_data = this.userProductEdited.findIndex((el:any)=>el.product_id.toString()==list.product_id.toString())
 this.userProductEdited[selected_data]['attempts']= selected_data === -1 ? 0 : list.attempts;
+this.userProductEdited[selected_data]['is_dashboard']= selected_data === -1 ? 0 : list.is_dashboard;
 })
     data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
     data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
     data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
     data['attempts'] = this.userProductEdited.map((value:any) => value.attempts).toString();
+    data['is_dashboard'] = this.userProductEdited.map((value:any) => value.is_dashboard).toString();
     if(this.notThirdParty == true){
       data['third_party_org_name'] = null;
     }

@@ -81,6 +81,7 @@ export class UserDetailsComponent implements OnInit {
   userlogin : boolean = false;
   list_number : number = 3;
   org_search = '';
+  next : boolean = false;
 
 
 
@@ -736,14 +737,16 @@ export class UserDetailsComponent implements OnInit {
 
       }    
       doc['attempts'] = 0
+      doc['is_dashboard'] = false;
 
-      let list = data.tests.filter((obj:any) => obj.is_pilot_duration == false );
+      let list = data.tests.filter((obj:any) => obj.product_id == 2 );
       list = list.map((el:any) => {
         return {
         product_name: el.product_id === 1 ? 'HSA' : (el.product_id === 2 ? 'Vitals':'RUW' ),
         product_junction_id: el.id,
         product_id: el.product_id,
         attempts:el.attempts,
+        is_dashboard:el.is_dashboard,
       }
         
   
@@ -769,11 +772,13 @@ export class UserDetailsComponent implements OnInit {
       this.listdetails.map((list:any)=>{
         const selected_data = this.userProductEdited.findIndex((el:any)=>el.product_id.toString()==list.product_id.toString())
 this.userProductEdited[selected_data]['attempts']= selected_data === -1 ? 0 : list.attempts;
+this.userProductEdited[selected_data]['is_dashboard']= selected_data === -1 ? 0 : list.is_dashboard;
 })
       data['product_id']=this.userProductEdited.map((value:any)=> value.product_id).toString();
       data['product_junction_id'] = this.userProductEdited.map((value:any)=> value.junctionId).toString();
       data['product_junction_id'] = this.userProductEdited.filter(((value:any)=> value.junctionId == '' ? false : true)).map((value:any) => value.junctionId).toString();
       data['attempts'] = this.userProductEdited.map((value:any) => value.attempts).toString();
+      data['is_dashboard'] = this.userProductEdited.map((value:any) => value.is_dashboard).toString();
     if(this.notThirdParty == true){
       data['third_party_org_name'] = null;
     }
